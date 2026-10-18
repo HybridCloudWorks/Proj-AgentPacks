@@ -1,0 +1,57 @@
+{
+  "_template": "Constraints the implementer must honour. Every value below is an example to replace. Each entry carries an evidence label (observed, inferred, designed, structurally-validated, live-verified, not-verified) and, where it comes from policy or documentation, the source or evidence register ID. Quotas and SKU availability stay not-verified until checked for the exact subscription and region.",
+  "schema_version": "1.0",
+  "handoff_id": "HO-WORKLOAD-01",
+  "regions": {
+    "allowed": ["westeurope", "northeurope"],
+    "data_residency": "EU",
+    "source": "data protection requirement REQ-NFR-05",
+    "label": "observed"
+  },
+  "naming": {
+    "convention": "<type>-<workload>-<env>-<region-short>",
+    "applies_to": "new resources only",
+    "exceptions": [
+      {"id": "C-NAME-01", "resource_type": "Microsoft.Storage/storageAccounts", "rule": "3-24 lowercase letters and digits, globally unique, no hyphens", "label": "observed"},
+      {"id": "C-NAME-02", "resource_type": "existing live resources", "rule": "keep current names; renaming a live globally unique resource means recreation and data migration", "label": "designed"}
+    ]
+  },
+  "tags": {
+    "required": ["owner", "cost-center", "environment", "data-classification"],
+    "enforced_by": "POL-02",
+    "label": "observed"
+  },
+  "policy": [
+    {"id": "POL-01", "scope": "mg-contoso", "intent": "allowed locations", "effect": "Deny", "source": "platform policy initiative", "label": "observed"},
+    {"id": "POL-02", "scope": "mg-contoso", "intent": "required tags", "effect": "Deny on resource groups, Modify to inherit on resources", "label": "observed"},
+    {"id": "POL-03", "scope": "mg-landingzones", "intent": "private DNS zones are platform-owned; workloads must not create them", "effect": "Deny", "label": "observed"}
+  ],
+  "skus": [
+    {"id": "C-SKU-01", "service": "SVC-DB", "allowed": "tiers that support zone redundancy in REG-PRI", "reason": "REQ-NFR-01", "label": "not-verified", "evidence": []}
+  ],
+  "quotas": [
+    {"id": "C-QUOTA-01", "resource": "vCPU or service capacity for SVC-APP", "subscription": "SUB-PROD", "region": "westeurope", "required": "peak plus failover headroom", "status": "not checked", "label": "not-verified"}
+  ],
+  "identity": [
+    {"id": "C-ID-01", "rule": "no long-lived secrets; managed identities and workload federation only", "label": "designed"},
+    {"id": "C-ID-02", "rule": "deployment identity scoped to RG-APP and RG-DATA; role assignments made by the platform team", "label": "designed"}
+  ],
+  "network": [
+    {"id": "C-NET-01", "rule": "spoke address space allocated from platform IPAM; no overlap with on-premises ranges", "label": "designed"},
+    {"id": "C-NET-02", "rule": "data services disable public network access", "label": "designed"}
+  ],
+  "data": [
+    {"id": "C-DATA-01", "data_set": "customer records", "classification": "Confidential", "retention": "unknown (open decision)", "deletion": "on request within the legal deadline", "label": "observed"}
+  ],
+  "budget": {
+    "monthly_ceiling": 9000,
+    "currency": "EUR",
+    "alerts_percent": [80, 100],
+    "owner": "budget holder role",
+    "label": "observed"
+  },
+  "approval_gates": [
+    {"id": "GATE-01", "action": "first deployment to SUB-PROD", "approver": "platform change board", "evidence_required": ["what-if or plan output for the exact commit", "role assignments in place", "AC-SEC-01 test plan"], "label": "designed"},
+    {"id": "GATE-02", "action": "any change to management groups, policy or RBAC", "approver": "platform owner", "evidence_required": ["impact on inherited assignments", "rollback steps"], "label": "designed"}
+  ]
+}
