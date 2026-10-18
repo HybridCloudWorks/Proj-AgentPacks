@@ -30,6 +30,29 @@ The Agent defines identity, boundaries, required capabilities, and orchestration
 | `assess-apple-runtime-quality` | Review performance, responsiveness, energy, resource lifetime, error handling, retries, logging, and observability. |
 | `verify-apple-build-tests` | Inspect Xcode or SwiftPM buildability, tests, dependencies, configuration, signing inputs, and CI evidence. |
 
+## Workflow prompts
+
+Eight prompts in `.apm/prompts/` start the common review workflows. Each targets the `apple-code-reviewer` agent, activates `review-apple-code`, names the domain Skills it applies, and follows the always-on `apple-code-reviewer-contract` instruction, so every prompt returns the same report.
+
+| Prompt | Workflow |
+|---|---|
+| `review-apple-pull-request.prompt.md` | Merge review of a pull request, branch diff or commit range, including feature, bug-fix and refactor changes. |
+| `audit-ai-generated-apple-code.prompt.md` | Audit of AI-generated Apple code and of the claims that came with it. |
+| `review-swift-correctness.prompt.md` | Focused review of concurrency, ARC, optionals, errors and interoperability. |
+| `review-apple-ui-accessibility.prompt.md` | Focused review of SwiftUI, UIKit or AppKit state, navigation, layout, localization and accessibility. |
+| `review-apple-security-privacy.prompt.md` | Focused review of trust boundaries, credentials, entitlements and privacy declarations. |
+| `review-apple-runtime-quality.prompt.md` | Focused review of responsiveness, memory, energy, retries and logging. |
+| `verify-apple-build-and-ci.prompt.md` | What can be built and tested in this environment, and what the CI evidence shows. |
+| `assess-apple-release-readiness.prompt.md` | Whether a release candidate has the evidence it needs to ship. |
+
+`docs/PROMPT_INVENTORY.md` lists the Skills each prompt applies, its expected output, its worked example, and how each client receives prompts.
+
+## Examples and templates
+
+`examples/` holds six worked reviews, one for each main workflow, and each ends with a complete report in the contract format. All names, commits and outputs in them are synthetic. `assess-apple-release-readiness-blocked.md` shows a Blocked outcome in which no build or test evidence exists and nothing is claimed as passed.
+
+`templates/` holds the documents the Skills ask the reviewer to produce: `review-scope.md`, `build-test-evidence.md`, `completion-report.md`, `engineer-handoff.md` and `documentation-impact-entries.md`. The canonical report template remains the `review-apple-code` Skill asset `assets/review-report-template.md`; `templates/completion-report.md` mirrors it with the allowed values written in. Neither folder is installed, so the installed prompts and Skills never point at them.
+
 ## APM source and installation
 
 `.apm/` is the authored source of truth. Vendor directories under `dist/` are generated compatibility outputs and must not be hand-edited.
