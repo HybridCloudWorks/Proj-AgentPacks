@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "compose-environments": {
+      "description": "Design, fix and validate Docker Compose applications for local development, CI test stacks and single-host deployments using the Compose Specification. Use when a compose file is created or changed, services start in the wrong order or never become healthy, containers cannot reach each other, environment or secret handling in Compose is unclear, or a development loop with watch, profiles or override files is needed.",
+      "activation": "Use when a compose file is created or changed, services start in the wrong order or never become healthy, containers cannot reach each other, environment or secret handling in Compose is unclear, or a development loop with watch, profiles or override files is needed.",
+      "source": ".apm/skills/compose-environments/SKILL.md"
+    },
+    "container-runtime-operations": {
+      "description": "Diagnose and operate containers and image builds on a Docker host, covering exit codes, restarts, OOM kills, signals, resource limits, logging, networking, storage, engine settings and disk usage. Use when a container exits, restarts or is killed unexpectedly, a build fails, a service cannot be reached, a volume cannot be written, logs or images fill the disk, behaviour differs between environments, or daemon and runtime settings need review.",
+      "activation": "Use when a container exits, restarts or is killed unexpectedly, a build fails, a service cannot be reached, a volume cannot be written, logs or images fill the disk, behaviour differs between environments, or daemon and runtime settings need review.",
+      "source": ".apm/skills/container-runtime-operations/SKILL.md"
+    },
+    "container-security-hardening": {
+      "description": "Harden container images and their runtime configuration, and assess privilege, secret, exposure and vulnerability risk with located evidence. Use when an image or container must be made production-ready, a scan reports vulnerabilities, a secret may have reached a layer, a container asks for extra privileges, or a security review of Dockerfiles, Compose files or engine settings is requested.",
+      "activation": "Use when an image or container must be made production-ready, a scan reports vulnerabilities, a secret may have reached a layer, a container asks for extra privileges, or a security review of Dockerfiles, Compose files or engine settings is requested.",
+      "source": ".apm/skills/container-security-hardening/SKILL.md"
+    },
+    "docker-change-review": {
+      "description": "Review Dockerfile, ignore-file, Compose, Bake and CI image-build changes with located, evidence-backed findings and a readiness verdict. Use when a pull request, branch, staged diff or set of container files needs a pre-merge review, an audit against container practice, or an independent second opinion on image security, reproducibility and runtime behaviour.",
+      "activation": "Use when a pull request, branch, staged diff or set of container files needs a pre-merge review, an audit against container practice, or an independent second opinion on image security, reproducibility and runtime behaviour.",
+      "source": ".apm/skills/docker-change-review/SKILL.md"
+    },
+    "dockerfile-engineering": {
+      "description": "Author, refactor and optimise Dockerfiles and Containerfiles with deliberate base images, multi-stage graphs, cache-efficient layers, tight build contexts and an explicit runtime contract. Use when an application needs containerising, an image is too large or slow to build, a Dockerfile is being changed, or build behaviour such as caching, stages, build arguments or entrypoints is in question.",
+      "activation": "Use when an application needs containerising, an image is too large or slow to build, a Dockerfile is being changed, or build behaviour such as caching, stages, build arguments or entrypoints is in question.",
+      "source": ".apm/skills/dockerfile-engineering/SKILL.md"
+    },
+    "image-build-and-supply-chain": {
+      "description": "Build, tag, cache, attest, sign and publish container images reproducibly across platforms with Buildx, Bake and CI, and keep base images and digests current. Use when images must be built for several architectures, CI image builds are slow or uncached, tags or registry layout are being designed, SBOM, provenance or signatures are required, or base image pinning and update automation is in scope.",
+      "activation": "Use when images must be built for several architectures, CI image builds are slow or uncached, tags or registry layout are being designed, SBOM, provenance or signatures are required, or base image pinning and update automation is in scope.",
+      "source": ".apm/skills/image-build-and-supply-chain/SKILL.md"
+    }
+  }
+}

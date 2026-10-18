@@ -1,0 +1,10 @@
+{
+  "selection": "Load only the skills a task needs. All six ship; none must be preloaded, and each works when installed alone.",
+  "optional_specialists": [
+    "container-security-reviewer",
+    "container-build-verifier"
+  ],
+  "external_tools": "No Docker engine, scanner, signing tool, registry credential, cloud builder or MCP server is installed or configured by the pack. Tools the repository already uses are discovered at task time; installing new ones is a Level 2 action.",
+  "licensing": "Some Docker features depend on a subscription or a commercial licence (Docker Desktop for larger organisations, parts of Docker Scout, Docker Build Cloud, docker debug). The agent flags these rather than assuming them.",
+  "adjacent_domains": "Kubernetes and other orchestrators, cloud container services and full CI/CD pipeline design are outside the pack. The primary states the boundary and hands over the image runtime contract to whichever specialist or owner is available; no other pack is assumed."
+}

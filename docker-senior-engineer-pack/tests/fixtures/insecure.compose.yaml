@@ -1,0 +1,22 @@
+# Synthetic test fixture for tooling/container_lint.py. Deliberately insecure; never run it.
+version: "3.8"
+services:
+  agent:
+    image: example.invalid/agent:latest
+    privileged: true
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      API_TOKEN: synthetic-not-a-real-secret
+      LOG_LEVEL: debug
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_USER: app

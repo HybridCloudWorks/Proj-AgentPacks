@@ -1,0 +1,14 @@
+name: docker-senior-engineer
+version: 1.0.0
+description: Senior Docker engineering for images, Dockerfiles, Compose, image builds and supply chain, runtime diagnosis and container change review, with evidence-based completion.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [docker, containers, dockerfile, compose, buildkit, buildx, container-security, supply-chain, sbom]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills
