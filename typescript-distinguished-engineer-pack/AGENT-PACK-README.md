@@ -1,4 +1,4 @@
-# typescript-distinguished-engineer 1.1.0: artifact catalog
+# typescript-distinguished-engineer 1.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -57,8 +57,16 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | DESIGN_DECISIONS.md | Pack contract or inventory | docs/DESIGN_DECISIONS.md |
 | END_TO_END_WORKFLOW.md | Pack contract or inventory | docs/END_TO_END_WORKFLOW.md |
 | GOVERNANCE.md | Pack contract or inventory | docs/GOVERNANCE.md |
+| PROMPT_INVENTORY.md | Pack contract or inventory | docs/PROMPT_INVENTORY.md |
 | SOURCE_TRACEABILITY.md | Pack contract or inventory | docs/SOURCE_TRACEABILITY.md |
 | TOOL_PERMISSION_MATRIX.md | Pack contract or inventory | docs/TOOL_PERMISSION_MATRIX.md |
+| build-mcp-server.md | Worked example | examples/build-mcp-server.md |
+| design-and-evaluate-agentic-system.md | Worked example | examples/design-and-evaluate-agentic-system.md |
+| design-and-implement-feature.md | Worked example | examples/design-and-implement-feature.md |
+| diagnose-failure.md | Worked example | examples/diagnose-failure.md |
+| release-readiness.md | Worked example | examples/release-readiness.md |
+| review-pull-request.md | Worked example | examples/review-pull-request.md |
+| validate-web-flow.md | Worked example | examples/validate-web-flow.md |
 | post-engineering-review.ps1 | Hook helper script | hooks/post-engineering-review.ps1 |
 | post-engineering-review.sh | Hook helper script | hooks/post-engineering-review.sh |
 | pre-engineering-review.ps1 | Hook helper script | hooks/pre-engineering-review.ps1 |
