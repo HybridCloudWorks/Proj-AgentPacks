@@ -1,15 +1,15 @@
 # VALIDATION_REPORT
 
-Pack: terraform-expert-engineer 1.1.0
-Standard: agent-pack-prompt v2.2
+Pack: terraform-expert-engineer 1.2.0
+Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 97  Passed: 96  Failed: 0  Skipped: 1
+Checks: 121  Passed: 120  Failed: 0  Skipped: 1
 
 ## Scope
 
-1 agents, 9 skills, 1 instruction files, 0 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
+1 agents, 9 skills, 1 instruction files, 11 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
 
 ## Failed checks
 
@@ -32,16 +32,16 @@ Checks: 97  Passed: 96  Failed: 0  Skipped: 1
 | structural | required artifact README.md | pass |  |
 | structural | required artifact LICENSE | pass |  |
 | structural | required artifact PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | pass |  |
-| structural | required artifact docs | pass |  |
-| structural | required artifact compatibility | pass |  |
-| structural | required artifact examples | pass |  |
-| structural | required artifact templates | pass |  |
+| structural | required artifact docs (contains at least one file) | pass |  |
+| structural | required artifact compatibility (contains at least one file) | pass |  |
+| structural | required artifact examples (contains at least one file) | pass |  |
+| structural | required artifact templates (contains at least one file) | pass |  |
 | structural | required artifact hooks/README.md | pass |  |
-| structural | required artifact tests | pass |  |
-| structural | required artifact .apm/agents | pass |  |
-| structural | required artifact .apm/skills | pass |  |
-| structural | required artifact .apm/instructions | pass |  |
-| structural | required artifact .apm/prompts | pass |  |
+| structural | required artifact tests (contains at least one file) | pass |  |
+| structural | required artifact .apm/agents (contains at least one file) | pass |  |
+| structural | required artifact .apm/skills (contains at least one file) | pass |  |
+| structural | required artifact .apm/instructions (contains at least one file) | pass |  |
+| structural | required artifact .apm/prompts (contains at least one file) | pass |  |
 | structural | no stale folder targets/ | pass |  |
 | structural | no stale folder claude-code/ | pass |  |
 | structural | no stale folder gemini-cli/ | pass |  |
@@ -87,9 +87,31 @@ Checks: 97  Passed: 96  Failed: 0  Skipped: 1
 | structural | skill terraform-testing-and-validation: SKILL.md with name equal to folder | pass |  |
 | structural | skill terraform-testing-and-validation: description within 1024 characters | pass |  |
 | structural | instruction terraform-expert-engineer-contract.instructions.md: description and applyTo | pass |  |
+| structural | prompt add-terraform-tests.prompt.md: description | pass |  |
+| structural | prompt author-terraform-policy.prompt.md: description | pass |  |
+| structural | prompt build-terraform-pipeline.prompt.md: description | pass |  |
+| structural | prompt design-hcp-terraform-workflow.prompt.md: description | pass |  |
+| structural | prompt develop-terraform-provider.prompt.md: description | pass |  |
+| structural | prompt implement-terraform-change.prompt.md: description | pass |  |
+| structural | prompt import-terraform-resources.prompt.md: description | pass |  |
+| structural | prompt migrate-terraform-state.prompt.md: description | pass |  |
+| structural | prompt refactor-terraform-module.prompt.md: description | pass |  |
+| structural | prompt review-terraform-avm-module.prompt.md: description | pass |  |
+| structural | prompt review-terraform-change.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/terraform-expert-engineer.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/terraform-expert-engineer-contract.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/add-terraform-tests.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/author-terraform-policy.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/build-terraform-pipeline.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-hcp-terraform-workflow.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/develop-terraform-provider.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/implement-terraform-change.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/import-terraform-resources.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/migrate-terraform-state.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/refactor-terraform-module.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-terraform-avm-module.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-terraform-change.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/azure-verified-modules/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/terraform-ci-cd-and-quality/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/terraform-cloud-and-stacks/SKILL.md: references only installed things | pass |  |
@@ -103,6 +125,7 @@ Checks: 97  Passed: 96  Failed: 0  Skipped: 1
 | structural | pack doc DESCRIPTION.md: describes the current layout | pass |  |
 | structural | pack doc hooks/README.md: describes the current layout | pass |  |
 | structural | pack doc docs/OFFICIAL_SOURCES.md: describes the current layout | pass |  |
+| structural | pack doc docs/PROMPT_INVENTORY.md: describes the current layout | pass |  |
 | structural | pack doc docs/SOURCE_TRACEABILITY.md: describes the current layout | pass |  |
 | structural | pack doc compatibility/capability-map.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/compatibility-matrix.yml: describes the current layout | pass |  |
@@ -114,6 +137,7 @@ Checks: 97  Passed: 96  Failed: 0  Skipped: 1
 | structural | tests/trigger-cases.yml prompt files exist | pass |  |
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |
+| structural | status names used in installed content are defined in report-contract.yml | pass |  |
 | executable | pack unit tests | skipped | no test_*.py in tests/ |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |

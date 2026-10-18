@@ -20,3 +20,13 @@ skill_map:
   terraform-ci-cd-and-quality: [ci_cd_and_plan_quality]
   terraform-provider-development: [provider_development]
   azure-verified-modules: [azure_verified_modules]
+prompt_map:
+  terraform-core-and-style: [implement-terraform-change.prompt.md, review-terraform-change.prompt.md]
+  terraform-modules-and-refactoring: [refactor-terraform-module.prompt.md]
+  terraform-state-backends-and-imports: [migrate-terraform-state.prompt.md, import-terraform-resources.prompt.md]
+  terraform-cloud-and-stacks: [design-hcp-terraform-workflow.prompt.md]
+  terraform-testing-and-validation: [add-terraform-tests.prompt.md]
+  terraform-policy-and-governance: [author-terraform-policy.prompt.md]
+  terraform-ci-cd-and-quality: [build-terraform-pipeline.prompt.md]
+  terraform-provider-development: [develop-terraform-provider.prompt.md]
+  azure-verified-modules: [review-terraform-avm-module.prompt.md]
