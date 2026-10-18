@@ -20,6 +20,26 @@ infrastructure-pr-reviewer
 
 The orchestration Skill owns the complete changed-line review protocol, universal gates, severity model, de-duplication, and final output. Technology Skills load only when their stack appears in the change. The evidence Skill owns non-deploying static checks and interpretation of plan, preview, render, test, policy, and CI evidence.
 
+## Prompts
+
+Seven workflow prompts in `.apm/prompts/`, all bound to `infrastructure-pr-reviewer` and all returning the report defined by the always-on `infrastructure-pr-reviewer-contract` instruction:
+
+- `review-infrastructure-pull-request`: complete review of a PR or diff
+- `re-review-infrastructure-pull-request`: re-review after a new push
+- `assess-existing-environment-impact`: identity, ownership, replacement and deletion against existing state
+- `review-deployment-pipeline`: CI/CD trust boundary, identity and artifact provenance
+- `trace-cross-tool-handoffs`: a multi-tool execution chain and each boundary in it
+- `verify-review-evidence`: safe local checks and artifact integrity
+- `request-review-evidence`: the evidence a PR must attach before it can be cleared
+
+`docs/PROMPT_INVENTORY.md` maps each prompt to its Skills, expected output and worked example, and records which clients receive prompts.
+
+## Examples and templates
+
+`examples/` holds six synthetic walkthroughs, each ending in a contract-format report: a Terraform `count` to `for_each` migration, a GitHub Actions to Bicep to PowerShell to Ansible chain, a fork-plan trust boundary in GitHub Actions, a Kustomize and Argo CD prune change that stops with insufficient evidence, an Ansible re-review, and a Bicep change cleared with verified evidence.
+
+`templates/` holds the documents the Skills produce: the completion report, the changed-line coverage ledger, the evidence record, the technology adapter return, the review handoff, and the re-review reconciliation. They are human-facing and are not installed; the installed report structure lives in the `review-infrastructure-pr` Skill's `assets/review-report-template.md` and the contract instruction.
+
 ## Build
 
 ```bash
