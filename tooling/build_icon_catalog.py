@@ -27,7 +27,7 @@ import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-CATALOG = REPO / "shared-skills" / "diagram-validation-and-evidence" / "scripts" / "icon_catalog.json"
+CATALOG = REPO / "shared-primitives" / "skills" / "diagram-validation-and-evidence" / "scripts" / "icon_catalog.json"
 API = "https://api.github.com/repos/jgraph/drawio"
 RAW = "https://raw.githubusercontent.com/jgraph/drawio/{tag}/src/main/webapp/js/diagramly/sidebar/{name}"
 AZURE_IMAGES = "src/main/webapp/img/lib/azure2/"
@@ -154,7 +154,7 @@ def main() -> int:
                 f"(the committed catalog was built from draw.io {old.get('drawio_version', 'none')}).", ""]
         body += [f"- {line}" for line in diff]
         body += ["", "To adopt it: run `python tooling/build_icon_catalog.py --tag v" + new["drawio_version"] + "`, then "
-                 "`python tooling/sync_shared_skills.py`, review `shared-skills/drawio-core-generation/references/providers.md` "
+                 "`python tooling/sync_shared.py`, review `shared-primitives/skills/drawio-core-generation/references/providers.md` "
                  "for anything the change makes wrong, and open a pull request."]
         Path(args.markdown).write_text("\n".join(body) + "\n", encoding="utf-8")
     return 1 if diff else 0

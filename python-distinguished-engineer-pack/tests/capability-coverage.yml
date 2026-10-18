@@ -85,16 +85,16 @@
       "skill": "agentic-workflow-design",
       "agent": "python-distinguished-engineer",
       "prompt": "evaluate-agent.prompt.md",
-      "expected_output": "Workflow/state design, tool and handoff contracts, budgets, failure/escalation path and evaluation cases.",
-      "negative": "Nonterminating loop, cross-user context, self-approval, ungrounded memory or unnecessary agent hierarchy."
+      "expected_output": "Workflow and state design with tool contracts, budgets, cancellation in the code's own language model, failure paths and evaluation cases.",
+      "negative": "Nonterminating loop, cross-user context, self-approval, ungrounded memory, unnecessary hierarchy, or Python concurrency idioms applied to TypeScript code."
     },
     {
       "id": "playwright-validation",
       "skill": "playwright-validation",
       "agent": "python-distinguished-engineer",
       "prompt": "validate-web-flow.prompt.md",
-      "expected_output": "Journey evidence with exact environment, assertions/results, failures, sanitized artifacts and cleanup status.",
-      "negative": "Missing test auth, unexpected domain, unavailable browser, hidden/no-op control, state leakage or blocked consequential action."
+      "expected_output": "Journey evidence from the existing suite in its own language, with accessible locators, web-first assertions, sanitized artifacts and cleanup.",
+      "negative": "Screenshot-only proof, weakened assertions, committed authentication state, or a second browser suite in a different language."
     },
     {
       "id": "secure-python-engineering",
@@ -109,8 +109,8 @@
       "skill": "secure-agent-engineering",
       "agent": "python-security-reviewer",
       "prompt": "evaluate-agent.prompt.md",
-      "expected_output": "Threat model, misuse findings, executable negative-case plan, responsible-AI constraints and release/escalation recommendation.",
-      "negative": "Policy enforced only by model prose, missing tenant isolation, retained secrets or unsafe fallback."
+      "expected_output": "Threat model and findings covering agent threats and the code's own language risks, each marked static or runtime-confirmed.",
+      "negative": "Policy enforced by model prose, a type annotation treated as a control, or a finding copied across languages without checking it."
     },
     {
       "id": "agent-observability",
@@ -125,8 +125,8 @@
       "skill": "agent-evaluation",
       "agent": "agent-evaluation-engineer",
       "prompt": "evaluate-agent.prompt.md",
-      "expected_output": "Evaluation plan/results with scenario failures, scoring provenance, budgets, human-review gaps and release recommendation.",
-      "negative": "Unapproved external judge/data, arbitrary threshold presented as policy, judge-only correctness or benchmark overgeneralization."
+      "expected_output": "Evaluation plan and results with scenario failures, scoring provenance, versions, budgets, human-review gaps and release recommendation.",
+      "negative": "Unapproved external judge or data, arbitrary threshold presented as policy, judge-only correctness, benchmark overgeneralization, or the wrong language's tooling."
     },
     {
       "id": "python-performance-analysis",

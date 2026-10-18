@@ -1,11 +1,11 @@
 # VALIDATION_REPORT
 
-Pack: python-distinguished-engineer 2.1.0
-Standard: agent-pack-prompt v2.2
+Pack: python-distinguished-engineer 2.2.0
+Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 189  Passed: 189  Failed: 0  Skipped: 0
+Checks: 198  Passed: 198  Failed: 0  Skipped: 0
 
 ## Scope
 
@@ -32,16 +32,16 @@ Checks: 189  Passed: 189  Failed: 0  Skipped: 0
 | structural | required artifact README.md | pass |  |
 | structural | required artifact LICENSE | pass |  |
 | structural | required artifact PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | pass |  |
-| structural | required artifact docs | pass |  |
-| structural | required artifact compatibility | pass |  |
-| structural | required artifact examples | pass |  |
-| structural | required artifact templates | pass |  |
+| structural | required artifact docs (contains at least one file) | pass |  |
+| structural | required artifact compatibility (contains at least one file) | pass |  |
+| structural | required artifact examples (contains at least one file) | pass |  |
+| structural | required artifact templates (contains at least one file) | pass |  |
 | structural | required artifact hooks/README.md | pass |  |
-| structural | required artifact tests | pass |  |
-| structural | required artifact .apm/agents | pass |  |
-| structural | required artifact .apm/skills | pass |  |
-| structural | required artifact .apm/instructions | pass |  |
-| structural | required artifact .apm/prompts | pass |  |
+| structural | required artifact tests (contains at least one file) | pass |  |
+| structural | required artifact .apm/agents (contains at least one file) | pass |  |
+| structural | required artifact .apm/skills (contains at least one file) | pass |  |
+| structural | required artifact .apm/instructions (contains at least one file) | pass |  |
+| structural | required artifact .apm/prompts (contains at least one file) | pass |  |
 | structural | no stale folder targets/ | pass |  |
 | structural | no stale folder claude-code/ | pass |  |
 | structural | no stale folder gemini-cli/ | pass |  |
@@ -162,12 +162,18 @@ Checks: 189  Passed: 189  Failed: 0  Skipped: 0
 | structural | installed content .apm/prompts/modernize-python-code.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-pull-request.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/validate-web-flow.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agent-evaluation/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agent-evaluation/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-evaluation/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-observability/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agentic-workflow-design/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agentic-workflow-design/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agentic-workflow-design/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/architecture-decision-records/adr-template.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/architecture-decision-records/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/mcp-python-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/playwright-validation/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/playwright-validation/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/playwright-validation/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/pull-request-review/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/python-api-engineering/SKILL.md: references only installed things | pass |  |
@@ -179,6 +185,8 @@ Checks: 189  Passed: 189  Failed: 0  Skipped: 0
 | structural | installed content .apm/skills/python-packaging/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/python-performance-analysis/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/python-static-typing/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/secure-agent-engineering/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/secure-agent-engineering/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/secure-agent-engineering/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/secure-python-engineering/SKILL.md: references only installed things | pass |  |
 | structural | pack doc README.md: describes the current layout | pass |  |
@@ -206,6 +214,7 @@ Checks: 189  Passed: 189  Failed: 0  Skipped: 0
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |
 | structural | contract instruction states the fallback sentence | pass |  |
+| structural | status names used in installed content are defined in report-contract.yml | pass |  |
 | executable | pack unit tests (python -m unittest discover -s tests) | pass | OK |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |

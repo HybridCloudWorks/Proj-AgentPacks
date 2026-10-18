@@ -1,7 +1,7 @@
 name: watch diagram sources
 
 # Weekly: rebuild the shared diagram skills' icon catalog from the newest draw.io release, and confirm each
-# provider's current icon release on its official page (shared-skills/diagram-facts.json). When either changed,
+# provider's current icon release on its official page (shared-primitives/diagram-facts.json). When either changed,
 # open (or comment on) one issue with what changed and how to adopt it.
 # A push that edits the facts, the catalog or these scripts runs the same checks and simply fails if one is wrong.
 on:
@@ -11,8 +11,8 @@ on:
   push:
     branches: [main]
     paths:
-      - shared-skills/diagram-facts.json
-      - shared-skills/diagram-validation-and-evidence/scripts/icon_catalog.json
+      - shared-primitives/diagram-facts.json
+      - shared-primitives/skills/diagram-validation-and-evidence/scripts/icon_catalog.json
       - tooling/build_icon_catalog.py
       - tooling/check_vendor_facts.py
       - .github/workflows/watch-diagram-sources.yml
@@ -40,7 +40,7 @@ jobs:
         continue-on-error: true
       - id: facts
         name: provider icon releases on their official pages
-        run: python tooling/check_vendor_facts.py --facts shared-skills/diagram-facts.json --markdown facts.md
+        run: python tooling/check_vendor_facts.py --facts shared-primitives/diagram-facts.json --markdown facts.md
         continue-on-error: true
       - name: open or update the issue
         if: (steps.catalog.outcome == 'failure' || steps.facts.outcome == 'failure') && github.event_name != 'push'

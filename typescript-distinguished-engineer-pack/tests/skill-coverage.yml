@@ -3,8 +3,8 @@
   "generated_from": ".apm/skills/*/SKILL.md",
   "skills": {
     "agent-evaluation": {
-      "description": "Create evaluation datasets and rubrics for agentic TypeScript systems, MCP tools, workflow reliability, safety, grounding, cost, and human oversight.",
-      "activation": "Create evaluation datasets and rubrics for agentic TypeScript systems, MCP tools, workflow reliability, safety, grounding, cost, and human oversight.",
+      "description": "Evaluate the outcomes and tool-use process of agentic systems written in Python or TypeScript, with scenario datasets, deterministic checks, rubrics, model judges and human review. Use when agent behavior, a release gate, a prompt, tool or model change, or reliability and safety evaluation is requested.",
+      "activation": "Use when agent behavior, a release gate, a prompt, tool or model change, or reliability and safety evaluation is requested.",
       "source": ".apm/skills/agent-evaluation/SKILL.md"
     },
     "agent-observability-and-telemetry": {
@@ -23,8 +23,8 @@
       "source": ".apm/skills/agentic-cost-and-budget-controls/SKILL.md"
     },
     "agentic-workflow-design": {
-      "description": "Design bounded, auditable agentic workflows and tool-calling loops that use autonomy only where it adds value.",
-      "activation": "Design bounded, auditable agentic workflows and tool-calling loops that use autonomy only where it adds value.",
+      "description": "Design bounded, auditable agent applications and multi-step tool workflows in Python or TypeScript: state, tools, memory, budgets, cancellation and optional specialist handoffs, using autonomy only where it adds value. Use when an agent application or tool-calling workflow needs design or change in either language.",
+      "activation": "Use when an agent application or tool-calling workflow needs design or change in either language.",
       "source": ".apm/skills/agentic-workflow-design/SKILL.md"
     },
     "api-contract-and-integration-engineering": {
@@ -73,8 +73,8 @@
       "source": ".apm/skills/performance-reliability-and-operability/SKILL.md"
     },
     "playwright-validation": {
-      "description": "Validate important web behavior with Playwright using accessible, stable locators, meaningful assertions, and diagnostic traces.",
-      "activation": "Validate important web behavior with Playwright using accessible, stable locators, meaningful assertions, and diagnostic traces.",
+      "description": "Validate web journeys with Playwright in Python or TypeScript, using accessible locators, web-first assertions, isolated authentication and diagnostic traces, and prove observable user outcomes. Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
+      "activation": "Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
       "source": ".apm/skills/playwright-validation/SKILL.md"
     },
     "pull-request-review-and-delivery": {
@@ -88,8 +88,8 @@
       "source": ".apm/skills/requirements-and-change-planning/SKILL.md"
     },
     "secure-agent-engineering": {
-      "description": "Apply secure-by-default controls to TypeScript applications, APIs, MCP tools, agentic workflows, dependencies, and delivery pipelines.",
-      "activation": "Apply secure-by-default controls to TypeScript applications, APIs, MCP tools, agentic workflows, dependencies, and delivery pipelines.",
+      "description": "Assess and harden agentic applications written in Python or TypeScript: prompt injection, tool misuse, memory poisoning, tenant isolation, unsafe code execution, supply chain, privacy and responsible AI, plus each language's own dangerous APIs. Use when agent, retrieval, browser, model output, MCP, dependency or durable-memory boundaries are in scope.",
+      "activation": "Use when agent, retrieval, browser, model output, MCP, dependency or durable-memory boundaries are in scope.",
       "source": ".apm/skills/secure-agent-engineering/SKILL.md"
     },
     "typescript-distinguished-engineer-orchestration": {

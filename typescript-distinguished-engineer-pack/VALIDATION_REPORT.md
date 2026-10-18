@@ -1,11 +1,11 @@
 # VALIDATION_REPORT
 
-Pack: typescript-distinguished-engineer 1.2.0
+Pack: typescript-distinguished-engineer 1.3.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 185  Passed: 184  Failed: 0  Skipped: 1
+Checks: 193  Passed: 192  Failed: 0  Skipped: 1
 
 ## Scope
 
@@ -158,10 +158,14 @@ Checks: 185  Passed: 184  Failed: 0  Skipped: 1
 | structural | installed content .apm/prompts/release-readiness.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-pull-request.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/validate-web-flow.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agent-evaluation/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agent-evaluation/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-evaluation/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-observability-and-telemetry/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-state-and-context-engineering/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agentic-cost-and-budget-controls/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agentic-workflow-design/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agentic-workflow-design/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agentic-workflow-design/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/api-contract-and-integration-engineering/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/cloud-integration-and-identity/SKILL.md: references only installed things | pass |  |
@@ -173,11 +177,15 @@ Checks: 185  Passed: 184  Failed: 0  Skipped: 1
 | structural | installed content .apm/skills/layered-testing-and-test-engineering/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/mcp-typescript-engineering/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/performance-reliability-and-operability/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/playwright-validation/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/playwright-validation/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/playwright-validation/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/pull-request-review-and-delivery/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/requirements-and-change-planning/adr-template.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/requirements-and-change-planning/handoff-template.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/requirements-and-change-planning/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/secure-agent-engineering/references/python.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/secure-agent-engineering/references/typescript.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/secure-agent-engineering/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/typescript-distinguished-engineer-orchestration/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/typescript-strict-engineering/SKILL.md: references only installed things | pass |  |

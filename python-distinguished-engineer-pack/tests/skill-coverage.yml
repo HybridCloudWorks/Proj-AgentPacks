@@ -3,8 +3,8 @@
   "generated_from": ".apm/skills/*/SKILL.md",
   "skills": {
     "agent-evaluation": {
-      "description": "Evaluate agent outcomes and tool-use process with datasets, deterministic checks, rubrics and human review. Use when agent behavior, release gates, prompt/tool changes or reliability/safety evaluation is requested.",
-      "activation": "Use when agent behavior, release gates, prompt/tool changes or reliability/safety evaluation is requested.",
+      "description": "Evaluate the outcomes and tool-use process of agentic systems written in Python or TypeScript, with scenario datasets, deterministic checks, rubrics, model judges and human review. Use when agent behavior, a release gate, a prompt, tool or model change, or reliability and safety evaluation is requested.",
+      "activation": "Use when agent behavior, a release gate, a prompt, tool or model change, or reliability and safety evaluation is requested.",
       "source": ".apm/skills/agent-evaluation/SKILL.md"
     },
     "agent-observability": {
@@ -13,8 +13,8 @@
       "source": ".apm/skills/agent-observability/SKILL.md"
     },
     "agentic-workflow-design": {
-      "description": "Design Python tool-using workflows, state, memory, budgets and optional specialist handoffs. Use when a Python agent application or multi-step tool workflow needs design or change.",
-      "activation": "Use when a Python agent application or multi-step tool workflow needs design or change.",
+      "description": "Design bounded, auditable agent applications and multi-step tool workflows in Python or TypeScript: state, tools, memory, budgets, cancellation and optional specialist handoffs, using autonomy only where it adds value. Use when an agent application or tool-calling workflow needs design or change in either language.",
+      "activation": "Use when an agent application or tool-calling workflow needs design or change in either language.",
       "source": ".apm/skills/agentic-workflow-design/SKILL.md"
     },
     "architecture-decision-records": {
@@ -28,7 +28,7 @@
       "source": ".apm/skills/mcp-python-engineering/SKILL.md"
     },
     "playwright-validation": {
-      "description": "Validate Python web journeys using existing Playwright/browser tooling and observable user outcomes. Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
+      "description": "Validate web journeys with Playwright in Python or TypeScript, using accessible locators, web-first assertions, isolated authentication and diagnostic traces, and prove observable user outcomes. Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
       "activation": "Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
       "source": ".apm/skills/playwright-validation/SKILL.md"
     },
@@ -83,8 +83,8 @@
       "source": ".apm/skills/python-static-typing/SKILL.md"
     },
     "secure-agent-engineering": {
-      "description": "Assess prompt injection, tool abuse, memory poisoning, isolation, privacy and responsible AI in Python agents. Use when agent, retrieval, browser, model output, MCP or durable-memory boundaries are in scope.",
-      "activation": "Use when agent, retrieval, browser, model output, MCP or durable-memory boundaries are in scope.",
+      "description": "Assess and harden agentic applications written in Python or TypeScript: prompt injection, tool misuse, memory poisoning, tenant isolation, unsafe code execution, supply chain, privacy and responsible AI, plus each language's own dangerous APIs. Use when agent, retrieval, browser, model output, MCP, dependency or durable-memory boundaries are in scope.",
+      "activation": "Use when agent, retrieval, browser, model output, MCP, dependency or durable-memory boundaries are in scope.",
       "source": ".apm/skills/secure-agent-engineering/SKILL.md"
     },
     "secure-python-engineering": {

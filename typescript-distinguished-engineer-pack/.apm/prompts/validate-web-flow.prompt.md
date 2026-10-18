@@ -1,6 +1,24 @@
 ---
-description: "Validate a Web Flow"
+description: "Validate a web journey with Playwright in Python or TypeScript, with accessible locators, web-first assertions, isolated authentication and replayable evidence"
 ---
-# Validate a Web Flow
 
-Inspect existing Playwright configuration, fixtures, routes, roles, labels, test IDs, and CI. Reproduce the critical user journey with accessible stable locators and assertions on visible behavior. Cover loading, empty, error, authorization, retry, and boundary states. Capture trace and diagnostics on failure. Check accessibility and sensitive-data exposure. Do not weaken or auto-heal a test without verifying intended product behavior.
+# Validate a web journey
+
+## Inputs
+
+- The authorized environment, URL, test account and allowed domains.
+- The user journey, the expected states, and the data and side-effect limits.
+
+## Workflow
+
+1. Identify the language of the existing browser test suite, which can differ from the application's, and extend that suite in its own language.
+2. Apply playwright-validation: discover the configuration and versions, use role, label or test-id locators and web-first assertions, cover failure and boundary states, and keep authentication state out of version control.
+3. On failure, keep the trace and diagnostics and investigate the product before changing the test.
+
+## Expected output
+
+The tests or changes, the exact environment, commands and results, failures with their location, sanitized artifacts and cleanup status, followed by a completion report in the format of the installed pack's contract instruction.
+
+## Guardrails
+
+Stop at out-of-scope redirects, uploads or consequential production actions. Never weaken an assertion or accept an auto-healed selector without confirming the intended behavior.

@@ -11,8 +11,8 @@ The prompt files themselves do not name skills. The skills column below lists th
 | review-pull-request.prompt.md | pull-request-review-and-delivery, secure-agent-engineering, dependency-supply-chain-and-reproducibility, frontend-react-engineering | Prioritized findings located by file and line, with impact, remediation and confidence; checks run and skipped; a review verdict | examples/review-pull-request.md |
 | build-mcp-server.prompt.md | mcp-typescript-engineering, secure-agent-engineering, agentic-cost-and-budget-controls, typescript-strict-engineering | Capability classification, tool contracts, approval design, implementation, protocol and negative tests, rollback | examples/build-mcp-server.md |
 | design-agentic-system.prompt.md | agentic-workflow-design, agent-state-and-context-engineering, agentic-cost-and-budget-controls, agent-observability-and-telemetry, enterprise-architecture-and-adr | A workflow specification, an ADR, budgets and termination rules, and the evidence that can prove completion | examples/design-and-evaluate-agentic-system.md |
-| evaluate-agent.prompt.md | agent-evaluation, secure-agent-engineering | A versioned scenario set; a rubric with deterministic and model-judged criteria labelled separately; results, cost and latency, limitations | examples/design-and-evaluate-agentic-system.md |
-| validate-web-flow.prompt.md | playwright-validation, frontend-react-engineering, layered-testing-and-test-engineering | Journey assertions and results per browser project, failure diagnostics, accessibility and data-exposure checks | examples/validate-web-flow.md |
+| evaluate-agent.prompt.md | agent-evaluation, secure-agent-engineering (shared with the Python pack) | A versioned scenario set; a rubric with deterministic and model-judged criteria labelled separately; results, cost and latency, limitations | examples/design-and-evaluate-agentic-system.md |
+| validate-web-flow.prompt.md | playwright-validation (shared with the Python pack) | Journey assertions and results per browser project, failure diagnostics, accessibility and data-exposure checks | examples/validate-web-flow.md |
 | diagnose-failure.prompt.md | javascript-node-runtime-engineering, performance-reliability-and-operability, agent-observability-and-telemetry, layered-testing-and-test-engineering | The recorded evidence, hypotheses tested one at a time, a fix with a regression test, and any cause not yet confirmed | examples/diagnose-failure.md |
 | release-readiness.prompt.md | pull-request-review-and-delivery, dependency-supply-chain-and-reproducibility, cloud-integration-and-identity, performance-reliability-and-operability | Evidence tied to the release commit, missing evidence and residual risk, a review verdict; nothing published or deployed | examples/release-readiness.md |
 
@@ -20,7 +20,7 @@ In the examples, specialists join only where independent work adds value:
 
 - `typescript-security-reviewer`: feature, pull request review, MCP server, release readiness.
 - `typescript-test-engineer`: feature, web flow.
-- `agent-evaluation-engineer`: agentic system evaluation.
+- `agent-evaluation-engineer`: agentic system evaluation in TypeScript or Python; shared with the Python pack.
 
 ## Installation
 

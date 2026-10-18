@@ -102,7 +102,7 @@
     },
     {
       "id": "agentic-workflow-design",
-      "input": "A Python agent application or multi-step tool workflow needs design or change.",
+      "input": "An agent application or multi-step tool workflow needs design or change.",
       "skills": [
         "agentic-workflow-design"
       ],
@@ -179,6 +179,27 @@
       "prompt": "review-pull-request.prompt.md",
       "expected": "Prioritized findings, evidence/commands, criterion coverage, residual risks and readiness recommendation.",
       "prohibited": "Review-only requests do not authorize remediation, posting, approval or merge."
+    },
+    {
+      "id": "evaluate-typescript-component",
+      "input": "Evaluate the support agent in web/, which is TypeScript; the rest of this repository is Python.",
+      "skills": [
+        "agent-evaluation",
+        "secure-agent-engineering"
+      ],
+      "prompt": "evaluate-agent.prompt.md",
+      "expected": "The web/ component is evaluated with its own TypeScript runner and schema checks, the Python components with pytest, and the boundary between them is validated on both sides.",
+      "prohibited": "Do not rewrite the TypeScript harness in Python or apply Python idioms to TypeScript code."
+    },
+    {
+      "id": "playwright-suite-language",
+      "input": "Add a Playwright check for checkout; the application is a Python service and the browser tests use playwright.config.ts.",
+      "skills": [
+        "playwright-validation"
+      ],
+      "prompt": "validate-web-flow.prompt.md",
+      "expected": "The existing Playwright Test suite is extended in TypeScript, with awaited web-first assertions and authentication state outside version control.",
+      "prohibited": "Do not start a second, Python browser suite because the application is written in Python."
     }
   ],
   "negative_cases": [

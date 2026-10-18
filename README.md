@@ -37,9 +37,9 @@ Status is the shared validator's result with an APM install check for every targ
 | infrastructure-pr-reviewer-pack | 1.2.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. |
 | microsoft-certified-trainer-pack | 1.1.0 | 5 | 18 | PASS | |
 | notion-subject-matter-expert-pack | 1.0.0 | 2 | 7 | PASS | Generated from the Notion skill collection. |
-| python-distinguished-engineer-pack | 2.1.0 | 5 | 18 | PASS | |
+| python-distinguished-engineer-pack | 2.2.0 | 5 | 18 | PASS | Shares its agent-evaluation agent, four skills, agentic-security instruction and two prompts with the TypeScript pack. |
 | terraform-expert-engineer-pack | 1.2.0 | 1 | 9 | PASS | Examples, templates and prompts gap-filled. |
-| typescript-distinguished-engineer-pack | 1.2.0 | 4 | 20 | PASS | Primary set explicitly; review verdicts defined. Examples, templates and prompts gap-filled. |
+| typescript-distinguished-engineer-pack | 1.3.0 | 4 | 20 | PASS | Primary set explicitly; review verdicts defined. Examples, templates and prompts gap-filled. Shares its agent-evaluation agent, four skills, agentic-security instruction and two prompts with the Python pack. |
 
 Orchestrators are not packs: each client's main coordinating agent is generated per desktop from the tools found there and the agents and skills selected, so it lives in `orchestrators/` until the orchestrator standard is defined. The Codex orchestrator seed, formerly `codex-agentic-orchestrator-pack`, is kept there unchanged as reference.
 
@@ -51,21 +51,21 @@ This repository is public, so GitHub-hosted runners are free. Model usage is not
 
 | Workflow | Runs when | What it does |
 |---|---|---|
-| `validate` | Every push and pull request; weekly; manually | Tooling tests, a check that shared skills are identical in every pack, an install-collision report, and `validate_pack.py --install-check` for each pack. Push and pull request cover changed packs on Linux with the pinned APM (`tooling/apm-version.txt`). The weekly run covers every pack on Linux, Windows and macOS with the newest APM. |
+| `validate` | Every push and pull request; weekly; manually | Tooling tests, a check that shared primitives are identical in every pack, an install-collision report, and `validate_pack.py --install-check` for each pack. Push and pull request cover changed packs on Linux with the pinned APM (`tooling/apm-version.txt`). The weekly run covers every pack on Linux, Windows and macOS with the newest APM. |
 | `release` | A tag `<pack-name>-v<version>` is pushed | Checks the tag matches `apm.yml`, validates, builds, and attaches the archives and `SHA256SUMS.txt` to a GitHub release. |
 | `watch apm` | Weekly | Opens an issue when an APM release is newer than the pinned version. |
-| `watch diagram sources` | Weekly; on changes to its inputs | Rebuilds the shared diagram skills' icon catalog from the newest draw.io release and confirms each provider's current icon release on its official page (`shared-skills/diagram-facts.json`). Opens one issue when either changed. |
+| `watch diagram sources` | Weekly; on changes to its inputs | Rebuilds the shared diagram skills' icon catalog from the newest draw.io release and confirms each provider's current icon release on its official page (`shared-primitives/diagram-facts.json`). Opens one issue when either changed. |
 | `generate pack` | Manually, by the repository owner | Generates a pack from a public reference repository with Claude Code, runs the engine's checks, and opens a pull request. Needs the secret `CLAUDE_CODE_OAUTH_TOKEN` from `claude setup-token`. |
 
 Generated packs always arrive as pull requests on a `pack/<name>` branch; merging one is the approval. Locally, `python tooling/generate_pack.py publish staging/<name>` does the same.
 
-To release a pack: `git tag python-distinguished-engineer-v2.1.0 && git push origin python-distinguished-engineer-v2.1.0`.
+To release a pack: `git tag python-distinguished-engineer-v2.2.0 && git push origin python-distinguished-engineer-v2.2.0`.
 
 ## Working on packs
 
 Edit in a normal git clone, not in a synced folder. Shared tooling lives in `tooling/` at the repository root; packs carry only their own helper scripts.
 
-Shared skills ship with identical content in several packs, so installing any of those packs leaves the same skill in place. Their one canonical copy lives in `shared-skills/`, with `consumers.json` naming the packs that ship each one. Edit it there and run `python tooling/sync_shared_skills.py`; the `validate` workflow fails when a pack's copy drifts. `python tooling/check_collisions.py` reports names that two packs ship with different content.
+Shared primitives (skills, agents, instructions and prompts) ship with identical content in several packs, so installing any of those packs leaves the same file in place. Their one canonical copy lives in `shared-primitives/`, laid out like a pack's `.apm/` folder, with `consumers.json` naming the packs that ship each one: the draw.io skills for the AWS, Azure and Google Cloud packs, and the agent, skills, instruction and prompts that the Python and TypeScript packs share. Edit a primitive there and run `python tooling/sync_shared.py`; the `validate` workflow fails when a pack's copy drifts. `python tooling/check_collisions.py` reports agent, skill, instruction and prompt names that two packs ship with different content.
 
 ```bash
 python tooling/validate_pack.py <pack> --install-check   # writes <pack>/VALIDATION_REPORT.md

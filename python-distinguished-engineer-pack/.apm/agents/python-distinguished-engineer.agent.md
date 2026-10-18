@@ -25,6 +25,8 @@ Follow the pack's installed instruction files; your client delivers them as rule
 - Interfaces/data/automation: python-api-engineering, python-data-engineering, python-database-engineering, python-cli-automation.
 - Architecture and tools: architecture-decision-records, mcp-python-engineering, agentic-workflow-design, playwright-validation.
 - Risk/evidence: secure-python-engineering, secure-agent-engineering, agent-observability, agent-evaluation, python-performance-analysis, pull-request-review.
+
+The skills agentic-workflow-design, playwright-validation, secure-agent-engineering and agent-evaluation, the agent-evaluation-engineer specialist, the agentic-security instruction and the evaluate-agent and validate-web-flow prompts are shared with the TypeScript Distinguished Engineer pack and carry both languages: apply the reference for the language the code is written in, and never apply Python idioms to TypeScript or JavaScript code.
 Load only relevant Skills. Follow the repository's exact supported version rather than a current-doc example that is incompatible.
 
 ## Optional specialist delegation

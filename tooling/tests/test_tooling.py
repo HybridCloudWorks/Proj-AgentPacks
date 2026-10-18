@@ -21,11 +21,11 @@ import ci_plan  # noqa: E402
 import generate_pack  # noqa: E402
 import restructure_pack  # noqa: E402
 import skill_coverage  # noqa: E402
-import sync_shared_skills  # noqa: E402
+import sync_shared  # noqa: E402
 import validate_pack  # noqa: E402
 
 EXEMPLAR = REPO / "python-distinguished-engineer-pack"
-CHECKER = REPO / "shared-skills" / "diagram-validation-and-evidence" / "scripts" / "check_drawio.py"
+CHECKER = REPO / "shared-primitives" / "skills" / "diagram-validation-and-evidence" / "scripts" / "check_drawio.py"
 _spec = importlib.util.spec_from_file_location("check_drawio", CHECKER)
 check_drawio = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(check_drawio)
@@ -140,7 +140,7 @@ class RestructureTests(unittest.TestCase):
 class RepoToolsTests(unittest.TestCase):
     def test_collision_report_shape(self) -> None:
         found = check_collisions.collisions(REPO)
-        self.assertEqual(set(found), {"agents", "skills"})
+        self.assertEqual(set(found), {"agents", "skills", "instructions", "prompts"})
         for names in found.values():
             self.assertTrue(all(len(packs) > 1 for packs in names.values()))
 
@@ -176,8 +176,12 @@ class RepoToolsTests(unittest.TestCase):
                 for name, text in skills.items():
                     (tmp / pack / ".apm" / "skills" / name).mkdir(parents=True)
                     (tmp / pack / ".apm" / "skills" / name / "SKILL.md").write_text(text, encoding="utf-8")
+            for pack, text in (("a-pack", "same prompt"), ("c-pack", "other prompt")):
+                (tmp / pack / ".apm" / "prompts").mkdir(parents=True)
+                (tmp / pack / ".apm" / "prompts" / "go.prompt.md").write_text(text, encoding="utf-8")
             self.assertEqual(check_collisions.collisions(tmp)["skills"], {"other": ["a-pack", "c-pack"]})
             self.assertEqual(check_collisions.shared(tmp)["skills"], {"common": ["a-pack", "b-pack"]})
+            self.assertEqual(check_collisions.collisions(tmp)["prompts"], {"go": ["a-pack", "c-pack"]})
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
@@ -310,29 +314,50 @@ class IconCatalogTests(unittest.TestCase):
                 self.assertTrue(CATALOG[library][kind], f"{library} {kind} is empty")
 
 
-class SharedSkillTests(unittest.TestCase):
-    def test_every_shared_skill_copy_is_identical(self):
-        self.assertEqual(sync_shared_skills.drift(REPO), [])
+class SharedPrimitiveTests(unittest.TestCase):
+    def test_every_shared_copy_is_identical(self):
+        self.assertEqual(sync_shared.drift(REPO), [])
 
-    def test_sync_copies_and_drift_is_reported(self):
+    def test_shared_language_primitives_name_both_languages(self):
+        shared = REPO / "shared-primitives"
+        for name in ("agent-evaluation", "agentic-workflow-design", "playwright-validation", "secure-agent-engineering"):
+            skill = shared / "skills" / name
+            text = (skill / "SKILL.md").read_text(encoding="utf-8")
+            self.assertIn("Where Python and TypeScript differ", text, name)
+            for language in ("python", "typescript"):
+                self.assertTrue((skill / "references" / f"{language}.md").is_file(), f"{name} lacks references/{language}.md")
+                self.assertIn(f"references/{language}.md", text, f"{name} does not point to references/{language}.md")
+
+    def test_sync_copies_every_kind_and_drift_is_reported(self):
         tmp = Path(tempfile.mkdtemp(prefix="shared-test-"))
         try:
-            (tmp / "shared-skills" / "demo").mkdir(parents=True)
-            (tmp / "shared-skills" / "demo" / "SKILL.md").write_text(
+            shared = tmp / "shared-primitives"
+            (shared / "skills" / "demo").mkdir(parents=True)
+            (shared / "skills" / "demo" / "SKILL.md").write_text(
                 "---\nname: demo\ndescription: Use when demonstrating.\n---\n# Demo\n", encoding="utf-8")
-            (tmp / "shared-skills" / "consumers.json").write_text(json.dumps({"skills": {"demo": ["a-pack", "b-pack"]}}), encoding="utf-8")
+            (shared / "agents").mkdir()
+            (shared / "agents" / "helper.agent.md").write_text("---\nname: helper\ndescription: Demo.\n---\n# Helper\n", encoding="utf-8")
+            (shared / "prompts").mkdir()
+            (shared / "prompts" / "run-demo.prompt.md").write_text("---\ndescription: Run the demo\n---\n# Run\n", encoding="utf-8")
+            (shared / "consumers.json").write_text(json.dumps({
+                "skills": {"demo": ["a-pack", "b-pack"]}, "agents": {"helper": ["a-pack", "b-pack"]},
+                "prompts": {"run-demo": ["a-pack", "b-pack"]}}), encoding="utf-8")
             for pack in ("a-pack", "b-pack", "c-pack"):
                 (tmp / pack / ".apm" / "skills").mkdir(parents=True)
                 (tmp / pack / "tests").mkdir()
                 (tmp / pack / "apm.yml").write_text("name: x\nversion: 1.0.0\n", encoding="utf-8")
-            self.assertEqual(sync_shared_skills.sync(tmp), ["a-pack", "b-pack"])
-            self.assertEqual(sync_shared_skills.drift(tmp), [])
+            self.assertEqual(sync_shared.sync(tmp), ["a-pack", "b-pack"])
+            self.assertEqual(sync_shared.drift(tmp), [])
             self.assertTrue((tmp / "a-pack" / "tests" / "skill-coverage.yml").is_file())
+            self.assertTrue((tmp / "b-pack" / ".apm" / "agents" / "helper.agent.md").is_file())
+            self.assertTrue((tmp / "b-pack" / ".apm" / "prompts" / "run-demo.prompt.md").is_file())
             (tmp / "b-pack" / ".apm" / "skills" / "demo" / "SKILL.md").write_text("changed\n", encoding="utf-8")
+            (tmp / "a-pack" / ".apm" / "agents" / "helper.agent.md").write_text("edited in the pack\n", encoding="utf-8")
             shutil.copytree(tmp / "a-pack" / ".apm" / "skills" / "demo", tmp / "c-pack" / ".apm" / "skills" / "demo")
-            problems = " | ".join(sync_shared_skills.drift(tmp))
+            problems = " | ".join(sync_shared.drift(tmp))
             self.assertIn("b-pack/.apm/skills/demo differs", problems)
-            self.assertIn("c-pack ships a skill named demo but is not listed", problems)
+            self.assertIn("a-pack/.apm/agents/helper.agent.md differs", problems)
+            self.assertIn("c-pack ships skill demo but is not listed", problems)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 

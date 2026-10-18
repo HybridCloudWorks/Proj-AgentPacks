@@ -1,0 +1,22 @@
+{
+  "about": "Which packs ship each shared primitive, by kind. tooling/sync_shared.py copies every canonical copy in shared-primitives/ into the same place under each listed pack's .apm/ folder, and --check (run in CI) fails when a copy differs or an unlisted pack ships a primitive with a shared name.",
+  "skills": {
+    "diagram-validation-and-evidence": ["aws-cloud-architect-pack", "aws-expert-designer-pack", "azure-cloud-architect-pack", "azure-expert-designer-pack", "google-cloud-architect-pack"],
+    "drawio-core-generation": ["aws-cloud-architect-pack", "aws-expert-designer-pack", "azure-cloud-architect-pack", "azure-expert-designer-pack", "google-cloud-architect-pack"],
+    "drawio-render-export-and-review": ["aws-cloud-architect-pack", "aws-expert-designer-pack", "azure-cloud-architect-pack", "azure-expert-designer-pack", "google-cloud-architect-pack"],
+    "agent-evaluation": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"],
+    "agentic-workflow-design": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"],
+    "playwright-validation": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"],
+    "secure-agent-engineering": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"]
+  },
+  "agents": {
+    "agent-evaluation-engineer": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"]
+  },
+  "instructions": {
+    "agentic-security": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"]
+  },
+  "prompts": {
+    "evaluate-agent": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"],
+    "validate-web-flow": ["python-distinguished-engineer-pack", "typescript-distinguished-engineer-pack"]
+  }
+}
