@@ -1,5 +1,5 @@
 name: aws-expert-designer
-version: 1.1.0
+version: 1.2.0
 description: AWS architecture designer specializing in correct, reviewable Draw.io diagrams derived from requirements, CloudFormation, CDK, Terraform, and repository evidence.
 author: saulpatinojr
 license: MIT

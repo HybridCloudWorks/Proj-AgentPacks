@@ -18,3 +18,26 @@ skill_map:
   aws-architecture-patterns: [common_aws_architecture_patterns]
   drawio-render-export-and-review: [drawio_cli_export_and_review]
   diagram-validation-and-evidence: [structural_and_visual_evidence_separation]
+workflow_prompts:
+  design-aws-diagram.prompt.md:
+    capabilities: [editable_uncompressed_drawio_xml, aws_account_region_az_vpc_subnet_semantics, official_aws4_icon_usage, deterministic_layout_and_orthogonal_edges, cross_az_cross_region_egress_visibility, structural_and_visual_evidence_separation]
+    example: requirements-to-drawio-workflow.md
+  diagram-from-infrastructure-code.prompt.md:
+    capabilities: [source_derived_aws_architecture, aws_account_region_az_vpc_subnet_semantics, editable_uncompressed_drawio_xml, structural_and_visual_evidence_separation]
+    example: terraform-derived-diagram-workflow.md
+    failure_example: cdk-source-blocked-workflow.md
+  model-aws-architecture-pattern.prompt.md:
+    capabilities: [common_aws_architecture_patterns, cross_az_cross_region_egress_visibility, deterministic_layout_and_orthogonal_edges]
+    example: multi-region-pattern-workflow.md
+  review-aws-diagram.prompt.md:
+    capabilities: [structural_and_visual_evidence_separation, aws_account_region_az_vpc_subnet_semantics, official_aws4_icon_usage, common_aws_architecture_patterns]
+    example: diagram-review-workflow.md
+  repair-drawio-xml.prompt.md:
+    capabilities: [editable_uncompressed_drawio_xml, official_aws4_icon_usage]
+    example: repair-reflow-export-workflow.md
+  reflow-aws-diagram-layout.prompt.md:
+    capabilities: [deterministic_layout_and_orthogonal_edges, cross_az_cross_region_egress_visibility]
+    example: repair-reflow-export-workflow.md
+  export-drawio-diagram.prompt.md:
+    capabilities: [drawio_cli_export_and_review, structural_and_visual_evidence_separation]
+    example: repair-reflow-export-workflow.md
