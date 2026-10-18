@@ -59,6 +59,11 @@ class ValidatorTests(unittest.TestCase):
             "---\nname: extra-skill\ndescription: Use when testing.\n---\n# Extra\n", encoding="utf-8")
         self.assertTrue(any("skill-coverage.yml lists exactly the shipped skills" in c for c in failed_checks(self.pack)))
 
+    def test_empty_required_folder_fails(self) -> None:
+        for f in (self.pack / "examples").iterdir():
+            f.unlink() if f.is_file() else shutil.rmtree(f)
+        self.assertTrue(any("required artifact examples" in c for c in failed_checks(self.pack)))
+
     def test_old_layout_folder_fails(self) -> None:
         (self.pack / "targets" / "claude-code").mkdir(parents=True)
         self.assertTrue(any("no stale folder targets/" in c for c in failed_checks(self.pack)))

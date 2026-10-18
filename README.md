@@ -16,28 +16,28 @@ Code Workflow installs packs into the user profile so they work in every reposit
 
 ## Packs
 
-All packs are at agent-pack-prompt v2.3 and pass the shared validator, including an APM install into a scratch project for copilot, claude, codex, kiro, gemini and agent-skills (2026-10-18). Canonical agents declare no `tools`; intents live in each pack's `compatibility/tool-permissions.yml`.
+Status is the shared validator's result. Fourteen packs converted from the earlier prompt never had worked examples, templates or prompts; they keep their agents and skills but do not meet the standard until those are authored.
 
-| Pack | Version | Agents | Skills | Notes |
-|---|---|---|---|---|
-| ansible-expert-engineer-pack | 1.1.0 | 1 | 10 |  |
-| apple-code-reviewer-pack | 1.1.0 | 1 | 6 |  |
-| aws-cloud-architect-pack | 1.1.0 | 1 | 17 |  |
-| aws-expert-designer-pack | 1.1.0 | 1 | 8 |  |
-| azure-cloud-architect-pack | 1.1.0 | 1 | 18 | A leaked copy of the AWS agent was removed during conversion. |
-| azure-expert-designer-pack | 1.1.0 | 1 | 8 |  |
-| cloud-documentation-archivist-pack | 1.1.0 | 1 | 18 |  |
-| cloud-prepress-reviewer-pack | 1.1.0 | 1 | 15 | A leaked copy of the AWS agent was removed during conversion. |
-| codex-agentic-orchestrator-pack | 1.1.0 | 1 | 6 | Codex-only seed; to be rebuilt as the multi-vendor Code Workflow orchestrator. |
-| github-expert-engineer-pack | 1.1.0 | 1 | 18 |  |
-| hypervelocity-engineer-pack | 1.1.0 | 1 | 9 |  |
-| infrastructure-pr-reviewer-pack | 1.1.0 | 1 | 8 |  |
-| microsoft-certified-trainer-pack | 1.1.0 | 5 | 18 |  |
-| python-distinguished-engineer-pack | 2.1.0 | 5 | 18 |  |
-| terraform-expert-engineer-pack | 1.1.0 | 1 | 9 |  |
-| typescript-distinguished-engineer-pack | 1.1.0 | 4 | 20 | Primary set explicitly; three specialists hidden from the picker. |
+| Pack | Version | Agents | Skills | Status | Notes |
+|---|---|---|---|---|---|
+| ansible-expert-engineer-pack | 1.1.0 | 1 | 10 | Incomplete: no examples, templates, prompts |  |
+| apple-code-reviewer-pack | 1.1.0 | 1 | 6 | Incomplete: no examples, templates, prompts |  |
+| aws-cloud-architect-pack | 1.1.0 | 1 | 17 | Incomplete: no examples, templates, prompts |  |
+| aws-expert-designer-pack | 1.1.0 | 1 | 8 | Incomplete: no examples, templates, prompts |  |
+| azure-cloud-architect-pack | 1.1.0 | 1 | 18 | Incomplete: no examples, templates, prompts | Leaked copy of the AWS agent removed. |
+| azure-expert-designer-pack | 1.1.0 | 1 | 8 | Incomplete: no examples, templates, prompts |  |
+| cloud-documentation-archivist-pack | 1.1.0 | 1 | 18 | Incomplete: no examples, prompts |  |
+| cloud-prepress-reviewer-pack | 1.1.0 | 1 | 15 | Incomplete: no examples, templates, prompts | Leaked copy of the AWS agent removed. |
+| codex-agentic-orchestrator-pack | 1.1.0 | 1 | 6 | Incomplete: no examples, templates, prompts | Codex-only seed; to be rebuilt as the multi-vendor orchestrator. |
+| github-expert-engineer-pack | 1.1.0 | 1 | 18 | Incomplete: no examples, templates, prompts |  |
+| hypervelocity-engineer-pack | 1.1.0 | 1 | 9 | Incomplete: no examples, templates, prompts |  |
+| infrastructure-pr-reviewer-pack | 1.1.0 | 1 | 8 | Incomplete: no examples, templates, prompts |  |
+| microsoft-certified-trainer-pack | 1.1.0 | 5 | 18 | PASS |  |
+| python-distinguished-engineer-pack | 2.1.0 | 5 | 18 | PASS |  |
+| terraform-expert-engineer-pack | 1.1.0 | 1 | 9 | Incomplete: no examples, templates, prompts |  |
+| typescript-distinguished-engineer-pack | 1.1.0 | 4 | 20 | Incomplete: no examples | Primary set explicitly; review verdicts defined. |
 
-Not yet packs: the Google Cloud, CloudFlare, FinOps, Notion, Cloud Cybersecurity and Docker folders in the source material are third-party skill collections without an agent or manifest. They need a role pack generated with the master prompt, with the collection as reference material.
+Not yet packs: the Google Cloud, CloudFlare, FinOps, Notion, Cloud Cybersecurity and Docker folders in the source material are third-party skill collections. Notion is under review as a generated pack (pull request #1); CloudFlare is being generated.
 
 ## Automation (GitHub Actions)
 

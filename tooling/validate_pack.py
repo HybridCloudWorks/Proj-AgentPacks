@@ -114,7 +114,14 @@ def simple_yaml(path: Path) -> dict[str, object]:
 
 def structural(root: Path, rep: Report) -> dict[str, object]:
     for rel in REQUIRED:
-        rep.add("structural", f"required artifact {rel}", (root / rel).exists())
+        path = root / rel
+        if path.is_dir():
+            # git does not store empty folders, so an empty folder here is missing everywhere else
+            has_file = any(f.is_file() for f in path.rglob("*"))
+            rep.add("structural", f"required artifact {rel} (contains at least one file)", has_file,
+                    "" if has_file else "folder is empty; git will not keep it")
+        else:
+            rep.add("structural", f"required artifact {rel}", path.is_file())
     for rel in STALE:
         rep.add("structural", f"no stale folder {rel}/", not (root / rel).exists())
     cache = [p for p in list(root.rglob("__pycache__")) + list(root.rglob("*.pyc")) if p.parts[len(root.parts)] not in ("tests", "tooling")]

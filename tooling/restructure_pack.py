@@ -300,8 +300,6 @@ def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: st
         shutil.rmtree(p, ignore_errors=True)
     for p in list(dest.rglob("*.pyc")) + list(dest.glob("*.zip")):
         p.unlink()
-    for rel in ("examples", "templates", "docs", "tests", "tooling"):
-        (dest / rel).mkdir(exist_ok=True)
     if (dest / "copilot-instructions.md").is_file():
         (dest / "examples" / "repository").mkdir(parents=True, exist_ok=True)
         shutil.move(str(dest / "copilot-instructions.md"), str(dest / "examples" / "repository" / "copilot-instructions.md"))
