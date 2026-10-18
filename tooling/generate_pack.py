@@ -19,6 +19,7 @@ Usage:
   python tooling/generate_pack.py generate --reference <folder> --name <slug> --role "<role>" \
       --source <url> --license <spdx|unknown> [--model M] [--max-turns 300] [--timeout-min 120]
   python tooling/generate_pack.py check staging/<name>
+  python tooling/generate_pack.py status staging/<name>      # % complete from a 20-item milestone checklist
   python tooling/generate_pack.py promote staging/<name> [--replace]
 """
 from __future__ import annotations
@@ -240,6 +241,67 @@ def promote(ws: Path, replace: bool) -> int:
     return 0
 
 
+def milestones(ws: Path) -> list[tuple[str, bool]]:
+    """Twenty equally weighted milestones: what a finished pack contains, then validation, then the engine checks."""
+    meta = json.loads((ws / "workspace.json").read_text(encoding="utf-8"))
+    pack = ws / "out" / f"{meta['name']}-pack"
+    apm = pack / ".apm"
+
+    def any_in(folder: Path, pattern: str) -> bool:
+        return folder.is_dir() and any(folder.glob(pattern))
+
+    report = pack / "VALIDATION_REPORT.md"
+    report_text = report.read_text(encoding="utf-8", errors="replace") if report.is_file() else ""
+    primary = any("user-invocable: true" in a.read_text(encoding="utf-8", errors="replace")
+                  for a in (apm / "agents").glob("*.agent.md")) if (apm / "agents").is_dir() else False
+    return [
+        ("apm.yml", (pack / "apm.yml").is_file()),
+        ("an agent", any_in(apm / "agents", "*.agent.md")),
+        ("the user-invocable primary agent", primary),
+        ("a skill", any_in(apm / "skills", "*/SKILL.md")),
+        ("the contract instruction", any_in(apm / "instructions", "*contract*.instructions.md")),
+        ("a prompt", any_in(apm / "prompts", "*.prompt.md")),
+        ("tool-permissions.yml", (pack / "compatibility" / "tool-permissions.yml").is_file()),
+        ("DESCRIPTION.md", (pack / "DESCRIPTION.md").is_file()),
+        ("README.md", (pack / "README.md").is_file()),
+        ("docs", any_in(pack / "docs", "*.md")),
+        ("examples", any_in(pack / "examples", "*")),
+        ("templates", any_in(pack / "templates", "*")),
+        ("hooks/README.md", (pack / "hooks" / "README.md").is_file()),
+        ("capability-coverage.yml", (pack / "tests" / "capability-coverage.yml").is_file()),
+        ("trigger-cases.yml", (pack / "tests" / "trigger-cases.yml").is_file()),
+        ("report-contract.yml", (pack / "tests" / "report-contract.yml").is_file()),
+        ("skill-coverage.yml", (pack / "tests" / "skill-coverage.yml").is_file()),
+        ("validator has run", report.is_file()),
+        ("validator reports PASS", "Status: PASS" in report_text),
+        ("engine checks complete", (ws / "STAGING_REPORT.md").is_file()),
+    ]
+
+
+def status(ws: Path) -> int:
+    meta = json.loads((ws / "workspace.json").read_text(encoding="utf-8"))
+    pack = ws / "out" / f"{meta['name']}-pack"
+    items = milestones(ws)
+    done = sum(1 for _, ok in items if ok)
+    created = dt.datetime.fromisoformat(meta["created"])
+    elapsed = dt.datetime.now() - created
+    files = [p for p in pack.rglob("*") if p.is_file()] if pack.is_dir() else []
+    size_kb = round(sum(p.stat().st_size for p in files) / 1024)
+    apm = pack / ".apm"
+    count = lambda folder, pattern: len(list(folder.glob(pattern))) if folder.is_dir() else 0
+    print(f"{meta['name']}: {done * 100 // len(items)}% complete ({done} of {len(items)} milestones), "
+          f"elapsed {int(elapsed.total_seconds() // 60)} min {int(elapsed.total_seconds() % 60)} s")
+    print(f"files {len(files)} ({size_kb} KB): agents {count(apm / 'agents', '*.agent.md')}, skills {count(apm / 'skills', '*/SKILL.md')}, "
+          f"prompts {count(apm / 'prompts', '*.prompt.md')}, instructions {count(apm / 'instructions', '*.instructions.md')}")
+    pending = [label for label, ok in items if not ok]
+    print("next: " + (", ".join(pending[:4]) if pending else "nothing; finished"))
+    for path in sorted(files, key=lambda p: p.stat().st_mtime)[-3:]:
+        print(f"  {dt.datetime.fromtimestamp(path.stat().st_mtime).strftime('%H:%M:%S')}  {path.relative_to(pack).as_posix()}")
+    if (ws / "STAGING_REPORT.md").is_file():
+        print("FINISHED: see " + str(ws / "STAGING_REPORT.md"))
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -257,6 +319,8 @@ def main() -> int:
     g.add_argument("--prepare-only", action="store_true", help="build the workspace and brief without running the generator")
     c = sub.add_parser("check")
     c.add_argument("workspace")
+    s = sub.add_parser("status")
+    s.add_argument("workspace")
     p = sub.add_parser("promote")
     p.add_argument("workspace")
     p.add_argument("--replace", action="store_true")
@@ -271,6 +335,8 @@ def main() -> int:
         report = check(ws)
         print(f"check: {report['status']}; see {ws / 'STAGING_REPORT.md'}")
         return 0 if report["status"] == "PASS" else 1
+    if args.command == "status":
+        return status(Path(args.workspace).resolve())
     if args.command == "check":
         report = check(Path(args.workspace).resolve())
         print(f"check: {report['status']}")
