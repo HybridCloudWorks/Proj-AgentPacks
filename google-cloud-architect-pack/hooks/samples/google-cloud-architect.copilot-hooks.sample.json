@@ -1,0 +1,15 @@
+{
+  "_comment": "Reviewed example for manual wiring; APM does not deploy it. Put the folder that holds the installed gcp-estate-discovery skill (for example the Copilot skills folder) in place of <SKILLS_HOME>, and check the preToolUse payload fields and how your Copilot version treats exit code 2 before relying on it.",
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "python3 <SKILLS_HOME>/gcp-estate-discovery/scripts/command_guard.py hook",
+        "powershell": "python <SKILLS_HOME>/gcp-estate-discovery/scripts/command_guard.py hook",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}

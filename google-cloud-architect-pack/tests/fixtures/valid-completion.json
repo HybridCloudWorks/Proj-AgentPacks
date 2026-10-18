@@ -1,0 +1,58 @@
+{
+  "status": "DESIGN_READY_FOR_REVIEW",
+  "outcome": "Synthetic fixture: a three-tier serverless design and its Terraform skeleton are prepared for the decision owner's review.",
+  "acceptance_criteria": [
+    {
+      "id": "AC-1 every requirement traced",
+      "status": "passed",
+      "evidence": "Fixture only: traceability matrix lists each requirement ID with a design element."
+    },
+    {
+      "id": "AC-2 ingress blocked around the load balancer",
+      "status": "unverified",
+      "evidence": "Runtime check written for the user; not run because nothing is deployed."
+    }
+  ],
+  "deliverables": [
+    "solution-guide.md",
+    "adr-001-region.md",
+    "infra/main.tf"
+  ],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "title": "Primary region",
+      "status": "Proposed"
+    }
+  ],
+  "assumptions": [
+    "Traffic estimate supplied by the user; not measured."
+  ],
+  "security_posture": "Internal-only backends, load balancer-only frontend ingress, per-service identities.",
+  "reliability_posture": "Regional deployment; composite availability computed from published SLAs.",
+  "cost_estimate": "Range from the pricing calculator with stated traffic assumptions; low confidence.",
+  "sustainability_impact": "Services scale to zero outside business hours.",
+  "operational_impact": "Burn-rate alerts and runbooks proposed.",
+  "performance_impact": "Concurrency and maximum instances set from the user's peak estimate.",
+  "compliance_and_residency": "All resources in one EU region; TLS terminates in-region.",
+  "cloud_changes": [],
+  "checks": [
+    {
+      "command": "terraform validate",
+      "target": "local workspace (no backend)",
+      "exit_code": 0,
+      "status": "passed",
+      "evidence": "Illustrative fixture; not presented as a real command result."
+    }
+  ],
+  "unverified": [
+    "Runtime ingress and WAF behaviour."
+  ],
+  "remaining_risks": [
+    "Peak traffic is an estimate."
+  ],
+  "rollback": "Nothing deployed; discard the branch.",
+  "followups": [
+    "Decision owner reviews ADR-001."
+  ]
+}

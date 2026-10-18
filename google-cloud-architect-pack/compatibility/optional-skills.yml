@@ -1,0 +1,10 @@
+{
+  "selection": "Load only the skills the task needs. All seventeen are shipped; none is preloaded into an agent.",
+  "standalone": "Every skill carries its own approval guardrail for use without the contract instruction, and its helper scripts live inside its own folder.",
+  "optional_specialists": [
+    "gcp-security-reviewer",
+    "gcp-estate-inspector"
+  ],
+  "external_tools": "No MCP server, cloud credential, Terraform binary or paid model is installed or configured by the pack. gcloud, bq, kubectl and Terraform are used only if already installed and authorized by the user.",
+  "documentation_mcp": "A documentation-search MCP server (for example Google's Developer Knowledge server) is used only when the client already has it connected; skills fall back to official documentation URLs."
+}

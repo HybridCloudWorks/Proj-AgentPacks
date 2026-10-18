@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "gcp-ai-agent-architecture": {
+      "description": "Design generative AI and agent systems on Google Cloud - single or multi-agent patterns, model choice and endpoints on Gemini Enterprise Agent Platform, agent runtimes, memory and sessions, retrieval with RAG Engine, vector databases or search, tools and MCP servers, Model Armor and agent gateways, evaluation, quotas and monitoring. Use when designing, reviewing or productionizing an AI agent, RAG application, model-serving platform or AI-enabled workflow on Google Cloud.",
+      "activation": "Use when designing, reviewing or productionizing an AI agent, RAG application, model-serving platform or AI-enabled workflow on Google Cloud.",
+      "source": ".apm/skills/gcp-ai-agent-architecture/SKILL.md"
+    },
+    "gcp-architecture-decisions": {
+      "description": "Select Google Cloud services for each component with decision guides for compute, databases, storage, messaging, orchestration, load balancing, connectivity and private access, and record significant choices as decision records. Use when comparing Google Cloud options, mapping components to products, or documenting a Day-0 or hard-to-reverse architecture decision.",
+      "activation": "Use when comparing Google Cloud options, mapping components to products, or documenting a Day-0 or hard-to-reverse architecture decision.",
+      "source": ".apm/skills/gcp-architecture-decisions/SKILL.md"
+    },
+    "gcp-cost-sustainability": {
+      "description": "Estimate, attribute and optimize Google Cloud cost and carbon - cost drivers per architecture, labels and billing export, budgets and alerts, rightsizing and autoscaling, pricing models such as committed use discounts and Spot VMs, storage lifecycle, network egress, low-carbon regions and Carbon Footprint data. Use when estimating the cost of a design, reviewing spend, planning savings or adding sustainability goals to a Google Cloud workload.",
+      "activation": "Use when estimating the cost of a design, reviewing spend, planning savings or adding sustainability goals to a Google Cloud workload.",
+      "source": ".apm/skills/gcp-cost-sustainability/SKILL.md"
+    },
+    "gcp-data-analytics": {
+      "description": "Design Google Cloud data and analytics platforms - ingestion and streaming, batch and stream processing, BigQuery warehouse and lakehouse with Apache Iceberg, Spark, governance with Knowledge Catalog, lineage and impact analysis, fine-grained access, data products and in-database AI. Use when designing or reviewing a warehouse, lakehouse, data mesh, streaming pipeline, cross-cloud analytics or data governance on Google Cloud.",
+      "activation": "Use when designing or reviewing a warehouse, lakehouse, data mesh, streaming pipeline, cross-cloud analytics or data governance on Google Cloud.",
+      "source": ".apm/skills/gcp-data-analytics/SKILL.md"
+    },
+    "gcp-estate-discovery": {
+      "description": "Gather evidence from a live Google Cloud organization, folder or project safely with gcloud, bq, gcloud storage and kubectl - validated command syntax, explicit scope, data reduction, a read-only identity, Cloud Asset Inventory searches and a command classifier that assigns each command an approval level before it runs. Use when an inventory, current-state assessment, review or diagnosis needs facts from a real Google Cloud environment.",
+      "activation": "Use when an inventory, current-state assessment, review or diagnosis needs facts from a real Google Cloud environment.",
+      "source": ".apm/skills/gcp-estate-discovery/SKILL.md"
+    },
+    "gcp-gke-platform": {
+      "description": "Design and review GKE platforms - Autopilot versus Standard, production golden-path defaults, Day-0 networking and identity choices, multi-tenancy, ComputeClasses, workload and cluster scaling, reliability settings, storage, Backup for GKE, upgrades and maintenance, observability and cost. Use when creating, auditing, upgrading or onboarding workloads to Google Kubernetes Engine clusters, or when choosing GKE for AI inference, batch or HPC.",
+      "activation": "Use when creating, auditing, upgrading or onboarding workloads to Google Kubernetes Engine clusters, or when choosing GKE for AI inference, batch or HPC.",
+      "source": ".apm/skills/gcp-gke-platform/SKILL.md"
+    },
+    "gcp-iac-validation": {
+      "description": "Structure, review and validate Google Cloud infrastructure code in Terraform or OpenTofu - module and state layout, provider pinning, Google-specific review rules for IAM, exposure, encryption and deletion, static checks, policy validation, plan-only validation with a risk summary, drift detection and CI design. Use when writing, reviewing or checking Google Cloud Terraform, reading a plan before apply, or designing an infrastructure pipeline.",
+      "activation": "Use when writing, reviewing or checking Google Cloud Terraform, reading a plan before apply, or designing an infrastructure pipeline.",
+      "source": ".apm/skills/gcp-iac-validation/SKILL.md"
+    },
+    "gcp-identity-access": {
+      "description": "Design Google Cloud identity and access - workforce onboarding and federation, group-based IAM, least-privilege role design, conditions, deny policies, just-in-time elevation, workload identity without keys, and end-user access with IAP or Identity Platform. Use when deciding how people, pipelines, workloads or agents authenticate to Google Cloud and what they may do.",
+      "activation": "Use when deciding how people, pipelines, workloads or agents authenticate to Google Cloud and what they may do.",
+      "source": ".apm/skills/gcp-identity-access/SKILL.md"
+    },
+    "gcp-landing-zone": {
+      "description": "Design a Google Cloud landing zone - organization and account planning, folder and project hierarchy, organization policy baseline, billing, centralized logging and monitoring, administrative groups and foundation IaC staging. Use when setting up or reviewing an organization foundation, adding environments or business units, or preparing an enterprise for workload onboarding.",
+      "activation": "Use when setting up or reviewing an organization foundation, adding environments or business units, or preparing an enterprise for workload onboarding.",
+      "source": ".apm/skills/gcp-landing-zone/SKILL.md"
+    },
+    "gcp-migration-planning": {
+      "description": "Plan migrations to Google Cloud from on-premises, other clouds or other Google Cloud regions - assessment and discovery, migration approach per workload, service mapping, foundation readiness, wave planning, data and database migration, cutover and rollback, and post-migration optimization. Use when a user needs a migration strategy, wave plan, data transfer plan or cutover plan for moving workloads to or within Google Cloud.",
+      "activation": "Use when a user needs a migration strategy, wave plan, data transfer plan or cutover plan for moving workloads to or within Google Cloud.",
+      "source": ".apm/skills/gcp-migration-planning/SKILL.md"
+    },
+    "gcp-network-design": {
+      "description": "Design Google Cloud networks - VPC topology and Shared VPC, IP planning for VMs, GKE and Cloud Run, private access to Google and producer services, hybrid and cross-cloud connectivity, DNS, load balancing and edge security, egress control, and read-only path diagnosis. Use when planning or reviewing VPCs, subnets, connectivity, load balancers, firewall models or a network path problem on Google Cloud.",
+      "activation": "Use when planning or reviewing VPCs, subnets, connectivity, load balancers, firewall models or a network path problem on Google Cloud.",
+      "source": ".apm/skills/gcp-network-design/SKILL.md"
+    },
+    "gcp-observability-operations": {
+      "description": "Design Google Cloud observability and operations - log routing and retention, metrics scopes, SLO-based and burn-rate alerting, metric selection, Logging Query Language queries, tracing and profiling with OpenTelemetry, operational readiness, incident and change management, and continuous best-practice evaluation. Use when planning monitoring, alerting, logging, dashboards, runbooks, release processes or production readiness for a Google Cloud workload.",
+      "activation": "Use when planning monitoring, alerting, logging, dashboards, runbooks, release processes or production readiness for a Google Cloud workload.",
+      "source": ".apm/skills/gcp-observability-operations/SKILL.md"
+    },
+    "gcp-reliability-dr": {
+      "description": "Design Google Cloud reliability and disaster recovery - user-centred SLOs and error budgets, composite availability, redundancy across zones and regions, graceful degradation, backup and restore, DR patterns matched to RTO and RPO, and recovery testing. Use when setting availability targets, choosing redundancy or a DR pattern, planning backups, or checking a design against RTO and RPO.",
+      "activation": "Use when setting availability targets, choosing redundancy or a DR pattern, planning backups, or checking a design against RTO and RPO.",
+      "source": ".apm/skills/gcp-reliability-dr/SKILL.md"
+    },
+    "gcp-security-controls": {
+      "description": "Design and assess Google Cloud security controls - security by design, zero trust access, VPC Service Controls perimeters, encryption and key management, secrets, sensitive data protection, threat detection, software supply chain, compliance and residency, and AI workload safety. Use when a design, review or change touches data protection, exposure, perimeters, detection, compliance obligations or deployment provenance.",
+      "activation": "Use when a design, review or change touches data protection, exposure, perimeters, detection, compliance obligations or deployment provenance.",
+      "source": ".apm/skills/gcp-security-controls/SKILL.md"
+    },
+    "gcp-serverless-apps": {
+      "description": "Design serverless application architectures on Google Cloud - Cloud Run services, jobs and worker pools, Cloud Run functions, Firebase App Hosting, event-driven flows with Pub/Sub and Eventarc, private multi-tier designs with load balancer-only ingress and internal-only backends, Direct VPC egress, service identity, IAP, database connectivity and scaling. Use when a web app, API, event handler or background job should run on serverless compute or when reviewing an existing Cloud Run design.",
+      "activation": "Use when a web app, API, event handler or background job should run on serverless compute or when reviewing an existing Cloud Run design.",
+      "source": ".apm/skills/gcp-serverless-apps/SKILL.md"
+    },
+    "gcp-solution-architecture": {
+      "description": "End-to-end Google Cloud solution design workflow, from requirements discovery and technical decomposition through product mapping, diagram, per-pillar recommendations, deployment guidance and a validation plan. Use when a user needs a complete multi-product Google Cloud architecture for a workload or use case rather than a single product answer.",
+      "activation": "Use when a user needs a complete multi-product Google Cloud architecture for a workload or use case rather than a single product answer.",
+      "source": ".apm/skills/gcp-solution-architecture/SKILL.md"
+    },
+    "gcp-well-architected-review": {
+      "description": "Review a Google Cloud design, estate or infrastructure change against the six pillars of the Google Cloud Well-Architected Framework - security, reliability, operational excellence, cost, performance and sustainability - with evidence-based findings, severities and a remediation roadmap. Use when asked to assess, audit, review or score an architecture, a production readiness gate, or an existing Google Cloud environment.",
+      "activation": "Use when asked to assess, audit, review or score an architecture, a production readiness gate, or an existing Google Cloud environment.",
+      "source": ".apm/skills/gcp-well-architected-review/SKILL.md"
+    }
+  }
+}

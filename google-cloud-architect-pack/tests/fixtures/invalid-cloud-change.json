@@ -1,0 +1,27 @@
+{
+  "status": "ANALYSIS_ONLY",
+  "outcome": "Synthetic fixture: reports a live change that carries no recorded approval.",
+  "acceptance_criteria": [],
+  "deliverables": [],
+  "decisions": [],
+  "assumptions": [],
+  "security_posture": "Not applicable to this synthetic fixture.",
+  "reliability_posture": "Not applicable to this synthetic fixture.",
+  "cost_estimate": "Not applicable to this synthetic fixture.",
+  "sustainability_impact": "Not applicable to this synthetic fixture.",
+  "operational_impact": "Not applicable to this synthetic fixture.",
+  "performance_impact": "Not applicable to this synthetic fixture.",
+  "compliance_and_residency": "Not applicable to this synthetic fixture.",
+  "cloud_changes": [
+    {
+      "target": "projects/synthetic-project",
+      "action": "gcloud services enable compute.googleapis.com",
+      "approval": ""
+    }
+  ],
+  "checks": [],
+  "unverified": [],
+  "remaining_risks": [],
+  "rollback": "Not applicable to this synthetic fixture.",
+  "followups": []
+}
