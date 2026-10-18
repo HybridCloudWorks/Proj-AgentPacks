@@ -32,4 +32,4 @@ Destructive shared migration without approval, missing backup evidence, pool lea
 
 ## Workflow connection
 
-Within the complete pack, the optional `design-change.prompt.md` recipe connects this Skill to the primary workflow. This Skill is self-contained when installed individually; no external prompt or specialist is required. With the full pack installed, the `python-engineering-contract` instruction supplies the approval, handoff and completion rules.
+Within the complete pack, the optional `design-python-change.prompt.md` recipe connects this Skill to the primary workflow. This Skill is self-contained when installed individually; no external prompt or specialist is required. With the full pack installed, the `python-engineering-contract` instruction supplies the approval, handoff and completion rules.

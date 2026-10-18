@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Pack: azure-cloud-architect 1.3.0
+Pack: azure-cloud-architect 1.4.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
@@ -105,27 +105,27 @@ Checks: 150  Passed: 149  Failed: 0  Skipped: 1
 | structural | skill drawio-render-export-and-review: SKILL.md with name equal to folder | pass |  |
 | structural | skill drawio-render-export-and-review: description within 1024 characters | pass |  |
 | structural | instruction azure-cloud-architect-contract.instructions.md: description and applyTo | pass |  |
-| structural | prompt create-architecture-diagram.prompt.md: description | pass |  |
+| structural | prompt create-azure-architecture-diagram.prompt.md: description | pass |  |
+| structural | prompt design-azure-hybrid-network.prompt.md: description | pass |  |
+| structural | prompt design-azure-landing-zone.prompt.md: description | pass |  |
 | structural | prompt design-azure-workload.prompt.md: description | pass |  |
-| structural | prompt design-hybrid-network.prompt.md: description | pass |  |
-| structural | prompt design-landing-zone.prompt.md: description | pass |  |
 | structural | prompt estimate-azure-cost.prompt.md: description | pass |  |
-| structural | prompt plan-migration-and-dr.prompt.md: description | pass |  |
+| structural | prompt plan-azure-migration-and-dr.prompt.md: description | pass |  |
+| structural | prompt review-azure-well-architected.prompt.md: description | pass |  |
 | structural | prompt review-iac-and-deployment-plan.prompt.md: description | pass |  |
-| structural | prompt review-well-architected.prompt.md: description | pass |  |
 | structural | prompt troubleshoot-azure-issue.prompt.md: description | pass |  |
 | structural | prompt verify-azure-evidence.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/azure-cloud-architect.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/azure-cloud-architect-contract.instructions.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/create-architecture-diagram.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/create-azure-architecture-diagram.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-azure-hybrid-network.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-azure-landing-zone.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-azure-workload.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/design-hybrid-network.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/design-landing-zone.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/estimate-azure-cost.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/plan-migration-and-dr.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/plan-azure-migration-and-dr.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-azure-well-architected.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-iac-and-deployment-plan.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/review-well-architected.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/troubleshoot-azure-issue.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/verify-azure-evidence.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/azure-architecture-foundations/SKILL.md: references only installed things | pass |  |

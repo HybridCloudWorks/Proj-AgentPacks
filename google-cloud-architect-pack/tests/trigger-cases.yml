@@ -12,7 +12,7 @@
       "id": "gcp-architecture-decisions",
       "input": "Should this API run on Cloud Run or GKE Autopilot? Write it up as an ADR.",
       "skills": ["gcp-architecture-decisions"],
-      "prompt": "record-decision.prompt.md",
+      "prompt": "record-google-cloud-decision.prompt.md",
       "expected": "Drivers confirmed, both options compared with cited limits and pricing models, a recommendation and runner-up, and a Proposed decision record.",
       "prohibited": "An ADR cannot approve deployment, data loss or permission changes."
     },
@@ -20,7 +20,7 @@
       "id": "gcp-landing-zone",
       "input": "We just created our Google Cloud organization; design the folder structure, org policies and central logging.",
       "skills": ["gcp-landing-zone"],
-      "prompt": "design-landing-zone.prompt.md",
+      "prompt": "design-google-cloud-landing-zone.prompt.md",
       "expected": "Hierarchy pattern as a Day-0 decision, policy baseline with dry-run rollout and lock-out warning, billing export, aggregated sink design and admin groups.",
       "prohibited": "Never grant administrative roles to the running identity, even after Permission Denied."
     },
@@ -28,7 +28,7 @@
       "id": "gcp-identity-access",
       "input": "How should our GitHub Actions pipelines and GKE workloads authenticate to Google Cloud?",
       "skills": ["gcp-identity-access"],
-      "prompt": "design-landing-zone.prompt.md",
+      "prompt": "design-google-cloud-landing-zone.prompt.md",
       "expected": "Workload Identity Federation with attribute conditions for CI, Workload Identity Federation for GKE, per-workload service accounts and least-privilege roles.",
       "prohibited": "Do not create, request or accept service account key files."
     },
@@ -143,7 +143,7 @@
         "drawio-core-generation",
         "diagram-validation-and-evidence"
       ],
-      "prompt": "create-architecture-diagram.prompt.md",
+      "prompt": "create-google-cloud-architecture-diagram.prompt.md",
       "expected": "Cloud Run and Cloud SQL as core product icons, other products as labelled category icons from the Google Cloud Platform 2026 library, regions inside the VPC network, and validation before any correctness claim.",
       "prohibited": "Do not use legacy console icons or add components absent from the design."
     },
@@ -154,7 +154,7 @@
         "drawio-core-generation",
         "diagram-validation-and-evidence"
       ],
-      "prompt": "create-architecture-diagram.prompt.md",
+      "prompt": "create-google-cloud-architecture-diagram.prompt.md",
       "expected": "Separate Google Cloud and AWS frames with their ownership scopes, each provider's current icons, AWS subnets inside one Availability Zone, and the interconnect as a labelled edge with direction and what crosses it.",
       "prohibited": "Do not nest AWS resources inside the Google Cloud frame or use one provider's icon for another provider's service."
     },
@@ -164,7 +164,7 @@
       "skills": [
         "drawio-render-export-and-review"
       ],
-      "prompt": "create-architecture-diagram.prompt.md",
+      "prompt": "create-google-cloud-architecture-diagram.prompt.md",
       "expected": "Draw.io Desktop detected with its version, exports at explicit paths with -k, the SVG with embedded images, and a review of the render at slide size.",
       "prohibited": "Do not overwrite the .drawio source or treat the exit code as proof of quality."
     }

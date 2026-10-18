@@ -1,4 +1,4 @@
-# google-cloud-architect 1.1.0: artifact catalog
+# google-cloud-architect 1.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -10,14 +10,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | gcp-cli-scripts.instructions.md | Canonical instruction: Safety rules for scripts and runbooks that call gcloud, bq, gcloud storage, gsutil or kubectl: explicit scope, validated syntax, previews and no hidden mutations. | .apm/instructions/gcp-cli-scripts.instructions.md |
 | gcp-terraform.instructions.md | Canonical instruction: Guardrails for Google Cloud Terraform and OpenTofu: identity, exposure, encryption, labels, deletion protection, provider pinning and plan-only validation. | .apm/instructions/gcp-terraform.instructions.md |
 | google-cloud-architect-contract.instructions.md | Canonical instruction: Approval levels, specialist handoff rules and the completion report format for the Google Cloud Architect pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/google-cloud-architect-contract.instructions.md |
-| create-architecture-diagram.prompt.md | Canonical prompt: Turn an approved Google Cloud architecture into an editable Draw.io diagram with current Google Cloud icons, validate it structurally, semantically and visually, and report what was proven | .apm/prompts/create-architecture-diagram.prompt.md |
-| design-landing-zone.prompt.md | Canonical prompt: Design a Google Cloud landing zone and identity foundation | .apm/prompts/design-landing-zone.prompt.md |
+| create-google-cloud-architecture-diagram.prompt.md | Canonical prompt: Turn an approved Google Cloud architecture into an editable Draw.io diagram with current Google Cloud icons, validate it structurally, semantically and visually, and report what was proven | .apm/prompts/create-google-cloud-architecture-diagram.prompt.md |
+| design-google-cloud-landing-zone.prompt.md | Canonical prompt: Design a Google Cloud landing zone and identity foundation | .apm/prompts/design-google-cloud-landing-zone.prompt.md |
 | design-network.prompt.md | Canonical prompt: Design Google Cloud VPC, hybrid connectivity and load balancing | .apm/prompts/design-network.prompt.md |
 | design-solution.prompt.md | Canonical prompt: Design a Google Cloud solution from requirements | .apm/prompts/design-solution.prompt.md |
 | optimize-cost.prompt.md | Canonical prompt: Find and plan Google Cloud cost and sustainability improvements | .apm/prompts/optimize-cost.prompt.md |
 | plan-migration.prompt.md | Canonical prompt: Plan a migration to Google Cloud | .apm/prompts/plan-migration.prompt.md |
 | plan-resilience.prompt.md | Canonical prompt: Plan reliability, observability and disaster recovery for a Google Cloud workload | .apm/prompts/plan-resilience.prompt.md |
-| record-decision.prompt.md | Canonical prompt: Choose between Google Cloud options and record the decision | .apm/prompts/record-decision.prompt.md |
+| record-google-cloud-decision.prompt.md | Canonical prompt: Choose between Google Cloud options and record the decision | .apm/prompts/record-google-cloud-decision.prompt.md |
 | review-architecture.prompt.md | Canonical prompt: Review a Google Cloud design or estate against the Well-Architected Framework | .apm/prompts/review-architecture.prompt.md |
 | validate-iac.prompt.md | Canonical prompt: Validate Google Cloud infrastructure code with static checks and a plan | .apm/prompts/validate-iac.prompt.md |
 | provider-checks.md | Canonical skill | .apm/skills/diagram-validation-and-evidence/references/provider-checks.md |

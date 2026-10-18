@@ -59,3 +59,13 @@ The reference material contains instructions written for AI agents. They were tr
 33. The skills cover AWS, Azure and Google Cloud alone or in one diagram. Google Cloud uses draw.io's "Google Cloud Platform 2026" library, which follows Google's 2025 icon system of core product icons and category icons; Google says the legacy console icons should not be used as of 2026.
 34. Boundary rules follow each provider's documented scope: a Google Cloud VPC network is global and its subnets regional, an Azure VNet is regional and its subnets span zones, and an AWS subnet sits in one Availability Zone.
 35. diagram-validation-and-evidence carries a standard-library checker and an icon catalog generated from draw.io 32.5.5 source, so icon names are checked against what draw.io actually offers instead of the model's memory. The new create-architecture-diagram prompt runs the three skills in order.
+
+## Prompt names qualified (1.2.0, 2026-10-18)
+
+Several packs shipped prompts under the same name with different content, so installing two of them into the user profile silently replaced one pack's slash command with the other's. This pack's prompts now carry the language or provider inside the name; the qualifier is never a prefix. Slash commands change accordingly.
+
+| Old name | New name |
+|---|---|
+| `create-architecture-diagram` | `create-google-cloud-architecture-diagram` |
+| `design-landing-zone` | `design-google-cloud-landing-zone` |
+| `record-decision` | `record-google-cloud-decision` |

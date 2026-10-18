@@ -59,10 +59,10 @@ jobs:
       - run: python -m pip install --disable-pip-version-check -q "PyYAML>=6,<7"
       - run: python tooling/ci_install_apm.py
       - run: python -m unittest discover -s tooling/tests -v
-      - name: shared skills are identical in every pack that ships them
+      - name: shared primitives are identical in every pack that ships them
         run: python tooling/sync_shared.py --check
-      - name: agents and skills shipped by more than one pack
-        run: python tooling/check_collisions.py --github
+      - name: no install collisions (agents, skills, instructions, prompts)
+        run: python tooling/check_collisions.py --github --strict
 
   pack:
     needs: plan

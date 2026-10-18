@@ -15,15 +15,15 @@ Portable Agent/Skill package for the full Azure cloud-architecture lifecycle. Th
 | Prompt | Use it to |
 |---|---|
 | design-azure-workload.prompt.md | Design a workload and produce the REQ, TOPOLOGY, CONSTRAINTS and ADR handoff |
-| design-landing-zone.prompt.md | Design or audit platform and application landing zones |
-| design-hybrid-network.prompt.md | Design hub-spoke or Virtual WAN, hybrid connectivity, Private Link and DNS |
-| plan-migration-and-dr.prompt.md | Plan migration waves, DR tiers, cutover, rollback and rehearsal |
+| design-azure-landing-zone.prompt.md | Design or audit platform and application landing zones |
+| design-azure-hybrid-network.prompt.md | Design hub-spoke or Virtual WAN, hybrid connectivity, Private Link and DNS |
+| plan-azure-migration-and-dr.prompt.md | Plan migration waves, DR tiers, cutover, rollback and rehearsal |
 | review-iac-and-deployment-plan.prompt.md | Review Bicep, ARM or Terraform/AVM changes and their what-if or plan |
-| review-well-architected.prompt.md | Run a five-pillar and CAF review that returns prioritized gaps |
+| review-azure-well-architected.prompt.md | Run a five-pillar and CAF review that returns prioritized gaps |
 | estimate-azure-cost.prompt.md | Build an assumption-based cost model with budgets and FinOps controls |
 | verify-azure-evidence.prompt.md | Check drift-prone facts against Microsoft Learn and authorized Azure MCP |
 | troubleshoot-azure-issue.prompt.md | Diagnose a deployment, access, network or runtime failure from evidence |
-| create-architecture-diagram.prompt.md | Produce an editable Draw.io diagram from an approved topology |
+| create-azure-architecture-diagram.prompt.md | Produce an editable Draw.io diagram from an approved topology |
 
 Prompts appear as Copilot prompt files and Claude Code commands. The `agent` field is honoured by Copilot and dropped by Claude. Where a host has no prompts, invoke `azure-cloud-architect` directly. Details are in `docs/PROMPT_INVENTORY.md`.
 

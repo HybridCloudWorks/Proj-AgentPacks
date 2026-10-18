@@ -1,6 +1,6 @@
 # Google Cloud Architect agent pack
 
-Version 1.1.0. Built to agent-pack-prompt version 2.3. One user-facing primary agent, two optional specialists, twenty skills, three instruction files and ten prompts for Google Cloud solution and platform architecture.
+Version 1.2.0. Built to agent-pack-prompt version 2.3. One user-facing primary agent, two optional specialists, twenty skills, three instruction files and ten prompts for Google Cloud solution and platform architecture.
 
 Three of the skills, drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence, are shared: the AWS and Azure architect and designer packs ship identical copies, so installing several of these packs leaves one consistent version. They draw Google Cloud, AWS and Azure diagrams, alone or together, with each provider's current icons.
 

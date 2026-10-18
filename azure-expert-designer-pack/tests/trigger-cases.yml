@@ -27,7 +27,7 @@ cases:
     expected_behavior: read-only; no edit to the diagram without approval
   - id: xml-repair
     prompt: This compressed .drawio file has duplicate IDs and broken edges; repair it.
-    prompt_file: repair-drawio-xml.prompt.md
+    prompt_file: repair-azure-drawio-xml.prompt.md
     expected_skills: [drawio-xml-authoring, diagram-validation-and-evidence]
     expected_behavior: ask before overwriting; otherwise write a repaired copy
   - id: layout-reflow

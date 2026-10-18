@@ -18,15 +18,15 @@ There is one prompt per primary workflow in `.apm/prompts/`. Each targets the `a
 | Prompt | Use it to |
 |---|---|
 | `design-aws-workload.prompt.md` | Design a production workload and hand it off |
-| `design-landing-zone.prompt.md` | Design multi-account foundations with Control Tower |
-| `design-hybrid-network.prompt.md` | Choose and design VPC, hybrid and edge connectivity |
-| `plan-migration-and-dr.prompt.md` | Plan migration waves, cutover, rollback and DR from RTO and RPO |
+| `design-aws-landing-zone.prompt.md` | Design multi-account foundations with Control Tower |
+| `design-aws-hybrid-network.prompt.md` | Choose and design VPC, hybrid and edge connectivity |
+| `plan-aws-migration-and-dr.prompt.md` | Plan migration waves, cutover, rollback and DR from RTO and RPO |
 | `review-deployment-plan.prompt.md` | Review a CloudFormation, CDK or Terraform change before it is applied |
-| `review-well-architected.prompt.md` | Run a six-pillar review, with CAF perspectives if needed |
+| `review-aws-well-architected.prompt.md` | Run a six-pillar review, with CAF perspectives if needed |
 | `review-aws-cost.prompt.md` | Find cost drivers and recommend measured optimizations |
 | `troubleshoot-aws-incident.prompt.md` | Investigate a production incident with read-only access |
 | `verify-aws-evidence.prompt.md` | Verify quotas, Region availability, pricing or behavior and record the evidence |
-| `create-architecture-diagram.prompt.md` | Draw an approved design in Draw.io and validate it |
+| `create-aws-architecture-diagram.prompt.md` | Draw an approved design in Draw.io and validate it |
 
 `docs/PROMPT_INVENTORY.md` lists the skills each prompt applies and how APM installs prompts on each host.
 

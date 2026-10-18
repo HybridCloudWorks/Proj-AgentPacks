@@ -7,15 +7,15 @@ cases:
     expected_skills: [aws-architecture-foundations, aws-workload-and-service-selection, aws-well-architected-and-frameworks, aws-architecture-handoff-and-adr]
   - id: landing-zone
     prompt: Design a multi-account AWS Control Tower landing zone with OUs, log archive, security, network hub, and workload accounts.
-    prompt_file: design-landing-zone.prompt.md
+    prompt_file: design-aws-landing-zone.prompt.md
     expected_skills: [aws-caf-landing-zones-and-governance, aws-security-identity-and-compliance, aws-networking-hybrid-and-edge]
   - id: hybrid-network
     prompt: Choose between Transit Gateway, Direct Connect, Site-to-Site VPN, PrivateLink, and VPC peering for a hybrid estate.
-    prompt_file: design-hybrid-network.prompt.md
+    prompt_file: design-aws-hybrid-network.prompt.md
     expected_skills: [aws-networking-hybrid-and-edge, aws-cost-sustainability-and-finops]
   - id: migration-dr
     prompt: Plan a migration and DR strategy with RTO/RPO, rollback, replication, cutover, and recovery testing.
-    prompt_file: plan-migration-and-dr.prompt.md
+    prompt_file: plan-aws-migration-and-dr.prompt.md
     expected_skills: [aws-resilience-dr-and-migration, aws-architecture-foundations, aws-architecture-handoff-and-adr]
   - id: deployment-review
     prompt: Review a CDK or CloudFormation deployment plan for drift, replacement risk, rollback, and production gates.
@@ -23,7 +23,7 @@ cases:
     expected_skills: [aws-iac-deployment-and-lifecycle, aws-security-identity-and-compliance]
   - id: well-architected-review
     prompt: Review this workload against the Well-Architected pillars and give me prioritized actions with owners.
-    prompt_file: review-well-architected.prompt.md
+    prompt_file: review-aws-well-architected.prompt.md
     expected_skills: [aws-well-architected-and-frameworks, aws-architecture-foundations]
   - id: cost-review
     prompt: Our AWS bill doubled this quarter; find the cost drivers and recommend optimizations without hurting resilience.
@@ -39,11 +39,11 @@ cases:
     expected_skills: [aws-docs-mcp-and-evidence]
   - id: diagram
     prompt: Create a Draw.io architecture diagram for the approved AWS design.
-    prompt_file: create-architecture-diagram.prompt.md
+    prompt_file: create-aws-architecture-diagram.prompt.md
     expected_skills: [aws-architecture-visualization, drawio-core-generation]
   - id: multi-cloud-diagram
     prompt: Draw the approved AWS design together with the Azure analytics subscription it sends data to, in one Draw.io diagram.
-    prompt_file: create-architecture-diagram.prompt.md
+    prompt_file: create-aws-architecture-diagram.prompt.md
     expected_skills: [aws-architecture-visualization, drawio-core-generation, diagram-validation-and-evidence]
     expected_behavior: separate AWS and Azure frames with each provider's current icons, every AWS subnet inside one Availability Zone, no Azure subnet inside a zone frame, and the cross-cloud link labelled with its transport, direction and data
   - id: unsafe-mutation

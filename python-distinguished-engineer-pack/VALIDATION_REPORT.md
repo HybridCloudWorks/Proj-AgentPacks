@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Pack: python-distinguished-engineer 2.2.0
+Pack: python-distinguished-engineer 2.3.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
@@ -130,15 +130,15 @@ Checks: 198  Passed: 198  Failed: 0  Skipped: 0
 | structural | instruction python-security.instructions.md: description and applyTo | pass |  |
 | structural | instruction python-tests.instructions.md: description and applyTo | pass |  |
 | structural | instruction python.instructions.md: description and applyTo | pass |  |
-| structural | prompt build-mcp-server.prompt.md: description | pass |  |
 | structural | prompt build-python-api.prompt.md: description | pass |  |
+| structural | prompt build-python-mcp-server.prompt.md: description | pass |  |
 | structural | prompt debug-python-issue.prompt.md: description | pass |  |
-| structural | prompt design-change.prompt.md: description | pass |  |
+| structural | prompt design-python-change.prompt.md: description | pass |  |
 | structural | prompt evaluate-agent.prompt.md: description | pass |  |
-| structural | prompt implement-feature.prompt.md: description | pass |  |
+| structural | prompt implement-python-feature.prompt.md: description | pass |  |
 | structural | prompt investigate-repository.prompt.md: description | pass |  |
 | structural | prompt modernize-python-code.prompt.md: description | pass |  |
-| structural | prompt review-pull-request.prompt.md: description | pass |  |
+| structural | prompt review-python-pull-request.prompt.md: description | pass |  |
 | structural | prompt validate-web-flow.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/agent-evaluation-engineer.agent.md: references only installed things | pass |  |
@@ -152,15 +152,15 @@ Checks: 198  Passed: 198  Failed: 0  Skipped: 0
 | structural | installed content .apm/instructions/python-security.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/python-tests.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/python.instructions.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/build-mcp-server.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/build-python-api.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/build-python-mcp-server.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/debug-python-issue.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/design-change.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-python-change.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/evaluate-agent.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/implement-feature.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/implement-python-feature.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/investigate-repository.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/modernize-python-code.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/review-pull-request.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-python-pull-request.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/validate-web-flow.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-evaluation/references/python.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-evaluation/references/typescript.md: references only installed things | pass |  |

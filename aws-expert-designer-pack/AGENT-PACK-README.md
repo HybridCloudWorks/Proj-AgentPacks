@@ -1,4 +1,4 @@
-# aws-expert-designer 1.3.0: artifact catalog
+# aws-expert-designer 1.4.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -11,7 +11,7 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | export-drawio-diagram.prompt.md | Canonical prompt: Export a Draw.io diagram to PNG, SVG, PDF or JPG and review the rendered output | .apm/prompts/export-drawio-diagram.prompt.md |
 | model-aws-architecture-pattern.prompt.md | Canonical prompt: Model a recognizable AWS architecture pattern honestly in Draw.io | .apm/prompts/model-aws-architecture-pattern.prompt.md |
 | reflow-aws-diagram-layout.prompt.md | Canonical prompt: Reflow an AWS diagram's layout, edge routing and readability | .apm/prompts/reflow-aws-diagram-layout.prompt.md |
-| repair-drawio-xml.prompt.md | Canonical prompt: Repair or normalize the Draw.io XML of an AWS diagram | .apm/prompts/repair-drawio-xml.prompt.md |
+| repair-aws-drawio-xml.prompt.md | Canonical prompt: Repair or normalize the Draw.io XML of an AWS diagram | .apm/prompts/repair-aws-drawio-xml.prompt.md |
 | review-aws-diagram.prompt.md | Canonical prompt: Review an existing AWS Draw.io diagram for structural, semantic and visual correctness | .apm/prompts/review-aws-diagram.prompt.md |
 | SKILL.md | Canonical skill: Translate AWS requirements and repository evidence into an architecture model, separating observed resources, inferred relationships, design choices, and unresolved questions. | .apm/skills/aws-architecture-design/SKILL.md |
 | SKILL.md | Canonical skill: Model common AWS patterns such as VPC networking, serverless, containers, event-driven systems, data platforms, hybrid connectivity, CI/CD, and multi-Region designs honestly. | .apm/skills/aws-architecture-patterns/SKILL.md |

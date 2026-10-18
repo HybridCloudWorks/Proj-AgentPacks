@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Pack: aws-expert-designer 1.3.0
+Pack: aws-expert-designer 1.4.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
@@ -90,7 +90,7 @@ Checks: 116  Passed: 115  Failed: 0  Skipped: 1
 | structural | prompt export-drawio-diagram.prompt.md: description | pass |  |
 | structural | prompt model-aws-architecture-pattern.prompt.md: description | pass |  |
 | structural | prompt reflow-aws-diagram-layout.prompt.md: description | pass |  |
-| structural | prompt repair-drawio-xml.prompt.md: description | pass |  |
+| structural | prompt repair-aws-drawio-xml.prompt.md: description | pass |  |
 | structural | prompt review-aws-diagram.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/aws-expert-designer.agent.md: references only installed things | pass |  |
@@ -100,7 +100,7 @@ Checks: 116  Passed: 115  Failed: 0  Skipped: 1
 | structural | installed content .apm/prompts/export-drawio-diagram.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/model-aws-architecture-pattern.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/reflow-aws-diagram-layout.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/repair-drawio-xml.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/repair-aws-drawio-xml.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-aws-diagram.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/aws-architecture-design/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/aws-architecture-patterns/SKILL.md: references only installed things | pass |  |

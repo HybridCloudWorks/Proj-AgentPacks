@@ -33,7 +33,7 @@ workflow_prompts:
   review-aws-diagram.prompt.md:
     capabilities: [structural_and_visual_evidence_separation, aws_account_region_az_vpc_subnet_semantics, official_aws4_icon_usage, common_aws_architecture_patterns]
     example: diagram-review-workflow.md
-  repair-drawio-xml.prompt.md:
+  repair-aws-drawio-xml.prompt.md:
     capabilities: [editable_uncompressed_drawio_xml, official_aws4_icon_usage]
     example: repair-reflow-export-workflow.md
   reflow-aws-diagram-layout.prompt.md:

@@ -1,4 +1,4 @@
-# azure-cloud-architect 1.3.0: artifact catalog
+# azure-cloud-architect 1.4.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -6,14 +6,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 |---|---|---|
 | azure-cloud-architect.agent.md | Canonical agent: Senior Azure Cloud Architect for foundations, landing zones, workload design, deployment, operations, migration, security, resilience, cost, AVM, and evidence-aware handoff. | .apm/agents/azure-cloud-architect.agent.md |
 | azure-cloud-architect-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the azure cloud architect pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/azure-cloud-architect-contract.instructions.md |
-| create-architecture-diagram.prompt.md | Canonical prompt: Produce an editable Draw.io diagram from an approved Azure TOPOLOGY and reconcile it against the handoff | .apm/prompts/create-architecture-diagram.prompt.md |
+| create-azure-architecture-diagram.prompt.md | Canonical prompt: Produce an editable Draw.io diagram from an approved Azure TOPOLOGY and reconcile it against the handoff | .apm/prompts/create-azure-architecture-diagram.prompt.md |
+| design-azure-hybrid-network.prompt.md | Canonical prompt: Design Azure hybrid and edge networking: hub-spoke or Virtual WAN, ExpressRoute or VPN, Private Link, DNS, ingress and egress | .apm/prompts/design-azure-hybrid-network.prompt.md |
+| design-azure-landing-zone.prompt.md | Canonical prompt: Design or audit Azure platform and application landing zones: management groups, subscriptions, policy, identity, network hub and governance | .apm/prompts/design-azure-landing-zone.prompt.md |
 | design-azure-workload.prompt.md | Canonical prompt: Design an Azure workload from business requirements and produce the REQ, TOPOLOGY, CONSTRAINTS and ADR handoff | .apm/prompts/design-azure-workload.prompt.md |
-| design-hybrid-network.prompt.md | Canonical prompt: Design Azure hybrid and edge networking: hub-spoke or Virtual WAN, ExpressRoute or VPN, Private Link, DNS, ingress and egress | .apm/prompts/design-hybrid-network.prompt.md |
-| design-landing-zone.prompt.md | Canonical prompt: Design or audit Azure platform and application landing zones: management groups, subscriptions, policy, identity, network hub and governance | .apm/prompts/design-landing-zone.prompt.md |
 | estimate-azure-cost.prompt.md | Canonical prompt: Build an assumption-based Azure cost model with drivers, budgets, FinOps controls and sustainability trade-offs | .apm/prompts/estimate-azure-cost.prompt.md |
-| plan-migration-and-dr.prompt.md | Canonical prompt: Plan an Azure migration and disaster recovery strategy with RTO/RPO tiers, cutover, rollback and recovery rehearsal | .apm/prompts/plan-migration-and-dr.prompt.md |
+| plan-azure-migration-and-dr.prompt.md | Canonical prompt: Plan an Azure migration and disaster recovery strategy with RTO/RPO tiers, cutover, rollback and recovery rehearsal | .apm/prompts/plan-azure-migration-and-dr.prompt.md |
+| review-azure-well-architected.prompt.md | Canonical prompt: Run an Azure Well-Architected five-pillar and CAF review of an architecture and return prioritized gaps | .apm/prompts/review-azure-well-architected.prompt.md |
 | review-iac-and-deployment-plan.prompt.md | Canonical prompt: Review Bicep, ARM or Terraform/AVM changes and their what-if or plan output for replacement risk, identity, state, drift and production gates | .apm/prompts/review-iac-and-deployment-plan.prompt.md |
-| review-well-architected.prompt.md | Canonical prompt: Run an Azure Well-Architected five-pillar and CAF review of an architecture and return prioritized gaps | .apm/prompts/review-well-architected.prompt.md |
 | troubleshoot-azure-issue.prompt.md | Canonical prompt: Diagnose an Azure deployment, access, network or runtime failure from evidence, separating confirmed cause from hypothesis | .apm/prompts/troubleshoot-azure-issue.prompt.md |
 | verify-azure-evidence.prompt.md | Canonical prompt: Verify drift-prone Azure facts against Microsoft Learn and authorized Azure MCP evidence before a design depends on them | .apm/prompts/verify-azure-evidence.prompt.md |
 | SKILL.md | Canonical skill: Establishes Azure architecture scope, requirements, boundaries, assumptions, service vocabulary, and a structured REQ/TOPOLOGY/CONSTRAINTS/ADR handoff before specialist design. | .apm/skills/azure-architecture-foundations/SKILL.md |

@@ -11,12 +11,14 @@ Exit 1 when any fact could not be confirmed.
 from __future__ import annotations
 
 import argparse
+import gzip
 import html
 import json
 import re
 import sys
 import urllib.error
 import urllib.request
+import zlib
 from pathlib import Path
 
 
@@ -31,10 +33,18 @@ def fetch(url: str) -> str:
     if not url.startswith("https://"):
         raise ValueError(f"only https URLs are fetched, not {url}")
     request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; agent-packs-facts/1.0)",  # noqa: S310
-                                                   "Accept": "text/html,text/markdown,text/plain;q=0.9,*/*;q=0.8"})
+                                                   "Accept": "text/html,text/markdown,text/plain;q=0.9,*/*;q=0.8",
+                                                   "Accept-Encoding": "gzip, deflate"})
     # Safe: only https URLs reach this point.
     with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310  # nosec B310
-        return response.read().decode(response.headers.get_content_charset() or "utf-8", errors="replace")
+        body = response.read()
+        # Some CDNs compress even when not asked; urllib never decompresses, so do it here.
+        encoding = (response.headers.get("Content-Encoding") or "").lower()
+        if encoding == "gzip" or body[:2] == b"\x1f\x8b":
+            body = gzip.decompress(body)
+        elif encoding == "deflate":
+            body = zlib.decompress(body)
+        return body.decode(response.headers.get_content_charset() or "utf-8", errors="replace")
 
 
 def main() -> int:

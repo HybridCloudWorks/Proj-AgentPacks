@@ -3,11 +3,11 @@
 | Prompt | Expected output |
 |---|---|
 | investigate-repository.prompt.md | Facts with paths, version/toolchain conflicts, interface map, unknowns and proposed validation commands. |
-| design-change.prompt.md | Design/ADR, interface/data impact, risk/approval classification, implementation/test plan and rollout/recovery. |
-| implement-feature.prompt.md | Scoped diff, criterion status, commands/results, compatibility/dependency/migration/operations impact and completion report. |
-| review-pull-request.prompt.md | Prioritized located findings with evidence/impact/remediation/blocking status; checks actually run and review limits. |
+| design-python-change.prompt.md | Design/ADR, interface/data impact, risk/approval classification, implementation/test plan and rollout/recovery. |
+| implement-python-feature.prompt.md | Scoped diff, criterion status, commands/results, compatibility/dependency/migration/operations impact and completion report. |
+| review-python-pull-request.prompt.md | Prioritized located findings with evidence/impact/remediation/blocking status; checks actually run and review limits. |
 | build-python-api.prompt.md | Versioned contract, runtime validation, typed implementation, auth/error/idempotency tests, telemetry and rollback. |
-| build-mcp-server.prompt.md | Tool schema/effects/authz/approval contract, implementation, protocol/negative tests, redaction, eval and rollback. |
+| build-python-mcp-server.prompt.md | Tool schema/effects/authz/approval contract, implementation, protocol/negative tests, redaction, eval and rollback. |
 | debug-python-issue.prompt.md | Evidence and root cause, minimal proposed fix or requested patch, regression checks, limits and recovery. |
 | modernize-python-code.prompt.md | Incremental compatible plan/patch, version and dependency migration impact, tests and reversal strategy. |
 | validate-web-flow.prompt.md | Shared with the TypeScript pack. Journey assertions in the existing suite's language, visible error and keyboard behavior, sanitized evidence, persistence checks and cleanup. |

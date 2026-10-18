@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Pack: google-cloud-architect 1.1.0
+Pack: google-cloud-architect 1.2.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
@@ -121,14 +121,14 @@ Checks: 183  Passed: 183  Failed: 0  Skipped: 0
 | structural | instruction gcp-cli-scripts.instructions.md: description and applyTo | pass |  |
 | structural | instruction gcp-terraform.instructions.md: description and applyTo | pass |  |
 | structural | instruction google-cloud-architect-contract.instructions.md: description and applyTo | pass |  |
-| structural | prompt create-architecture-diagram.prompt.md: description | pass |  |
-| structural | prompt design-landing-zone.prompt.md: description | pass |  |
+| structural | prompt create-google-cloud-architecture-diagram.prompt.md: description | pass |  |
+| structural | prompt design-google-cloud-landing-zone.prompt.md: description | pass |  |
 | structural | prompt design-network.prompt.md: description | pass |  |
 | structural | prompt design-solution.prompt.md: description | pass |  |
 | structural | prompt optimize-cost.prompt.md: description | pass |  |
 | structural | prompt plan-migration.prompt.md: description | pass |  |
 | structural | prompt plan-resilience.prompt.md: description | pass |  |
-| structural | prompt record-decision.prompt.md: description | pass |  |
+| structural | prompt record-google-cloud-decision.prompt.md: description | pass |  |
 | structural | prompt review-architecture.prompt.md: description | pass |  |
 | structural | prompt validate-iac.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
@@ -138,14 +138,14 @@ Checks: 183  Passed: 183  Failed: 0  Skipped: 0
 | structural | installed content .apm/instructions/gcp-cli-scripts.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/gcp-terraform.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/google-cloud-architect-contract.instructions.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/create-architecture-diagram.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/design-landing-zone.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/create-google-cloud-architecture-diagram.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-google-cloud-landing-zone.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-network.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-solution.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/optimize-cost.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/plan-migration.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/plan-resilience.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/record-decision.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/record-google-cloud-decision.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-architecture.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/validate-iac.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/diagram-validation-and-evidence/references/provider-checks.md: references only installed things | pass |  |

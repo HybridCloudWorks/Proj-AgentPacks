@@ -32,4 +32,4 @@ Unsupported syntax, missing third-party stubs, checker-version disagreement or t
 
 ## Workflow connection
 
-Within the complete pack, the optional `implement-feature.prompt.md` recipe connects this Skill to the primary workflow. This Skill is self-contained when installed individually; no external prompt or specialist is required. With the full pack installed, the `python-engineering-contract` instruction supplies the approval, handoff and completion rules.
+Within the complete pack, the optional `implement-python-feature.prompt.md` recipe connects this Skill to the primary workflow. This Skill is self-contained when installed individually; no external prompt or specialist is required. With the full pack installed, the `python-engineering-contract` instruction supplies the approval, handoff and completion rules.

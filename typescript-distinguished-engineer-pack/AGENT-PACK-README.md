@@ -1,4 +1,4 @@
-# typescript-distinguished-engineer 1.3.0: artifact catalog
+# typescript-distinguished-engineer 1.4.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -14,14 +14,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | tests.instructions.md | Canonical instruction: Choose the cheapest test layer that proves the behavior: unit, contract, integration, browser end-to-end, security, performance, or regression. Test invalid input, authorization, timeouts, retries, pa | .apm/instructions/tests.instructions.md |
 | typescript-distinguished-engineer-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the typescript distinguished engineer pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/typescript-distinguished-engineer-contract.instructions.md |
 | typescript.instructions.md | Canonical instruction: Prefer the repository's supported TypeScript or JavaScript runtime and module system. Use strict typing, explicit public contracts, runtime validation at untrusted boundaries, safe narrowing, clear er | .apm/instructions/typescript.instructions.md |
-| build-mcp-server.prompt.md | Canonical prompt: Build or Review an MCP Server | .apm/prompts/build-mcp-server.prompt.md |
+| build-typescript-mcp-server.prompt.md | Canonical prompt: Build or Review an MCP Server | .apm/prompts/build-typescript-mcp-server.prompt.md |
 | design-agentic-system.prompt.md | Canonical prompt: Design an Agentic System | .apm/prompts/design-agentic-system.prompt.md |
-| design-change.prompt.md | Canonical prompt: Design a Change | .apm/prompts/design-change.prompt.md |
+| design-typescript-change.prompt.md | Canonical prompt: Design a Change | .apm/prompts/design-typescript-change.prompt.md |
 | diagnose-failure.prompt.md | Canonical prompt: Diagnose a Failure | .apm/prompts/diagnose-failure.prompt.md |
 | evaluate-agent.prompt.md | Canonical prompt: Evaluate an agent workflow written in Python or TypeScript: scenarios, deterministic and judged checks, budgets, cost and a release recommendation | .apm/prompts/evaluate-agent.prompt.md |
-| implement-feature.prompt.md | Canonical prompt: Implement a Feature | .apm/prompts/implement-feature.prompt.md |
+| implement-typescript-feature.prompt.md | Canonical prompt: Implement a Feature | .apm/prompts/implement-typescript-feature.prompt.md |
 | release-readiness.prompt.md | Canonical prompt: Assess Release Readiness | .apm/prompts/release-readiness.prompt.md |
-| review-pull-request.prompt.md | Canonical prompt: Review a Pull Request | .apm/prompts/review-pull-request.prompt.md |
+| review-typescript-pull-request.prompt.md | Canonical prompt: Review a Pull Request | .apm/prompts/review-typescript-pull-request.prompt.md |
 | validate-web-flow.prompt.md | Canonical prompt: Validate a web journey with Playwright in Python or TypeScript, with accessible locators, web-first assertions, isolated authentication and replayable evidence | .apm/prompts/validate-web-flow.prompt.md |
 | python.md | Canonical skill | .apm/skills/agent-evaluation/references/python.md |
 | typescript.md | Canonical skill | .apm/skills/agent-evaluation/references/typescript.md |

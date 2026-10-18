@@ -1,6 +1,6 @@
 # Worked example: landing-zone audit and target design
 
-Synthetic scenario. The organization, counts and names are illustrative. Prompt: `design-landing-zone.prompt.md`.
+Synthetic scenario. The organization, counts and names are illustrative. Prompt: `design-azure-landing-zone.prompt.md`.
 
 ## Request
 
@@ -99,7 +99,7 @@ Designed, not executed. Every step changes governance and passes GATE-02 in `CON
 ## Completion report
 
 - Pack: azure-cloud-architect
-- Workflow: `design-landing-zone.prompt.md`
+- Workflow: `design-azure-landing-zone.prompt.md`
 - Outcome: audit findings and a target landing-zone design delivered; nothing in the tenant was changed; standing access, PIM usage and the HIPAA control mapping are not-verified.
 
 ### scope_and_inputs

@@ -90,4 +90,4 @@ Comparing and recording is Level 0 and Level 1 work. A decision record never aut
 
 ## Connection to the pack
 
-gcp-solution-architecture calls this skill for product mapping; the optional `record-decision.prompt.md` recipe runs it alone. Installed on its own, this skill still works and the guardrails above still apply. Installed with the pack, it follows the always-on `google-cloud-architect-contract` instruction for approval levels, handoffs and the completion report.
+gcp-solution-architecture calls this skill for product mapping; the optional `record-google-cloud-decision.prompt.md` recipe runs it alone. Installed on its own, this skill still works and the guardrails above still apply. Installed with the pack, it follows the always-on `google-cloud-architect-contract` instruction for approval levels, handoffs and the completion report.

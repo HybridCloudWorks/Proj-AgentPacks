@@ -161,7 +161,7 @@
       "output": "Focused patch or located review findings; compatibility decision, tests, cleanup behavior and interface impact.",
       "failure": "Unknown minimum interpreter, changed public contract, import side effects, resource leaks or unreproduced defect.",
       "exclude": "Do not use to redesign unrelated modules or replace repository style tools.",
-      "prompt": "implement-feature"
+      "prompt": "implement-python-feature"
     },
     {
       "name": "python-static-typing",
@@ -172,7 +172,7 @@
       "output": "Typed interface or targeted diagnostic fix, checker evidence, runtime-validation coverage and suppression ledger.",
       "failure": "Unsupported syntax, missing third-party stubs, checker-version disagreement or typing-only fix that leaves unsafe runtime input.",
       "exclude": "Avoid repository-wide strictness expansion during a narrow feature.",
-      "prompt": "implement-feature"
+      "prompt": "implement-python-feature"
     },
     {
       "name": "python-async-engineering",
@@ -216,7 +216,7 @@
       "output": "Pipeline/transform patch, schema/data-quality checks, lineage and recovery notes, memory/throughput evidence where measured.",
       "failure": "Schema drift, precision loss, cross-tenant mixing, unbounded memory, unknown data rights or non-recoverable partial writes.",
       "exclude": "Do not access production datasets solely to make an example realistic.",
-      "prompt": "implement-feature"
+      "prompt": "implement-python-feature"
     },
     {
       "name": "python-database-engineering",
@@ -227,7 +227,7 @@
       "output": "Persistence patch or migration plan with query/transaction evidence, compatibility and data recovery limits.",
       "failure": "Destructive shared migration without approval, missing backup evidence, pool leak, duplicate writes, unsafe query construction or engine-dependent unknown.",
       "exclude": "SQLite or mocks do not establish production database semantics.",
-      "prompt": "design-change"
+      "prompt": "design-python-change"
     },
     {
       "name": "python-cli-automation",
@@ -238,7 +238,7 @@
       "output": "CLI or automation patch with documented usage, exit behavior, side-effect scope and regression evidence.",
       "failure": "Ambiguous delete target, shell injection, unexpected executable identity, secret output or unsafe recovery.",
       "exclude": "Do not treat shell access as permission to publish, delete or contact external systems.",
-      "prompt": "implement-feature"
+      "prompt": "implement-python-feature"
     },
     {
       "name": "architecture-decision-records",
@@ -249,7 +249,7 @@
       "output": "One decision record per significant decision, with alternatives, evidence, owner/status and implementation validation.",
       "failure": "Missing decision owner, unsupported claim, incompatible consumer need or an alternative eliminated without evidence.",
       "exclude": "An ADR draft cannot approve deployment, data loss or permission changes.",
-      "prompt": "design-change"
+      "prompt": "design-python-change"
     },
     {
       "name": "mcp-python-engineering",
@@ -260,7 +260,7 @@
       "output": "Protocol contract and implementation/test evidence, authz matrix, redaction/telemetry and rollback plan.",
       "failure": "SDK/protocol mismatch, arbitrary file/URL/query tool, unapproved server, missing authz or protocol contamination.",
       "exclude": "Do not claim tool annotations or prompt instructions enforce permissions; never auto-register a remote service.",
-      "prompt": "build-mcp-server"
+      "prompt": "build-python-mcp-server"
     },
     {
       "name": "agentic-workflow-design",
@@ -293,7 +293,7 @@
       "output": "Evidence-based findings or requested remediation with negative tests, residual risk and approval gaps.",
       "failure": "Unreproducible vulnerability claim, sensitive evidence disclosure, unknown dependency provenance or unavailable production controls.",
       "exclude": "Read-only security specialist gets no shell/edit tools by default; primary runs approved diagnostics.",
-      "prompt": "review-pull-request"
+      "prompt": "review-python-pull-request"
     },
     {
       "name": "secure-agent-engineering",
@@ -348,7 +348,7 @@
       "output": "Prioritized findings, evidence/commands, criterion coverage, residual risks and readiness recommendation.",
       "failure": "Unknown diff base, fabricated finding, missing caller context, unrun check represented as passed or unapproved external write.",
       "exclude": "Review-only requests do not authorize remediation, posting, approval or merge.",
-      "prompt": "review-pull-request"
+      "prompt": "review-python-pull-request"
     }
   ],
   "instructions": [
@@ -361,11 +361,11 @@
   ],
   "prompts": [
     "investigate-repository.prompt.md",
-    "design-change.prompt.md",
-    "implement-feature.prompt.md",
-    "review-pull-request.prompt.md",
+    "design-python-change.prompt.md",
+    "implement-python-feature.prompt.md",
+    "review-python-pull-request.prompt.md",
     "build-python-api.prompt.md",
-    "build-mcp-server.prompt.md",
+    "build-python-mcp-server.prompt.md",
     "debug-python-issue.prompt.md",
     "modernize-python-code.prompt.md",
     "validate-web-flow.prompt.md",

@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Pack: typescript-distinguished-engineer 1.3.0
+Pack: typescript-distinguished-engineer 1.4.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
@@ -129,14 +129,14 @@ Checks: 193  Passed: 192  Failed: 0  Skipped: 1
 | structural | instruction tests.instructions.md: description and applyTo | pass |  |
 | structural | instruction typescript-distinguished-engineer-contract.instructions.md: description and applyTo | pass |  |
 | structural | instruction typescript.instructions.md: description and applyTo | pass |  |
-| structural | prompt build-mcp-server.prompt.md: description | pass |  |
+| structural | prompt build-typescript-mcp-server.prompt.md: description | pass |  |
 | structural | prompt design-agentic-system.prompt.md: description | pass |  |
-| structural | prompt design-change.prompt.md: description | pass |  |
+| structural | prompt design-typescript-change.prompt.md: description | pass |  |
 | structural | prompt diagnose-failure.prompt.md: description | pass |  |
 | structural | prompt evaluate-agent.prompt.md: description | pass |  |
-| structural | prompt implement-feature.prompt.md: description | pass |  |
+| structural | prompt implement-typescript-feature.prompt.md: description | pass |  |
 | structural | prompt release-readiness.prompt.md: description | pass |  |
-| structural | prompt review-pull-request.prompt.md: description | pass |  |
+| structural | prompt review-typescript-pull-request.prompt.md: description | pass |  |
 | structural | prompt validate-web-flow.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/agent-evaluation-engineer.agent.md: references only installed things | pass |  |
@@ -149,14 +149,14 @@ Checks: 193  Passed: 192  Failed: 0  Skipped: 1
 | structural | installed content .apm/instructions/tests.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/typescript-distinguished-engineer-contract.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/typescript.instructions.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/build-mcp-server.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/build-typescript-mcp-server.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-agentic-system.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/design-change.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-typescript-change.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/diagnose-failure.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/evaluate-agent.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/implement-feature.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/implement-typescript-feature.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/release-readiness.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/review-pull-request.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-typescript-pull-request.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/validate-web-flow.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-evaluation/references/python.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-evaluation/references/typescript.md: references only installed things | pass |  |
