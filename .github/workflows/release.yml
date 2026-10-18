@@ -1,0 +1,64 @@
+name: release
+
+# Push a tag named <pack-name>-v<version>, for example python-distinguished-engineer-v2.1.0.
+# The tag's version must equal the pack's apm.yml version. The pack is validated, built, and its archives and
+# checksums are attached to a GitHub release. Archives are never committed to the repository.
+on:
+  push:
+    tags: ['*-v[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check -q "PyYAML>=6,<7"
+      - run: python tooling/ci_install_apm.py
+      - name: resolve pack and version from the tag
+        id: tag
+        run: |
+          name="${TAG%-v*}"
+          version="${TAG##*-v}"
+          pack="${name}-pack"
+          test -f "$pack/apm.yml" || { echo "::error::no pack folder $pack for tag $TAG"; exit 1; }
+          manifest=$(sed -n 's/^version:[[:space:]]*//p' "$pack/apm.yml" | head -1)
+          test "$manifest" = "$version" || { echo "::error::tag version $version differs from $pack/apm.yml version $manifest"; exit 1; }
+          echo "pack=$pack" >> "$GITHUB_OUTPUT"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: validate
+        run: python tooling/validate_pack.py "${{ steps.tag.outputs.pack }}" --install-check
+      - name: build archives
+        run: python tooling/build_pack.py "${{ steps.tag.outputs.pack }}"
+      - name: publish the release
+        env:
+          PACK: ${{ steps.tag.outputs.pack }}
+          NAME: ${{ steps.tag.outputs.name }}
+          VERSION: ${{ steps.tag.outputs.version }}
+        run: |
+          {
+            echo "## $NAME $VERSION"
+            echo
+            echo "Install into a project with APM:"
+            echo
+            echo '```'
+            echo "apm install ${GITHUB_REPOSITORY}/${PACK}#${TAG}"
+            echo '```'
+            echo
+            sed -n '1,12p' "$PACK/VALIDATION_REPORT.md"
+            echo
+            echo "Archives below are built from the tagged source; verify them with SHA256SUMS.txt."
+          } > notes.md
+          gh release create "$TAG" --title "$NAME $VERSION" --notes-file notes.md \
+            "$PACK"/dist/*.zip "$PACK/dist/SHA256SUMS.txt"

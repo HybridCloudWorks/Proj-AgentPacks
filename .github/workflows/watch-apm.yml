@@ -1,0 +1,40 @@
+name: watch apm
+
+# Weekly: open one issue when a newer APM release exists than the version pinned in tooling/apm-version.txt.
+# The weekly validate run already tests every pack against the newest release; this issue is the prompt to bump the pin.
+on:
+  schedule:
+    - cron: '41 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: compare the pinned APM version with the latest release
+        run: |
+          pinned=$(tr -d '[:space:]' < tooling/apm-version.txt)
+          latest=$(gh api repos/microsoft/apm/releases/latest --jq .tag_name | sed 's/^v//')
+          echo "pinned $pinned, latest $latest"
+          if [ "$pinned" = "$latest" ]; then echo "up to date"; exit 0; fi
+          newest=$(printf '%s\n%s\n' "$pinned" "$latest" | sort -V | tail -1)
+          if [ "$newest" != "$latest" ]; then echo "pin is ahead of the latest release"; exit 0; fi
+          title="APM $latest is available (pinned: $pinned)"
+          if gh issue list --state open --search "in:title \"$title\"" --json title --jq '.[].title' | grep -Fxq "$title"; then
+            echo "issue already open"; exit 0
+          fi
+          {
+            echo "APM **$latest** was released; this repository pins **$pinned** in \`tooling/apm-version.txt\`."
+            echo
+            echo "Release notes: https://github.com/microsoft/apm/releases/tag/v$latest"
+            echo
+            echo "To adopt it: check the most recent weekly **validate** run, which tests every pack against the newest APM on Linux, Windows and macOS. If it passed, change \`tooling/apm-version.txt\` to \`$latest\` in a pull request."
+          } > body.md
+          gh issue create --title "$title" --body-file body.md

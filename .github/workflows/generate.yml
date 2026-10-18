@@ -1,0 +1,111 @@
+name: generate pack
+
+# Manual only, and only for the repository owner. Generates a pack with Claude Code from a public reference
+# collection, runs the engine's independent checks, and opens a pull request. Merging it is the approval.
+#
+# Requires the repository secret CLAUDE_CODE_OAUTH_TOKEN, created with `claude setup-token`. Runs draw on that
+# Claude subscription's usage; GitHub minutes are free for this public repository.
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Pack name, lowercase with hyphens, without -pack (for example cloudflare-subject-matter-expert)'
+        required: true
+      role:
+        description: 'Role, for example "CloudFlare Subject Matter Expert"'
+        required: true
+      source_repo:
+        description: 'Reference collection as owner/repo (public)'
+        required: true
+      source_path:
+        description: 'Folder inside that repository'
+        default: '.'
+      source_ref:
+        description: 'Branch, tag or commit of the reference'
+        default: 'main'
+      license:
+        description: 'SPDX license of the reference, or unknown'
+        required: true
+      max_turns:
+        description: 'Turn cap for the generator'
+        default: '300'
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: generate-${{ inputs.name }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.actor == github.repository_owner
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
+      PACK_NAME: ${{ inputs.name }}
+      PACK_ROLE: ${{ inputs.role }}
+      SOURCE_REPO: ${{ inputs.source_repo }}
+      SOURCE_PATH: ${{ inputs.source_path }}
+      SOURCE_LICENSE: ${{ inputs.license }}
+      MAX_TURNS: ${{ inputs.max_turns }}
+    steps:
+      - name: check the subscription token is configured
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "::error::Add the repository secret CLAUDE_CODE_OAUTH_TOKEN (run 'claude setup-token' locally)."
+            exit 1
+          fi
+          case "$PACK_NAME" in *[!a-z0-9-]*|-*|*-) echo "::error::invalid pack name: $PACK_NAME"; exit 1;; esac
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: master prompt and vendor facts
+        uses: actions/checkout@v4
+        with:
+          repository: saulpatinojr/Proj-Code_Workflow
+          path: _standard
+      - name: reference collection
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.source_repo }}
+          ref: ${{ inputs.source_ref }}
+          path: _reference
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check -q "PyYAML>=6,<7"
+      - run: python tooling/ci_install_apm.py
+      - name: install Claude Code
+        run: npm install -g @anthropic-ai/claude-code && claude --version
+      - name: generate and check (writes only under staging/)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          python tooling/generate_pack.py generate \
+            --reference "_reference/$SOURCE_PATH" --name "$PACK_NAME" --role "$PACK_ROLE" \
+            --source "https://github.com/$SOURCE_REPO/tree/${{ inputs.source_ref }}/$SOURCE_PATH" --license "$SOURCE_LICENSE" \
+            --standard _standard/docs --max-turns "$MAX_TURNS" --timeout-min 120
+      - name: open the pull request
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python tooling/generate_pack.py publish "staging/$PACK_NAME"
+          gh workflow run validate.yml --ref "pack/$PACK_NAME" -f scope=changed
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generation-${{ inputs.name }}
+          path: |
+            staging/${{ inputs.name }}/STAGING_REPORT.md
+            staging/${{ inputs.name }}/generation-log.json
+            staging/${{ inputs.name }}/check.json
+          if-no-files-found: ignore
+          retention-days: 30

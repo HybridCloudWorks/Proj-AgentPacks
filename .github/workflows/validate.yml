@@ -1,0 +1,92 @@
+name: validate
+
+# Push and pull request: the packs that changed, on Linux, with the pinned APM (tooling/apm-version.txt).
+# Weekly and manual: every pack on Linux, Windows and macOS with the newest APM release.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'all = every pack on three systems with the newest APM; changed = packs changed against main'
+        type: choice
+        options: [all, changed]
+        default: all
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      packs: ${{ steps.plan.outputs.packs }}
+      os: ${{ steps.plan.outputs.os }}
+      apm: ${{ steps.plan.outputs.apm }}
+      any: ${{ steps.plan.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          SCOPE: ${{ inputs.scope }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: python tooling/ci_plan.py --event "$EVENT" --scope "${SCOPE:-all}" --base "$BASE"
+
+  tooling:
+    name: tooling tests and install collisions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check -q "PyYAML>=6,<7"
+      - run: python tooling/ci_install_apm.py
+      - run: python -m unittest discover -s tooling/tests -v
+      - name: agents and skills shipped by more than one pack
+        run: python tooling/check_collisions.py --github
+
+  pack:
+    needs: plan
+    if: needs.plan.outputs.any == 'true'
+    name: ${{ matrix.pack }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        pack: ${{ fromJSON(needs.plan.outputs.packs) }}
+        os: ${{ fromJSON(needs.plan.outputs.os) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check -q "PyYAML>=6,<7"
+      - name: install APM (${{ needs.plan.outputs.apm }})
+        run: python tooling/ci_install_apm.py ${{ needs.plan.outputs.apm == 'latest' && '--version latest' || '' }}
+      - name: validate, including an APM install for every target
+        run: python tooling/validate_pack.py "${{ matrix.pack }}" --install-check
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-${{ matrix.pack }}-${{ matrix.os }}
+          path: ${{ matrix.pack }}/VALIDATION_REPORT.md
+          if-no-files-found: ignore
+          retention-days: 14

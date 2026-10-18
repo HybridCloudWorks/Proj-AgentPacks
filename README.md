@@ -39,6 +39,21 @@ All packs are at agent-pack-prompt v2.3 and pass the shared validator, including
 
 Not yet packs: the Google Cloud, CloudFlare, FinOps, Notion, Cloud Cybersecurity and Docker folders in the source material are third-party skill collections without an agent or manifest. They need a role pack generated with the master prompt, with the collection as reference material.
 
+## Automation (GitHub Actions)
+
+This repository is public, so GitHub-hosted runners are free. Model usage is not: generation draws on a Claude subscription.
+
+| Workflow | Runs when | What it does |
+|---|---|---|
+| `validate` | Every push and pull request; weekly; manually | Tooling tests, an install-collision report, and `validate_pack.py --install-check` for each pack. Push and pull request cover changed packs on Linux with the pinned APM (`tooling/apm-version.txt`). The weekly run covers every pack on Linux, Windows and macOS with the newest APM. |
+| `release` | A tag `<pack-name>-v<version>` is pushed | Checks the tag matches `apm.yml`, validates, builds, and attaches the archives and `SHA256SUMS.txt` to a GitHub release. |
+| `watch apm` | Weekly | Opens an issue when an APM release is newer than the pinned version. |
+| `generate pack` | Manually, by the repository owner | Generates a pack from a public reference repository with Claude Code, runs the engine's checks, and opens a pull request. Needs the secret `CLAUDE_CODE_OAUTH_TOKEN` from `claude setup-token`. |
+
+Generated packs always arrive as pull requests on a `pack/<name>` branch; merging one is the approval. Locally, `python tooling/generate_pack.py publish staging/<name>` does the same.
+
+To release a pack: `git tag python-distinguished-engineer-v2.1.0 && git push origin python-distinguished-engineer-v2.1.0`.
+
 ## Working on packs
 
 Edit in a normal git clone, not in a synced folder. Shared tooling lives in `tooling/` at the repository root; packs carry only their own helper scripts.
