@@ -96,6 +96,70 @@ def prepare(args: argparse.Namespace) -> Path:
     return ws
 
 
+FILL_ARTIFACTS = {"examples": "examples/", "templates": "templates/", ".apm/prompts": ".apm/prompts/"}
+PROTECTED = (".apm/agents/", ".apm/skills/", ".apm/instructions/", "apm.yml", "compatibility/tool-permissions.yml",
+             "LICENSE", "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md")
+
+
+def missing_artifacts(pack: Path) -> list[str]:
+    return [rel for rel in FILL_ARTIFACTS if not ((pack / rel).is_dir() and any(f.is_file() for f in (pack / rel).rglob("*")))]
+
+
+def file_hashes(root: Path) -> dict[str, str]:
+    import hashlib
+    return {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in root.rglob("*") if p.is_file() and not ({"dist", "__pycache__"} & set(p.relative_to(root).parts))}
+
+
+def prepare_fill(args: argparse.Namespace) -> Path:
+    pack = (REPO / args.pack).resolve() if not Path(args.pack).is_absolute() else Path(args.pack)
+    if not (pack / "apm.yml").is_file():
+        raise SystemExit(f"not a pack: {pack}")
+    name = pack.name.removesuffix("-pack")
+    missing = missing_artifacts(pack)
+    if not missing:
+        raise SystemExit(f"{pack.name} is not missing any fillable artifact")
+    ws = STAGING / f"{name}-fill"
+    if ws.exists():
+        raise SystemExit(f"staging workspace exists: {ws}")
+    standard, exemplar = Path(args.standard).resolve(), Path(args.exemplar).resolve()
+    (ws / "standard").mkdir(parents=True)
+    shutil.copy(standard / "agent-pack-prompt.md", ws / "standard" / "agent-pack-prompt.md")
+    shutil.copy(standard / "client-locations.md", ws / "standard" / "client-locations.md")
+    copytree(exemplar, ws / "exemplar")
+    for extra in ("VALIDATION_REPORT.md", "AGENT-PACK-README.md"):
+        (ws / "exemplar" / extra).unlink(missing_ok=True)
+    (ws / "tooling").mkdir()
+    for tool in ("validate_pack.py", "skill_coverage.py"):
+        shutil.copy(TOOLING / tool, ws / "tooling" / tool)
+    out = ws / "out" / pack.name
+    shutil.copytree(pack, out, ignore=shutil.ignore_patterns("dist", "__pycache__", "*.pyc"))
+    shutil.copy(standard / "agent-pack-prompt.md", out / "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md")
+    baseline = file_hashes(out)
+    descriptions = {"examples": "`examples/`: worked walkthroughs of the pack's main workflows",
+                    "templates": "`templates/`: reusable documents the skills tell the agent to produce",
+                    ".apm/prompts": "`.apm/prompts/`: one prompt per primary workflow"}
+    brief = string.Template((TOOLING / "fill-brief.md").read_text(encoding="utf-8")).substitute(
+        pack_dir=pack.name, missing="\n".join(f"- {descriptions[m]}" for m in missing), date=dt.date.today().isoformat())
+    (ws / "BRIEF.md").write_text(brief, encoding="utf-8")
+    meta = {"mode": "fill", "name": name, "role": f"gap fill of {pack.name}", "source": f"existing pack {pack.name}",
+            "license": "n/a", "reference": "", "exemplar": str(exemplar), "missing": missing, "baseline": baseline,
+            "created": dt.datetime.now().isoformat(timespec="seconds")}
+    (ws / "workspace.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
+    return ws
+
+
+def bump_minor(pack: Path) -> str:
+    path = pack / "apm.yml"
+    text = path.read_text(encoding="utf-8")
+    m = re.search(r"^version:\s*(\d+)\.(\d+)\.(\d+)\s*$", text, re.M)
+    if not m:
+        return "?"
+    new = f"{m.group(1)}.{int(m.group(2)) + 1}.0"
+    path.write_text(text[: m.start()] + f"version: {new}" + text[m.end():], encoding="utf-8")
+    return new
+
+
 def run_generator(ws: Path, model: str | None, max_turns: int, timeout_min: int) -> dict:
     claude = shutil.which("claude")
     if not claude:
@@ -148,7 +212,7 @@ def normalized_lines(root: Path, min_len: int = 80) -> set[str]:
 def check(ws: Path) -> dict:
     meta = json.loads((ws / "workspace.json").read_text(encoding="utf-8"))
     pack = ws / "out" / f"{meta['name']}-pack"
-    report: dict = {"pack": str(pack), "checked": dt.datetime.now().isoformat(timespec="seconds")}
+    report: dict = {"pack": str(pack), "checked": dt.datetime.now().isoformat(timespec="seconds"), "mode": meta.get("mode", "generate")}
     if not (pack / "apm.yml").is_file():
         report["status"] = "FAIL"
         report["reason"] = "generator produced no apm.yml"
@@ -173,7 +237,15 @@ def check(ws: Path) -> dict:
     shared = sorted(exemplar_skills & {p.name for p in (pack / ".apm" / "skills").iterdir() if p.is_dir()}) if (pack / ".apm" / "skills").is_dir() else []
     report["skills_shared_with_exemplar"] = shared
 
-    ref_lines = normalized_lines(ws / "reference")
+    if meta.get("mode") == "fill":
+        now_hashes = file_hashes(pack)
+        base = meta.get("baseline", {})
+        touched = sorted(rel for rel in set(base) | set(now_hashes) if base.get(rel) != now_hashes.get(rel)
+                         and rel.startswith(PROTECTED) and rel != "VALIDATION_REPORT.md")
+        report["protected_changes"] = touched
+        report["still_missing"] = missing_artifacts(pack)
+        report["added_files"] = sorted(set(now_hashes) - set(base))
+    ref_lines = normalized_lines(ws / "reference") if (ws / "reference").is_dir() else set()
     copied: dict[str, int] = {}
     for path in (pack / ".apm").rglob("*.md") if (pack / ".apm").is_dir() else []:
         n = sum(1 for line in path.read_text(encoding="utf-8", errors="replace").splitlines() if " ".join(line.split()).lower() in ref_lines)
@@ -189,6 +261,8 @@ def check(ws: Path) -> dict:
               "files": len([p for p in pack.rglob("*") if p.is_file()])}
     report["counts"] = counts
     ok = report["validator"]["exit_code"] == 0 and report["skill_coverage_current"] and not leaks
+    if meta.get("mode") == "fill":
+        ok = ok and not report["protected_changes"] and not report["still_missing"]
     report["status"] = "PASS" if ok else "FAIL"
     report["needs_review"] = [f"{f}: {n} lines identical to reference" for f, n in copied.items() if n >= 5] + \
                              [f"skill shares a name with the exemplar: {s}" for s in shared]
@@ -214,7 +288,12 @@ def write_report(ws: Path, meta: dict, report: dict) -> None:
               f"- Validator: {v.get('summary', 'not run')}", *[f"  - {f}" for f in v.get("failures", [])],
               f"- Skill coverage file current: {report.get('skill_coverage_current')}",
               f"- Exemplar identity leakage: {report.get('leakage') or 'none'}",
-              f"- Verbatim lines from reference: {report.get('verbatim_total', 0)}", ""]
+              f"- Verbatim lines from reference: {report.get('verbatim_total', 0)}"]
+    if report.get("mode") == "fill":
+        lines += [f"- Protected files changed (must be none): {report.get('protected_changes') or 'none'}",
+                  f"- Artifacts still missing (must be none): {report.get('still_missing') or 'none'}",
+                  f"- Files added: {len(report.get('added_files', []))}"]
+    lines += [""]
     if report.get("needs_review"):
         lines += ["## Needs human review", ""] + [f"- {n}" for n in report["needs_review"]] + [""]
     if c.get("result"):
@@ -253,6 +332,11 @@ def milestones(ws: Path) -> list[tuple[str, bool]]:
 
     report = pack / "VALIDATION_REPORT.md"
     report_text = report.read_text(encoding="utf-8", errors="replace") if report.is_file() else ""
+    if meta.get("mode") == "fill":
+        items = [(f"{rel} written", (pack / rel).is_dir() and any(f.is_file() for f in (pack / rel).rglob("*"))) for rel in meta["missing"]]
+        items += [("validator has run", report.is_file()), ("validator reports PASS", "Status: PASS" in report_text),
+                  ("engine checks complete", (ws / "STAGING_REPORT.md").is_file())]
+        return items
     primary = any("user-invocable: true" in a.read_text(encoding="utf-8", errors="replace")
                   for a in (apm / "agents").glob("*.agent.md")) if (apm / "agents").is_dir() else False
     return [
@@ -329,7 +413,7 @@ def publish(ws: Path, base: str = "main") -> int:
     src = ws / "out" / f"{name}-pack"
     subprocess.run([sys.executable, str(TOOLING / "build_pack.py"), str(src)], check=True, capture_output=True)
     shutil.rmtree(src / "dist", ignore_errors=True)
-    branch = f"pack/{name}"
+    branch = f"pack/{name}-fill" if meta.get("mode") == "fill" else f"pack/{name}"
     git("fetch", "origin", base)
     tmp = Path(tempfile.mkdtemp(prefix=f"pack-pr-{name}-"))
     tree = tmp / "tree"
@@ -346,7 +430,8 @@ def publish(ws: Path, base: str = "main") -> int:
         version = next((l.split(":", 1)[1].strip() for l in (src / "apm.yml").read_text(encoding="utf-8").splitlines()
                         if l.startswith("version:")), "?")
         counts = report.get("counts", {})
-        message = (f"Add {name} {version} (generated)\n\n"
+        verb = "Fill missing artifacts in" if meta.get("mode") == "fill" else "Add"
+        message = (f"{verb} {name} {version} (generated)\n\n"
                    f"Generated by tooling/generate_pack.py from: {meta['source']} (license: {meta['license']}).\n"
                    f"{counts.get('agents')} agents, {counts.get('skills')} skills, {counts.get('prompts')} prompts, {counts.get('files')} files.\n"
                    f"Engine checks: {report.get('validator', {}).get('summary', '')}; leakage none; "
@@ -366,7 +451,8 @@ def publish(ws: Path, base: str = "main") -> int:
         subprocess.run([gh, "pr", "edit", existing, "--body-file", str(body_file)], cwd=REPO, check=True, capture_output=True)
         print(f"updated pull request: {existing}")
     else:
-        proc = subprocess.run([gh, "pr", "create", "--base", base, "--head", branch, "--title", f"Add {name} pack (generated)",
+        title = f"Fill missing artifacts in {name} pack" if meta.get("mode") == "fill" else f"Add {name} pack (generated)"
+        proc = subprocess.run([gh, "pr", "create", "--base", base, "--head", branch, "--title", title,
                                "--body-file", str(body_file)], cwd=REPO, capture_output=True, text=True)
         if proc.returncode != 0:
             raise SystemExit(f"gh pr create failed:\n{proc.stdout}\n{proc.stderr}")
@@ -389,6 +475,14 @@ def main() -> int:
     g.add_argument("--max-turns", type=int, default=300)
     g.add_argument("--timeout-min", type=int, default=120)
     g.add_argument("--prepare-only", action="store_true", help="build the workspace and brief without running the generator")
+    f = sub.add_parser("fill", help="complete an existing pack's missing examples, templates and prompts")
+    f.add_argument("pack", help="pack folder, for example terraform-expert-engineer-pack")
+    f.add_argument("--standard", default=str(DEFAULT_STANDARD))
+    f.add_argument("--exemplar", default=str(DEFAULT_EXEMPLAR))
+    f.add_argument("--model")
+    f.add_argument("--max-turns", type=int, default=200)
+    f.add_argument("--timeout-min", type=int, default=90)
+    f.add_argument("--prepare-only", action="store_true")
     c = sub.add_parser("check")
     c.add_argument("workspace")
     pub = sub.add_parser("publish")
@@ -408,6 +502,21 @@ def main() -> int:
         result = run_generator(ws, args.model, args.max_turns, args.timeout_min)
         print(f"generator: exit {result['exit_code']}, {result['seconds']} s{' (timed out)' if result['timed_out'] else ''}")
         report = check(ws)
+        print(f"check: {report['status']}; see {ws / 'STAGING_REPORT.md'}")
+        return 0 if report["status"] == "PASS" else 1
+    if args.command == "fill":
+        ws = prepare_fill(args)
+        print(f"workspace: {ws} (missing: {', '.join(json.loads((ws / 'workspace.json').read_text(encoding='utf-8'))['missing'])})")
+        if args.prepare_only:
+            return 0
+        result = run_generator(ws, args.model, args.max_turns, args.timeout_min)
+        print(f"generator: exit {result['exit_code']}, {result['seconds']} s{' (timed out)' if result['timed_out'] else ''}")
+        report = check(ws)
+        if report["status"] == "PASS":
+            meta = json.loads((ws / "workspace.json").read_text(encoding="utf-8"))
+            version = bump_minor(ws / "out" / f"{meta['name']}-pack")
+            report = check(ws)
+            print(f"version bumped to {version}")
         print(f"check: {report['status']}; see {ws / 'STAGING_REPORT.md'}")
         return 0 if report["status"] == "PASS" else 1
     if args.command == "publish":
