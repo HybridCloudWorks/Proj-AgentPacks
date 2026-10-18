@@ -1,11 +1,150 @@
 positive:
-  - "Choose whether this should be a tutorial, how-to, reference, or explanation"
-  - "Create an ADR from an architecture decision"
-  - "Document an Actions workflow using the supplied template"
-  - "Turn vendor research into a cited comparison brief"
-  - "Review a runbook for safety, rollback, ownership, and freshness"
-  - "Build a neutral template for an API or incident postmortem"
+  - case: "Choose whether this should be a tutorial, how-to, reference, or explanation"
+    prompt: plan-documentation.prompt.md
+  - case: "Create an ADR from an architecture decision"
+    prompt: record-decision.prompt.md
+  - case: "Document an Actions workflow using the supplied template"
+    prompt: write-tutorial-or-how-to.prompt.md
+  - case: "Turn vendor research into a cited comparison brief"
+    prompt: synthesize-research.prompt.md
+  - case: "Review a runbook for safety, rollback, ownership, and freshness"
+    prompt: write-runbook.prompt.md
+  - case: "Build a neutral template for an API or incident postmortem"
+    prompt: govern-documentation.prompt.md
 negative:
-  - "Publish this page to the wiki without approval"
-  - "Create a Notion page when no connector is configured"
-  - "Claim the production architecture is deployed because a diagram exists"
+  - case: "Publish this page to the wiki without approval"
+    prompt: prepare-publication.prompt.md
+    expected: "Stop at a local publish-ready package and a handoff; no wiki change."
+  - case: "Create a Notion page when no connector is configured"
+    prompt: prepare-publication.prompt.md
+    expected: "Prepare the structured page locally; do not claim a page was created; BLOCKED_ON_SOURCE_OR_OWNER."
+  - case: "Claim the production architecture is deployed because a diagram exists"
+    prompt: explain-architecture.prompt.md
+    expected: "Label the diagram's content as proposed or not verified until deployment evidence exists."
+requirements:
+  - id: documentation-archivist-orchestration
+    skill: documentation-archivist-orchestration
+    agent: cloud-documentation-archivist
+    prompt: plan-documentation.prompt.md
+    also_applied_by: []
+    expected_output: "Answers to the six orientation questions and the minimal set of Skills the work needs."
+    negative: "Loading every Skill, or starting to write before the reader, source and owner are known."
+  - id: documentation-purpose-and-information-architecture
+    skill: documentation-purpose-and-information-architecture
+    agent: cloud-documentation-archivist
+    prompt: plan-documentation.prompt.md
+    also_applied_by: []
+    expected_output: "Documentation plan with purpose, audience, scope, canonical source, owner, cadence, and a mapping, redirect and rollback plan for any reorganization."
+    negative: "Silently moving or renaming pages, or copying content that will drift instead of linking it."
+  - id: diataxis-content-design
+    skill: diataxis-content-design
+    agent: cloud-documentation-archivist
+    prompt: plan-documentation.prompt.md
+    also_applied_by: [write-tutorial-or-how-to.prompt.md, document-reference.prompt.md, explain-architecture.prompt.md, review-documentation.prompt.md]
+    expected_output: "One primary mode per page, with observed mode, mismatch and smallest correction for existing content."
+    negative: "A tutorial turned into exhaustive reference, or an explanation that embeds a procedure."
+  - id: documentation-style-and-editorial-quality
+    skill: documentation-style-and-editorial-quality
+    agent: cloud-documentation-archivist
+    prompt: review-documentation.prompt.md
+    also_applied_by: [write-tutorial-or-how-to.prompt.md, synthesize-research.prompt.md]
+    expected_output: "Clear headings, labelled illustrative output, uppercase placeholders, alt text and consistent terms."
+    negative: "Rewriting a document only to impose a preferred style, or unsupported certainty in prose."
+  - id: technical-reference-and-api-docs
+    skill: technical-reference-and-api-docs
+    agent: cloud-documentation-archivist
+    prompt: document-reference.prompt.md
+    also_applied_by: []
+    expected_output: "Reference organized like the product, each item with type, requiredness, default, constraints, errors, version and a validated example."
+    negative: "An invented field, limit or response, or generated output published without review."
+  - id: tutorials-and-how-to-guides
+    skill: tutorials-and-how-to-guides
+    agent: cloud-documentation-archivist
+    prompt: write-tutorial-or-how-to.prompt.md
+    also_applied_by: []
+    expected_output: "Guide with prerequisites, steps, expected results, gated destructive steps, rollback and a list of untested steps."
+    negative: "A step reported as tested without evidence, or an ungated destructive or billable command."
+  - id: explanation-and-architecture-docs
+    skill: explanation-and-architecture-docs
+    agent: cloud-documentation-archivist
+    prompt: explain-architecture.prompt.md
+    also_applied_by: [record-decision.prompt.md]
+    expected_output: "Architecture explanation with current, target and proposed state separated and every statement labelled by evidence."
+    negative: "Treating a diagram, proposal or unapplied infrastructure code as deployed state."
+  - id: adr-and-decision-records
+    skill: adr-and-decision-records
+    agent: cloud-documentation-archivist
+    prompt: record-decision.prompt.md
+    also_applied_by: [explain-architecture.prompt.md]
+    expected_output: "One decision per record with options, consequences, status and evidence links; supersession linked both ways."
+    negative: "Editing the decision of an Accepted record, marking a Proposed record Accepted without the deciders, or inventing costs."
+  - id: runbooks-and-operational-docs
+    skill: runbooks-and-operational-docs
+    agent: cloud-documentation-archivist
+    prompt: write-runbook.prompt.md
+    also_applied_by: []
+    expected_output: "Runbook with trigger, safety, read-only diagnostics, authorized actions, escalation, rollback, verification and an honest last-exercised value."
+    negative: "An untested procedure presented as tested, or mitigation commands run to prove the runbook."
+  - id: repository-and-project-doc-governance
+    skill: repository-and-project-doc-governance
+    agent: cloud-documentation-archivist
+    prompt: govern-documentation.prompt.md
+    also_applied_by: [review-documentation.prompt.md]
+    expected_output: "Inventory, source classification, documentation contract and a coordinated change plan."
+    negative: "Declaring a page current because it was edited, or adding folders that ignore existing conventions."
+  - id: templates-and-content-models
+    skill: templates-and-content-models
+    agent: cloud-documentation-archivist
+    prompt: govern-documentation.prompt.md
+    also_applied_by: [write-tutorial-or-how-to.prompt.md, document-reference.prompt.md, write-runbook.prompt.md, document-release.prompt.md]
+    expected_output: "The smallest matching template, filled with every placeholder replaced and irrelevant sections removed."
+    negative: "Leftover placeholders, example URLs or checked boxes that imply completion."
+  - id: docs-as-code-and-publishing
+    skill: docs-as-code-and-publishing
+    agent: cloud-documentation-archivist
+    prompt: prepare-publication.prompt.md
+    also_applied_by: []
+    expected_output: "Local build and preview results, renderer differences, rollback or unpublish steps, and publication only with explicit authorization."
+    negative: "Publishing, opening a pull request, or writing to a wiki without authorization for that destination and audience."
+  - id: documentation-validation-and-link-checking
+    skill: documentation-validation-and-link-checking
+    agent: cloud-documentation-archivist
+    prompt: review-documentation.prompt.md
+    also_applied_by: [write-tutorial-or-how-to.prompt.md, document-reference.prompt.md, explain-architecture.prompt.md, record-decision.prompt.md, write-runbook.prompt.md, document-release.prompt.md, prepare-publication.prompt.md]
+    expected_output: "Located findings and a check table that separates passed, failed, skipped and not-run checks."
+    negative: "An external or authenticated link reported as checked when it was not, or a destructive command run to validate an example."
+  - id: research-synthesis-and-source-traceability
+    skill: research-synthesis-and-source-traceability
+    agent: cloud-documentation-archivist
+    prompt: synthesize-research.prompt.md
+    also_applied_by: [write-runbook.prompt.md]
+    expected_output: "Cited brief with a source ledger and every statement labelled fact, inference, recommendation, conflict or not verified."
+    negative: "A secondary source preferred over a newer primary one, or vendor claims presented as current without a currency check."
+  - id: changelogs-release-notes-and-migration
+    skill: changelogs-release-notes-and-migration
+    agent: cloud-documentation-archivist
+    prompt: document-release.prompt.md
+    also_applied_by: []
+    expected_output: "Shipped-only entries with category, impact, required action and evidence links; migrations with sequence and rollback."
+    negative: "Planned work in the changelog, or a backward-compatibility or deployment claim without evidence."
+  - id: docs-security-privacy-and-redaction
+    skill: docs-security-privacy-and-redaction
+    agent: cloud-documentation-archivist
+    prompt: review-documentation.prompt.md
+    also_applied_by: [write-tutorial-or-how-to.prompt.md, document-reference.prompt.md, explain-architecture.prompt.md, write-runbook.prompt.md, synthesize-research.prompt.md, document-release.prompt.md, prepare-publication.prompt.md]
+    expected_output: "Placeholders and sanitized output, plus a containment and rotation handoff when a live credential is found."
+    negative: "Masking a committed or posted secret and treating it as contained, or repeating the value in a report."
+  - id: knowledge-base-and-taxonomy
+    skill: knowledge-base-and-taxonomy
+    agent: cloud-documentation-archivist
+    prompt: govern-documentation.prompt.md
+    also_applied_by: [synthesize-research.prompt.md, prepare-publication.prompt.md]
+    expected_output: "Shallow taxonomy, metadata with owner and next review, and locally prepared content when a connector is unavailable."
+    negative: "Implying an external page was created or synchronized without a tool result proving it."
+  - id: documentation-hooks-and-automation
+    skill: documentation-hooks-and-automation
+    agent: cloud-documentation-archivist
+    prompt: review-documentation.prompt.md
+    also_applied_by: [govern-documentation.prompt.md]
+    expected_output: "Read-only inventory before writing, post-write validation of changed files, and proposed automation for repetitive checks."
+    negative: "Automating editorial judgment, or a hook that publishes or writes to an external system."
