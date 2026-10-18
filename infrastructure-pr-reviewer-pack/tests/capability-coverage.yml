@@ -2,29 +2,66 @@ schema_version: "1.0"
 required_capabilities:
   - name: complete_changed_line_coverage
     owner: review-infrastructure-pr
+    prompts:
+      - review-infrastructure-pull-request.prompt.md
+      - re-review-infrastructure-pull-request.prompt.md
   - name: execution_and_ownership_graph
     owner: review-infrastructure-pr
+    prompts:
+      - trace-cross-tool-handoffs.prompt.md
+      - assess-existing-environment-impact.prompt.md
   - name: target_and_identity_correctness
     owner: review-infrastructure-pr
+    prompts:
+      - review-deployment-pipeline.prompt.md
+      - review-infrastructure-pull-request.prompt.md
   - name: lifecycle_and_destructive_impact
     owner: review-infrastructure-pr
+    prompts:
+      - assess-existing-environment-impact.prompt.md
   - name: terraform_opentofu
     owner: review-terraform-opentofu
+    prompts:
+      - assess-existing-environment-impact.prompt.md
+      - review-infrastructure-pull-request.prompt.md
   - name: bicep_arm
     owner: review-bicep-arm
+    prompts:
+      - verify-review-evidence.prompt.md
+      - review-infrastructure-pull-request.prompt.md
   - name: powershell
     owner: review-powershell-automation
+    prompts:
+      - trace-cross-tool-handoffs.prompt.md
+      - review-infrastructure-pull-request.prompt.md
   - name: ansible
     owner: review-ansible-automation
+    prompts:
+      - re-review-infrastructure-pull-request.prompt.md
+      - review-infrastructure-pull-request.prompt.md
   - name: cicd_and_deployment_scripts
     owner: review-cicd-deployment
+    prompts:
+      - review-deployment-pipeline.prompt.md
   - name: kubernetes_helm_kustomize
     owner: review-kubernetes-packaging
+    prompts:
+      - review-infrastructure-pull-request.prompt.md
+      - assess-existing-environment-impact.prompt.md
   - name: safe_static_checks
     owner: verify-infrastructure-evidence
+    prompts:
+      - verify-review-evidence.prompt.md
   - name: evidence_integrity
     owner: verify-infrastructure-evidence
+    prompts:
+      - verify-review-evidence.prompt.md
+      - request-review-evidence.prompt.md
   - name: severity_and_output
     owner: review-infrastructure-pr
+    prompts:
+      - review-infrastructure-pull-request.prompt.md
   - name: github_copilot_setup
     owner: setup/copilot
+    # Repository setup collateral, not a review workflow; no prompt.
+    prompts: []

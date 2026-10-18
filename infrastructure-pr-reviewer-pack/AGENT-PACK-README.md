@@ -1,4 +1,4 @@
-# infrastructure-pr-reviewer 1.1.0: artifact catalog
+# infrastructure-pr-reviewer 1.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -7,6 +7,13 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | infrastructure-pr-reviewer.agent.md | Canonical agent: Review pull requests that change infrastructure-as-code, configuration management, deployment automation, platform manifests, or CI/CD. Use for Terraform or OpenTofu, Bicep or ARM, PowerShell, Ansible, GitHub Actions, Azure Pipelines, Bash or Python deployment wrappers, Kubernetes, Helm, Kustomize, and cross-tool execution chains. Produce evidence-based, line-anchored findings without editing or deploying. | .apm/agents/infrastructure-pr-reviewer.agent.md |
 | infrastructure-pr-reviewer-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the infrastructure pr reviewer pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/infrastructure-pr-reviewer-contract.instructions.md |
 | infrastructure-review.instructions.md | Canonical instruction: Apply evidence-driven infrastructure and automation pull-request review rules to relevant files. | .apm/instructions/infrastructure-review.instructions.md |
+| assess-existing-environment-impact.prompt.md | Canonical prompt: Assess whether an infrastructure change is safe against the existing environment: identity, ownership, replacement, deletion and rollback | .apm/prompts/assess-existing-environment-impact.prompt.md |
+| re-review-infrastructure-pull-request.prompt.md | Canonical prompt: Re-review an infrastructure pull request after a new push, verifying earlier findings against the new head | .apm/prompts/re-review-infrastructure-pull-request.prompt.md |
+| request-review-evidence.prompt.md | Canonical prompt: Identify the risk-proportional evidence an infrastructure pull request must attach before it can be reviewed safely, and draft the request | .apm/prompts/request-review-evidence.prompt.md |
+| review-deployment-pipeline.prompt.md | Canonical prompt: Review a CI/CD or deployment-wrapper change for trust boundary, identity, target selection, conditions, concurrency and artifact provenance | .apm/prompts/review-deployment-pipeline.prompt.md |
+| review-infrastructure-pull-request.prompt.md | Canonical prompt: Review an infrastructure or automation pull request end to end and return line-anchored findings, evidence gaps and a disposition | .apm/prompts/review-infrastructure-pull-request.prompt.md |
+| trace-cross-tool-handoffs.prompt.md | Canonical prompt: Trace a multi-tool infrastructure execution chain and review every handoff between pipeline, template, script, configuration and manifest | .apm/prompts/trace-cross-tool-handoffs.prompt.md |
+| verify-review-evidence.prompt.md | Canonical prompt: Run safe, non-deploying checks and judge whether attached plans, previews, renders and CI logs belong to the reviewed commit, target and inputs | .apm/prompts/verify-review-evidence.prompt.md |
 | openai.yaml | Canonical skill | .apm/skills/review-ansible-automation/agents/openai.yaml |
 | official-sources.md | Canonical skill | .apm/skills/review-ansible-automation/references/official-sources.md |
 | review-checklist.md | Canonical skill | .apm/skills/review-ansible-automation/references/review-checklist.md |
@@ -54,7 +61,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | vendor-sources.yml | Vendor compatibility metadata | compatibility/vendor-sources.yml |
 | DESCRIPTION.md | What the pack is for and who uses it. | DESCRIPTION.md |
 | DESIGN_DECISIONS.md | Pack contract or inventory | docs/DESIGN_DECISIONS.md |
+| PROMPT_INVENTORY.md | Pack contract or inventory | docs/PROMPT_INVENTORY.md |
 | SOURCE_TRACEABILITY.md | Pack contract or inventory | docs/SOURCE_TRACEABILITY.md |
+| ansible-rollout-re-review.md | Worked example | examples/ansible-rollout-re-review.md |
+| bicep-diagnostics-evidence-review.md | Worked example | examples/bicep-diagnostics-evidence-review.md |
+| bicep-powershell-ansible-chain-review.md | Worked example | examples/bicep-powershell-ansible-chain-review.md |
+| github-actions-plan-trust-review.md | Worked example | examples/github-actions-plan-trust-review.md |
+| kustomize-gitops-prune-blocked-review.md | Worked example | examples/kustomize-gitops-prune-blocked-review.md |
+| terraform-count-to-for-each-review.md | Worked example | examples/terraform-count-to-for-each-review.md |
 | README.md | Hook helper script | hooks/README.md |
 | LICENSE | License terms. | LICENSE |
 | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | The master prompt this pack was built to. | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md |
@@ -63,6 +77,12 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | infrastructure-pull-request-template.md | Pack file | setup/copilot/infrastructure-pull-request-template.md |
 | README.md | Pack file | setup/copilot/README.md |
 | repository-enforcement-checklist.md | Pack file | setup/copilot/repository-enforcement-checklist.md |
+| adapter-return.md | Reusable template | templates/adapter-return.md |
+| completion-report.md | Reusable template | templates/completion-report.md |
+| coverage-ledger.md | Reusable template | templates/coverage-ledger.md |
+| evidence-record.md | Reusable template | templates/evidence-record.md |
+| handoff.md | Reusable template | templates/handoff.md |
+| re-review-reconciliation.md | Reusable template | templates/re-review-reconciliation.md |
 | capability-coverage.yml | Local test or recorded evidence | tests/capability-coverage.yml |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
 | script-cases.yml | Local test or recorded evidence | tests/script-cases.yml |
@@ -74,10 +94,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 
 ## Build outputs (dist/, not committed)
 
-- copilot-infrastructure-pr-reviewer.zip: 42 files generated by `apm install --target copilot`
-- claude-infrastructure-pr-reviewer.zip: 42 files generated by `apm install --target claude`
+- copilot-infrastructure-pr-reviewer.zip: 49 files generated by `apm install --target copilot`
+- claude-infrastructure-pr-reviewer.zip: 49 files generated by `apm install --target claude`
 - codex-infrastructure-pr-reviewer.zip: 40 files generated by `apm install --target codex`
 - kiro-infrastructure-pr-reviewer.zip: 42 files generated by `apm install --target kiro`
-- gemini-infrastructure-pr-reviewer.zip: 39 files generated by `apm install --target gemini`
+- gemini-infrastructure-pr-reviewer.zip: 46 files generated by `apm install --target gemini`
 - agent-skills-infrastructure-pr-reviewer.zip: 39 files generated by `apm install --target agent-skills`
 - infrastructure-pr-reviewer-canonical.zip, infrastructure-pr-reviewer-prompt.zip, infrastructure-pr-reviewer-validation.zip, infrastructure-pr-reviewer-skills.zip, infrastructure-pr-reviewer-full-pack.zip, SHA256SUMS.txt
