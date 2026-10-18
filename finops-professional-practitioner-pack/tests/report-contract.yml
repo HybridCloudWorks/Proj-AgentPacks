@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "required_fields": [
+    "outcome",
+    "audience",
+    "scope",
+    "data_sources",
+    "cost_basis",
+    "acceptance_criteria",
+    "findings",
+    "recommendations",
+    "checks",
+    "assumptions",
+    "data_quality",
+    "approvals",
+    "financial_impact",
+    "tradeoffs",
+    "unverified",
+    "risks",
+    "rollback",
+    "followups"
+  ],
+  "statuses": [
+    "VERIFIED_COMPLETE",
+    "PREPARED_NOT_VERIFIED",
+    "ANALYSIS_ONLY",
+    "CHANGES_REQUIRED",
+    "BLOCKED_ON_APPROVAL",
+    "BLOCKED_ON_DATA"
+  ],
+  "criterion_statuses": [
+    "passed",
+    "failed",
+    "unverified"
+  ],
+  "check_fields": [
+    "name",
+    "method",
+    "observed",
+    "status",
+    "evidence"
+  ],
+  "cost_columns": [
+    "BilledCost",
+    "EffectiveCost",
+    "ListCost",
+    "ContractedCost"
+  ],
+  "cost_basis_filters": [
+    "ChargeCategory",
+    "ChargeClass",
+    "PricingCategory"
+  ],
+  "recommendation_fields": [
+    "action",
+    "owner",
+    "monthly_impact_range",
+    "savings_type",
+    "confidence",
+    "tradeoff",
+    "reversibility",
+    "approval_level"
+  ],
+  "savings_types": [
+    "estimated",
+    "realized"
+  ],
+  "approval_levels": [
+    "Level 0",
+    "Level 1",
+    "Level 2"
+  ],
+  "fallback": "Analysis is prepared, but the figures are not verified against billing data.",
+  "finding_fields": [
+    "severity",
+    "location",
+    "evidence",
+    "impact",
+    "correction",
+    "blocking"
+  ],
+  "severity": [
+    "Blocker",
+    "High",
+    "Medium",
+    "Low",
+    "Note"
+  ]
+}

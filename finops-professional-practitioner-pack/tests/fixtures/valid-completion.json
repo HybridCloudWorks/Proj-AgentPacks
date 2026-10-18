@@ -1,0 +1,61 @@
+{
+  "status": "VERIFIED_COMPLETE",
+  "outcome": "Synthetic fixture: January invoice tie-out for a two-account sample dataset.",
+  "audience": "Finance",
+  "scope": "Billing accounts ba-001 and ba-002, billing period starting 2026-01-01.",
+  "data_sources": [
+    {
+      "name": "focus-sample.csv",
+      "schema": "FOCUS-shaped synthetic sample",
+      "period": "2026-01"
+    }
+  ],
+  "cost_basis": {
+    "column": "BilledCost",
+    "filters": "All ChargeCategory values and corrections included, because the figure must match the invoice."
+  },
+  "acceptance_criteria": [
+    {
+      "id": "invoice-tie-out",
+      "status": "passed",
+      "evidence": "Fixture only: BilledCost per InvoiceId equals the synthetic invoice totals."
+    }
+  ],
+  "findings": [
+    "EffectiveCost for the period is lower than the invoice by the prepaid purchase less its amortized share, as expected."
+  ],
+  "recommendations": [
+    {
+      "action": "Show the prepaid purchase as a separate one-time line in monthly charts.",
+      "owner": "FinOps lead (synthetic)",
+      "monthly_impact_range": [0, 0],
+      "savings_type": "estimated",
+      "confidence": "high",
+      "tradeoff": "Negligible; a reporting change only.",
+      "reversibility": "Fully reversible.",
+      "approval_level": 1
+    }
+  ],
+  "checks": [
+    {
+      "name": "invoice tie-out",
+      "method": "Sum BilledCost per InvoiceId and compare with the invoice totals.",
+      "observed": "INV-2026-01-A 1785.00 USD; INV-2026-01-B 75.00 USD; difference 0.00",
+      "status": "passed",
+      "evidence": "Illustrative fixture; not a production result."
+    }
+  ],
+  "assumptions": [
+    "The synthetic invoice totals stand in for provider invoice documents."
+  ],
+  "data_quality": "One correction row (-20.00) restates December; it is included in the invoice figure and excluded from trends.",
+  "approvals": [],
+  "financial_impact": "None; reporting change only.",
+  "tradeoffs": "None material.",
+  "unverified": [],
+  "risks": [
+    "A synthetic fixture says nothing about a real provider export."
+  ],
+  "rollback": "Not applicable to a reporting fixture.",
+  "followups": "None."
+}

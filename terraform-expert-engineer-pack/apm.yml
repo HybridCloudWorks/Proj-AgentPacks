@@ -1,5 +1,5 @@
 name: terraform-expert-engineer
-version: 1.1.0
+version: 1.2.0
 description: Expert Terraform and HCL engineer for Terraform configuration, modules, providers, state, HCP Terraform, Stacks, policy, testing, CI/CD, and Azure Verified Modules.
 author: saulpatinojr
 license: MIT

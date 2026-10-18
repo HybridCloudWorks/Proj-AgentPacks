@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "required_fields": [
+    "outcome",
+    "acceptance_criteria",
+    "files_changed",
+    "decisions",
+    "image_impact",
+    "runtime_contract_impact",
+    "security_review",
+    "supply_chain_impact",
+    "platform_compatibility",
+    "operational_impact",
+    "checks",
+    "unverified",
+    "remaining_risks",
+    "rollback",
+    "followups"
+  ],
+  "statuses": [
+    "COMPLETE_VERIFIED",
+    "IMPLEMENTATION_PREPARED_NOT_VERIFIED",
+    "ANALYSIS_ONLY",
+    "CHANGES_REQUIRED",
+    "BLOCKED_ON_HUMAN_DECISION"
+  ],
+  "criterion_statuses": [
+    "passed",
+    "failed",
+    "unverified"
+  ],
+  "criterion_fields": [
+    "id",
+    "status",
+    "evidence",
+    "evidence_level"
+  ],
+  "check_fields": [
+    "command",
+    "exit_code",
+    "status",
+    "environment",
+    "evidence"
+  ],
+  "evidence_levels": [
+    "static",
+    "local_build",
+    "local_runtime",
+    "scan",
+    "live"
+  ],
+  "fallback": "Container change is prepared, but completion is not verified.",
+  "finding_fields": [
+    "severity",
+    "location",
+    "evidence",
+    "impact",
+    "recommended_change",
+    "blocking"
+  ],
+  "severity": [
+    "Blocker",
+    "High",
+    "Medium",
+    "Low",
+    "Suggestion",
+    "Question"
+  ]
+}

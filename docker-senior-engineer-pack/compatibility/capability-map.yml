@@ -1,0 +1,153 @@
+{
+  "name": "docker-senior-engineer",
+  "version": "1.0.0",
+  "primary": "docker-senior-engineer",
+  "agents": [
+    {
+      "name": "docker-senior-engineer",
+      "description": "Senior Docker engineer for container images, Dockerfiles, Compose environments, multi-platform builds and image supply chain, runtime diagnosis and container change review, delivered with build and runtime evidence.",
+      "intent": ["delegate", "edit", "read", "shell", "web"],
+      "tools": ["read", "search", "edit", "execute", "agent", "web"],
+      "user_invocable": true,
+      "claude_tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash", "PowerShell", "WebFetch", "WebSearch", "Agent"],
+      "gemini_tools": ["read_file", "read_many_files", "glob", "grep_search", "list_directory", "write_file", "replace", "run_shell_command"],
+      "kiro_tools": ["read", "write", "shell", "web", "subagent"],
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the vendor translations an installer applies. No web tool is listed for Gemini CLI in the verified built-ins, so the web intent has no Gemini translation. The canonical agent file declares no tools."
+    },
+    {
+      "name": "container-security-reviewer",
+      "description": "Read-only reviewer of container image, Dockerfile, Compose, engine and image supply-chain security; returns located, evidence-backed findings without editing files or running commands.",
+      "intent": ["read"],
+      "tools": ["read", "search"],
+      "user_invocable": false,
+      "claude_tools": ["Read", "Grep", "Glob"],
+      "gemini_tools": ["read_file", "read_many_files", "glob", "grep_search", "list_directory"],
+      "kiro_tools": ["read"],
+      "note": "No shell, edit or network translation, so the read-only boundary does not contradict itself. Gemini CLI receives no agents from APM; the mapping applies only to an installer that generates them."
+    },
+    {
+      "name": "container-build-verifier",
+      "description": "Runs assigned container builds, static checks, scans and disposable smoke tests in isolation and returns exact commands, environments, exit codes and evidence; never edits files, logs in or publishes.",
+      "intent": ["read", "shell"],
+      "tools": ["read", "search", "execute"],
+      "user_invocable": false,
+      "claude_tools": ["Read", "Grep", "Glob", "Bash", "PowerShell"],
+      "gemini_tools": ["read_file", "glob", "grep_search", "run_shell_command"],
+      "kiro_tools": ["read", "shell"],
+      "note": "Shell without edit: a shell can write files, so the no-edit rule is behavioural unless the host sandboxes this profile. The agent body states this openly."
+    }
+  ],
+  "skills": [
+    {
+      "name": "dockerfile-engineering",
+      "description": "Author, refactor and optimise Dockerfiles and Containerfiles with deliberate base images, multi-stage graphs, cache-efficient layers, tight build contexts and an explicit runtime contract.",
+      "trigger": "An application needs containerising, an image is too large or slow to build, a Dockerfile changes, or caching, stages, build arguments or entrypoints are in question.",
+      "inputs": "Application layout and toolchain, existing Dockerfiles and ignore files, build context and target, image consumer and its expectations, base image policy, size or build-time budget.",
+      "dependencies": "Read, search and edit; optional Docker CLI with BuildKit at Level 1; dockerfile-patterns.md in the skill folder.",
+      "output": "Dockerfile and ignore file, runtime contract table, rationale for base and stages, measured or explicitly unmeasured size and rebuild behaviour.",
+      "failure": "Unknown start command, native dependency missing on a minimal base, private feeds needing credentials, base outside policy, or no CLI for verification.",
+      "exclude": "No push, signing or orchestrator manifests; application changes are proposed separately.",
+      "prompt": "containerize-application"
+    },
+    {
+      "name": "container-security-hardening",
+      "description": "Harden container images and their runtime configuration, and assess privilege, secret, exposure and vulnerability risk with located evidence.",
+      "trigger": "Production readiness, scanner findings, suspected secrets in layers or caches, requests for extra privileges, or a container security review.",
+      "inputs": "Dockerfiles, Compose files, run configuration, CI build steps, data and network context, scanner output and vulnerability policy, review-only or remediation scope.",
+      "dependencies": "Read and search; edit only for remediation; optional installed scanner and Docker CLI.",
+      "output": "Located findings with severity, confidence and blocking flag, remediation patch if assigned, negative checks and residual risk.",
+      "failure": "No scanner, workload that claims to need root or privileges, discovered secret, or policy conflict needing an owner decision.",
+      "exclude": "No exploit testing against live systems; signing policy and cluster admission belong elsewhere.",
+      "prompt": "harden-container"
+    },
+    {
+      "name": "compose-environments",
+      "description": "Design, fix and validate Docker Compose applications for local development, CI test stacks and single-host deployments using the Compose Specification.",
+      "trigger": "A Compose file changes, services start out of order or never become healthy, containers cannot reach each other, configuration or secrets need structure, or a development loop is needed.",
+      "inputs": "Compose files and real invocation (files, profiles, env files, project name), Compose and engine versions, each service's runtime contract, target environment.",
+      "dependencies": "Read, search and edit; optional Docker Compose v2 at Level 1.",
+      "output": "Compose changes, exact commands per environment, per-service readiness, exposure and data notes, migration notes.",
+      "failure": "Services never healthy, port or name conflicts, unset variables, missing Compose features, or changes that would move existing volume data.",
+      "exclude": "No down -v on stacks the task did not create; no conversion to orchestrator manifests.",
+      "prompt": "build-compose-environment"
+    },
+    {
+      "name": "image-build-and-supply-chain",
+      "description": "Build, tag, cache, attest, sign and publish container images reproducibly across platforms with Buildx, Bake and CI, and keep base images and digests current.",
+      "trigger": "Multi-architecture builds, slow or uncached CI builds, tag or registry design, SBOM, provenance or signing requirements, or base image pinning and update automation.",
+      "inputs": "CI workflows and Bake files, builders, registries and push identity, tag scheme, cache configuration, consumer platforms, organisation supply-chain policy.",
+      "dependencies": "Read, search and edit; Buildx at Level 1; optional cosign or Notation, scanner, CI linter, update automation.",
+      "output": "Workflow and Bake changes, tag and platform matrix, cache and attestation settings, Level 2 publish plan, consumer verification commands.",
+      "failure": "Base lacks a platform, emulation failures, persistent cache misses, registry rejects attestations, pull rate limits.",
+      "exclude": "Login, push, sign, promote and registry settings are prepared as Level 2 requests, not performed.",
+      "prompt": "set-up-image-pipeline"
+    },
+    {
+      "name": "container-runtime-operations",
+      "description": "Diagnose and operate containers and image builds on a Docker host, covering exit codes, restarts, OOM kills, signals, resource limits, logging, networking, storage, engine settings and disk usage.",
+      "trigger": "Unexpected exits, restarts or kills, failing builds, unreachable services, volume permission errors, full disks, environment differences, or engine and runtime settings to review.",
+      "inputs": "Symptom and timeline, command or Compose project, image digest, engine context and host type, recent changes, evidence already collected.",
+      "dependencies": "Read and search; Docker CLI for read-only evidence; edit for fixes in files; engine changes only with Level 2 approval.",
+      "output": "Timeline, redacted evidence, root cause and ruled-out hypotheses, fix and verification, prevention steps, engine diff with validation and rollback where relevant.",
+      "failure": "No host access, sensitive evidence, cause outside the container, or a fix that needs an engine restart, prune or shared-host change.",
+      "exclude": "No prune as a fix; no commands against unconfirmed remote or production contexts.",
+      "prompt": "diagnose-container-issue"
+    },
+    {
+      "name": "docker-change-review",
+      "description": "Review Dockerfile, ignore-file, Compose, Bake and CI image-build changes with located, evidence-backed findings and a readiness verdict.",
+      "trigger": "A pull request, branch, staged diff or set of container files needs review, audit or an independent second opinion.",
+      "inputs": "Exact base and head or diff, repository container policies, consumers of changed stages, services and tags, acceptance criteria.",
+      "dependencies": "Read and search; review-checklist.md in the skill folder; static checks that do not execute the change.",
+      "output": "Severity-ordered located findings, consumer contract changes, checks run and not run, verdict and status.",
+      "failure": "Unknown diff base, invisible consumers, or a secret in the diff.",
+      "exclude": "Review does not edit, build or run the change, post comments, approve or merge.",
+      "prompt": "review-container-change"
+    }
+  ],
+  "instructions": [
+    "docker-senior-engineer-contract.instructions.md",
+    "dockerfile.instructions.md",
+    "compose.instructions.md",
+    "image-build.instructions.md"
+  ],
+  "prompts": [
+    "containerize-application.prompt.md",
+    "optimize-image.prompt.md",
+    "harden-container.prompt.md",
+    "build-compose-environment.prompt.md",
+    "diagnose-container-issue.prompt.md",
+    "set-up-image-pipeline.prompt.md",
+    "review-container-change.prompt.md"
+  ],
+  "examples": [
+    "containerize-go-service-workflow.md",
+    "image-size-and-build-time-workflow.md",
+    "compose-local-stack-workflow.md",
+    "container-stop-timeout-diagnosis-workflow.md",
+    "security-review-workflow.md",
+    "multi-platform-release-workflow.md",
+    "final-completion-report.md"
+  ],
+  "root_files": [
+    "DESCRIPTION.md",
+    "README.md",
+    "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md",
+    "LICENSE",
+    "apm.yml"
+  ],
+  "generated_root_files": [
+    "AGENT-PACK-README.md",
+    "VALIDATION_REPORT.md"
+  ],
+  "source_dirs": [
+    ".apm",
+    "compatibility",
+    "docs",
+    "examples",
+    "hooks",
+    "templates",
+    "tests",
+    "tooling"
+  ]
+}

@@ -1,5 +1,5 @@
 name: infrastructure-pr-reviewer
-version: 1.1.0
+version: 1.2.0
 description: Portable evidence-driven pull request reviewer for infrastructure-as-code, configuration management, deployment automation, platform manifests, and CI/CD.
 author: saulpatinojr
 license: MIT

@@ -1,0 +1,87 @@
+{
+  "listed_on": "2026-10-18",
+  "fetched": false,
+  "note": "URLs were taken from the reference material and the repository's verified client facts; none was fetched while building this pack. Verify each against the current page before relying on it.",
+  "sources": [
+    {
+      "id": "finops-framework",
+      "url": "https://www.finops.org/framework/",
+      "application": "Principles, phases, domains, capabilities, personas and maturity model used by every skill."
+    },
+    {
+      "id": "focus-spec",
+      "url": "https://focus.finops.org/focus-specification/",
+      "application": "Column definitions, allowed values and format rules; check the dataset's version."
+    },
+    {
+      "id": "focus-columns",
+      "url": "https://focus.finops.org/focus-columns/",
+      "application": "Column library for the column reference in focus-billing-data-analysis."
+    },
+    {
+      "id": "focus-validator",
+      "url": "https://github.com/finopsfoundation/focus_validator",
+      "application": "Conformance checks during ingestion and FOCUS adoption."
+    },
+    {
+      "id": "focus-converters",
+      "url": "https://github.com/finopsfoundation/focus_converters",
+      "application": "Shaping legacy exports into FOCUS for historical comparison."
+    },
+    {
+      "id": "finops-kpis",
+      "url": "https://www.finops.org/wg/finops-kpis/",
+      "application": "Established KPI definitions for forecasting-and-unit-economics."
+    },
+    {
+      "id": "state-of-finops",
+      "url": "https://data.finops.org/",
+      "application": "External benchmark context, dated and caveated."
+    },
+    {
+      "id": "aws-tag-policies",
+      "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html",
+      "application": "Tag enforcement drafts in cost-allocation-and-chargeback."
+    },
+    {
+      "id": "azure-policy-tags",
+      "url": "https://learn.microsoft.com/en-us/azure/governance/policy/tutorials/govern-tags",
+      "application": "Tag enforcement drafts in cost-allocation-and-chargeback."
+    },
+    {
+      "id": "green-software-sci",
+      "url": "https://sci.greensoftware.foundation/",
+      "application": "Carbon per unit of work framing in workload-optimization."
+    },
+    {
+      "id": "copilot-agents",
+      "url": "https://docs.github.com/en/copilot/reference/custom-agents-configuration",
+      "application": "Agent folder, user-invocable, include-custom-instructions and tool aliases."
+    },
+    {
+      "id": "claude-subagents",
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "application": "Agent frontmatter, the skills preload field and tool names."
+    },
+    {
+      "id": "codex-subagents",
+      "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents",
+      "application": "Custom-agent TOML and inherited sandbox and approvals."
+    },
+    {
+      "id": "kiro-agents",
+      "url": "https://kiro.dev/docs/custom-agents",
+      "application": "Agent files, steering and the capability tags APM requires for tools."
+    },
+    {
+      "id": "gemini-subagents",
+      "url": "https://geminicli.com/docs/core/subagents",
+      "application": "Agent fields and tool names for installers that write Gemini agents."
+    },
+    {
+      "id": "apm",
+      "url": "https://microsoft.github.io/apm/reference/targets-matrix/",
+      "application": "What apm install generates for each target."
+    }
+  ]
+}

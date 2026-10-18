@@ -8,3 +8,46 @@ negative:
   - "Directly merge a pull request"
   - "Set a repository secret without approval"
   - "Disable a ruleset to make checks pass"
+# One entry per primary workflow prompt in .apm/prompts/. `capability` quotes a positive case
+# where one exists; `guards` quotes the negative cases the prompt's prohibitions cover.
+prompts:
+  review-pull-request.prompt.md:
+    capability: "Review a Copilot-created pull request and its checks"
+    skills: [github-expert-orchestration, github-pull-requests-and-code-review, github-branch-protection-and-rulesets, github-copilot-engineering, github-review-automation-and-hooks]
+    guards: ["Directly merge a pull request"]
+    example: copilot-pull-request-review.md
+  diagnose-actions-failure.prompt.md:
+    capability: "Diagnose a missing or queued Actions workflow run"
+    skills: [github-expert-orchestration, github-actions-debugging-and-troubleshooting, github-api-cli-and-mcp-operations, github-actions-workflows-and-security]
+    example: actions-run-diagnosis.md
+  harden-actions-workflow.prompt.md:
+    capability: "Harden a GitHub Actions workflow with OIDC and least privilege"
+    skills: [github-expert-orchestration, github-actions-workflows-and-security, github-ci-cd-and-deployment-environments, github-security-and-supply-chain]
+    guards: ["Set a repository secret without approval"]
+    example: actions-workflow-hardening.md
+  review-repository-governance.prompt.md:
+    capability: "Assess organization access, repository rulesets, and CODEOWNERS"
+    skills: [github-expert-orchestration, github-platform-administration, github-repository-lifecycle-and-governance, github-documentation-and-repository-contracts, github-branch-protection-and-rulesets]
+    guards: ["Disable a ruleset to make checks pass"]
+    example: org-ruleset-change-plan.md
+  query-github-activity.prompt.md:
+    capability: "Query PRs, issues, discussions, labels, and workflows read-only"
+    skills: [github-expert-orchestration, github-api-cli-and-mcp-operations, github-issues-discussions-and-projects]
+    example: issue-triage-query.md
+  audit-security-posture.prompt.md:
+    capability: "Audit GitHub security features and supply-chain controls with an evidence ledger"
+    skills: [github-expert-orchestration, github-security-and-supply-chain, github-actions-workflows-and-security, github-audit-evidence-and-compliance]
+    example: security-posture-audit.md
+  assess-release-readiness.prompt.md:
+    capability: "Trace a release from commit to deployment and assess promotion readiness"
+    skills: [github-expert-orchestration, github-releases-packages-and-artifacts, github-ci-cd-and-deployment-environments, github-audit-evidence-and-compliance]
+    example: release-readiness-review.md
+  review-copilot-setup.prompt.md:
+    capability: "Review Copilot instructions, custom agents, skills, MCP configuration and review settings"
+    skills: [github-expert-orchestration, github-copilot-engineering, github-documentation-and-repository-contracts, github-api-cli-and-mcp-operations]
+  design-github-integration.prompt.md:
+    capability: "Design or audit a GitHub App, token or webhook integration with a permission matrix"
+    skills: [github-expert-orchestration, github-apps-tokens-and-webhooks, github-api-cli-and-mcp-operations]
+  plan-migration-or-recovery.prompt.md:
+    capability: "Plan a GitHub migration, backup, restore or disaster-recovery exercise"
+    skills: [github-expert-orchestration, github-migrations-backups-and-recovery, github-branch-protection-and-rulesets, github-security-and-supply-chain, github-audit-evidence-and-compliance]

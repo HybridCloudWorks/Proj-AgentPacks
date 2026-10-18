@@ -1,0 +1,39 @@
+# Synthetic test fixture for tooling/container_lint.py. The digest is a placeholder.
+name: fixture
+services:
+  api:
+    image: registry.example.invalid/team/api:1.4.2@sha256:2222222222222222222222222222222222222222222222222222222222222222
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      API_TOKEN: ${API_TOKEN:?set API_TOKEN}
+      LOG_LEVEL: info
+    secrets: [db_password]
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:17.2-bookworm
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets: [db_password]
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+volumes:
+  db-data:

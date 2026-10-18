@@ -1,15 +1,15 @@
 # VALIDATION_REPORT
 
-Pack: hypervelocity-engineer 1.1.0
-Standard: agent-pack-prompt v2.2
+Pack: hypervelocity-engineer 1.2.0
+Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 98  Passed: 97  Failed: 0  Skipped: 1
+Checks: 120  Passed: 119  Failed: 0  Skipped: 1
 
 ## Scope
 
-1 agents, 9 skills, 1 instruction files, 0 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
+1 agents, 9 skills, 1 instruction files, 10 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
 
 ## Failed checks
 
@@ -32,16 +32,16 @@ Checks: 98  Passed: 97  Failed: 0  Skipped: 1
 | structural | required artifact README.md | pass |  |
 | structural | required artifact LICENSE | pass |  |
 | structural | required artifact PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | pass |  |
-| structural | required artifact docs | pass |  |
-| structural | required artifact compatibility | pass |  |
-| structural | required artifact examples | pass |  |
-| structural | required artifact templates | pass |  |
+| structural | required artifact docs (contains at least one file) | pass |  |
+| structural | required artifact compatibility (contains at least one file) | pass |  |
+| structural | required artifact examples (contains at least one file) | pass |  |
+| structural | required artifact templates (contains at least one file) | pass |  |
 | structural | required artifact hooks/README.md | pass |  |
-| structural | required artifact tests | pass |  |
-| structural | required artifact .apm/agents | pass |  |
-| structural | required artifact .apm/skills | pass |  |
-| structural | required artifact .apm/instructions | pass |  |
-| structural | required artifact .apm/prompts | pass |  |
+| structural | required artifact tests (contains at least one file) | pass |  |
+| structural | required artifact .apm/agents (contains at least one file) | pass |  |
+| structural | required artifact .apm/skills (contains at least one file) | pass |  |
+| structural | required artifact .apm/instructions (contains at least one file) | pass |  |
+| structural | required artifact .apm/prompts (contains at least one file) | pass |  |
 | structural | no stale folder targets/ | pass |  |
 | structural | no stale folder claude-code/ | pass |  |
 | structural | no stale folder gemini-cli/ | pass |  |
@@ -87,9 +87,29 @@ Checks: 98  Passed: 97  Failed: 0  Skipped: 1
 | structural | skill workflow-observability-and-evaluation: SKILL.md with name equal to folder | pass |  |
 | structural | skill workflow-observability-and-evaluation: description within 1024 characters | pass |  |
 | structural | instruction hypervelocity-engineer-contract.instructions.md: description and applyTo | pass |  |
+| structural | prompt author-gh-aw-workflow.prompt.md: description | pass |  |
+| structural | prompt compress-agent-prompt.prompt.md: description | pass |  |
+| structural | prompt design-agent-mechanism.prompt.md: description | pass |  |
+| structural | prompt diagnose-gh-aw-run.prompt.md: description | pass |  |
+| structural | prompt evaluate-workflow-reliability.prompt.md: description | pass |  |
+| structural | prompt optimize-workflow-cost.prompt.md: description | pass |  |
+| structural | prompt report-agent-usage.prompt.md: description | pass |  |
+| structural | prompt resolve-review-feedback.prompt.md: description | pass |  |
+| structural | prompt review-agent-guardrails.prompt.md: description | pass |  |
+| structural | prompt upgrade-gh-aw-workflow.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/hypervelocity-engineer.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/hypervelocity-engineer-contract.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/author-gh-aw-workflow.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/compress-agent-prompt.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-agent-mechanism.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/diagnose-gh-aw-run.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/evaluate-workflow-reliability.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/optimize-workflow-cost.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/report-agent-usage.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/resolve-review-feedback.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-agent-guardrails.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/upgrade-gh-aw-workflow.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-delegation-and-composition/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-governance-and-guardrails/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/agent-usage-reporting/SKILL.md: references only installed things | pass |  |
@@ -104,6 +124,7 @@ Checks: 98  Passed: 97  Failed: 0  Skipped: 1
 | structural | pack doc DESCRIPTION.md: describes the current layout | pass |  |
 | structural | pack doc hooks/README.md: describes the current layout | pass |  |
 | structural | pack doc docs/OFFICIAL_SOURCES.md: describes the current layout | pass |  |
+| structural | pack doc docs/PROMPT_INVENTORY.md: describes the current layout | pass |  |
 | structural | pack doc docs/SOURCE_TRACEABILITY.md: describes the current layout | pass |  |
 | structural | pack doc compatibility/capability-map.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/compatibility-matrix.yml: describes the current layout | pass |  |
@@ -115,6 +136,7 @@ Checks: 98  Passed: 97  Failed: 0  Skipped: 1
 | structural | tests/trigger-cases.yml prompt files exist | pass |  |
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |
+| structural | status names used in installed content are defined in report-contract.yml | pass |  |
 | executable | pack unit tests | skipped | no test_*.py in tests/ |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |

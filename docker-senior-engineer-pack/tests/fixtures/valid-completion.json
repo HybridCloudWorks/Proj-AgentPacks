@@ -1,0 +1,44 @@
+{
+  "outcome": "Synthetic fixture for the completion validator: a containerised service whose criteria all passed locally.",
+  "status": "COMPLETE_VERIFIED",
+  "acceptance_criteria": [
+    {
+      "id": "runs-as-non-root",
+      "status": "passed",
+      "evidence": "Fixture only: docker run --rm --entrypoint id printed uid=65532.",
+      "evidence_level": "local_runtime"
+    },
+    {
+      "id": "stops-cleanly",
+      "status": "passed",
+      "evidence": "Fixture only: docker stop returned within 2 s and the container exited 0.",
+      "evidence_level": "local_runtime"
+    }
+  ],
+  "files_changed": [
+    "Dockerfile",
+    ".dockerignore"
+  ],
+  "decisions": "Synthetic: distroless static runtime base chosen over a slim distribution.",
+  "image_impact": "Synthetic: illustrative values only, not a measurement.",
+  "runtime_contract_impact": "Synthetic: port 8080, UID 65532, read-only root filesystem.",
+  "security_review": "Synthetic: no findings at or above Medium in the fixture.",
+  "supply_chain_impact": "Synthetic: bases pinned by digest; no push or signing performed.",
+  "platform_compatibility": "Synthetic: linux/amd64 only.",
+  "operational_impact": "Synthetic: none.",
+  "checks": [
+    {
+      "command": "docker build -t fixture-service:task .",
+      "exit_code": 0,
+      "status": "passed",
+      "environment": "Synthetic: local engine, default builder, linux/amd64.",
+      "evidence": "Illustrative fixture; not a real command result."
+    }
+  ],
+  "unverified": [],
+  "remaining_risks": [
+    "Registry, CI and production behaviour are not established by this fixture."
+  ],
+  "rollback": "Synthetic: revert the Dockerfile change.",
+  "followups": "Synthetic: none."
+}

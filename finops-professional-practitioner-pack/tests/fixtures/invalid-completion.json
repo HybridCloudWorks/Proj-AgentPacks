@@ -1,0 +1,59 @@
+{
+  "status": "VERIFIED_COMPLETE",
+  "outcome": "Synthetic fixture: an idle-resource cleanup claimed as done before it was measured.",
+  "audience": "Leadership",
+  "scope": "Sub account sa-sandbox, January 2026.",
+  "data_sources": [
+    {
+      "name": "focus-sample.csv",
+      "schema": "FOCUS-shaped synthetic sample",
+      "period": "2026-01"
+    }
+  ],
+  "cost_basis": {
+    "column": "EffectiveCost",
+    "filters": "ChargeCategory Usage, ChargeClass null."
+  },
+  "acceptance_criteria": [
+    {
+      "id": "post-change-measurement",
+      "status": "unverified",
+      "evidence": "No post-change window has elapsed."
+    }
+  ],
+  "findings": [
+    "Three idle virtual machines identified from CPU and network signals."
+  ],
+  "recommendations": [
+    {
+      "action": "Decommission the idle sandbox machines.",
+      "owner": "Sandbox owner (synthetic)",
+      "monthly_impact_range": 75,
+      "savings_type": "realized",
+      "confidence": "medium",
+      "tradeoff": "None stated.",
+      "reversibility": "Snapshot retained for 30 days.",
+      "approval_level": 2
+    }
+  ],
+  "checks": [
+    {
+      "name": "post-change cost per day",
+      "method": "Compare cost per day before and after the change.",
+      "observed": "",
+      "status": "unverified",
+      "evidence": "Not run."
+    }
+  ],
+  "assumptions": [],
+  "data_quality": "Not assessed.",
+  "approvals": [],
+  "financial_impact": "Claimed 75 per month saved.",
+  "tradeoffs": "None stated.",
+  "unverified": [
+    "Post-change measurement."
+  ],
+  "risks": [],
+  "rollback": "Restore from snapshot.",
+  "followups": "None."
+}

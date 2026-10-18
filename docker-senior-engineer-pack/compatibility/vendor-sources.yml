@@ -1,0 +1,33 @@
+{
+  "verified_on": "2026-10-18",
+  "verification_note": "Docker and supply-chain URLs are recorded from the author's knowledge and were not fetched during generation (browsing was not permitted). Agent-client facts come from the repository's client-locations record, verified 2026-10-18. Re-check before relying on version-specific behaviour.",
+  "sources": [
+    {"id": "dockerfile-reference", "url": "https://docs.docker.com/reference/dockerfile/", "application": "Instructions, parser directives, heredocs, mounts and exec form; check the frontend version."},
+    {"id": "build-best-practices", "url": "https://docs.docker.com/build/building/best-practices/", "application": "Base selection, multi-stage builds, layer order and pinning."},
+    {"id": "build-checks", "url": "https://docs.docker.com/build/checks/", "application": "docker build --check rules and check directives."},
+    {"id": "build-cache", "url": "https://docs.docker.com/build/cache/", "application": "Cache invalidation, cache mounts and cache backends."},
+    {"id": "build-secrets", "url": "https://docs.docker.com/build/building/secrets/", "application": "Secret and SSH mounts for builds."},
+    {"id": "multi-platform", "url": "https://docs.docker.com/build/building/multi-platform/", "application": "Cross-compilation, emulation, native nodes and image stores."},
+    {"id": "attestations", "url": "https://docs.docker.com/build/metadata/attestations/", "application": "SBOM and provenance attestations and their modes."},
+    {"id": "bake", "url": "https://docs.docker.com/build/bake/", "application": "Bake files, targets, groups and matrices."},
+    {"id": "compose-file", "url": "https://docs.docker.com/reference/compose-file/", "application": "Compose Specification: services, depends_on, secrets, profiles, include, develop."},
+    {"id": "compose-watch", "url": "https://docs.docker.com/compose/how-tos/file-watch/", "application": "docker compose watch actions."},
+    {"id": "engine-security", "url": "https://docs.docker.com/engine/security/", "application": "Daemon attack surface, capabilities, seccomp, AppArmor, user namespaces."},
+    {"id": "rootless", "url": "https://docs.docker.com/engine/security/rootless/", "application": "Rootless mode and its limits."},
+    {"id": "resource-constraints", "url": "https://docs.docker.com/engine/containers/resource_constraints/", "application": "Memory, CPU and PID limits."},
+    {"id": "logging", "url": "https://docs.docker.com/engine/logging/configure/", "application": "Logging drivers and rotation options."},
+    {"id": "networking", "url": "https://docs.docker.com/engine/network/", "application": "Bridge and user-defined networks, DNS, port publishing and packet filtering."},
+    {"id": "docker-scout", "url": "https://docs.docker.com/scout/", "application": "Image analysis and recommendations; licence-dependent features."},
+    {"id": "oci-annotations", "url": "https://github.com/opencontainers/image-spec/blob/main/annotations.md", "application": "Standard org.opencontainers.image.* labels and annotations."},
+    {"id": "sigstore-cosign", "url": "https://docs.sigstore.dev/cosign/", "application": "Keyless and key-based image signing and verification."},
+    {"id": "slsa", "url": "https://slsa.dev/spec/", "application": "Provenance levels used to frame build attestation policy."},
+    {"id": "hadolint", "url": "https://github.com/hadolint/hadolint", "application": "Dockerfile linting when the repository uses it."},
+    {"id": "copilot-agents", "url": "https://docs.github.com/en/copilot/reference/custom-agents-configuration", "application": "Agent folder, user-invocable, include-custom-instructions and tool aliases."},
+    {"id": "copilot-hooks", "url": "https://docs.github.com/en/copilot/reference/hooks-reference", "application": "Hook events and output used by the reviewed sample."},
+    {"id": "claude-subagents", "url": "https://code.claude.com/docs/en/sub-agents", "application": "Agent frontmatter; tools inherited because no tools field is declared."},
+    {"id": "codex-subagents", "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents", "application": "Custom-agent TOML fields; parent sandbox and approval inheritance."},
+    {"id": "gemini-subagents", "url": "https://geminicli.com/docs/core/subagents/", "application": "Agent naming and tool names."},
+    {"id": "kiro-agents", "url": "https://kiro.dev/docs/custom-agents/", "application": "Agent files, steering and capability tags."},
+    {"id": "apm-targets", "url": "https://microsoft.github.io/apm/reference/targets-matrix/", "application": "What apm install generates for each target."}
+  ]
+}

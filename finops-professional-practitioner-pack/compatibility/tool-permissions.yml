@@ -1,0 +1,18 @@
+# Declared tool permissions per agent (source of truth for vendor-specific generation).
+# APM copies agent frontmatter verbatim and does not translate tool names, so the canonical
+# agents omit `tools` and inherit the host's tools. Installers that generate vendor files
+# themselves map these intents: read, edit, shell, web, delegate, todo.
+#
+# finops-professional-practitioner: web is for public provider documentation and pricing pages
+#   only; billing data, account identifiers and negotiated rates never go into a web request.
+# finops-data-analyst: shell runs local query engines; a shell can write files, so its no-edit
+#   rule is an instruction, not enforcement. Use read-only credentials.
+# finops-evidence-reviewer: read only, no shell, so its read-only rule is not contradicted.
+version: 1
+agents:
+  finops-data-analyst:
+    intent: [read, shell]
+  finops-evidence-reviewer:
+    intent: [read]
+  finops-professional-practitioner:
+    intent: [delegate, edit, read, shell, web]

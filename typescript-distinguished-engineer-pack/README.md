@@ -66,9 +66,10 @@ Do not treat static pack validation as proof that a user's repository compiles, 
 
 ## Supporting material
 
-- `instructions/` - shared repository, TypeScript, testing, security, and evidence rules.
-- `prompts/` - repeatable workflows for design, implementation, review, MCP, web, agent evaluation, diagnosis, and release readiness.
+- `.apm/instructions/` - shared repository, TypeScript, testing, security, and evidence rules, plus the always-on `typescript-distinguished-engineer-contract` instruction.
+- `.apm/prompts/` - repeatable workflows for design, implementation, review, MCP, web, agent design and evaluation, diagnosis, and release readiness. `docs/PROMPT_INVENTORY.md` maps each prompt to its skills and worked example.
+- `examples/` - seven synthetic worked walkthroughs, one per prompt workflow (design and implementation, and agent design and evaluation, are paired). Each ends with a completion report in the contract's format, and between them they use all five completion statuses, including blocked and unverified outcomes.
 - `templates/` - handoff, completion, ADR, evaluation, tool contract, workflow, and PR-review templates.
-- `tooling/` - deterministic builder, pack validator, repository inventory, command guard, report validator, and scenario validator.
+- `tooling/` - pack-specific helpers: repository inventory, command guard, completion-report validator, and evaluation-scenario validator. Shared validation and build tooling lives at the pack repository root.
 - `hooks/` - local read-only pre/post review checks; they do not publish or mutate external systems.
 - `docs/` - decisions, source traceability, matrices, workflow example, and governance.

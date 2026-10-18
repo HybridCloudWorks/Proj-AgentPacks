@@ -18,3 +18,98 @@ cross_cutting:
   toolchain_detection: verify-apple-build-tests
   severity_and_labels: review-apple-code
   handoff: review-apple-code
+# One requirement per skill. `prompt` is the workflow prompt that focuses on the skill;
+# `also_applied_by` lists the other prompts that name it. Every prompt activates review-apple-code.
+requirements:
+  - id: review-apple-code
+    skill: review-apple-code
+    agent: apple-code-reviewer
+    prompt: review-apple-pull-request.prompt.md
+    also_applied_by:
+      - audit-ai-generated-apple-code.prompt.md
+      - review-swift-correctness.prompt.md
+      - review-apple-ui-accessibility.prompt.md
+      - review-apple-security-privacy.prompt.md
+      - review-apple-runtime-quality.prompt.md
+      - verify-apple-build-and-ci.prompt.md
+      - assess-apple-release-readiness.prompt.md
+    examples:
+      - examples/review-apple-pull-request.md
+      - examples/audit-ai-generated-apple-code.md
+      - examples/review-apple-security-privacy.md
+      - examples/assess-apple-release-readiness-blocked.md
+      - examples/review-apple-runtime-quality.md
+      - examples/review-apple-ui-accessibility.md
+    expected_output: "Report with all eight contract sections, de-duplicated findings numbered ACR-001 onward in severity order, severity counts, one of the four allowed recommendations with justification, and handoff notes."
+    negative: "Unknown diff base, a finding without evidence or location, two findings for one root cause, an unrun check presented as passed, or a review that edits, posts, approves or merges."
+  - id: inspect-swift-correctness
+    skill: inspect-swift-correctness
+    agent: apple-code-reviewer
+    prompt: review-swift-correctness.prompt.md
+    also_applied_by:
+      - review-apple-pull-request.prompt.md
+      - audit-ai-generated-apple-code.prompt.md
+      - review-apple-ui-accessibility.prompt.md
+      - review-apple-runtime-quality.prompt.md
+      - assess-apple-release-readiness.prompt.md
+    examples:
+      - examples/review-apple-pull-request.md
+      - examples/audit-ai-generated-apple-code.md
+    expected_output: "Located correctness findings with trigger, expected and likely behavior, smallest correction and a regression test; plausible races labelled Potential Risk and Requires Validation."
+    negative: "Strict-concurrency diagnostic asserted as a build error without the active language mode, a race claimed as confirmed without a code path, or compilation inferred from syntax."
+  - id: assess-apple-ui-accessibility
+    skill: assess-apple-ui-accessibility
+    agent: apple-code-reviewer
+    prompt: review-apple-ui-accessibility.prompt.md
+    also_applied_by:
+      - review-apple-pull-request.prompt.md
+      - audit-ai-generated-apple-code.prompt.md
+      - assess-apple-release-readiness.prompt.md
+    examples:
+      - examples/review-apple-ui-accessibility.md
+      - examples/review-apple-pull-request.md
+    expected_output: "UI findings naming platform and OS range, interaction trigger, user-visible and accessibility impact, correction and a validation method, with manual checks listed as not run."
+    negative: "Visual preference reported as a defect, or missing design requirements or device ranges treated as known."
+  - id: assess-apple-security-privacy
+    skill: assess-apple-security-privacy
+    agent: apple-code-reviewer
+    prompt: review-apple-security-privacy.prompt.md
+    also_applied_by:
+      - review-apple-pull-request.prompt.md
+      - audit-ai-generated-apple-code.prompt.md
+      - review-apple-ui-accessibility.prompt.md
+      - assess-apple-release-readiness.prompt.md
+    examples:
+      - examples/review-apple-security-privacy.md
+      - examples/assess-apple-release-readiness-blocked.md
+    expected_output: "Security findings with attack surface, trust boundary, precondition, affected data, mitigation and validation; secrets written as [REDACTED_POSSIBLE_SECRET] with rotation routed to a human blocker."
+    negative: "A secret value reproduced, an attack class reported without a source-to-sink path, or a client-side check assumed to enforce server authorization."
+  - id: assess-apple-runtime-quality
+    skill: assess-apple-runtime-quality
+    agent: apple-code-reviewer
+    prompt: review-apple-runtime-quality.prompt.md
+    also_applied_by:
+      - review-apple-pull-request.prompt.md
+      - audit-ai-generated-apple-code.prompt.md
+      - review-swift-correctness.prompt.md
+      - assess-apple-release-readiness.prompt.md
+    examples:
+      - examples/review-apple-runtime-quality.md
+      - examples/review-apple-pull-request.md
+    expected_output: "Findings only above the evidence threshold, each with trigger, scale assumption, impact, trade-off and validation; other risks as measurement suggestions without severity."
+    negative: "An invented measurement, a micro-optimization reported as a defect, or simulator timing presented as device performance."
+  - id: verify-apple-build-tests
+    skill: verify-apple-build-tests
+    agent: apple-code-reviewer
+    prompt: verify-apple-build-and-ci.prompt.md
+    also_applied_by:
+      - review-apple-pull-request.prompt.md
+      - audit-ai-generated-apple-code.prompt.md
+      - review-apple-security-privacy.prompt.md
+      - assess-apple-release-readiness.prompt.md
+    examples:
+      - examples/assess-apple-release-readiness-blocked.md
+      - examples/audit-ai-generated-apple-code.md
+      - examples/review-apple-ui-accessibility.md
+    expected_output: "Detector report, each command actually run with exit status, verified passes, observed failures, unavailable validation, missing tests in the test-finding format, and validation still required on macOS."
+    negative: "Xcode, simulator, signing or archive success claimed without macOS, a cancelled CI run treated as a pass, a guessed scheme or destination, or a command that rewrites a lockfile."

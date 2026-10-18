@@ -1,0 +1,13 @@
+{
+  "selection": "Load only the skills a task needs. All eight ship with the pack; none is preloaded by the primary. Each skill works when installed alone and carries a minimum approval rule for that case.",
+  "preloaded_by_specialists": {
+    "finops-data-analyst": ["focus-billing-data-analysis"],
+    "finops-evidence-reviewer": ["focus-billing-data-analysis"]
+  },
+  "optional_specialists": [
+    "finops-data-analyst",
+    "finops-evidence-reviewer"
+  ],
+  "external_tools": "No MCP server, cloud credential, warehouse connection, FinOps platform or paid model is installed or configured by the pack. Query engines and provider tools are used only when the user already has them.",
+  "adjacent_packs": "Cloud architecture, security incident response, legal contract review and IT asset management are outside this pack. Route to an explicitly available specialist or person; never assume one exists."
+}

@@ -1,10 +1,36 @@
 cases:
   - input: "Copilot reviewed my PR; decide whether it is safe to merge"
     skills: [github-copilot-engineering, github-pull-requests-and-code-review, github-branch-protection-and-rulesets]
+    prompt: review-pull-request.prompt.md
   - input: "Why did the Actions workflow not run?"
     skills: [github-actions-debugging-and-troubleshooting]
+    prompt: diagnose-actions-failure.prompt.md
   - input: "Create an organization-wide branch ruleset"
     skills: [github-platform-administration, github-branch-protection-and-rulesets]
+    prompt: review-repository-governance.prompt.md
     gate: explicit_live_authorization
   - input: "List open issues and labels"
     skills: [github-issues-discussions-and-projects, github-api-cli-and-mcp-operations]
+    prompt: query-github-activity.prompt.md
+  - input: "Move our deploy workflow from AWS access keys to OIDC"
+    skills: [github-actions-workflows-and-security, github-ci-cd-and-deployment-environments]
+    prompt: harden-actions-workflow.prompt.md
+  - input: "Audit code scanning, secret scanning and Dependabot coverage for SOC 2 evidence"
+    skills: [github-security-and-supply-chain, github-audit-evidence-and-compliance]
+    prompt: audit-security-posture.prompt.md
+  - input: "Dismiss the secret scanning alert and rotate the leaked token"
+    skills: [github-security-and-supply-chain]
+    prompt: audit-security-posture.prompt.md
+    gate: explicit_live_authorization
+  - input: "Is release v2.4.0 ready to promote to production?"
+    skills: [github-releases-packages-and-artifacts, github-ci-cd-and-deployment-environments, github-audit-evidence-and-compliance]
+    prompt: assess-release-readiness.prompt.md
+  - input: "Check our Copilot instructions and MCP config before we turn on automatic code review"
+    skills: [github-copilot-engineering, github-documentation-and-repository-contracts]
+    prompt: review-copilot-setup.prompt.md
+  - input: "Design a GitHub App and webhook receiver for our deployment bot"
+    skills: [github-apps-tokens-and-webhooks, github-api-cli-and-mcp-operations]
+    prompt: design-github-integration.prompt.md
+  - input: "Plan moving 40 repositories from GHES to GitHub Enterprise Cloud"
+    skills: [github-migrations-backups-and-recovery, github-audit-evidence-and-compliance]
+    prompt: plan-migration-or-recovery.prompt.md
