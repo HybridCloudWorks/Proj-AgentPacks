@@ -1,0 +1,35 @@
+// Baseline Wrangler configuration that the pack's configuration checker accepts without errors.
+// Confirm every key against the installed node_modules/wrangler/config-schema.json before use.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "example-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  // Non-secret configuration only. Secrets go through `wrangler secret put` or the Secrets Store.
+  "vars": {
+    "ENVIRONMENT": "development",
+    "PUBLIC_DOCS_URL": "https://developers.cloudflare.com/workers/"
+  },
+  "kv_namespaces": [
+    { "binding": "CONFIG", "id": "<KV_NAMESPACE_ID>" },
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "ROOMS", "class_name": "Room" }]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["Room"] }
+  ],
+  "env": {
+    "staging": {
+      "name": "example-worker-staging",
+      "vars": { "ENVIRONMENT": "staging", "PUBLIC_DOCS_URL": "https://developers.cloudflare.com/workers/" },
+      "kv_namespaces": [{ "binding": "CONFIG", "id": "<STAGING_KV_NAMESPACE_ID>" }],
+      "durable_objects": { "bindings": [{ "name": "ROOMS", "class_name": "Room" }] }
+    }
+  }
+}

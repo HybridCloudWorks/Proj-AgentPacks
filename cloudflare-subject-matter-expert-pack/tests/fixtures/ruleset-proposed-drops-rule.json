@@ -1,0 +1,19 @@
+{
+  "phase": "http_request_firewall_custom",
+  "rules": [
+    {
+      "ref": "block-admin-outside-office",
+      "description": "Block admin paths outside the office range",
+      "expression": "(starts_with(http.request.uri.path, \"/admin\") and not ip.src in $office_ranges)",
+      "action": "block",
+      "enabled": true
+    },
+    {
+      "ref": "block-wp-login-bruteforce",
+      "description": "Block wp-login POSTs outside the office range",
+      "expression": "(http.request.uri.path eq \"/wp-login.php\" and http.request.method eq \"POST\" and not ip.src in $office_ranges)",
+      "action": "block",
+      "enabled": true
+    }
+  ]
+}

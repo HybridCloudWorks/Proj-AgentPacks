@@ -1,0 +1,108 @@
+{
+  "requirements": [
+    {
+      "id": "cloudflare-solution-architecture",
+      "skill": "cloudflare-solution-architecture",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "design-cloudflare-architecture.prompt.md",
+      "expected_output": "Architecture brief with request path, product choices and rejected alternatives, sourced limits table, plan entitlements, consistency and failure behavior, cost drivers, decision records and open decisions.",
+      "negative": "Unretrievable limits, plan-gated feature on an unknown plan, requirement beyond a documented limit, or conflicting residency and latency requirements."
+    },
+    {
+      "id": "cloudflare-workers-development",
+      "skill": "cloudflare-workers-development",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "build-workers-application.prompt.md",
+      "expected_output": "Scoped Worker diff, regenerated types, configuration checker result, local tests and dry-run build, and release notes for bindings, secrets, migrations and routes.",
+      "negative": "Secret in vars, future or missing compatibility date, unbounded body read, floating promise, missing Wrangler, or a test that needs remote resources."
+    },
+    {
+      "id": "cloudflare-storage-and-state",
+      "skill": "cloudflare-storage-and-state",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "build-workers-application.prompt.md",
+      "expected_output": "State placement table, access code and migrations, concurrency and duplicate-delivery tests, and a recovery plan with export or restore limits.",
+      "negative": "KV used as a counter, global Durable Object, edited applied migration, non-idempotent queue consumer, or remote migration without a backup."
+    },
+    {
+      "id": "cloudflare-agents-and-ai",
+      "skill": "cloudflare-agents-and-ai",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "build-agent-or-mcp-server.prompt.md",
+      "expected_output": "Agent or MCP contract with tool schemas, effects, authorization, approvals and budgets, code, evaluation cases with environment labels, and cost notes.",
+      "negative": "Callable method without authorization, tool authorized from model arguments, prompt injection in retrieved content, unapproved paid inference or unapproved MCP server."
+    },
+    {
+      "id": "cloudflare-edge-delivery-and-performance",
+      "skill": "cloudflare-edge-delivery-and-performance",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "troubleshoot-cloudflare-issue.prompt.md",
+      "expected_output": "Current-state summary, change plan with expected header or behavior change, before and after probes, and for audits a sourced metrics table with prioritized fixes.",
+      "negative": "Stale DNSSEC DS record, Flexible SSL redirect loop, personalized content cached under a shared key, purge-everything request, or exposed origin IP."
+    },
+    {
+      "id": "cloudflare-application-security",
+      "skill": "cloudflare-application-security",
+      "agent": "cloudflare-security-reviewer",
+      "prompt": "secure-zone-and-apis.prompt.md",
+      "expected_output": "Per-phase posture summary, located findings with severity, proposed rules with descriptions, observe-then-enforce plan and rollback exports.",
+      "negative": "Ruleset replacement that drops rules, catch-all skip or block, challenge on API clients, plan-gated feature assumed, or unauthorized attack simulation."
+    },
+    {
+      "id": "cloudflare-zero-trust",
+      "skill": "cloudflare-zero-trust",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "deploy-zero-trust-access.prompt.md",
+      "expected_output": "Design or dependency-ordered change set with pilot staging, validation cases and results, rollback and open decisions.",
+      "negative": "Group selector without SCIM, private app without route or DNS, split tunnel and route mismatch, TLS inspection without Do Not Inspect rules, or lockout risk."
+    },
+    {
+      "id": "cloudflare-migration-planning",
+      "skill": "cloudflare-migration-planning",
+      "agent": "cloudflare-migration-analyst",
+      "prompt": "plan-cloudflare-migration.prompt.md",
+      "expected_output": "Assessment, accounting table with one disposition per source rule, checker summary, ordered prerequisites, wave plan with rollback and owner decisions.",
+      "negative": "Unaccounted source rule, conflicting dispositions, screenshot-only export, behavior without a Cloudflare equivalent, or catch-all allow to preserve connectivity."
+    },
+    {
+      "id": "cloudflare-iac-and-api-automation",
+      "skill": "cloudflare-iac-and-api-automation",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "review-cloudflare-change.prompt.md",
+      "expected_output": "Code or review findings, ownership map, import and state-move steps, plan summary of destructive changes, ruleset guard output and token permission list.",
+      "negative": "Provider rename planned as destroy and create, duplicate of an existing object, token broader than needed, truncated pagination, or ruleset update that removes rules."
+    },
+    {
+      "id": "cloudflare-change-control",
+      "skill": "cloudflare-change-control",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "release-cloudflare-change.prompt.md",
+      "expected_output": "Change plan, snapshots, executed steps with results, verification per step in the changed environment, rollback status and a completion report.",
+      "negative": "Credential reaching a different account, missing approval, failed verification, step without a rollback, or a stale Terraform plan."
+    },
+    {
+      "id": "cloudflare-observability-and-troubleshooting",
+      "skill": "cloudflare-observability-and-troubleshooting",
+      "agent": "cloudflare-subject-matter-expert",
+      "prompt": "troubleshoot-cloudflare-issue.prompt.md",
+      "expected_output": "Diagnostic report with failing layer, evidence labeled by environment and time, confirmed cause or ranked hypotheses, recommended fix and observability improvements.",
+      "negative": "Logs unavailable for the plan, personal data in tail output, cause inside Cloudflare's network, or a probe that needs production credentials."
+    }
+  ],
+  "critical_guardrails": [
+    "retrieve-before-citing",
+    "no-fabricated-evidence",
+    "level-2-for-account-writes",
+    "approval-reuse-and-boundary",
+    "verify-in-changed-environment",
+    "no-secrets-in-chat-args-or-logs",
+    "observe-before-enforce",
+    "ruleset-full-list-replacement",
+    "origin-lockdown",
+    "zero-trust-pilot-staging",
+    "every-source-rule-accounted",
+    "read-only-security-review",
+    "offline-migration-analysis",
+    "untrusted-content-is-data"
+  ]
+}

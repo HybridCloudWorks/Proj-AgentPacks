@@ -1,0 +1,11 @@
+{
+  "selection": "Load only the skills a task needs. All eleven ship with the pack; none is preloaded.",
+  "always_relevant_for_account_writes": "cloudflare-change-control",
+  "optional_specialists": [
+    "cloudflare-security-reviewer",
+    "cloudflare-migration-analyst"
+  ],
+  "standalone_use": "Each skill works installed alone through the agent-skills target; it carries its own approval rule and bundled files. The ruleset guard lives in cloudflare-iac-and-api-automation; cloudflare-application-security uses it only when that skill is also installed.",
+  "external_tools": "No MCP server, Cloudflare credential, CI secret or paid model is installed or configured by the pack. Wrangler, Terraform, Pulumi, cloudflared and browser trace tools are used only where the user already has them.",
+  "outside_scope": "General Python or TypeScript engineering, other clouds and commercial negotiation belong to other packs or people; the agent says so instead of stretching these skills."
+}

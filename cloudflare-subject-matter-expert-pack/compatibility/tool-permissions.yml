@@ -1,0 +1,12 @@
+# Declared tool permissions per agent (source of truth for vendor-specific generation).
+# APM copies the agents' frontmatter verbatim and does not translate tool names, so the
+# canonical agents omit `tools` and inherit the host's tools. Installers that generate
+# vendor files themselves map these intents: read, edit, shell, web, delegate.
+version: 1
+agents:
+  cloudflare-migration-analyst:
+    intent: [edit, read, shell]
+  cloudflare-security-reviewer:
+    intent: [read, web]
+  cloudflare-subject-matter-expert:
+    intent: [delegate, edit, read, shell, web]

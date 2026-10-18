@@ -1,0 +1,43 @@
+{
+  "outcome": "Synthetic fixture: a Worker version was deployed but production verification is pending.",
+  "acceptance_criteria": [
+    {
+      "id": "error-rate-stable",
+      "status": "unverified",
+      "evidence": "Verification window not yet complete."
+    }
+  ],
+  "target_scope": "Synthetic account, Worker api-worker, environment production.",
+  "files_changed": ["wrangler.jsonc"],
+  "account_changes": ["Deployed a new Worker version at 10 percent (synthetic)."],
+  "decisions": "Gradual rollout chosen over full deploy.",
+  "sources_consulted": ["Fixture only; no documentation retrieved."],
+  "limits_and_entitlements": "Not applicable to this synthetic fixture.",
+  "checks": [
+    {
+      "command": "npx wrangler deploy --dry-run",
+      "environment": "local",
+      "exit_code": 0,
+      "status": "passed",
+      "evidence": "Illustrative fixture; not a real command result."
+    },
+    {
+      "command": "curl -sI https://api.example.com/health",
+      "environment": "production",
+      "exit_code": 0,
+      "status": "unverified",
+      "evidence": "Not yet run."
+    }
+  ],
+  "security_review": "No security-relevant change.",
+  "secrets_handling": "No secrets changed.",
+  "blast_radius": "Ten percent of production requests to the synthetic Worker.",
+  "cost_impact": "None expected.",
+  "observability": "Workers Logs enabled.",
+  "rollout": "10 percent, then 50, then 100 after each verification window.",
+  "rollback": "Deploy the previous version at 100 percent.",
+  "unverified": ["Production error rate and latency during the verification window."],
+  "remaining_risks": ["Errors limited to the new version may appear only under peak load."],
+  "followups": "Complete the verification window and the remaining percentages.",
+  "status": "APPLIED_NOT_VERIFIED"
+}

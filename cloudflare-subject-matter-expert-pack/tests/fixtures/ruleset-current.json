@@ -1,0 +1,34 @@
+{
+  "result": {
+    "id": "synthetic-ruleset",
+    "name": "default",
+    "kind": "zone",
+    "phase": "http_request_firewall_custom",
+    "rules": [
+      {
+        "id": "rule-admin",
+        "ref": "block-admin-outside-office",
+        "description": "Block admin paths outside the office range",
+        "expression": "(starts_with(http.request.uri.path, \"/admin\") and not ip.src in $office_ranges)",
+        "action": "block",
+        "enabled": true
+      },
+      {
+        "id": "rule-xmlrpc",
+        "ref": "block-xmlrpc",
+        "description": "Block legacy xmlrpc endpoint",
+        "expression": "(http.request.uri.path eq \"/xmlrpc.php\")",
+        "action": "block",
+        "enabled": true
+      },
+      {
+        "id": "rule-challenge-signup",
+        "ref": "challenge-signup-high-risk",
+        "description": "Managed challenge on signup from high-risk sources",
+        "expression": "(http.request.uri.path eq \"/signup\" and cf.threat_score gt 30)",
+        "action": "managed_challenge",
+        "enabled": true
+      }
+    ]
+  }
+}

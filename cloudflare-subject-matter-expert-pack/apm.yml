@@ -1,0 +1,14 @@
+name: cloudflare-subject-matter-expert
+version: 1.0.0
+description: Cloudflare subject matter expert for Workers and the developer platform, zone security and delivery, Zero Trust, migrations and infrastructure as code, with retrieval-first evidence and account-change guardrails.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [cloudflare, workers, wrangler, durable-objects, waf, zero-trust, terraform, edge]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

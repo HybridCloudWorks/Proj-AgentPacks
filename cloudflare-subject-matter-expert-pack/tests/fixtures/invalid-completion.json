@@ -1,0 +1,36 @@
+{
+  "outcome": "Synthetic fixture: claims completion while a criterion is unverified.",
+  "acceptance_criteria": [
+    {
+      "id": "waf-rule-blocks-attack",
+      "status": "unverified",
+      "evidence": "No check run."
+    }
+  ],
+  "target_scope": "Synthetic zone.",
+  "files_changed": [],
+  "account_changes": [],
+  "decisions": "Not applicable to this synthetic fixture.",
+  "sources_consulted": [],
+  "limits_and_entitlements": "Not applicable to this synthetic fixture.",
+  "checks": [
+    {
+      "command": "python ruleset_guard.py --current current.json --proposed proposed.json",
+      "environment": "local",
+      "exit_code": 0,
+      "status": "passed",
+      "evidence": "Illustrative fixture; not a real command result."
+    }
+  ],
+  "security_review": "Not applicable to this synthetic fixture.",
+  "secrets_handling": "No secrets involved.",
+  "blast_radius": "Not applicable to this synthetic fixture.",
+  "cost_impact": "None.",
+  "observability": "Not applicable to this synthetic fixture.",
+  "rollout": "Not applicable to this synthetic fixture.",
+  "rollback": "Not applicable to this synthetic fixture.",
+  "unverified": ["Rule behavior against live traffic."],
+  "remaining_risks": [],
+  "followups": "None.",
+  "status": "COMPLETE_VERIFIED"
+}
