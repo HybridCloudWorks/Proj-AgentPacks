@@ -1,15 +1,15 @@
 # VALIDATION_REPORT
 
-Pack: cloud-documentation-archivist 1.1.0
-Standard: agent-pack-prompt v2.2
+Pack: cloud-documentation-archivist 1.2.0
+Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 124  Passed: 123  Failed: 0  Skipped: 1
+Checks: 149  Passed: 148  Failed: 0  Skipped: 1
 
 ## Scope
 
-1 agents, 18 skills, 1 instruction files, 0 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
+1 agents, 18 skills, 1 instruction files, 11 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
 
 ## Failed checks
 
@@ -32,16 +32,16 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | required artifact README.md | pass |  |
 | structural | required artifact LICENSE | pass |  |
 | structural | required artifact PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | pass |  |
-| structural | required artifact docs | pass |  |
-| structural | required artifact compatibility | pass |  |
-| structural | required artifact examples | pass |  |
-| structural | required artifact templates | pass |  |
+| structural | required artifact docs (contains at least one file) | pass |  |
+| structural | required artifact compatibility (contains at least one file) | pass |  |
+| structural | required artifact examples (contains at least one file) | pass |  |
+| structural | required artifact templates (contains at least one file) | pass |  |
 | structural | required artifact hooks/README.md | pass |  |
-| structural | required artifact tests | pass |  |
-| structural | required artifact .apm/agents | pass |  |
-| structural | required artifact .apm/skills | pass |  |
-| structural | required artifact .apm/instructions | pass |  |
-| structural | required artifact .apm/prompts | pass |  |
+| structural | required artifact tests (contains at least one file) | pass |  |
+| structural | required artifact .apm/agents (contains at least one file) | pass |  |
+| structural | required artifact .apm/skills (contains at least one file) | pass |  |
+| structural | required artifact .apm/instructions (contains at least one file) | pass |  |
+| structural | required artifact .apm/prompts (contains at least one file) | pass |  |
 | structural | no stale folder targets/ | pass |  |
 | structural | no stale folder claude-code/ | pass |  |
 | structural | no stale folder gemini-cli/ | pass |  |
@@ -105,9 +105,31 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | skill tutorials-and-how-to-guides: SKILL.md with name equal to folder | pass |  |
 | structural | skill tutorials-and-how-to-guides: description within 1024 characters | pass |  |
 | structural | instruction cloud-documentation-archivist-contract.instructions.md: description and applyTo | pass |  |
+| structural | prompt document-reference.prompt.md: description | pass |  |
+| structural | prompt document-release.prompt.md: description | pass |  |
+| structural | prompt explain-architecture.prompt.md: description | pass |  |
+| structural | prompt govern-documentation.prompt.md: description | pass |  |
+| structural | prompt plan-documentation.prompt.md: description | pass |  |
+| structural | prompt prepare-publication.prompt.md: description | pass |  |
+| structural | prompt record-decision.prompt.md: description | pass |  |
+| structural | prompt review-documentation.prompt.md: description | pass |  |
+| structural | prompt synthesize-research.prompt.md: description | pass |  |
+| structural | prompt write-runbook.prompt.md: description | pass |  |
+| structural | prompt write-tutorial-or-how-to.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/cloud-documentation-archivist.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/cloud-documentation-archivist-contract.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/document-reference.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/document-release.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/explain-architecture.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/govern-documentation.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/plan-documentation.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/prepare-publication.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/record-decision.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-documentation.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/synthesize-research.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/write-runbook.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/write-tutorial-or-how-to.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/adr-and-decision-records/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/changelogs-release-notes-and-migration/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/diataxis-content-design/SKILL.md: references only installed things | pass |  |
@@ -129,6 +151,7 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | pack doc README.md: describes the current layout | pass |  |
 | structural | pack doc DESCRIPTION.md: describes the current layout | pass |  |
 | structural | pack doc hooks/README.md: describes the current layout | pass |  |
+| structural | pack doc docs/PROMPT_INVENTORY.md: describes the current layout | pass |  |
 | structural | pack doc docs/SOURCE_TRACEABILITY.md: describes the current layout | pass |  |
 | structural | pack doc compatibility/capability-map.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/compatibility-matrix.yml: describes the current layout | pass |  |
@@ -138,9 +161,11 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | tests/skill-coverage.yml lists exactly the shipped skills | pass | missing: [] extra: [] |
 | structural | tests/skill-coverage.yml has an activation statement for every skill | pass |  |
 | structural | tests/capability-coverage.yml prompt files exist | pass |  |
+| structural | tests/capability-coverage.yml names every skill exactly once | pass | 18 requirements for 18 skills |
 | structural | tests/trigger-cases.yml prompt files exist | pass |  |
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |
+| structural | status names used in installed content are defined in report-contract.yml | pass |  |
 | executable | pack unit tests | skipped | no test_*.py in tests/ |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |
