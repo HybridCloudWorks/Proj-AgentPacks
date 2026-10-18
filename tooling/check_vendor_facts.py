@@ -5,7 +5,7 @@ Fetches each page once and looks for the fact's phrase in the page's plain text,
 sets "raw": true (download file names, for example, appear only inside links). A missing phrase or an unreachable
 page means the vendor changed or moved something, so whatever the facts back must be re-verified.
 
-Usage: python tooling/check_vendor_facts.py --facts shared-skills/diagram-facts.json [--markdown OUT]
+Usage: python tooling/check_vendor_facts.py --facts shared-primitives/diagram-facts.json [--markdown OUT]
 Exit 1 when any fact could not be confirmed.
 """
 from __future__ import annotations

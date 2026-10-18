@@ -60,7 +60,7 @@ jobs:
       - run: python tooling/ci_install_apm.py
       - run: python -m unittest discover -s tooling/tests -v
       - name: shared skills are identical in every pack that ships them
-        run: python tooling/sync_shared_skills.py --check
+        run: python tooling/sync_shared.py --check
       - name: agents and skills shipped by more than one pack
         run: python tooling/check_collisions.py --github
 

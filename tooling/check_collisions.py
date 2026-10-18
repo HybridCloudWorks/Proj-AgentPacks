@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Report agent and skill names that appear in more than one pack.
+"""Report agent, skill, instruction and prompt names that appear in more than one pack.
 
-Every pack installs into the same user-profile folders (for example ~/.claude/agents and ~/.claude/skills),
-so two packs that ship an agent or skill with the same name overwrite each other on install. When every copy is
-byte-identical (a shared skill kept in sync from shared-skills/), the overwrite is harmless: those names are
-reported as shared, not as collisions.
+Every pack installs into the same user-profile folders (for example ~/.claude/agents, ~/.claude/skills,
+~/.claude/rules and ~/.claude/commands), so two packs that ship a primitive with the same name overwrite each other
+on install. When every copy is byte-identical (a shared primitive kept in sync from shared-primitives/), the
+overwrite is harmless: those names are reported as shared, not as collisions.
 
 Usage: python tooling/check_collisions.py [--strict] [--github]
   --strict  exit 1 when any collision exists
@@ -32,11 +32,12 @@ def digest(path: Path) -> str:
 
 
 def inventory(repo: Path = REPO) -> dict[str, dict[str, dict[str, str]]]:
-    """kind -> name -> pack -> content hash, for every agent and skill in every pack."""
-    found: dict[str, dict[str, dict[str, str]]] = {"agents": defaultdict(dict), "skills": defaultdict(dict)}
+    """kind -> name -> pack -> content hash, for every agent, skill, instruction and prompt in every pack."""
+    found: dict[str, dict[str, dict[str, str]]] = {kind: defaultdict(dict) for kind in ("agents", "skills", "instructions", "prompts")}
     for pack in sorted(p for p in repo.iterdir() if p.is_dir() and (p / "apm.yml").is_file()):
-        for agent in (pack / ".apm" / "agents").glob("*.agent.md"):
-            found["agents"][agent.name[: -len(".agent.md")]][pack.name] = digest(agent)
+        for kind, suffix in (("agents", ".agent.md"), ("instructions", ".instructions.md"), ("prompts", ".prompt.md")):
+            for item in (pack / ".apm" / kind).glob("*" + suffix):
+                found[kind][item.name[: -len(suffix)]][pack.name] = digest(item)
         skills_dir = pack / ".apm" / "skills"
         for skill in (p for p in skills_dir.iterdir() if p.is_dir()) if skills_dir.is_dir() else []:
             found["skills"][skill.name][pack.name] = digest(skill)
@@ -72,7 +73,7 @@ def main() -> int:
     for kind, names in same.items():
         for name, packs in names.items():
             print(f"{kind[:-1]} '{name}' is shared: {len(packs)} packs ship identical copies ({', '.join(packs)})")
-    print(f"{total} collision(s): {len(found['agents'])} agent, {len(found['skills'])} skill; "
+    print(f"{total} collision(s): " + ", ".join(f"{len(found[k])} {k[:-1]}" for k in found) + "; "
           f"{sum(len(v) for v in same.values())} shared name(s) with identical copies")
     return 1 if (args.strict and total) else 0
 

@@ -2,7 +2,7 @@
 """Decide which packs and runner operating systems a validation run covers. Writes GitHub Actions outputs.
 
   push / pull_request : packs changed since the base commit, on Linux, with the pinned APM.
-                        A change under tooling/, shared-skills/ or .github/ revalidates every pack.
+                        A change under tooling/, shared-primitives/ or .github/ revalidates every pack.
   schedule / dispatch : every pack, on Linux, Windows and macOS, with the latest APM.
 
 Usage: python tooling/ci_plan.py --event <github.event_name> [--base <sha>]
@@ -39,7 +39,7 @@ def plan(event: str, base: str, scope: str = "all") -> dict[str, object]:
     if event == "workflow_dispatch":
         base = "origin/main"
     changed = changed_paths(base)
-    if changed is None or any(p.startswith(("tooling/", "shared-skills/", ".github/")) for p in changed):
+    if changed is None or any(p.startswith(("tooling/", "shared-primitives/", ".github/")) for p in changed):
         selected = packs
     else:
         selected = sorted({p.split("/", 1)[0] for p in changed} & set(packs))

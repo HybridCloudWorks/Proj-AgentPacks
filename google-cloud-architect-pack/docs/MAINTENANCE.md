@@ -12,7 +12,7 @@ Pack version 1.1.0 follows agent-pack-prompt version 2.3. Edit only the files un
 
 ## Shared diagram skills
 
-The skills drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence are shared with the AWS and Azure packs. Do not edit them here: change the canonical copy in the repository's `shared-skills/` folder and run `tooling/sync_shared_skills.py`, which updates every pack that ships them. Their icon catalog is generated from draw.io's source by `tooling/build_icon_catalog.py`, and a weekly workflow reports when draw.io or a provider changes its icons.
+The skills drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence are shared with the AWS and Azure packs. Do not edit them here: change the canonical copy in the repository's `shared-primitives/` folder and run `tooling/sync_shared.py`, which updates every pack that ships them. Their icon catalog is generated from draw.io's source by `tooling/build_icon_catalog.py`, and a weekly workflow reports when draw.io or a provider changes its icons.
 
 ## Versioning
 

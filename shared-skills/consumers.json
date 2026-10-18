@@ -1,8 +1,0 @@
-{
-  "about": "Which packs ship each shared skill. tooling/sync_shared_skills.py copies every skill folder here into .apm/skills/<skill> of each listed pack, and --check (run in CI) fails when a copy differs or an unlisted pack ships a skill of the same name.",
-  "skills": {
-    "diagram-validation-and-evidence": ["aws-cloud-architect-pack", "aws-expert-designer-pack", "azure-cloud-architect-pack", "azure-expert-designer-pack", "google-cloud-architect-pack"],
-    "drawio-core-generation": ["aws-cloud-architect-pack", "aws-expert-designer-pack", "azure-cloud-architect-pack", "azure-expert-designer-pack", "google-cloud-architect-pack"],
-    "drawio-render-export-and-review": ["aws-cloud-architect-pack", "aws-expert-designer-pack", "azure-cloud-architect-pack", "azure-expert-designer-pack", "google-cloud-architect-pack"]
-  }
-}
