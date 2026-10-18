@@ -162,6 +162,17 @@ def bump_minor(pack: Path) -> str:
     return new
 
 
+def record_version_bump(ws: Path, meta: dict) -> str:
+    """Bump the pack's minor version and record the new apm.yml as the baseline, so the protected-file guard
+    does not mistake the engine's own change for the generator's."""
+    pack = ws / "out" / f"{meta['name']}-pack"
+    version = bump_minor(pack)
+    meta["baseline"]["apm.yml"] = file_hashes(pack)["apm.yml"]
+    meta["version_bumped_by_engine"] = version
+    (ws / "workspace.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
+    return version
+
+
 def run_generator(ws: Path, model: str | None, max_turns: int, timeout_min: int) -> dict:
     claude = shutil.which("claude")
     if not claude:
@@ -223,7 +234,7 @@ def check(ws: Path) -> dict:
     shutil.rmtree(pack / "dist", ignore_errors=True)
     proc = subprocess.run([sys.executable, str(TOOLING / "validate_pack.py"), str(pack), "--install-check"], capture_output=True, text=True)
     report["validator"] = {"exit_code": proc.returncode, "summary": proc.stdout.strip().splitlines()[0] if proc.stdout.strip() else "",
-                           "failures": [l.strip() for l in proc.stdout.splitlines() if l.startswith("  FAIL")]}
+                           "failures": [line.strip() for line in proc.stdout.splitlines() if line.startswith("  FAIL")]}
     proc = subprocess.run([sys.executable, str(TOOLING / "skill_coverage.py"), str(pack), "--check"], capture_output=True, text=True)
     report["skill_coverage_current"] = proc.returncode == 0
 
@@ -375,7 +386,8 @@ def status(ws: Path) -> int:
     files = [p for p in pack.rglob("*") if p.is_file()] if pack.is_dir() else []
     size_kb = round(sum(p.stat().st_size for p in files) / 1024)
     apm = pack / ".apm"
-    count = lambda folder, pattern: len(list(folder.glob(pattern))) if folder.is_dir() else 0
+    def count(folder: Path, pattern: str) -> int:
+        return len(list(folder.glob(pattern))) if folder.is_dir() else 0
     print(f"{meta['name']}: {done * 100 // len(items)}% complete ({done} of {len(items)} milestones), "
           f"elapsed {int(elapsed.total_seconds() // 60)} min {int(elapsed.total_seconds() % 60)} s")
     print(f"files {len(files)} ({size_kb} KB): agents {count(apm / 'agents', '*.agent.md')}, skills {count(apm / 'skills', '*/SKILL.md')}, "
@@ -429,8 +441,8 @@ def publish(ws: Path, base: str = "main") -> int:
         if not git("status", "--porcelain", cwd=tree).stdout.strip():
             print("nothing to publish: the branch already holds this pack")
             return 0
-        version = next((l.split(":", 1)[1].strip() for l in (src / "apm.yml").read_text(encoding="utf-8").splitlines()
-                        if l.startswith("version:")), "?")
+        version = next((line.split(":", 1)[1].strip() for line in (src / "apm.yml").read_text(encoding="utf-8").splitlines()
+                        if line.startswith("version:")), "?")
         counts = report.get("counts", {})
         verb = "Fill missing artifacts in" if meta.get("mode") == "fill" else "Add"
         message = (f"{verb} {name} {version} (generated)\n\n"
@@ -444,7 +456,9 @@ def publish(ws: Path, base: str = "main") -> int:
         git("worktree", "remove", "--force", str(tree), check=False)
         shutil.rmtree(tmp, ignore_errors=True)
     body = (ws / "STAGING_REPORT.md").read_text(encoding="utf-8")
-    body = body.split("## Approve", 1)[0].rstrip() + "\n\n## Approve\n\nMerging this pull request is the approval: it adds the pack to main. CI validates the pack on this branch.\n\n" + PR_TRAILER + "\n"
+    approve = ("\n\n## Approve\n\nMerging this pull request is the approval: it adds the pack to main. "
+               "CI validates the pack on this branch.\n\n")
+    body = body.split("## Approve", 1)[0].rstrip() + approve + PR_TRAILER + "\n"
     body_file = ws / "PR_BODY.md"
     body_file.write_text(body, encoding="utf-8")
     existing = subprocess.run([gh, "pr", "list", "--head", branch, "--state", "open", "--json", "url", "--jq", ".[0].url"],
@@ -516,7 +530,7 @@ def main() -> int:
         report = check(ws)
         if report["status"] == "PASS":
             meta = json.loads((ws / "workspace.json").read_text(encoding="utf-8"))
-            version = bump_minor(ws / "out" / f"{meta['name']}-pack")
+            version = record_version_bump(ws, meta)
             report = check(ws)
             print(f"version bumped to {version}")
         print(f"check: {report['status']}; see {ws / 'STAGING_REPORT.md'}")
