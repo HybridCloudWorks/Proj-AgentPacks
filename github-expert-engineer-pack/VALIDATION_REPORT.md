@@ -1,15 +1,15 @@
 # VALIDATION_REPORT
 
-Pack: github-expert-engineer 1.1.0
-Standard: agent-pack-prompt v2.2
+Pack: github-expert-engineer 1.2.0
+Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 124  Passed: 123  Failed: 0  Skipped: 1
+Checks: 146  Passed: 145  Failed: 0  Skipped: 1
 
 ## Scope
 
-1 agents, 18 skills, 1 instruction files, 0 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
+1 agents, 18 skills, 1 instruction files, 10 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
 
 ## Failed checks
 
@@ -32,16 +32,16 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | required artifact README.md | pass |  |
 | structural | required artifact LICENSE | pass |  |
 | structural | required artifact PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | pass |  |
-| structural | required artifact docs | pass |  |
-| structural | required artifact compatibility | pass |  |
-| structural | required artifact examples | pass |  |
-| structural | required artifact templates | pass |  |
+| structural | required artifact docs (contains at least one file) | pass |  |
+| structural | required artifact compatibility (contains at least one file) | pass |  |
+| structural | required artifact examples (contains at least one file) | pass |  |
+| structural | required artifact templates (contains at least one file) | pass |  |
 | structural | required artifact hooks/README.md | pass |  |
-| structural | required artifact tests | pass |  |
-| structural | required artifact .apm/agents | pass |  |
-| structural | required artifact .apm/skills | pass |  |
-| structural | required artifact .apm/instructions | pass |  |
-| structural | required artifact .apm/prompts | pass |  |
+| structural | required artifact tests (contains at least one file) | pass |  |
+| structural | required artifact .apm/agents (contains at least one file) | pass |  |
+| structural | required artifact .apm/skills (contains at least one file) | pass |  |
+| structural | required artifact .apm/instructions (contains at least one file) | pass |  |
+| structural | required artifact .apm/prompts (contains at least one file) | pass |  |
 | structural | no stale folder targets/ | pass |  |
 | structural | no stale folder claude-code/ | pass |  |
 | structural | no stale folder gemini-cli/ | pass |  |
@@ -105,9 +105,29 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | skill github-security-and-supply-chain: SKILL.md with name equal to folder | pass |  |
 | structural | skill github-security-and-supply-chain: description within 1024 characters | pass |  |
 | structural | instruction github-expert-engineer-contract.instructions.md: description and applyTo | pass |  |
+| structural | prompt assess-release-readiness.prompt.md: description | pass |  |
+| structural | prompt audit-security-posture.prompt.md: description | pass |  |
+| structural | prompt design-github-integration.prompt.md: description | pass |  |
+| structural | prompt diagnose-actions-failure.prompt.md: description | pass |  |
+| structural | prompt harden-actions-workflow.prompt.md: description | pass |  |
+| structural | prompt plan-migration-or-recovery.prompt.md: description | pass |  |
+| structural | prompt query-github-activity.prompt.md: description | pass |  |
+| structural | prompt review-copilot-setup.prompt.md: description | pass |  |
+| structural | prompt review-pull-request.prompt.md: description | pass |  |
+| structural | prompt review-repository-governance.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/github-expert-engineer.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/github-expert-engineer-contract.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/assess-release-readiness.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/audit-security-posture.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-github-integration.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/diagnose-actions-failure.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/harden-actions-workflow.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/plan-migration-or-recovery.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/query-github-activity.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-copilot-setup.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-pull-request.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-repository-governance.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/github-actions-debugging-and-troubleshooting/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/github-actions-workflows-and-security/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/github-api-cli-and-mcp-operations/SKILL.md: references only installed things | pass |  |
@@ -129,6 +149,7 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | pack doc README.md: describes the current layout | pass |  |
 | structural | pack doc DESCRIPTION.md: describes the current layout | pass |  |
 | structural | pack doc hooks/README.md: describes the current layout | pass |  |
+| structural | pack doc docs/PROMPT_INVENTORY.md: describes the current layout | pass |  |
 | structural | pack doc docs/SOURCE_TRACEABILITY.md: describes the current layout | pass |  |
 | structural | pack doc compatibility/capability-map.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/compatibility-matrix.yml: describes the current layout | pass |  |
@@ -141,6 +162,7 @@ Checks: 124  Passed: 123  Failed: 0  Skipped: 1
 | structural | tests/trigger-cases.yml prompt files exist | pass |  |
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |
+| structural | status names used in installed content are defined in report-contract.yml | pass |  |
 | executable | pack unit tests | skipped | no test_*.py in tests/ |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |

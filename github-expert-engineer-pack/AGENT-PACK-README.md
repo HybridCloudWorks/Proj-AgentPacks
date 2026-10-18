@@ -1,4 +1,4 @@
-# github-expert-engineer 1.1.0: artifact catalog
+# github-expert-engineer 1.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -6,6 +6,16 @@ Every file in this pack, with its purpose and location. Contents are in the file
 |---|---|---|
 | github-expert-engineer.agent.md | Canonical agent: Expert GitHub platform engineer for organization and repository administration, governance, branches, pull requests, reviews, Copilot, Actions, security, releases, APIs, troubleshooting, and evidence-driven automation. | .apm/agents/github-expert-engineer.agent.md |
 | github-expert-engineer-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the github expert engineer pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/github-expert-engineer-contract.instructions.md |
+| assess-release-readiness.prompt.md | Canonical prompt: Trace a release from commit to deployment and assess whether it is ready to promote | .apm/prompts/assess-release-readiness.prompt.md |
+| audit-security-posture.prompt.md | Canonical prompt: Audit a repository's GitHub security features and software supply-chain controls | .apm/prompts/audit-security-posture.prompt.md |
+| design-github-integration.prompt.md | Canonical prompt: Design or audit a GitHub App, token, OAuth or webhook integration with least privilege | .apm/prompts/design-github-integration.prompt.md |
+| diagnose-actions-failure.prompt.md | Canonical prompt: Diagnose a GitHub Actions workflow that did not run, stayed queued, was skipped or failed | .apm/prompts/diagnose-actions-failure.prompt.md |
+| harden-actions-workflow.prompt.md | Canonical prompt: Author or harden a GitHub Actions workflow for least privilege, pinned actions, OIDC and safe triggers | .apm/prompts/harden-actions-workflow.prompt.md |
+| plan-migration-or-recovery.prompt.md | Canonical prompt: Plan or assess a GitHub migration, backup, restore or disaster-recovery exercise | .apm/prompts/plan-migration-or-recovery.prompt.md |
+| query-github-activity.prompt.md | Canonical prompt: Query pull requests, issues, discussions, labels, Projects and workflows read-only and propose triage | .apm/prompts/query-github-activity.prompt.md |
+| review-copilot-setup.prompt.md | Canonical prompt: Review GitHub Copilot instructions, custom agents, skills, MCP configuration and code review settings for a repository | .apm/prompts/review-copilot-setup.prompt.md |
+| review-pull-request.prompt.md | Canonical prompt: Review a GitHub pull request, including Copilot-authored or Copilot-reviewed changes, for merge readiness | .apm/prompts/review-pull-request.prompt.md |
+| review-repository-governance.prompt.md | Canonical prompt: Assess organization and repository governance, or plan a ruleset, branch protection or settings change without applying it | .apm/prompts/review-repository-governance.prompt.md |
 | SKILL.md | Canonical skill: Diagnose GitHub Actions workflow discovery, trigger, queue, permission, runner, expression, dependency, artifact, cache, and log failures. | .apm/skills/github-actions-debugging-and-troubleshooting/SKILL.md |
 | SKILL.md | Canonical skill: Author and audit GitHub Actions workflows, reusable workflows, composite actions, permissions, action pins, OIDC, expressions, runners, artifacts, caches, and supply-chain controls. | .apm/skills/github-actions-workflows-and-security/SKILL.md |
 | SKILL.md | Canonical skill: Use GitHub CLI, REST, GraphQL, GitHub Apps, and MCP safely with narrow scope, pagination, rate-limit awareness, redaction, and mutation gates. | .apm/skills/github-api-cli-and-mcp-operations/SKILL.md |
@@ -32,7 +42,15 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | vendor-sources.yml | Vendor compatibility metadata | compatibility/vendor-sources.yml |
 | DESCRIPTION.md | What the pack is for and who uses it. | DESCRIPTION.md |
 | DESIGN_DECISIONS.md | Pack contract or inventory | docs/DESIGN_DECISIONS.md |
+| PROMPT_INVENTORY.md | Pack contract or inventory | docs/PROMPT_INVENTORY.md |
 | SOURCE_TRACEABILITY.md | Pack contract or inventory | docs/SOURCE_TRACEABILITY.md |
+| actions-run-diagnosis.md | Worked example | examples/actions-run-diagnosis.md |
+| actions-workflow-hardening.md | Worked example | examples/actions-workflow-hardening.md |
+| copilot-pull-request-review.md | Worked example | examples/copilot-pull-request-review.md |
+| issue-triage-query.md | Worked example | examples/issue-triage-query.md |
+| org-ruleset-change-plan.md | Worked example | examples/org-ruleset-change-plan.md |
+| release-readiness-review.md | Worked example | examples/release-readiness-review.md |
+| security-posture-audit.md | Worked example | examples/security-posture-audit.md |
 | post-github-review.ps1 | Hook helper script | hooks/post-github-review.ps1 |
 | post-github-review.sh | Hook helper script | hooks/post-github-review.sh |
 | pre-github-review.ps1 | Hook helper script | hooks/pre-github-review.ps1 |
@@ -41,6 +59,12 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | LICENSE | License terms. | LICENSE |
 | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | The master prompt this pack was built to. | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md |
 | README.md | How to install and use the pack. | README.md |
+| completion-report.md | Reusable template | templates/completion-report.md |
+| evidence-ledger.md | Reusable template | templates/evidence-ledger.md |
+| governance-change-plan.md | Reusable template | templates/governance-change-plan.md |
+| handoff.md | Reusable template | templates/handoff.md |
+| integration-permission-matrix.md | Reusable template | templates/integration-permission-matrix.md |
+| migration-recovery-plan.md | Reusable template | templates/migration-recovery-plan.md |
 | capability-coverage.yml | Local test or recorded evidence | tests/capability-coverage.yml |
 | REVIEW.md | Local test or recorded evidence | tests/fixtures/REVIEW.md |
 | valid-review.md | Local test or recorded evidence | tests/fixtures/valid-review.md |
@@ -60,10 +84,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 
 ## Build outputs (dist/, not committed)
 
-- copilot-github-expert-engineer.zip: 20 files generated by `apm install --target copilot`
-- claude-github-expert-engineer.zip: 20 files generated by `apm install --target claude`
+- copilot-github-expert-engineer.zip: 30 files generated by `apm install --target copilot`
+- claude-github-expert-engineer.zip: 30 files generated by `apm install --target claude`
 - codex-github-expert-engineer.zip: 19 files generated by `apm install --target codex`
 - kiro-github-expert-engineer.zip: 20 files generated by `apm install --target kiro`
-- gemini-github-expert-engineer.zip: 18 files generated by `apm install --target gemini`
+- gemini-github-expert-engineer.zip: 28 files generated by `apm install --target gemini`
 - agent-skills-github-expert-engineer.zip: 18 files generated by `apm install --target agent-skills`
 - github-expert-engineer-canonical.zip, github-expert-engineer-prompt.zip, github-expert-engineer-validation.zip, github-expert-engineer-skills.zip, github-expert-engineer-full-pack.zip, SHA256SUMS.txt
