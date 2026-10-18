@@ -36,12 +36,12 @@ skill_map:
 # Workflow prompts in .apm/prompts and the capabilities each one exercises.
 prompt_map:
   design-azure-workload.prompt.md: [structured_requirements_and_architecture_handoff, workload_service_selection, data_application_and_integration_patterns, well_architected_five_pillars, official_docs_and_mcp_evidence]
-  design-landing-zone.prompt.md: [caf_and_alz_governance, tenant_management_group_subscription_boundaries, security_identity_and_compliance, networking_hybrid_and_edge]
-  design-hybrid-network.prompt.md: [networking_hybrid_and_edge, cost_sustainability_and_finops]
-  plan-migration-and-dr.prompt.md: [resilience_dr_migration_and_recovery, structured_requirements_and_architecture_handoff]
+  design-azure-landing-zone.prompt.md: [caf_and_alz_governance, tenant_management_group_subscription_boundaries, security_identity_and_compliance, networking_hybrid_and_edge]
+  design-azure-hybrid-network.prompt.md: [networking_hybrid_and_edge, cost_sustainability_and_finops]
+  plan-azure-migration-and-dr.prompt.md: [resilience_dr_migration_and_recovery, structured_requirements_and_architecture_handoff]
   review-iac-and-deployment-plan.prompt.md: [iac_avm_repo_standardization_and_deployment_lifecycle, security_identity_and_compliance]
-  review-well-architected.prompt.md: [well_architected_five_pillars, caf_and_alz_governance]
+  review-azure-well-architected.prompt.md: [well_architected_five_pillars, caf_and_alz_governance]
   estimate-azure-cost.prompt.md: [cost_sustainability_and_finops]
   verify-azure-evidence.prompt.md: [official_docs_and_mcp_evidence]
   troubleshoot-azure-issue.prompt.md: [operations_observability_and_troubleshooting, iac_avm_repo_standardization_and_deployment_lifecycle]
-  create-architecture-diagram.prompt.md: [drawio_visualization_routing]
+  create-azure-architecture-diagram.prompt.md: [drawio_visualization_routing]

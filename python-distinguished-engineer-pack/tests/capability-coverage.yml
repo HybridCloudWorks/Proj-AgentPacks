@@ -4,7 +4,7 @@
       "id": "python-language-engineering",
       "skill": "python-language-engineering",
       "agent": "python-distinguished-engineer",
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected_output": "Focused patch or located review findings; compatibility decision, tests, cleanup behavior and interface impact.",
       "negative": "Unknown minimum interpreter, changed public contract, import side effects, resource leaks or unreproduced defect."
     },
@@ -12,7 +12,7 @@
       "id": "python-static-typing",
       "skill": "python-static-typing",
       "agent": "python-distinguished-engineer",
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected_output": "Typed interface or targeted diagnostic fix, checker evidence, runtime-validation coverage and suppression ledger.",
       "negative": "Unsupported syntax, missing third-party stubs, checker-version disagreement or typing-only fix that leaves unsafe runtime input."
     },
@@ -44,7 +44,7 @@
       "id": "python-data-engineering",
       "skill": "python-data-engineering",
       "agent": "python-distinguished-engineer",
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected_output": "Pipeline/transform patch, schema/data-quality checks, lineage and recovery notes, memory/throughput evidence where measured.",
       "negative": "Schema drift, precision loss, cross-tenant mixing, unbounded memory, unknown data rights or non-recoverable partial writes."
     },
@@ -52,7 +52,7 @@
       "id": "python-database-engineering",
       "skill": "python-database-engineering",
       "agent": "python-distinguished-engineer",
-      "prompt": "design-change.prompt.md",
+      "prompt": "design-python-change.prompt.md",
       "expected_output": "Persistence patch or migration plan with query/transaction evidence, compatibility and data recovery limits.",
       "negative": "Destructive shared migration without approval, missing backup evidence, pool leak, duplicate writes, unsafe query construction or engine-dependent unknown."
     },
@@ -60,7 +60,7 @@
       "id": "python-cli-automation",
       "skill": "python-cli-automation",
       "agent": "python-distinguished-engineer",
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected_output": "CLI or automation patch with documented usage, exit behavior, side-effect scope and regression evidence.",
       "negative": "Ambiguous delete target, shell injection, unexpected executable identity, secret output or unsafe recovery."
     },
@@ -68,7 +68,7 @@
       "id": "architecture-decision-records",
       "skill": "architecture-decision-records",
       "agent": "python-distinguished-engineer",
-      "prompt": "design-change.prompt.md",
+      "prompt": "design-python-change.prompt.md",
       "expected_output": "One decision record per significant decision, with alternatives, evidence, owner/status and implementation validation.",
       "negative": "Missing decision owner, unsupported claim, incompatible consumer need or an alternative eliminated without evidence."
     },
@@ -76,7 +76,7 @@
       "id": "mcp-python-engineering",
       "skill": "mcp-python-engineering",
       "agent": "python-distinguished-engineer",
-      "prompt": "build-mcp-server.prompt.md",
+      "prompt": "build-python-mcp-server.prompt.md",
       "expected_output": "Protocol contract and implementation/test evidence, authz matrix, redaction/telemetry and rollback plan.",
       "negative": "SDK/protocol mismatch, arbitrary file/URL/query tool, unapproved server, missing authz or protocol contamination."
     },
@@ -100,7 +100,7 @@
       "id": "secure-python-engineering",
       "skill": "secure-python-engineering",
       "agent": "python-security-reviewer",
-      "prompt": "review-pull-request.prompt.md",
+      "prompt": "review-python-pull-request.prompt.md",
       "expected_output": "Evidence-based findings or requested remediation with negative tests, residual risk and approval gaps.",
       "negative": "Unreproducible vulnerability claim, sensitive evidence disclosure, unknown dependency provenance or unavailable production controls."
     },
@@ -140,7 +140,7 @@
       "id": "pull-request-review",
       "skill": "pull-request-review",
       "agent": "python-distinguished-engineer",
-      "prompt": "review-pull-request.prompt.md",
+      "prompt": "review-python-pull-request.prompt.md",
       "expected_output": "Prioritized findings, evidence/commands, criterion coverage, residual risks and readiness recommendation.",
       "negative": "Unknown diff base, fabricated finding, missing caller context, unrun check represented as passed or unapproved external write."
     }

@@ -22,24 +22,24 @@ Status is the shared validator's result with an APM install check for every targ
 |---|---|---|---|---|---|
 | ansible-expert-engineer-pack | 1.2.0 | 1 | 10 | PASS | Examples, templates and prompts gap-filled. |
 | apple-code-reviewer-pack | 1.2.0 | 1 | 6 | PASS | Examples, templates and prompts gap-filled. |
-| aws-cloud-architect-pack | 1.3.0 | 1 | 17 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| aws-expert-designer-pack | 1.3.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| azure-cloud-architect-pack | 1.3.0 | 1 | 18 | PASS | Leaked copy of the AWS agent removed. Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| azure-expert-designer-pack | 1.3.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| aws-cloud-architect-pack | 1.4.0 | 1 | 17 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| aws-expert-designer-pack | 1.4.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| azure-cloud-architect-pack | 1.4.0 | 1 | 18 | PASS | Leaked copy of the AWS agent removed. Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| azure-expert-designer-pack | 1.4.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
 | cloud-documentation-archivist-pack | 1.2.0 | 1 | 18 | PASS | Examples, templates and prompts gap-filled. |
 | cloud-prepress-reviewer-pack | 1.2.0 | 1 | 15 | PASS | Leaked copy of the AWS agent removed. Examples, templates and prompts gap-filled. |
 | cloudflare-subject-matter-expert-pack | 1.0.0 | 3 | 11 | PASS | Generated from the CloudFlare skill collection. |
 | docker-senior-engineer-pack | 1.0.0 | 3 | 6 | PASS | Generated from the Docker skill collection. |
 | finops-professional-practitioner-pack | 1.0.0 | 3 | 8 | PASS | Generated from the FinOps skill collection. |
 | github-expert-engineer-pack | 1.2.0 | 1 | 18 | PASS | Examples, templates and prompts gap-filled. |
-| google-cloud-architect-pack | 1.1.0 | 3 | 20 | PASS | Generated from the Google Cloud skill collection. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| google-cloud-architect-pack | 1.2.0 | 3 | 20 | PASS | Generated from the Google Cloud skill collection. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
 | hypervelocity-engineer-pack | 1.2.0 | 1 | 9 | PASS | Examples, templates and prompts gap-filled. |
 | infrastructure-pr-reviewer-pack | 1.2.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. |
 | microsoft-certified-trainer-pack | 1.1.0 | 5 | 18 | PASS | |
 | notion-subject-matter-expert-pack | 1.0.0 | 2 | 7 | PASS | Generated from the Notion skill collection. |
-| python-distinguished-engineer-pack | 2.2.0 | 5 | 18 | PASS | Shares its agent-evaluation agent, four skills, agentic-security instruction and two prompts with the TypeScript pack. |
+| python-distinguished-engineer-pack | 2.3.0 | 5 | 18 | PASS | Shares its agent-evaluation agent, four skills, agentic-security instruction and two prompts with the TypeScript pack. |
 | terraform-expert-engineer-pack | 1.2.0 | 1 | 9 | PASS | Examples, templates and prompts gap-filled. |
-| typescript-distinguished-engineer-pack | 1.3.0 | 4 | 20 | PASS | Primary set explicitly; review verdicts defined. Examples, templates and prompts gap-filled. Shares its agent-evaluation agent, four skills, agentic-security instruction and two prompts with the Python pack. |
+| typescript-distinguished-engineer-pack | 1.4.0 | 4 | 20 | PASS | Primary set explicitly; review verdicts defined. Examples, templates and prompts gap-filled. Shares its agent-evaluation agent, four skills, agentic-security instruction and two prompts with the Python pack. |
 
 Orchestrators are not packs: each client's main coordinating agent is generated per desktop from the tools found there and the agents and skills selected, so it lives in `orchestrators/` until the orchestrator standard is defined. The Codex orchestrator seed, formerly `codex-agentic-orchestrator-pack`, is kept there unchanged as reference.
 
@@ -59,7 +59,7 @@ This repository is public, so GitHub-hosted runners are free. Model usage is not
 
 Generated packs always arrive as pull requests on a `pack/<name>` branch; merging one is the approval. Locally, `python tooling/generate_pack.py publish staging/<name>` does the same.
 
-To release a pack: `git tag python-distinguished-engineer-v2.2.0 && git push origin python-distinguished-engineer-v2.2.0`.
+To release a pack: `git tag python-distinguished-engineer-v2.3.0 && git push origin python-distinguished-engineer-v2.3.0`.
 
 ## Working on packs
 

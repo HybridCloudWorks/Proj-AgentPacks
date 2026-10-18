@@ -1,6 +1,6 @@
 # Worked example: normalizing and reflowing an exported landing-zone diagram
 
-Prompts: `repair-drawio-xml.prompt.md`, then `reflow-diagram-layout.prompt.md`. Skills: `drawio-xml-authoring`, `azure-icons-and-visual-language`, `drawio-core-generation`, `drawio-layout-and-composition`, `diagram-validation-and-evidence`, `drawio-render-export-and-review`.
+Prompts: `repair-azure-drawio-xml.prompt.md`, then `reflow-diagram-layout.prompt.md`. Skills: `drawio-xml-authoring`, `azure-icons-and-visual-language`, `drawio-core-generation`, `drawio-layout-and-composition`, `diagram-validation-and-evidence`, `drawio-render-export-and-review`.
 
 Fictional scenario. Names, paths and tool output are illustrative.
 

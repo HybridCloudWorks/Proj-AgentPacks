@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Pack: aws-cloud-architect 1.3.0
+Pack: aws-cloud-architect 1.4.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
@@ -103,27 +103,27 @@ Checks: 150  Passed: 149  Failed: 0  Skipped: 1
 | structural | skill drawio-render-export-and-review: SKILL.md with name equal to folder | pass |  |
 | structural | skill drawio-render-export-and-review: description within 1024 characters | pass |  |
 | structural | instruction aws-cloud-architect-contract.instructions.md: description and applyTo | pass |  |
-| structural | prompt create-architecture-diagram.prompt.md: description | pass |  |
+| structural | prompt create-aws-architecture-diagram.prompt.md: description | pass |  |
+| structural | prompt design-aws-hybrid-network.prompt.md: description | pass |  |
+| structural | prompt design-aws-landing-zone.prompt.md: description | pass |  |
 | structural | prompt design-aws-workload.prompt.md: description | pass |  |
-| structural | prompt design-hybrid-network.prompt.md: description | pass |  |
-| structural | prompt design-landing-zone.prompt.md: description | pass |  |
-| structural | prompt plan-migration-and-dr.prompt.md: description | pass |  |
+| structural | prompt plan-aws-migration-and-dr.prompt.md: description | pass |  |
 | structural | prompt review-aws-cost.prompt.md: description | pass |  |
+| structural | prompt review-aws-well-architected.prompt.md: description | pass |  |
 | structural | prompt review-deployment-plan.prompt.md: description | pass |  |
-| structural | prompt review-well-architected.prompt.md: description | pass |  |
 | structural | prompt troubleshoot-aws-incident.prompt.md: description | pass |  |
 | structural | prompt verify-aws-evidence.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/aws-cloud-architect.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/aws-cloud-architect-contract.instructions.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/create-architecture-diagram.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/create-aws-architecture-diagram.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-aws-hybrid-network.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-aws-landing-zone.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-aws-workload.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/design-hybrid-network.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/design-landing-zone.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/plan-migration-and-dr.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/plan-aws-migration-and-dr.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-aws-cost.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-aws-well-architected.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-deployment-plan.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/review-well-architected.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/troubleshoot-aws-incident.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/verify-aws-evidence.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/aws-architecture-foundations/SKILL.md: references only installed things | pass |  |

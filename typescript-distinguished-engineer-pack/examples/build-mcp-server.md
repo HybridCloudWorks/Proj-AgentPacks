@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Workflow | `.apm/prompts/build-mcp-server.prompt.md` |
+| Workflow | `.apm/prompts/build-typescript-mcp-server.prompt.md` |
 | Primary agent | `typescript-distinguished-engineer` |
 | Specialist | `typescript-security-reviewer` |
 | Skills | `mcp-typescript-engineering`, `typescript-strict-engineering`, `secure-agent-engineering`, `agentic-cost-and-budget-controls`, `agent-observability-and-telemetry`, `layered-testing-and-test-engineering`, `dependency-supply-chain-and-reproducibility` |

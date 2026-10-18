@@ -86,3 +86,11 @@ This pass added `.apm/prompts/`, `examples/` and `templates/`, which the pack la
 - diagram-validation-and-evidence gained a standard-library checker with an icon catalog generated from draw.io's source. It validates IDs per page and reports every AWS, Azure and Google Cloud icon as current, legacy, retired or unknown.
 - This pack's provider-specific skills keep setting house style. The shared skills decide which library is current and how boundaries nest.
 - The shared checker validates IDs per page, so it does not repeat the false multi-page duplicates recorded above for `tooling/validate_drawio_xml.py`.
+
+## Prompt names qualified (1.4.0, 2026-10-18)
+
+Several packs shipped prompts under the same name with different content, so installing two of them into the user profile silently replaced one pack's slash command with the other's. This pack's prompts now carry the language or provider inside the name; the qualifier is never a prefix. Slash commands change accordingly.
+
+| Old name | New name |
+|---|---|
+| `repair-drawio-xml` | `repair-aws-drawio-xml` |

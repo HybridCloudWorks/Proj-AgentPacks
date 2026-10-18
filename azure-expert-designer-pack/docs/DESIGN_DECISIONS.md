@@ -101,3 +101,11 @@ The render Skill names `C:\Program Files\draw.io\draw.io.exe` and "the user inst
 - diagram-validation-and-evidence gained a standard-library checker with an icon catalog generated from draw.io's source. It validates IDs per page and reports every AWS, Azure and Google Cloud icon as current, legacy, retired or unknown.
 - This pack's provider-specific skills keep setting house style. The shared skills decide which library is current and how boundaries nest.
 - `tests/fixtures/minimal.drawio` used `img/lib/azure2/app_services/App_Service.svg`, which draw.io does not have, so the icon drew without its symbol. The new checker caught it, and the fixture now uses `app_services/App_Services.svg`.
+
+## Prompt names qualified (1.4.0, 2026-10-18)
+
+Several packs shipped prompts under the same name with different content, so installing two of them into the user profile silently replaced one pack's slash command with the other's. This pack's prompts now carry the language or provider inside the name; the qualifier is never a prefix. Slash commands change accordingly.
+
+| Old name | New name |
+|---|---|
+| `repair-drawio-xml` | `repair-azure-drawio-xml` |

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Workflow | `.apm/prompts/review-pull-request.prompt.md` |
+| Workflow | `.apm/prompts/review-typescript-pull-request.prompt.md` |
 | Primary agent | `typescript-distinguished-engineer` |
 | Specialist | `typescript-security-reviewer` |
 | Skills | `pull-request-review-and-delivery`, `secure-agent-engineering`, `frontend-react-engineering`, `api-contract-and-integration-engineering`, `dependency-supply-chain-and-reproducibility` |

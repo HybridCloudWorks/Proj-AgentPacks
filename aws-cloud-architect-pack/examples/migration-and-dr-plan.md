@@ -1,6 +1,6 @@
 # Worked example: order-portal migration with cross-Region DR
 
-Workflow: `plan-migration-and-dr.prompt.md`. Skills applied: `aws-architecture-foundations`, `aws-resilience-dr-and-migration`, `aws-workload-and-service-selection`, `aws-networking-hybrid-and-edge`, `aws-security-identity-and-compliance`, `aws-operations-observability-and-troubleshooting`, `aws-cost-sustainability-and-finops`, `aws-docs-mcp-and-evidence`, `aws-architecture-handoff-and-adr`.
+Workflow: `plan-aws-migration-and-dr.prompt.md`. Skills applied: `aws-architecture-foundations`, `aws-resilience-dr-and-migration`, `aws-workload-and-service-selection`, `aws-networking-hybrid-and-edge`, `aws-security-identity-and-compliance`, `aws-operations-observability-and-troubleshooting`, `aws-cost-sustainability-and-finops`, `aws-docs-mcp-and-evidence`, `aws-architecture-handoff-and-adr`.
 
 The company and figures are fictional.
 

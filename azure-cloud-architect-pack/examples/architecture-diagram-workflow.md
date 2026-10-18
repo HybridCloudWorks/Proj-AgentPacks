@@ -1,6 +1,6 @@
 # Worked example: diagram from an approved topology, visual review not run
 
-Synthetic scenario that continues `greenfield-workload-design.md`. Prompt: `create-architecture-diagram.prompt.md`. This example ends **unverified**: the diagram is structurally valid, but it was never rendered.
+Synthetic scenario that continues `greenfield-workload-design.md`. Prompt: `create-azure-architecture-diagram.prompt.md`. This example ends **unverified**: the diagram is structurally valid, but it was never rendered.
 
 ## Request
 
@@ -67,7 +67,7 @@ From `drawio-render-export-and-review`, the agent looked for Draw.io Desktop at 
 ## Completion report
 
 - Pack: azure-cloud-architect
-- Workflow: `create-architecture-diagram.prompt.md`
+- Workflow: `create-azure-architecture-diagram.prompt.md`
 - Outcome: **unverified**. An editable two-page diagram is written and structurally validated, and it reconciles with the topology. It was never rendered: there is no PNG and no visual review, because Draw.io Desktop is not installed.
 
 ### scope_and_inputs

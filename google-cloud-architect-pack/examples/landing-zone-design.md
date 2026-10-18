@@ -1,6 +1,6 @@
 # Worked example: landing zone for a regulated EU company
 
-Synthetic scenario for the `design-landing-zone.prompt.md` workflow.
+Synthetic scenario for the `design-google-cloud-landing-zone.prompt.md` workflow.
 
 ## Context
 

@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Pack: azure-expert-designer 1.3.0
+Pack: azure-expert-designer 1.4.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
@@ -91,7 +91,7 @@ Checks: 118  Passed: 117  Failed: 0  Skipped: 1
 | structural | prompt export-and-review-render.prompt.md: description | pass |  |
 | structural | prompt model-azure-architecture-pattern.prompt.md: description | pass |  |
 | structural | prompt reflow-diagram-layout.prompt.md: description | pass |  |
-| structural | prompt repair-drawio-xml.prompt.md: description | pass |  |
+| structural | prompt repair-azure-drawio-xml.prompt.md: description | pass |  |
 | structural | prompt review-azure-diagram.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/azure-expert-designer.agent.md: references only installed things | pass |  |
@@ -102,7 +102,7 @@ Checks: 118  Passed: 117  Failed: 0  Skipped: 1
 | structural | installed content .apm/prompts/export-and-review-render.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/model-azure-architecture-pattern.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/reflow-diagram-layout.prompt.md: references only installed things | pass |  |
-| structural | installed content .apm/prompts/repair-drawio-xml.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/repair-azure-drawio-xml.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-azure-diagram.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/azure-architecture-design/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/azure-architecture-patterns/SKILL.md: references only installed things | pass |  |

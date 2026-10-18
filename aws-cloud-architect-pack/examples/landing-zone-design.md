@@ -1,6 +1,6 @@
 # Worked example: multi-account landing zone for a healthcare provider
 
-Workflow: `design-landing-zone.prompt.md`. Skills applied: `aws-architecture-foundations`, `aws-caf-landing-zones-and-governance`, `aws-security-identity-and-compliance`, `aws-networking-hybrid-and-edge`, `aws-cost-sustainability-and-finops`, `aws-well-architected-and-frameworks`, `aws-docs-mcp-and-evidence`, `aws-iac-deployment-and-lifecycle`, `aws-architecture-handoff-and-adr`.
+Workflow: `design-aws-landing-zone.prompt.md`. Skills applied: `aws-architecture-foundations`, `aws-caf-landing-zones-and-governance`, `aws-security-identity-and-compliance`, `aws-networking-hybrid-and-edge`, `aws-cost-sustainability-and-finops`, `aws-well-architected-and-frameworks`, `aws-docs-mcp-and-evidence`, `aws-iac-deployment-and-lifecycle`, `aws-architecture-handoff-and-adr`.
 
 The organization and figures are fictional.
 

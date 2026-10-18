@@ -68,3 +68,15 @@ The pack shipped without `examples/`, `templates/` or `.apm/prompts/`. They were
 - The skills now follow the master prompt's ten-part skill structure, which the previous versions did not.
 - diagram-validation-and-evidence gained a standard-library checker with an icon catalog generated from draw.io's source. It validates IDs per page and reports every AWS, Azure and Google Cloud icon as current, legacy, retired or unknown.
 - This pack's provider-specific skills keep setting house style. The shared skills decide which library is current and how boundaries nest.
+
+## Prompt names qualified (1.4.0, 2026-10-18)
+
+Several packs shipped prompts under the same name with different content, so installing two of them into the user profile silently replaced one pack's slash command with the other's. This pack's prompts now carry the language or provider inside the name; the qualifier is never a prefix. Slash commands change accordingly.
+
+| Old name | New name |
+|---|---|
+| `create-architecture-diagram` | `create-aws-architecture-diagram` |
+| `design-landing-zone` | `design-aws-landing-zone` |
+| `design-hybrid-network` | `design-aws-hybrid-network` |
+| `plan-migration-and-dr` | `plan-aws-migration-and-dr` |
+| `review-well-architected` | `review-aws-well-architected` |

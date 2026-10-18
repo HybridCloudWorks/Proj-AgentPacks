@@ -28,7 +28,7 @@ cases:
     expected_behavior: located findings only; no file is changed and no render is written beside the source
   - id: xml-repair
     prompt: This .drawio file will not open and some edges point at missing shapes; repair it into a new file.
-    prompt_file: repair-drawio-xml.prompt.md
+    prompt_file: repair-aws-drawio-xml.prompt.md
     expected_skills: [aws-xml-authoring, drawio-core-generation, aws-icons-and-visual-language, diagram-validation-and-evidence]
   - id: layout-reflow
     prompt: The diagram is too crowded for a slide; reflow it and fix the crossed edges.

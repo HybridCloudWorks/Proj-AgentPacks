@@ -12,7 +12,7 @@
       "id": "gcp-architecture-decisions",
       "skill": "gcp-architecture-decisions",
       "agent": "google-cloud-architect",
-      "prompt": "record-decision.prompt.md",
+      "prompt": "record-google-cloud-decision.prompt.md",
       "expected_output": "Comparison table against drivers, verified release status and regional availability, one recommendation with runner-up, and a Proposed decision record with owner and revisit triggers.",
       "negative": "Single option presented as a comparison, unverified SLA or price stated as fact, missing owner, or a record used to authorize deployment."
     },
@@ -20,7 +20,7 @@
       "id": "gcp-landing-zone",
       "skill": "gcp-landing-zone",
       "agent": "google-cloud-architect",
-      "prompt": "design-landing-zone.prompt.md",
+      "prompt": "design-google-cloud-landing-zone.prompt.md",
       "expected_output": "Hierarchy and naming standard, organization policy baseline with dry-run rollout order, billing and logging design, administrative group matrix and staged foundation IaC plan.",
       "negative": "Domain restriction that locks out administrators, self-granted administrative roles after Permission Denied, or organization changes applied without Level 2 approval."
     },
@@ -28,7 +28,7 @@
       "id": "gcp-identity-access",
       "skill": "gcp-identity-access",
       "agent": "google-cloud-architect",
-      "prompt": "design-landing-zone.prompt.md",
+      "prompt": "design-google-cloud-landing-zone.prompt.md",
       "expected_output": "Identity architecture, group-based role matrix, per-workload service accounts, workload identity pattern per runtime, emergency access design and change list for the user.",
       "negative": "Service account keys created or requested, basic roles for daily work, tokens printed, or roles granted to the agent's own identity."
     },
@@ -140,7 +140,7 @@
       "id": "drawio-core-generation",
       "skill": "drawio-core-generation",
       "agent": "google-cloud-architect",
-      "prompt": "create-architecture-diagram.prompt.md",
+      "prompt": "create-google-cloud-architecture-diagram.prompt.md",
       "expected_output": "Uncompressed .drawio file with Google Cloud Platform 2026 icons, labelled category icons, VPC network > region > subnet nesting, separate frames per provider and labelled cross-provider links.",
       "negative": "Legacy gcp2 or console icons in new work, a VPC network drawn inside one region, a subnet inside a zone frame, or components absent from the approved design."
     },
@@ -148,7 +148,7 @@
       "id": "drawio-render-export-and-review",
       "skill": "drawio-render-export-and-review",
       "agent": "google-cloud-architect",
-      "prompt": "create-architecture-diagram.prompt.md",
+      "prompt": "create-google-cloud-architecture-diagram.prompt.md",
       "expected_output": "Exports at explicit paths made with -k and without --layout or --normalize, the draw.io version and commands used, and render findings including any icon drawn without its symbol.",
       "negative": "Source overwritten, an export claimed as visual proof without being opened, or an SVG exported without embedded images."
     },
@@ -156,7 +156,7 @@
       "id": "diagram-validation-and-evidence",
       "skill": "diagram-validation-and-evidence",
       "agent": "google-cloud-architect",
-      "prompt": "create-architecture-diagram.prompt.md",
+      "prompt": "create-google-cloud-architecture-diagram.prompt.md",
       "expected_output": "Checker results per provider with the catalog's draw.io version, boundary and semantic findings with evidence labels, and visual results taken only from a render.",
       "negative": "Static checks reported as visual validation, unknown icons ignored, or semantic checks passed without a source of truth."
     }

@@ -3,9 +3,9 @@
 | Skill | Activation | Bundled files | Workflow prompt |
 |---|---|---|---|
 | gcp-solution-architecture | A complete multi-product Google Cloud architecture is needed for a workload or use case. | solution-guide-template.md | design-solution.prompt.md |
-| gcp-architecture-decisions | Comparing Google Cloud options, mapping components to products, or recording a Day-0 or hard-to-reverse decision. | decision-record-template.md | record-decision.prompt.md |
-| gcp-landing-zone | Setting up or reviewing an organization foundation, adding environments or business units. | none | design-landing-zone.prompt.md |
-| gcp-identity-access | Deciding how people, pipelines, workloads or agents authenticate and what they may do. | none | design-landing-zone.prompt.md |
+| gcp-architecture-decisions | Comparing Google Cloud options, mapping components to products, or recording a Day-0 or hard-to-reverse decision. | decision-record-template.md | record-google-cloud-decision.prompt.md |
+| gcp-landing-zone | Setting up or reviewing an organization foundation, adding environments or business units. | none | design-google-cloud-landing-zone.prompt.md |
+| gcp-identity-access | Deciding how people, pipelines, workloads or agents authenticate and what they may do. | none | design-google-cloud-landing-zone.prompt.md |
 | gcp-network-design | Planning or reviewing VPCs, subnets, connectivity, load balancers, firewall models or a path problem. | scripts/ip_plan.py | design-network.prompt.md |
 | gcp-security-controls | Data protection, exposure, perimeters, detection, compliance or deployment provenance are in scope. | none | review-architecture.prompt.md |
 | gcp-reliability-dr | Availability targets, redundancy, DR patterns, backups or RTO and RPO checks. | scripts/availability.py | plan-resilience.prompt.md |
@@ -19,9 +19,9 @@
 | gcp-iac-validation | Writing, reviewing or planning Google Cloud Terraform, or designing an infrastructure pipeline. | scripts/plan_summary.py | validate-iac.prompt.md |
 | gcp-well-architected-review | Assessing a design, estate or readiness gate against the six pillars. | none | review-architecture.prompt.md |
 | gcp-estate-discovery | Facts are needed from a live Google Cloud environment. | scripts/command_guard.py | review-architecture.prompt.md |
-| drawio-core-generation | Creating or substantially editing a Draw.io diagram, choosing provider icons, or drawing scope and network boundaries, for Google Cloud alone or with AWS, Azure or on-premises systems. | references/providers.md, references/upstream-routing.md | create-architecture-diagram.prompt.md |
-| drawio-render-export-and-review | Exporting a diagram to PNG, SVG, PDF or JPG, inspecting a render, or troubleshooting an output. | references/export-cli.md | create-architecture-diagram.prompt.md |
-| diagram-validation-and-evidence | Reviewing, auditing or regression-checking a diagram, or before claiming it is correct. | scripts/check_drawio.py, scripts/icon_catalog.json, references/provider-checks.md | create-architecture-diagram.prompt.md |
+| drawio-core-generation | Creating or substantially editing a Draw.io diagram, choosing provider icons, or drawing scope and network boundaries, for Google Cloud alone or with AWS, Azure or on-premises systems. | references/providers.md, references/upstream-routing.md | create-google-cloud-architecture-diagram.prompt.md |
+| drawio-render-export-and-review | Exporting a diagram to PNG, SVG, PDF or JPG, inspecting a render, or troubleshooting an output. | references/export-cli.md | create-google-cloud-architecture-diagram.prompt.md |
+| diagram-validation-and-evidence | Reviewing, auditing or regression-checking a diagram, or before claiming it is correct. | scripts/check_drawio.py, scripts/icon_catalog.json, references/provider-checks.md | create-google-cloud-architecture-diagram.prompt.md |
 
 Each SKILL.md states purpose and activation, scope and exclusions, inputs, dependencies and tools, workflow, output, validation, failure handling and escalation, permissions and guardrails, and its connection to the pack. Every skill also carries its own approval guardrail so it stays safe when installed alone, and its scripts depend only on the Python standard library. The skills describe how the model should work; whether a given model run follows them is a behavioural question that only testing in a real client answers.
 

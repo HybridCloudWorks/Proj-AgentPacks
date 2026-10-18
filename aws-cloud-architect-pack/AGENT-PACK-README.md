@@ -1,4 +1,4 @@
-# aws-cloud-architect 1.3.0: artifact catalog
+# aws-cloud-architect 1.4.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -6,14 +6,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 |---|---|---|
 | aws-cloud-architect.agent.md | Canonical agent: Senior AWS Cloud Architect for enterprise foundations, workload design, deployment, operations, migration, security, resilience, cost, and evidence-aware handoff. | .apm/agents/aws-cloud-architect.agent.md |
 | aws-cloud-architect-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the aws cloud architect pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/aws-cloud-architect-contract.instructions.md |
-| create-architecture-diagram.prompt.md | Canonical prompt: Turn an approved AWS architecture into an editable Draw.io diagram, validate it structurally, semantically and visually, and report what was proven | .apm/prompts/create-architecture-diagram.prompt.md |
+| create-aws-architecture-diagram.prompt.md | Canonical prompt: Turn an approved AWS architecture into an editable Draw.io diagram, validate it structurally, semantically and visually, and report what was proven | .apm/prompts/create-aws-architecture-diagram.prompt.md |
+| design-aws-hybrid-network.prompt.md | Canonical prompt: Design or choose AWS network, hybrid and edge connectivity: VPC layout, Transit Gateway, peering, PrivateLink, Direct Connect, VPN, DNS and egress | .apm/prompts/design-aws-hybrid-network.prompt.md |
+| design-aws-landing-zone.prompt.md | Canonical prompt: Design a multi-account AWS landing zone: Organizations, Control Tower, OUs, guardrails, identity, logging, network hub and account vending | .apm/prompts/design-aws-landing-zone.prompt.md |
 | design-aws-workload.prompt.md | Canonical prompt: Design a production AWS workload from business requirements and hand it off as REQ, TOPOLOGY, CONSTRAINTS and ADR | .apm/prompts/design-aws-workload.prompt.md |
-| design-hybrid-network.prompt.md | Canonical prompt: Design or choose AWS network, hybrid and edge connectivity: VPC layout, Transit Gateway, peering, PrivateLink, Direct Connect, VPN, DNS and egress | .apm/prompts/design-hybrid-network.prompt.md |
-| design-landing-zone.prompt.md | Canonical prompt: Design a multi-account AWS landing zone: Organizations, Control Tower, OUs, guardrails, identity, logging, network hub and account vending | .apm/prompts/design-landing-zone.prompt.md |
-| plan-migration-and-dr.prompt.md | Canonical prompt: Plan an AWS migration or disaster-recovery strategy from explicit RTO and RPO, with waves, cutover, rollback and recovery testing | .apm/prompts/plan-migration-and-dr.prompt.md |
+| plan-aws-migration-and-dr.prompt.md | Canonical prompt: Plan an AWS migration or disaster-recovery strategy from explicit RTO and RPO, with waves, cutover, rollback and recovery testing | .apm/prompts/plan-aws-migration-and-dr.prompt.md |
 | review-aws-cost.prompt.md | Canonical prompt: Analyze AWS architecture economics or spend and recommend measured cost and sustainability optimizations without weakening security or resilience | .apm/prompts/review-aws-cost.prompt.md |
+| review-aws-well-architected.prompt.md | Canonical prompt: Run a Well-Architected six-pillar review, with CAF perspectives when readiness is in scope, and turn gaps into prioritized, owned actions | .apm/prompts/review-aws-well-architected.prompt.md |
 | review-deployment-plan.prompt.md | Canonical prompt: Review a CloudFormation, CDK or Terraform change for replacement, data loss, drift, policy widening and rollback before anyone applies it | .apm/prompts/review-deployment-plan.prompt.md |
-| review-well-architected.prompt.md | Canonical prompt: Run a Well-Architected six-pillar review, with CAF perspectives when readiness is in scope, and turn gaps into prioritized, owned actions | .apm/prompts/review-well-architected.prompt.md |
 | troubleshoot-aws-incident.prompt.md | Canonical prompt: Investigate an AWS production incident or performance problem with a read-only, hypothesis-driven loop, keeping mitigation separate from root cause | .apm/prompts/troubleshoot-aws-incident.prompt.md |
 | verify-aws-evidence.prompt.md | Canonical prompt: Verify current AWS service behavior, quotas, Region availability, pricing or CLI syntax from official sources or authorized MCP tools, and record the evidence | .apm/prompts/verify-aws-evidence.prompt.md |
 | SKILL.md | Canonical skill: Discover AWS workload requirements and turn them into explicit architecture scope, constraints, assumptions, topology, and decision inputs. | .apm/skills/aws-architecture-foundations/SKILL.md |

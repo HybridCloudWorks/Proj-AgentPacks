@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Workflow | `.apm/prompts/design-change.prompt.md`, then `.apm/prompts/implement-feature.prompt.md` |
+| Workflow | `.apm/prompts/design-typescript-change.prompt.md`, then `.apm/prompts/implement-typescript-feature.prompt.md` |
 | Primary agent | `typescript-distinguished-engineer` |
 | Specialists | `typescript-test-engineer`, `typescript-security-reviewer` |
 | Skills | `typescript-distinguished-engineer-orchestration`, `requirements-and-change-planning`, `typescript-strict-engineering`, `javascript-node-runtime-engineering`, `api-contract-and-integration-engineering`, `layered-testing-and-test-engineering`, `agent-observability-and-telemetry`, `secure-agent-engineering` |

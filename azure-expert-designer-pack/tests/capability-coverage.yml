@@ -24,6 +24,6 @@ prompt_map:
   model-azure-architecture-pattern.prompt.md: [azure-architecture-patterns, azure-architecture-design, drawio-layout-and-composition, azure-icons-and-visual-language, drawio-core-generation, drawio-xml-authoring, diagram-validation-and-evidence, drawio-render-export-and-review]
   review-azure-diagram.prompt.md: [diagram-validation-and-evidence, drawio-core-generation, drawio-xml-authoring, azure-architecture-design, azure-architecture-patterns, azure-icons-and-visual-language, drawio-layout-and-composition, drawio-render-export-and-review]
   audit-diagram-against-source.prompt.md: [azure-architecture-design, drawio-core-generation, diagram-validation-and-evidence, azure-architecture-patterns]
-  repair-drawio-xml.prompt.md: [drawio-xml-authoring, azure-icons-and-visual-language, drawio-core-generation, diagram-validation-and-evidence, drawio-render-export-and-review]
+  repair-azure-drawio-xml.prompt.md: [drawio-xml-authoring, azure-icons-and-visual-language, drawio-core-generation, diagram-validation-and-evidence, drawio-render-export-and-review]
   reflow-diagram-layout.prompt.md: [drawio-layout-and-composition, azure-icons-and-visual-language, drawio-xml-authoring, drawio-core-generation, diagram-validation-and-evidence, drawio-render-export-and-review]
   export-and-review-render.prompt.md: [drawio-render-export-and-review, diagram-validation-and-evidence, drawio-core-generation]

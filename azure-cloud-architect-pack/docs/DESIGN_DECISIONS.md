@@ -66,3 +66,15 @@ The pack shipped without `.apm/prompts/`, `examples/` and `templates/`. This ent
 - This pack's provider-specific skills keep setting house style. The shared skills decide which library is current and how boundaries nest.
 - `tests/fixtures/minimal.drawio` used `img/lib/azure2/app_services/App_Service.svg`, which draw.io does not have, so the icon drew without its symbol. The new checker caught it, and the fixture now uses `app_services/App_Services.svg`.
 - `tests/capability-coverage.yml` now maps the three shared skills, which closes the coverage gap recorded in the gap fill.
+
+## Prompt names qualified (1.4.0, 2026-10-18)
+
+Several packs shipped prompts under the same name with different content, so installing two of them into the user profile silently replaced one pack's slash command with the other's. This pack's prompts now carry the language or provider inside the name; the qualifier is never a prefix. Slash commands change accordingly.
+
+| Old name | New name |
+|---|---|
+| `create-architecture-diagram` | `create-azure-architecture-diagram` |
+| `design-landing-zone` | `design-azure-landing-zone` |
+| `design-hybrid-network` | `design-azure-hybrid-network` |
+| `plan-migration-and-dr` | `plan-azure-migration-and-dr` |
+| `review-well-architected` | `review-azure-well-architected` |

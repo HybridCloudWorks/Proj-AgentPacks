@@ -21,7 +21,7 @@ Invoke the `aws-expert-designer` agent directly, or start from one of the seven 
 | `diagram-from-infrastructure-code` | derive a diagram from CloudFormation, CDK or Terraform, labeling observed versus inferred |
 | `model-aws-architecture-pattern` | draw a VPC, serverless, container, data, hybrid, CI/CD or multi-Region pattern honestly |
 | `review-aws-diagram` | review an existing diagram read-only, with located findings |
-| `repair-drawio-xml` | repair or normalize broken, compressed or legacy-icon XML |
+| `repair-aws-drawio-xml` | repair or normalize broken, compressed or legacy-icon XML |
 | `reflow-aws-diagram-layout` | fix spacing, routing and readability, or split crowded views |
 | `export-drawio-diagram` | export PNG, SVG, PDF or JPG through Draw.io Desktop and review the render |
 

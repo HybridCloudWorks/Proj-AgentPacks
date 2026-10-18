@@ -31,3 +31,14 @@
 - The shared instruction applies to `.py`, `.ts`, `.tsx`, `.mts`, `.cts`, `.js`, `.jsx`, `.mjs` and `.cjs` files plus agent Markdown and MCP JSON files. The TypeScript version had also matched every Markdown, JSON and YAML file, which was broader than its rules need.
 - The shared prompts carry no `agent` key, because one prompt cannot name both primary agents; Copilot then runs them with the active agent. Language-specific prompts with the same name in both packs (build-mcp-server, design-change, implement-feature, review-pull-request) still collide and await a naming decision.
 - The `dist/` archives that were still tracked in git, contrary to the decision above that archives are build outputs, were removed from version control; the build produces them.
+
+## Prompt names qualified (2.3.0, 2026-10-18)
+
+Several packs shipped prompts under the same name with different content, so installing two of them into the user profile silently replaced one pack's slash command with the other's. This pack's prompts now carry the language or provider inside the name; the qualifier is never a prefix. Slash commands change accordingly.
+
+| Old name | New name |
+|---|---|
+| `build-mcp-server` | `build-python-mcp-server` |
+| `design-change` | `design-python-change` |
+| `implement-feature` | `implement-python-feature` |
+| `review-pull-request` | `review-python-pull-request` |

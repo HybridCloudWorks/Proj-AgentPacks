@@ -1,6 +1,6 @@
 # Worked example: Draw.io diagram of the approved tracking-platform design
 
-Workflow: `create-architecture-diagram.prompt.md`. Skills applied: `aws-architecture-visualization`, `drawio-core-generation`, `drawio-render-export-and-review`, `diagram-validation-and-evidence`.
+Workflow: `create-aws-architecture-diagram.prompt.md`. Skills applied: `aws-architecture-visualization`, `drawio-core-generation`, `drawio-render-export-and-review`, `diagram-validation-and-evidence`.
 
 This example ends **unverified**. The diagram is structurally validated, but it was never rendered, so no visual check ran. The workload is the fictional Larkspur tracking platform from the greenfield example.
 

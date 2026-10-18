@@ -1,6 +1,6 @@
 # Worked example: migration and DR plan for an order platform
 
-Synthetic scenario. The company, sizes and dates are illustrative. Prompt: `plan-migration-and-dr.prompt.md`.
+Synthetic scenario. The company, sizes and dates are illustrative. Prompt: `plan-azure-migration-and-dr.prompt.md`.
 
 ## Request
 
@@ -76,7 +76,7 @@ ADR-MIG-003 records the irreversible step, the business owner's sign-off, and th
 ## Completion report
 
 - Pack: azure-cloud-architect
-- Workflow: `plan-migration-and-dr.prompt.md`
+- Workflow: `plan-azure-migration-and-dr.prompt.md`
 - Outcome: migration and DR plan delivered; nothing was migrated or replicated; no RTO or RPO has been measured; four facts are not-verified; the write cutover is irreversible until E-04 says otherwise.
 
 ### scope_and_inputs

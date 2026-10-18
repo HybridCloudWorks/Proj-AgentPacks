@@ -1,4 +1,4 @@
-# python-distinguished-engineer 2.2.0: artifact catalog
+# python-distinguished-engineer 2.3.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -15,15 +15,15 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | python-security.instructions.md | Canonical instruction: Security review of Python code, containers and CI workflows: identity, authorization, untrusted input and output, secrets, deserialization and dependencies. | .apm/instructions/python-security.instructions.md |
 | python-tests.instructions.md | Canonical instruction: Python test design and execution: the repository's runner, isolated fixtures, and unit, contract, integration, property and browser checks matched to risk. | .apm/instructions/python-tests.instructions.md |
 | python.instructions.md | Canonical instruction: Baseline Python engineering conventions: discover the declared Python range and preserve the framework, package manager, typing, formatting and layout. | .apm/instructions/python.instructions.md |
-| build-mcp-server.prompt.md | Canonical prompt: Build a Python MCP server | .apm/prompts/build-mcp-server.prompt.md |
 | build-python-api.prompt.md | Canonical prompt: Build a Python API feature | .apm/prompts/build-python-api.prompt.md |
+| build-python-mcp-server.prompt.md | Canonical prompt: Build a Python MCP server | .apm/prompts/build-python-mcp-server.prompt.md |
 | debug-python-issue.prompt.md | Canonical prompt: Diagnose a Python defect or bottleneck | .apm/prompts/debug-python-issue.prompt.md |
-| design-change.prompt.md | Canonical prompt: Design a Python change | .apm/prompts/design-change.prompt.md |
+| design-python-change.prompt.md | Canonical prompt: Design a Python change | .apm/prompts/design-python-change.prompt.md |
 | evaluate-agent.prompt.md | Canonical prompt: Evaluate an agent workflow written in Python or TypeScript: scenarios, deterministic and judged checks, budgets, cost and a release recommendation | .apm/prompts/evaluate-agent.prompt.md |
-| implement-feature.prompt.md | Canonical prompt: Implement a Python feature | .apm/prompts/implement-feature.prompt.md |
+| implement-python-feature.prompt.md | Canonical prompt: Implement a Python feature | .apm/prompts/implement-python-feature.prompt.md |
 | investigate-repository.prompt.md | Canonical prompt: Investigate an unfamiliar Python repository | .apm/prompts/investigate-repository.prompt.md |
 | modernize-python-code.prompt.md | Canonical prompt: Modernize Python safely | .apm/prompts/modernize-python-code.prompt.md |
-| review-pull-request.prompt.md | Canonical prompt: Review a Python change | .apm/prompts/review-pull-request.prompt.md |
+| review-python-pull-request.prompt.md | Canonical prompt: Review a Python change | .apm/prompts/review-python-pull-request.prompt.md |
 | validate-web-flow.prompt.md | Canonical prompt: Validate a web journey with Playwright in Python or TypeScript, with accessible locators, web-first assertions, isolated authentication and replayable evidence | .apm/prompts/validate-web-flow.prompt.md |
 | python.md | Canonical skill | .apm/skills/agent-evaluation/references/python.md |
 | typescript.md | Canonical skill | .apm/skills/agent-evaluation/references/typescript.md |

@@ -1,4 +1,4 @@
-# azure-expert-designer 1.3.0: artifact catalog
+# azure-expert-designer 1.4.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -12,7 +12,7 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | export-and-review-render.prompt.md | Canonical prompt: Export a Draw.io diagram to PNG, SVG, PDF or JPG and review the rendered output | .apm/prompts/export-and-review-render.prompt.md |
 | model-azure-architecture-pattern.prompt.md | Canonical prompt: Model a recognizable Azure architecture pattern in Draw.io without misleading flows | .apm/prompts/model-azure-architecture-pattern.prompt.md |
 | reflow-diagram-layout.prompt.md | Canonical prompt: Reflow a crowded or hard-to-read Azure Draw.io diagram without changing what it means | .apm/prompts/reflow-diagram-layout.prompt.md |
-| repair-drawio-xml.prompt.md | Canonical prompt: Repair or normalize Draw.io XML so an Azure diagram is uncompressed, reviewable and structurally valid | .apm/prompts/repair-drawio-xml.prompt.md |
+| repair-azure-drawio-xml.prompt.md | Canonical prompt: Repair or normalize Draw.io XML so an Azure diagram is uncompressed, reviewable and structurally valid | .apm/prompts/repair-azure-drawio-xml.prompt.md |
 | review-azure-diagram.prompt.md | Canonical prompt: Review an existing Azure Draw.io diagram for semantic, boundary, icon, layout and structural correctness | .apm/prompts/review-azure-diagram.prompt.md |
 | SKILL.md | Canonical skill: Translate Azure requirements and repository evidence into an architecture model, separating observed resources, inferred relationships, design choices, and unresolved questions. | .apm/skills/azure-architecture-design/SKILL.md |
 | SKILL.md | Canonical skill: Model common Azure architecture patterns such as private networking, AKS, serverless, analytics, CI/CD, landing zones, hybrid connectivity, and multi-region designs without misleading flows. | .apm/skills/azure-architecture-patterns/SKILL.md |

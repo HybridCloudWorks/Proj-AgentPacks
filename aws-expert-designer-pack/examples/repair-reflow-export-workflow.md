@@ -1,6 +1,6 @@
 # Worked example: repair, reflow and export for the change board
 
-Synthetic scenario. It continues `diagram-review-workflow.md`. Workflow prompts: `repair-drawio-xml`, then `reflow-aws-diagram-layout`, then `export-drawio-diagram`.
+Synthetic scenario. It continues `diagram-review-workflow.md`. Workflow prompts: `repair-aws-drawio-xml`, then `reflow-aws-diagram-layout`, then `export-drawio-diagram`.
 
 ## Authority
 

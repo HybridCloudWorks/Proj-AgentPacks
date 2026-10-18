@@ -56,4 +56,4 @@ Creating folders, projects, policies, sinks, billing links or group bindings is 
 
 ## Connection to the pack
 
-The optional `design-landing-zone.prompt.md` recipe combines this skill with gcp-identity-access, gcp-network-design and gcp-security-controls; gcp-migration-planning uses it to confirm the target foundation. Installed on its own, this skill still works and the guardrails above still apply. Installed with the pack, it follows the always-on `google-cloud-architect-contract` instruction for approval levels, handoffs and the completion report.
+The optional `design-google-cloud-landing-zone.prompt.md` recipe combines this skill with gcp-identity-access, gcp-network-design and gcp-security-controls; gcp-migration-planning uses it to confirm the target foundation. Installed on its own, this skill still works and the guardrails above still apply. Installed with the pack, it follows the always-on `google-cloud-architect-contract` instruction for approval levels, handoffs and the completion report.

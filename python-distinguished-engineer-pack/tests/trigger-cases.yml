@@ -6,7 +6,7 @@
       "skills": [
         "python-language-engineering"
       ],
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected": "Focused patch or located review findings; compatibility decision, tests, cleanup behavior and interface impact.",
       "prohibited": "Do not use to redesign unrelated modules or replace repository style tools."
     },
@@ -16,7 +16,7 @@
       "skills": [
         "python-static-typing"
       ],
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected": "Typed interface or targeted diagnostic fix, checker evidence, runtime-validation coverage and suppression ledger.",
       "prohibited": "Avoid repository-wide strictness expansion during a narrow feature."
     },
@@ -56,7 +56,7 @@
       "skills": [
         "python-data-engineering"
       ],
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected": "Pipeline/transform patch, schema/data-quality checks, lineage and recovery notes, memory/throughput evidence where measured.",
       "prohibited": "Do not access production datasets solely to make an example realistic."
     },
@@ -66,7 +66,7 @@
       "skills": [
         "python-database-engineering"
       ],
-      "prompt": "design-change.prompt.md",
+      "prompt": "design-python-change.prompt.md",
       "expected": "Persistence patch or migration plan with query/transaction evidence, compatibility and data recovery limits.",
       "prohibited": "SQLite or mocks do not establish production database semantics."
     },
@@ -76,7 +76,7 @@
       "skills": [
         "python-cli-automation"
       ],
-      "prompt": "implement-feature.prompt.md",
+      "prompt": "implement-python-feature.prompt.md",
       "expected": "CLI or automation patch with documented usage, exit behavior, side-effect scope and regression evidence.",
       "prohibited": "Do not treat shell access as permission to publish, delete or contact external systems."
     },
@@ -86,7 +86,7 @@
       "skills": [
         "architecture-decision-records"
       ],
-      "prompt": "design-change.prompt.md",
+      "prompt": "design-python-change.prompt.md",
       "expected": "One decision record per significant decision, with alternatives, evidence, owner/status and implementation validation.",
       "prohibited": "An ADR draft cannot approve deployment, data loss or permission changes."
     },
@@ -96,7 +96,7 @@
       "skills": [
         "mcp-python-engineering"
       ],
-      "prompt": "build-mcp-server.prompt.md",
+      "prompt": "build-python-mcp-server.prompt.md",
       "expected": "Protocol contract and implementation/test evidence, authz matrix, redaction/telemetry and rollback plan.",
       "prohibited": "Do not claim tool annotations or prompt instructions enforce permissions; never auto-register a remote service."
     },
@@ -126,7 +126,7 @@
       "skills": [
         "secure-python-engineering"
       ],
-      "prompt": "review-pull-request.prompt.md",
+      "prompt": "review-python-pull-request.prompt.md",
       "expected": "Evidence-based findings or requested remediation with negative tests, residual risk and approval gaps.",
       "prohibited": "Read-only security specialist gets no shell/edit tools by default; primary runs approved diagnostics."
     },
@@ -176,7 +176,7 @@
       "skills": [
         "pull-request-review"
       ],
-      "prompt": "review-pull-request.prompt.md",
+      "prompt": "review-python-pull-request.prompt.md",
       "expected": "Prioritized findings, evidence/commands, criterion coverage, residual risks and readiness recommendation.",
       "prohibited": "Review-only requests do not authorize remediation, posting, approval or merge."
     },

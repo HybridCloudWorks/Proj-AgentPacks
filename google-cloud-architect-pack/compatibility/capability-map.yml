@@ -1,6 +1,6 @@
 {
   "name": "google-cloud-architect",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "primary": "google-cloud-architect",
   "agents": [
     {
@@ -36,9 +36,9 @@
   ],
   "skills": [
     {"name": "gcp-solution-architecture", "trigger": "A complete multi-product Google Cloud architecture is needed for a workload.", "output": "Solution guide with traceability, diagram, decisions and validation plan.", "prompt": "design-solution"},
-    {"name": "gcp-architecture-decisions", "trigger": "Google Cloud options must be compared or a hard-to-reverse decision recorded.", "output": "Comparison, recommendation and Proposed decision record.", "prompt": "record-decision"},
-    {"name": "gcp-landing-zone", "trigger": "An organization foundation is set up, extended or reviewed.", "output": "Hierarchy, policy baseline, billing, logging and admin-group design.", "prompt": "design-landing-zone"},
-    {"name": "gcp-identity-access", "trigger": "People, pipelines, workloads or agents need authentication and authorization design.", "output": "Identity architecture, role matrix and workload identity patterns.", "prompt": "design-landing-zone"},
+    {"name": "gcp-architecture-decisions", "trigger": "Google Cloud options must be compared or a hard-to-reverse decision recorded.", "output": "Comparison, recommendation and Proposed decision record.", "prompt": "record-google-cloud-decision"},
+    {"name": "gcp-landing-zone", "trigger": "An organization foundation is set up, extended or reviewed.", "output": "Hierarchy, policy baseline, billing, logging and admin-group design.", "prompt": "design-google-cloud-landing-zone"},
+    {"name": "gcp-identity-access", "trigger": "People, pipelines, workloads or agents need authentication and authorization design.", "output": "Identity architecture, role matrix and workload identity patterns.", "prompt": "design-google-cloud-landing-zone"},
     {"name": "gcp-network-design", "trigger": "VPCs, IP plans, connectivity, load balancing, egress or a path problem are in scope.", "output": "Topology, checked IP plan, connectivity, edge and firewall design.", "prompt": "design-network"},
     {"name": "gcp-security-controls", "trigger": "Data protection, perimeters, detection, compliance or supply chain are in scope.", "output": "Threat model, control matrix and located findings.", "prompt": "review-architecture"},
     {"name": "gcp-reliability-dr", "trigger": "Availability targets, redundancy, backups or DR against RTO and RPO are in scope.", "output": "SLOs, composite availability, DR pattern and test plan.", "prompt": "plan-resilience"},
@@ -52,9 +52,9 @@
     {"name": "gcp-iac-validation", "trigger": "Google Cloud Terraform is written, reviewed or planned.", "output": "Located findings and a risk-ranked plan summary.", "prompt": "validate-iac"},
     {"name": "gcp-well-architected-review", "trigger": "A design, estate or change is assessed against the six pillars.", "output": "Evidence-based findings, pillar summaries and roadmap.", "prompt": "review-architecture"},
     {"name": "gcp-estate-discovery", "trigger": "Facts are needed from a live Google Cloud environment.", "output": "Cited inventory, permission gaps and proposed Level 2 commands.", "prompt": "review-architecture"},
-    {"name": "drawio-core-generation", "trigger": "An editable Draw.io diagram is created or substantially edited, for Google Cloud alone or with other providers.", "output": "Uncompressed .drawio file with current provider icons and correct boundary nesting.", "prompt": "create-architecture-diagram"},
-    {"name": "drawio-render-export-and-review", "trigger": "A diagram is exported or its render is reviewed.", "output": "Exports at explicit paths and render findings.", "prompt": "create-architecture-diagram"},
-    {"name": "diagram-validation-and-evidence", "trigger": "A diagram is reviewed, audited or claimed to be correct.", "output": "Validation report with structural, icon, semantic and visual results and evidence labels.", "prompt": "create-architecture-diagram"}
+    {"name": "drawio-core-generation", "trigger": "An editable Draw.io diagram is created or substantially edited, for Google Cloud alone or with other providers.", "output": "Uncompressed .drawio file with current provider icons and correct boundary nesting.", "prompt": "create-google-cloud-architecture-diagram"},
+    {"name": "drawio-render-export-and-review", "trigger": "A diagram is exported or its render is reviewed.", "output": "Exports at explicit paths and render findings.", "prompt": "create-google-cloud-architecture-diagram"},
+    {"name": "diagram-validation-and-evidence", "trigger": "A diagram is reviewed, audited or claimed to be correct.", "output": "Validation report with structural, icon, semantic and visual results and evidence labels.", "prompt": "create-google-cloud-architecture-diagram"}
   ],
   "instructions": [
     "google-cloud-architect-contract.instructions.md",
@@ -63,15 +63,15 @@
   ],
   "prompts": [
     "design-solution.prompt.md",
-    "record-decision.prompt.md",
-    "design-landing-zone.prompt.md",
+    "record-google-cloud-decision.prompt.md",
+    "design-google-cloud-landing-zone.prompt.md",
     "design-network.prompt.md",
     "review-architecture.prompt.md",
     "validate-iac.prompt.md",
     "plan-migration.prompt.md",
     "plan-resilience.prompt.md",
     "optimize-cost.prompt.md",
-    "create-architecture-diagram.prompt.md"
+    "create-google-cloud-architecture-diagram.prompt.md"
   ],
   "skill_scripts": [
     "gcp-estate-discovery/scripts/command_guard.py",

@@ -42,7 +42,7 @@ Recommended follow-up:
 
 | Findings | Workflow | Approval needed |
 |---|---|---|
-| S1, S2, S3, S4, M1–M4, A1, A2 | `repair-drawio-xml` | Write a new file, or change `network-overview.drawio` |
+| S1, S2, S3, S4, M1–M4, A1, A2 | `repair-aws-drawio-xml` | Write a new file, or change `network-overview.drawio` |
 | C1, C2, V1 | `reflow-aws-diagram-layout` | The same file decision |
 | Slide images | `export-drawio-diagram` | An output folder |
 
