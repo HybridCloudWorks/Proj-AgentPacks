@@ -26,3 +26,14 @@ skill_map:
   documentation-inputs-and-repository-contracts: [documentation_inputs_roles_and_handoff]
   review-report-and-pr-gate: [documentation_inputs_roles_and_handoff, pre_post_hooks_and_review_report_gate]
   review-hooks-and-automation: [pre_post_hooks_and_review_report_gate]
+# Workflow prompts in .apm/prompts and the capabilities each one exercises.
+# Every required capability is reached by at least one prompt.
+prompt_map:
+  review-before-pr.prompt.md: [actual_diff_scope_and_blast_radius, code_defect_quality_and_tests, security_secrets_and_supply_chain, documentation_inputs_roles_and_handoff]
+  review-before-deployment.prompt.md: [actual_diff_scope_and_blast_radius, iac_policy_rbac_and_identity, deployment_preview_environment_and_mutation_gates, operations_resilience_rollback_and_cost, evidence_labels_and_mcp_safety]
+  review-deployment-preview.prompt.md: [deployment_preview_environment_and_mutation_gates, evidence_labels_and_mcp_safety, iac_policy_rbac_and_identity]
+  review-security-and-supply-chain.prompt.md: [security_secrets_and_supply_chain, iac_policy_rbac_and_identity, documentation_inputs_roles_and_handoff]
+  check-architecture-alignment.prompt.md: [architecture_and_adr_consistency, actual_diff_scope_and_blast_radius, documentation_inputs_roles_and_handoff]
+  assess-operability-rollback-and-cost.prompt.md: [operations_resilience_rollback_and_cost, evidence_labels_and_mcp_safety]
+  verify-handoff-readiness.prompt.md: [documentation_inputs_roles_and_handoff]
+  validate-review-report.prompt.md: [pre_post_hooks_and_review_report_gate]
