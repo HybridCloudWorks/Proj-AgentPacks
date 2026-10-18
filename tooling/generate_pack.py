@@ -396,6 +396,7 @@ def status(ws: Path) -> int:
     files = [p for p in pack.rglob("*") if p.is_file()] if pack.is_dir() else []
     size_kb = round(sum(p.stat().st_size for p in files) / 1024)
     apm = pack / ".apm"
+
     def count(folder: Path, pattern: str) -> int:
         return len(list(folder.glob(pattern))) if folder.is_dir() else 0
     print(f"{meta['name']}: {done * 100 // len(items)}% complete ({done} of {len(items)} milestones), "
