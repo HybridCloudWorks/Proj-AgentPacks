@@ -1,4 +1,4 @@
-# cloud-prepress-reviewer 1.1.0: artifact catalog
+# cloud-prepress-reviewer 1.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -6,6 +6,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 |---|---|---|
 | cloud-prepress-reviewer.agent.md | Canonical agent: Expert pre-PR and pre-deployment reviewer for built application and Azure infrastructure changes; verifies evidence, defects, security, IaC, policy, tests, previews, rollback, cost, and handoff without mutating systems. | .apm/agents/cloud-prepress-reviewer.agent.md |
 | cloud-prepress-reviewer-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the cloud prepress reviewer pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/cloud-prepress-reviewer-contract.instructions.md |
+| assess-operability-rollback-and-cost.prompt.md | Canonical prompt: Assess day-two readiness of a change: observability, recovery, rollback boundary, cost, allocation and policy exceptions | .apm/prompts/assess-operability-rollback-and-cost.prompt.md |
+| check-architecture-alignment.prompt.md | Canonical prompt: Compare a built change with the approved architecture, topology, constraints and ADRs, and identify decisions that need a new ADR | .apm/prompts/check-architecture-alignment.prompt.md |
+| review-before-deployment.prompt.md | Canonical prompt: Pre-deployment review of a Terraform, Bicep, ARM, Azure Developer CLI, Azure Policy or RBAC change | .apm/prompts/review-before-deployment.prompt.md |
+| review-before-pr.prompt.md | Canonical prompt: Pre-press review of a built application or mixed change before the pull request is opened or approved | .apm/prompts/review-before-pr.prompt.md |
+| review-deployment-preview.prompt.md | Canonical prompt: Interpret a captured Terraform plan, Bicep what-if or azd preview against the reviewed change and intended scope | .apm/prompts/review-deployment-preview.prompt.md |
+| review-security-and-supply-chain.prompt.md | Canonical prompt: Security gate for a built change: secrets, identity, trust boundaries, dependencies, images and CI supply chain | .apm/prompts/review-security-and-supply-chain.prompt.md |
+| validate-review-report.prompt.md | Canonical prompt: Run the non-mutating pre-review inventory, then validate the finished pre-press report before it goes to the pull request owner | .apm/prompts/validate-review-report.prompt.md |
+| verify-handoff-readiness.prompt.md | Canonical prompt: Verify that the next actor can safely continue: roles, authority, ownership, required inputs, documentation and explicit next action | .apm/prompts/verify-handoff-readiness.prompt.md |
 | SKILL.md | Canonical skill: Reviews implementation and infrastructure changes against approved architecture, topology, ADRs, service boundaries, ownership, and stated acceptance criteria. | .apm/skills/architecture-and-adr-consistency/SKILL.md |
 | SKILL.md | Canonical skill: Grounds Azure review claims in current Microsoft documentation, Azure MCP results, repository evidence, previews, and clearly labeled confidence boundaries. | .apm/skills/azure-evidence-and-mcp-review/SKILL.md |
 | SKILL.md | Canonical skill: Determines the exact change boundary, architecture context, resource blast radius, state and dependency impact, and files that must be reviewed before approval. | .apm/skills/change-scope-and-impact/SKILL.md |
@@ -29,7 +37,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | vendor-sources.yml | Vendor compatibility metadata | compatibility/vendor-sources.yml |
 | DESCRIPTION.md | What the pack is for and who uses it. | DESCRIPTION.md |
 | DESIGN_DECISIONS.md | Pack contract or inventory | docs/DESIGN_DECISIONS.md |
+| PROMPT_INVENTORY.md | Pack contract or inventory | docs/PROMPT_INVENTORY.md |
 | SOURCE_TRACEABILITY.md | Pack contract or inventory | docs/SOURCE_TRACEABILITY.md |
+| application-pre-pr-review.md | Worked example | examples/application-pre-pr-review.md |
+| architecture-drift-blocked.md | Worked example | examples/architecture-drift-blocked.md |
+| bicep-keyvault-not-verified.md | Worked example | examples/bicep-keyvault-not-verified.md |
+| ci-supply-chain-security-review.md | Worked example | examples/ci-supply-chain-security-review.md |
+| hooks-and-report-validation.md | Worked example | examples/hooks-and-report-validation.md |
+| terraform-pre-deployment-review.md | Worked example | examples/terraform-pre-deployment-review.md |
 | post-review.ps1 | Hook helper script | hooks/post-review.ps1 |
 | post-review.sh | Hook helper script | hooks/post-review.sh |
 | pre-review.ps1 | Hook helper script | hooks/pre-review.ps1 |
@@ -38,6 +53,12 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | LICENSE | License terms. | LICENSE |
 | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | The master prompt this pack was built to. | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md |
 | README.md | How to install and use the pack. | README.md |
+| cost-and-governance-record.md | Reusable template | templates/cost-and-governance-record.md |
+| deployment-preview-record.md | Reusable template | templates/deployment-preview-record.md |
+| engineer-handoff.md | Reusable template | templates/engineer-handoff.md |
+| evidence-ledger.md | Reusable template | templates/evidence-ledger.md |
+| review-report.md | Reusable template | templates/review-report.md |
+| rollback-readiness.md | Reusable template | templates/rollback-readiness.md |
 | capability-coverage.yml | Local test or recorded evidence | tests/capability-coverage.yml |
 | REVIEW.md | Local test or recorded evidence | tests/fixtures/REVIEW.md |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
@@ -50,10 +71,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 
 ## Build outputs (dist/, not committed)
 
-- copilot-cloud-prepress-reviewer.zip: 17 files generated by `apm install --target copilot`
-- claude-cloud-prepress-reviewer.zip: 17 files generated by `apm install --target claude`
+- copilot-cloud-prepress-reviewer.zip: 25 files generated by `apm install --target copilot`
+- claude-cloud-prepress-reviewer.zip: 25 files generated by `apm install --target claude`
 - codex-cloud-prepress-reviewer.zip: 16 files generated by `apm install --target codex`
 - kiro-cloud-prepress-reviewer.zip: 17 files generated by `apm install --target kiro`
-- gemini-cloud-prepress-reviewer.zip: 15 files generated by `apm install --target gemini`
+- gemini-cloud-prepress-reviewer.zip: 23 files generated by `apm install --target gemini`
 - agent-skills-cloud-prepress-reviewer.zip: 15 files generated by `apm install --target agent-skills`
 - cloud-prepress-reviewer-canonical.zip, cloud-prepress-reviewer-prompt.zip, cloud-prepress-reviewer-validation.zip, cloud-prepress-reviewer-skills.zip, cloud-prepress-reviewer-full-pack.zip, SHA256SUMS.txt
