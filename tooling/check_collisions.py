@@ -2,7 +2,9 @@
 """Report agent and skill names that appear in more than one pack.
 
 Every pack installs into the same user-profile folders (for example ~/.claude/agents and ~/.claude/skills),
-so two packs that ship an agent or skill with the same name overwrite each other on install.
+so two packs that ship an agent or skill with the same name overwrite each other on install. When every copy is
+byte-identical (a shared skill kept in sync from shared-skills/), the overwrite is harmless: those names are
+reported as shared, not as collisions.
 
 Usage: python tooling/check_collisions.py [--strict] [--github]
   --strict  exit 1 when any collision exists
@@ -11,23 +13,46 @@ Usage: python tooling/check_collisions.py [--strict] [--github]
 from __future__ import annotations
 
 import argparse
+import hashlib
 from collections import defaultdict
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 
 
-def collisions(repo: Path = REPO) -> dict[str, dict[str, list[str]]]:
-    agents: dict[str, list[str]] = defaultdict(list)
-    skills: dict[str, list[str]] = defaultdict(list)
+def digest(path: Path) -> str:
+    """Content hash of an agent file or a whole skill folder, ignoring caches and line-ending differences."""
+    h = hashlib.sha256()
+    items = [path] if path.is_file() else sorted(p for p in path.rglob("*") if p.is_file()
+                                                 and "__pycache__" not in p.parts and p.suffix != ".pyc")
+    for item in items:
+        h.update((item.relative_to(path).as_posix() if item != path else "").encode() + b"\0")
+        h.update(item.read_bytes().replace(b"\r\n", b"\n") + b"\0")
+    return h.hexdigest()
+
+
+def inventory(repo: Path = REPO) -> dict[str, dict[str, dict[str, str]]]:
+    """kind -> name -> pack -> content hash, for every agent and skill in every pack."""
+    found: dict[str, dict[str, dict[str, str]]] = {"agents": defaultdict(dict), "skills": defaultdict(dict)}
     for pack in sorted(p for p in repo.iterdir() if p.is_dir() and (p / "apm.yml").is_file()):
         for agent in (pack / ".apm" / "agents").glob("*.agent.md"):
-            agents[agent.name[: -len(".agent.md")]].append(pack.name)
+            found["agents"][agent.name[: -len(".agent.md")]][pack.name] = digest(agent)
         skills_dir = pack / ".apm" / "skills"
         for skill in (p for p in skills_dir.iterdir() if p.is_dir()) if skills_dir.is_dir() else []:
-            skills[skill.name].append(pack.name)
-    return {"agents": {k: v for k, v in sorted(agents.items()) if len(v) > 1},
-            "skills": {k: v for k, v in sorted(skills.items()) if len(v) > 1}}
+            found["skills"][skill.name][pack.name] = digest(skill)
+    return found
+
+
+def collisions(repo: Path = REPO) -> dict[str, dict[str, list[str]]]:
+    """Names shipped by more than one pack with different content: a later install silently replaces the other."""
+    return {kind: {name: sorted(packs) for name, packs in sorted(names.items()) if len(packs) > 1 and len(set(packs.values())) > 1}
+            for kind, names in inventory(repo).items()}
+
+
+def shared(repo: Path = REPO) -> dict[str, dict[str, list[str]]]:
+    """Names shipped by more than one pack with identical content: harmless on install."""
+    return {kind: {name: sorted(packs) for name, packs in sorted(names.items()) if len(packs) > 1 and len(set(packs.values())) == 1}
+            for kind, names in inventory(repo).items()}
 
 
 def main() -> int:
@@ -43,7 +68,12 @@ def main() -> int:
             print(line)
             if args.github:
                 print(f"::warning title=Install collision::{line}")
-    print(f"{total} collision(s): {len(found['agents'])} agent, {len(found['skills'])} skill")
+    same = shared()
+    for kind, names in same.items():
+        for name, packs in names.items():
+            print(f"{kind[:-1]} '{name}' is shared: {len(packs)} packs ship identical copies ({', '.join(packs)})")
+    print(f"{total} collision(s): {len(found['agents'])} agent, {len(found['skills'])} skill; "
+          f"{sum(len(v) for v in same.values())} shared name(s) with identical copies")
     return 1 if (args.strict and total) else 0
 
 
