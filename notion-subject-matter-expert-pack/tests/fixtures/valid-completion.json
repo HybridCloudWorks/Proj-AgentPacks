@@ -1,0 +1,57 @@
+{
+  "outcome": "Synthetic fixture: a decision record was created in a decision log and confirmed by fetching it.",
+  "acceptance_criteria": [
+    {
+      "id": "decision-record-structure",
+      "status": "passed",
+      "evidence": "Synthetic: fetched page shows Context, Options considered, Decision, Rationale and Consequences sections."
+    },
+    {
+      "id": "schema-exact-properties",
+      "status": "passed",
+      "evidence": "Synthetic: fetched entry shows Status = Accepted and Area = Delivery, both existing options."
+    }
+  ],
+  "notion_changes": [
+    {
+      "action": "created",
+      "target": "Decision: move to fortnightly releases",
+      "location": "Decision log (synthetic)",
+      "url": "https://www.notion.so/synthetic-workspace/Decision-move-to-fortnightly-releases-0000000000000000000000000000000a"
+    }
+  ],
+  "placement_and_links": "Synthetic: entry in the decision log; link to the release process hub proposed, not added.",
+  "sources": [
+    "Synthetic: conversation of 2026-10-18; no workspace pages cited."
+  ],
+  "decisions": "Synthetic: the earlier weekly-release record was not found, so no supersession link was made.",
+  "permissions_and_sharing_impact": "None: created inside an existing database; inherits its sharing.",
+  "schema_impact": "None.",
+  "data_sensitivity": "Internal; no personal data or credentials.",
+  "notifications_and_automations": "No mentions or person properties set; database automations unknown and reported to the user.",
+  "checks": [
+    {
+      "check": "Re-fetch the created entry",
+      "method": "fetch",
+      "status": "passed",
+      "evidence": "Synthetic fetch result showing title, parent and properties."
+    },
+    {
+      "check": "Pre-publication draft check",
+      "method": "command",
+      "exit_code": 0,
+      "status": "passed",
+      "evidence": "Synthetic: python tooling/notion_draft_check.py draft.md --kind decision reported no errors."
+    }
+  ],
+  "independent_review": "Not requested: internal page in an existing database.",
+  "unverified": [],
+  "remaining_risks": [
+    "Synthetic fixture; it does not describe a real workspace."
+  ],
+  "rollback": "Move the entry to Trash; restore from Trash within the plan's retention window if needed.",
+  "followups": [
+    "Ask the release owner whether to link the entry from the release process hub."
+  ],
+  "status": "COMPLETE_VERIFIED"
+}

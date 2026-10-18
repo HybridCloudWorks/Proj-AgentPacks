@@ -1,0 +1,141 @@
+{
+  "name": "notion-subject-matter-expert",
+  "version": "1.0.0",
+  "primary": "notion-subject-matter-expert",
+  "agents": [
+    {
+      "name": "notion-subject-matter-expert",
+      "description": "Notion subject matter expert that designs workspaces and databases, captures knowledge, prepares meeting materials, synthesizes research, turns specs into tracked tasks and builds Notion integrations, with approval-gated writes.",
+      "tools": ["read", "search", "edit", "execute", "agent", "web"],
+      "user_invocable": true,
+      "claude_tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash", "Agent", "WebFetch", "mcp__<notion-server>__*"],
+      "gemini_tools": ["read_file", "grep_search", "write_file", "replace", "run_shell_command", "mcp_<notion-server>_*"],
+      "kiro_tools": ["read", "write", "shell", "subagent", "web", "@mcp"],
+      "copilot_mcp": "<notion-server>/*",
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the translations an installer applies, with the Notion MCP server name substituted. The canonical agent file declares no tools."
+    },
+    {
+      "name": "notion-governance-reviewer",
+      "description": "Read-only independent reviewer of Notion sharing exposure, internal and external content separation, and the safety of schema, move and bulk changes; returns located findings and never writes to the workspace.",
+      "tools": ["read", "search"],
+      "user_invocable": false,
+      "claude_tools": ["Read", "Grep", "Glob", "mcp__<notion-server>__notion-search", "mcp__<notion-server>__notion-fetch"],
+      "gemini_tools": ["read_file", "grep_search"],
+      "kiro_tools": ["read"],
+      "copilot_mcp": "<notion-server>/notion-search, <notion-server>/notion-fetch",
+      "note": "Read tools only. Notion read tool names depend on the server; substitute the read-only tools the configured server lists. Gemini receives no agents from APM, and Kiro accepts only capability tags, so on those targets the read-only boundary depends on host configuration."
+    }
+  ],
+  "skills": [
+    {
+      "name": "notion-workspace-architecture",
+      "trigger": "Where content should live, workspace or teamspace organization, who can see what, consolidation or migration, findability, staleness, duplication or over-sharing.",
+      "inputs": "Goal, teams and audiences, current structure, sensitivity, plan and role, migration source.",
+      "dependencies": "Notion search and fetch; move and archive only after approval; workspace-design-reference.md.",
+      "output": "Structure outline, naming and tagging rules, governance rules, change list with permission effect and undo, or audit findings.",
+      "failure": "Partial visibility, mid-batch move failure, conflicting owners, migration fidelity gaps.",
+      "exclude": "Property-level modeling, page writing, billing, identity-provider configuration, legal retention decisions.",
+      "prompt": "design-workspace"
+    },
+    {
+      "name": "notion-database-design",
+      "trigger": "New database or tracker, modeling questions, formulas, relations, rollups, views, or schema renames, retypes, merges and deletions.",
+      "inputs": "Row definition, questions to answer, maintainers, existing schemas and dependents, plan constraints.",
+      "dependencies": "Notion search, fetch and database tools; property-and-schema-reference.md.",
+      "output": "Schema table, relation map, views, templates and automations, risk-classified change plan.",
+      "failure": "Unknown dependents, data loss on retype, connector cannot perform the change.",
+      "exclude": "Workspace placement and sharing, filling the database from a spec, API code.",
+      "prompt": "design-database"
+    },
+    {
+      "name": "notion-knowledge-curation",
+      "trigger": "Save, document, write up or record something; wiki page, FAQ, how-to or decision record; update existing documentation.",
+      "inputs": "Source material, audience, destination, owner and review expectations.",
+      "dependencies": "Notion search, fetch, create-pages and update-page; page-structures.md.",
+      "output": "Page or updated page with URL, properties, proposed hub links.",
+      "failure": "Ambiguous destination, fragmentary source, conflicting existing page, write failure.",
+      "exclude": "Meeting documents, multi-source research, new database design, wiki reorganization.",
+      "prompt": "capture-knowledge"
+    },
+    {
+      "name": "notion-meeting-materials",
+      "trigger": "Prep, plan or run a meeting; agenda or pre-read; recurring meeting page; notes, decisions and follow-ups.",
+      "inputs": "Purpose, date and time zone, duration, attendees and which are external, related project, document location.",
+      "dependencies": "Notion search, fetch and create-pages; optional data-source query; meeting-templates.md.",
+      "output": "Internal pre-read and clean agenda with one-way linking when audiences differ; post-meeting decisions and actions.",
+      "failure": "Unclear purpose or audience, no context, stale context, leak found in an external draft.",
+      "exclude": "Invitations, messages, calendars, recordings, task creation unless asked.",
+      "prompt": "prepare-meeting"
+    },
+    {
+      "name": "notion-research-synthesis",
+      "trigger": "What the workspace says about a topic, findings from many pages, research documents, comparisons, status synthesis with sources.",
+      "inputs": "Question and decision, audience and depth, scope and time window, destination.",
+      "dependencies": "Notion search and fetch, optional scope filters and connected sources, create-pages; report-formats.md.",
+      "output": "Cited report with Sources section, conflicts, confidence and open questions.",
+      "failure": "Too few or too many results, inaccessible pages, insufficient evidence.",
+      "exclude": "Unapproved web research, single-conversation capture, meeting documents.",
+      "prompt": "research-and-document"
+    },
+    {
+      "name": "notion-spec-to-tasks",
+      "trigger": "Break down a spec, PRD or design document; implementation plan; progress against a spec; updates after a spec change.",
+      "inputs": "Spec, task database, sizing, priority and status conventions, delivery constraints.",
+      "dependencies": "Notion search, fetch, create-pages and update-page, optional data-source query; plan-and-task-templates.md.",
+      "output": "Plan page, approved tasks with acceptance criteria and dependencies, requirement-to-task trace.",
+      "failure": "Spec or database not found, conflicting requirements, partial creation failure.",
+      "exclude": "Writing code, creating the task database, assigning or notifying people unasked.",
+      "prompt": "plan-spec-implementation"
+    },
+    {
+      "name": "notion-api-integration",
+      "trigger": "Connect an agent or tool to Notion, automate Notion from a script, sync with another system, debug API errors.",
+      "inputs": "Access needed, language and client, pinned API version, authentication method, test page tree, error details.",
+      "dependencies": "Repository tools and tests; official API reference for the pinned version; api-reference-notes.md.",
+      "output": "Code or configuration with tests, capability list, error diagnosis, connection checklist.",
+      "failure": "401, 403, 404, repeated 429, unclear version behaviour.",
+      "exclude": "Workspace and schema design decisions, production deployment, creating or rotating credentials.",
+      "prompt": "connect-notion-integration"
+    }
+  ],
+  "instructions": [
+    "notion-subject-matter-expert-contract.instructions.md",
+    "notion-integration-code.instructions.md"
+  ],
+  "prompts": [
+    "design-workspace.prompt.md",
+    "audit-workspace.prompt.md",
+    "design-database.prompt.md",
+    "capture-knowledge.prompt.md",
+    "prepare-meeting.prompt.md",
+    "research-and-document.prompt.md",
+    "plan-spec-implementation.prompt.md",
+    "connect-notion-integration.prompt.md"
+  ],
+  "examples": [
+    "knowledge-capture-workflow.md",
+    "meeting-prep-workflow.md",
+    "research-report-workflow.md",
+    "spec-to-tasks-workflow.md",
+    "database-change-workflow.md",
+    "workspace-audit-workflow.md",
+    "final-completion-report.md"
+  ],
+  "root_files": [
+    "DESCRIPTION.md",
+    "README.md",
+    "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md",
+    "LICENSE",
+    "apm.yml"
+  ],
+  "source_dirs": [
+    ".apm",
+    "compatibility",
+    "docs",
+    "examples",
+    "hooks",
+    "templates",
+    "tests",
+    "tooling"
+  ]
+}

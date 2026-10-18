@@ -1,0 +1,14 @@
+name: notion-subject-matter-expert
+version: 1.0.0
+description: Notion subject matter expert for workspace architecture, database design, knowledge capture, meeting materials, research synthesis, spec-to-task planning and API integration, with approval-gated workspace writes.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [notion, knowledge-management, documentation, databases, meetings, research, project-tracking, mcp]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

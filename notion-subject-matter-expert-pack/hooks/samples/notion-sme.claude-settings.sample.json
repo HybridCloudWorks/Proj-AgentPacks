@@ -1,0 +1,17 @@
+{
+  "_comment": "Sample only, not installed by APM. Replace <PACK_HOME> with the installed pack path and 'notion' in the matcher with your Notion MCP server name, then merge the hooks block into a Claude Code settings.json. See hooks/README.md.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__notion__notion-(create|update|move|duplicate).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -I -B <PACK_HOME>/tooling/notion_draft_check.py --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

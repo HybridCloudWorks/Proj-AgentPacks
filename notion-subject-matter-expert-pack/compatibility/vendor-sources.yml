@@ -1,0 +1,60 @@
+{
+  "verified_on": "2026-10-18",
+  "verification_basis": "Agent, skill, instruction and APM facts come from the repository's client-locations.md (verified 2026-10-18). Notion product and API sources below were not fetched while authoring this pack; maintainers verify them before relying on specific limits or field names.",
+  "sources": [
+    {
+      "id": "notion-help",
+      "url": "https://www.notion.com/help",
+      "status": "to verify",
+      "application": "Product features, permission levels, teamspaces, wikis and verification, views, automations and plan differences."
+    },
+    {
+      "id": "notion-api",
+      "url": "https://developers.notion.com/reference/intro",
+      "status": "to verify",
+      "application": "API versions, data sources, endpoints, error codes, rate and size limits, pagination."
+    },
+    {
+      "id": "notion-api-changelog",
+      "url": "https://developers.notion.com/page/changelog",
+      "status": "to verify",
+      "application": "Version changes such as the move to multi-source databases."
+    },
+    {
+      "id": "copilot",
+      "url": "https://docs.github.com/en/copilot/reference/custom-agents-configuration",
+      "status": "recorded in client-locations.md",
+      "application": "Agent folder, user-invocable, include-custom-instructions and tool aliases."
+    },
+    {
+      "id": "claude",
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "status": "recorded in client-locations.md",
+      "application": "Agent frontmatter; MCP tool names of the form mcp__server__tool; hooks key in settings.json."
+    },
+    {
+      "id": "codex",
+      "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents",
+      "status": "recorded in client-locations.md",
+      "application": "Custom-agent TOML; parent sandbox and approval inheritance."
+    },
+    {
+      "id": "gemini",
+      "url": "https://geminicli.com/docs/core/subagents",
+      "status": "recorded in client-locations.md",
+      "application": "Local agents, tool names and MCP wildcards."
+    },
+    {
+      "id": "kiro",
+      "url": "https://kiro.dev/docs/custom-agents",
+      "status": "recorded in client-locations.md",
+      "application": "Agent files, steering and the capability tags APM requires for tools."
+    },
+    {
+      "id": "apm",
+      "url": "https://microsoft.github.io/apm/reference/targets-matrix/",
+      "status": "recorded in client-locations.md",
+      "application": "What apm install generates for each target."
+    }
+  ]
+}
