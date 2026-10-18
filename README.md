@@ -16,7 +16,7 @@ Code Workflow installs packs into the user profile so they work in every reposit
 
 ## Packs
 
-Status is the shared validator's result with an APM install check for every target, run on 2026-10-18. Every pack meets the standard except codex-agentic-orchestrator-pack, a Codex-only seed that step 2 rebuilds as the multi-vendor orchestrator.
+Status is the shared validator's result with an APM install check for every target, run on 2026-10-18. Every pack meets the standard.
 
 | Pack | Version | Agents | Skills | Status | Notes |
 |---|---|---|---|---|---|
@@ -29,7 +29,6 @@ Status is the shared validator's result with an APM install check for every targ
 | cloud-documentation-archivist-pack | 1.2.0 | 1 | 18 | PASS | Examples, templates and prompts gap-filled. |
 | cloud-prepress-reviewer-pack | 1.2.0 | 1 | 15 | PASS | Leaked copy of the AWS agent removed. Examples, templates and prompts gap-filled. |
 | cloudflare-subject-matter-expert-pack | 1.0.0 | 3 | 11 | PASS | Generated from the CloudFlare skill collection. |
-| codex-agentic-orchestrator-pack | 1.1.0 | 1 | 6 | Incomplete: no examples, templates, prompts | Codex-only seed; to be rebuilt as the multi-vendor orchestrator. |
 | docker-senior-engineer-pack | 1.0.0 | 3 | 6 | PASS | Generated from the Docker skill collection. |
 | finops-professional-practitioner-pack | 1.0.0 | 3 | 8 | PASS | Generated from the FinOps skill collection. |
 | github-expert-engineer-pack | 1.2.0 | 1 | 18 | PASS | Examples, templates and prompts gap-filled. |
@@ -41,6 +40,8 @@ Status is the shared validator's result with an APM install check for every targ
 | python-distinguished-engineer-pack | 2.1.0 | 5 | 18 | PASS | |
 | terraform-expert-engineer-pack | 1.2.0 | 1 | 9 | PASS | Examples, templates and prompts gap-filled. |
 | typescript-distinguished-engineer-pack | 1.2.0 | 4 | 20 | PASS | Primary set explicitly; review verdicts defined. Examples, templates and prompts gap-filled. |
+
+Orchestrators are not packs: each client's main coordinating agent is generated per desktop from the tools found there and the agents and skills selected, so it lives in `orchestrators/` until the orchestrator standard is defined. The Codex orchestrator seed, formerly `codex-agentic-orchestrator-pack`, is kept there unchanged as reference.
 
 Five packs were generated from third-party skill collections: Notion, CloudFlare, Docker, Google Cloud and FinOps. The Cloud Cybersecurity collection is skipped for now.
 
