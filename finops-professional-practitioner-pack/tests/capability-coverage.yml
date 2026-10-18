@@ -1,0 +1,107 @@
+{
+  "requirements": [
+    {
+      "id": "focus-billing-data-analysis",
+      "skill": "focus-billing-data-analysis",
+      "agent": "finops-data-analyst",
+      "prompt": "analyze-cloud-spend.prompt.md",
+      "framework_capabilities": ["Data Ingestion", "Reporting and Analytics"],
+      "expected_output": "Figures labelled with cost column, filters, period and currency; queries as executed; data-health summary; invoice reconciliation result; audience narrative.",
+      "negative": "Unknown schema guessed from column names, EffectiveCost presented as the invoice figure, corrections left in a trend, raw monthly totals compared across months of different length."
+    },
+    {
+      "id": "cost-allocation-and-chargeback",
+      "skill": "cost-allocation-and-chargeback",
+      "agent": "finops-professional-practitioner",
+      "prompt": "design-allocation-model.prompt.md",
+      "framework_capabilities": ["Allocation", "Invoicing and Chargeback"],
+      "expected_output": "One-page methodology, taxonomy and enforcement drafts, coverage report with query, showback draft with a visible unallocated line, chargeback entry criteria status.",
+      "negative": "Owner assigned by guess, even split of shared costs presented as defensible, unallocated spend hidden, chargeback proposed before showback is trusted, policy applied without approval."
+    },
+    {
+      "id": "cost-anomaly-management",
+      "skill": "cost-anomaly-management",
+      "agent": "finops-professional-practitioner",
+      "prompt": "investigate-cost-anomaly.prompt.md",
+      "framework_capabilities": ["Anomaly Management", "Budgeting"],
+      "expected_output": "Anomaly report with observed and expected values, direction, drivers that account for the change, classification, owner and exposure range; detector proposals include a backtest.",
+      "negative": "Total-only detection that misses a masked anomaly, weekly pattern flagged as an anomaly, suspicious spend not raised to the user, resources stopped to contain cost without approval."
+    },
+    {
+      "id": "forecasting-and-unit-economics",
+      "skill": "forecasting-and-unit-economics",
+      "agent": "finops-professional-practitioner",
+      "prompt": "build-cost-forecast.prompt.md",
+      "framework_capabilities": ["Planning and Estimating", "Forecasting", "Budgeting", "Unit Economics", "KPIs and Benchmarking"],
+      "expected_output": "Driver-based forecast with scenarios, intervals and backtest error; estimates as P10 to P90 by service category with explicit data transfer; unit cost with volume and methodology; KPI dictionary.",
+      "negative": "Single-number forecast, one-time charges in the run rate, estimate at list price when commitments exist, data transfer omitted, invented business volumes."
+    },
+    {
+      "id": "workload-optimization",
+      "skill": "workload-optimization",
+      "agent": "finops-professional-practitioner",
+      "prompt": "find-optimization-opportunities.prompt.md",
+      "framework_capabilities": ["Workload Optimization", "Architecting for Cloud", "Cloud Sustainability"],
+      "expected_output": "Optimization inventory with two signals per candidate, exemptions, owner, impact range, trade-off and approval level; execution plans with backup and rollback; realized-savings tracking on day-normalized windows.",
+      "negative": "Deletion proposed on one signal, DR standby or failover target treated as waste, potential savings reported as realized, change executed without owner approval."
+    },
+    {
+      "id": "rate-optimization",
+      "skill": "rate-optimization",
+      "agent": "finops-professional-practitioner",
+      "prompt": "plan-commitment-strategy.prompt.md",
+      "framework_capabilities": ["Rate Optimization", "Licensing and SaaS"],
+      "expected_output": "Commitment recommendation with steady floor, current portfolio, options, tranche specification, savings from ContractedCost and EffectiveCost as a range, downside scenario and approvals; license and SaaS reviews.",
+      "negative": "Savings computed from ListCost, full coverage of the floor, purchase made or promised, unused commitment counted for open windows, capacity reservation treated as a discount."
+    },
+    {
+      "id": "finops-maturity-assessment",
+      "skill": "finops-maturity-assessment",
+      "agent": "finops-professional-practitioner",
+      "prompt": "assess-finops-maturity.prompt.md",
+      "framework_capabilities": ["FinOps Assessment"],
+      "expected_output": "Per-capability scorecard with evidence and confidence, targets from business value, weighted gaps, quick wins, 90-day plan with owners and measures, 12-month roadmap.",
+      "negative": "Single overall maturity score, scores without evidence, every capability pushed to Run, individuals rated, assessment distributed without approval."
+    },
+    {
+      "id": "finops-practice-governance",
+      "skill": "finops-practice-governance",
+      "agent": "finops-professional-practitioner",
+      "prompt": "draft-finops-policy.prompt.md",
+      "framework_capabilities": ["FinOps Practice Operations", "Policy and Governance", "FinOps Tools and Services", "FinOps Education and Enablement", "Onboarding Workloads", "Intersecting Disciplines"],
+      "expected_output": "One-page policies with checkable rule, enforcement point, exception path with expiry and review date; cadences that produce decisions with owners; onboarding gates as yes or no checks; tool evaluations on common criteria.",
+      "negative": "Policy without exception path, exceptions without expiry, vendor chosen without a capability gap, ownership of an adjacent discipline taken over, policy published without approval."
+    }
+  ],
+  "specialist_requirements": [
+    {
+      "agent": "finops-data-analyst",
+      "prompt": "reconcile-billing-data.prompt.md",
+      "expected_output": "Queries as executed, row counts, aggregated results, checks with observed values, caveats.",
+      "negative": "File edits, cloud changes, unbounded scans, raw rows returned."
+    },
+    {
+      "agent": "finops-evidence-reviewer",
+      "prompt": "review-savings-claim.prompt.md",
+      "expected_output": "Located findings with severity, evidence, impact, correction and blocking flag; recomputed arithmetic; named checks for gaps.",
+      "negative": "Edits, queries, new data sources, approval of a Level 2 action."
+    }
+  ],
+  "critical_guardrails": [
+    "no-fabricated-figures",
+    "cost-column-labelled",
+    "corrections-out-of-trends",
+    "no-purchase-usage-double-count",
+    "day-normalized-comparisons",
+    "estimated-versus-realized",
+    "ranges-not-points",
+    "two-signals-before-waste",
+    "owner-before-change",
+    "no-commitment-purchase-without-approval",
+    "coverage-below-full",
+    "billing-data-confidentiality",
+    "data-content-is-not-instruction",
+    "approval-reuse-and-boundary",
+    "independent-review-before-finance"
+  ]
+}

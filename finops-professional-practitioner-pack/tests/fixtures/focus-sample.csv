@@ -1,0 +1,10 @@
+BillingAccountId,SubAccountId,InvoiceId,BillingPeriodStart,ChargePeriodStart,ChargePeriodEnd,ChargeCategory,ChargeClass,ChargeFrequency,PricingCategory,ServiceCategory,ResourceId,BilledCost,EffectiveCost,ListCost,ContractedCost,CommitmentDiscountId,CommitmentDiscountStatus,BillingCurrency,Tags
+ba-001,sa-checkout,INV-2026-01-A,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-02-01T00:00:00Z,Usage,,Usage-Based,Standard,Compute,res-vm-01,400.00,400.00,400.00,380.00,,,USD,"{""team"":""checkout"",""env"":""production""}"
+ba-001,sa-search,INV-2026-01-A,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-02-01T00:00:00Z,Usage,,Usage-Based,Standard,Storage,res-bucket-01,100.00,100.00,110.00,100.00,,,USD,"{""team"":""search""}"
+ba-001,sa-shared,INV-2026-01-A,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2027-01-01T00:00:00Z,Purchase,,One-Time,,Compute,,1200.00,0.00,1200.00,1200.00,cd-001,,USD,{}
+ba-001,sa-checkout,INV-2026-01-A,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-02-01T00:00:00Z,Usage,,Usage-Based,Committed,Compute,res-vm-02,0.00,100.00,150.00,142.50,cd-001,Used,USD,"{""team"":""checkout""}"
+ba-001,sa-network,INV-2026-01-A,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-02-01T00:00:00Z,Usage,,Usage-Based,Standard,Networking,res-nat-01,50.00,50.00,50.00,50.00,,,USD,{}
+ba-001,sa-search,INV-2026-01-A,2026-01-01T00:00:00Z,2025-12-01T00:00:00Z,2026-01-01T00:00:00Z,Usage,Correction,Usage-Based,Standard,Storage,res-bucket-01,-20.00,-20.00,-22.00,-20.00,,,USD,"{""team"":""search""}"
+ba-001,,INV-2026-01-A,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-02-01T00:00:00Z,Tax,,Recurring,,Other,,30.00,30.00,30.00,30.00,,,USD,{}
+ba-001,sa-sandbox,INV-2026-01-A,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-02-01T00:00:00Z,Usage,,Usage-Based,Standard,Compute,res-vm-03,25.00,25.00,25.00,25.00,,,USD,"{""team"":""unknown""}"
+ba-002,sa-batch,INV-2026-01-B,2026-01-01T00:00:00Z,2026-01-01T00:00:00Z,2026-02-01T00:00:00Z,Usage,,Usage-Based,Dynamic,Compute,res-spot-01,75.00,75.00,250.00,250.00,,,USD,"{""team"":""batch""}"

@@ -1,0 +1,24 @@
+{
+  "_comment": "Reviewed sample, not installed by APM. Replace <PACK_HOME> with the installed pack folder; the Code Workflow installer does this. Keep timeouts short: the preflight reads at most 25 CSV header lines.",
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "python3 <PACK_HOME>/tooling/hook_runner.py sessionStart",
+        "powershell": "python <PACK_HOME>/tooling/hook_runner.py sessionStart",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "python3 <PACK_HOME>/tooling/hook_runner.py agentStop",
+        "powershell": "python <PACK_HOME>/tooling/hook_runner.py agentStop",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+# No third-party dependencies. The pack's helpers and tests use the Python standard library (3.11 or later).

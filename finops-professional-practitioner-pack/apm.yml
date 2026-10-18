@@ -1,0 +1,14 @@
+name: finops-professional-practitioner
+version: 1.0.0
+description: FinOps practitioner agent with optional data and evidence-review specialists for FOCUS-based cost analysis, allocation, forecasting, optimization, commitments and practice governance.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [finops, focus, cloud-cost, cost-allocation, forecasting, unit-economics, commitments, optimization, governance]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

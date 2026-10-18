@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "cost-allocation-and-chargeback": {
+      "description": "Design and run cloud cost allocation, covering the account hierarchy, tag and label taxonomy, enforcement at creation, shared-cost and Kubernetes allocation, unallocated spend, and the progression from showback to chargeback with reconciliation and disputes. Use when costs must be attributed to teams, products, environments or customers, tag coverage is low or drifting, or a showback or chargeback model is being designed, rolled out, audited or disputed.",
+      "activation": "Use when costs must be attributed to teams, products, environments or customers, tag coverage is low or drifting, or a showback or chargeback model is being designed, rolled out, audited or disputed.",
+      "source": ".apm/skills/cost-allocation-and-chargeback/SKILL.md"
+    },
+    "cost-anomaly-management": {
+      "description": "Detect, triage and explain unexpected cloud spend changes and tune budget alerts with segment-level, seasonality-aware detection, masked-anomaly checks, root-cause tracing to line items, owner routing and alert precision tracking. Use when spend moved unexpectedly, an anomaly or budget alert fired or is too noisy, anomaly detection or budget alerting is being set up or tuned, or new spend appears in an unexpected service, account or region.",
+      "activation": "Use when spend moved unexpectedly, an anomaly or budget alert fired or is too noisy, anomaly detection or budget alerting is being set up or tuned, or new spend appears in an unexpected service, account or region.",
+      "source": ".apm/skills/cost-anomaly-management/SKILL.md"
+    },
+    "finops-maturity-assessment": {
+      "description": "Assess FinOps practice maturity capability by capability with evidence, weigh gaps by business impact and produce a scorecard, a 90-day plan and a 12-month roadmap. Use when an organization asks where its FinOps practice stands, wants a maturity scorecard against the FinOps Framework, is choosing its next FinOps priorities, or needs to justify investment in the practice.",
+      "activation": "Use when an organization asks where its FinOps practice stands, wants a maturity scorecard against the FinOps Framework, is choosing its next FinOps priorities, or needs to justify investment in the practice.",
+      "source": ".apm/skills/finops-maturity-assessment/SKILL.md"
+    },
+    "finops-practice-governance": {
+      "description": "Run the FinOps practice through operating cadences and decision logs, one-page policies with exception registers, workload onboarding gates, FinOps tool selection, education and enablement, and coordination with finance, procurement, ITAM, ITSM, ITFM, security and sustainability. Use when setting up or running FinOps reviews, writing or reviewing a FinOps policy, onboarding or migrating workloads, choosing FinOps tooling, building an enablement program, or aligning FinOps with adjacent disciplines.",
+      "activation": "Use when setting up or running FinOps reviews, writing or reviewing a FinOps policy, onboarding or migrating workloads, choosing FinOps tooling, building an enablement program, or aligning FinOps with adjacent disciplines.",
+      "source": ".apm/skills/finops-practice-governance/SKILL.md"
+    },
+    "focus-billing-data-analysis": {
+      "description": "Analyze and report cloud and SaaS billing data in FOCUS or provider-native form by choosing the right cost column, applying the right filters, checking data health, reconciling to invoices, normalizing trends and writing audience-ready spend narratives. Use when a question needs numbers from billing exports, a spend report or top-movers narrative is due, totals must be reconciled to an invoice, a FOCUS adoption or conformance check is planned, or spend must be compared across providers.",
+      "activation": "Use when a question needs numbers from billing exports, a spend report or top-movers narrative is due, totals must be reconciled to an invoice, a FOCUS adoption or conformance check is planned, or spend must be compared across providers.",
+      "source": ".apm/skills/focus-billing-data-analysis/SKILL.md"
+    },
+    "forecasting-and-unit-economics": {
+      "description": "Quantify the business value of cloud spend with driver-based forecasts that carry ranges and backtests, budgets, pre-deployment workload and migration estimates, unit economics and a small set of KPIs and benchmarks. Use when someone needs a forecast, budget, variance explanation, cost estimate for a proposed workload or migration, cost per unit of business output, or KPIs and benchmarks for teams or the organization.",
+      "activation": "Use when someone needs a forecast, budget, variance explanation, cost estimate for a proposed workload or migration, cost per unit of business output, or KPIs and benchmarks for teams or the organization.",
+      "source": ".apm/skills/forecasting-and-unit-economics/SKILL.md"
+    },
+    "rate-optimization": {
+      "description": "Lower the rate paid for cloud and software through commitment discount portfolios (reservations, savings plans, committed use discounts), coverage and utilization management, laddered purchases and expirations, private pricing negotiation preparation, licensing and bring-your-own-license choices, SaaS entitlements and marketplace spend. Use when evaluating, buying, renewing, exchanging or reviewing commitments, preparing for a pricing agreement negotiation, or reducing license, SaaS or marketplace cost.",
+      "activation": "Use when evaluating, buying, renewing, exchanging or reviewing commitments, preparing for a pricing agreement negotiation, or reducing license, SaaS or marketplace cost.",
+      "source": ".apm/skills/rate-optimization/SKILL.md"
+    },
+    "workload-optimization": {
+      "description": "Find, prioritize and safely realize usage savings across idle and orphaned resources, rightsizing, storage lifecycle, network and data transfer, Kubernetes requests and autoscaling, serverless and spot patterns, scheduling and cost-aware architecture, with carbon as a fourth trade-off. Use when looking for waste or savings opportunities, reviewing an architecture or change for cost, planning cleanup or rightsizing, or tracking realized savings and carbon impact.",
+      "activation": "Use when looking for waste or savings opportunities, reviewing an architecture or change for cost, planning cleanup or rightsizing, or tracking realized savings and carbon impact.",
+      "source": ".apm/skills/workload-optimization/SKILL.md"
+    }
+  }
+}

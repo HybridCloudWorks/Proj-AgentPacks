@@ -1,0 +1,9 @@
+# FinOps Professional Practitioner
+
+An agent pack for the people who run a FinOps practice and the engineering, finance, procurement, product and leadership partners who depend on it. It turns cloud and SaaS billing data into figures both Finance and Engineering accept, gives every cost an owner, and helps the organization decide where to spend, save and commit, weighing cost against speed, quality and carbon.
+
+One user-facing agent, `finops-professional-practitioner`, covers the whole FinOps Framework: billing data and reporting, allocation and chargeback, anomalies and budget alerts, forecasting and unit economics, usage optimization, rate optimization and licensing, maturity assessment and practice governance. Two optional specialists help where separation pays: `finops-data-analyst` keeps large query work in its own context, and `finops-evidence-reviewer` independently checks figures and savings claims before they reach Finance or a purchase decision.
+
+The pack contains three agents, eight operational skills with their reference files, three instruction files (including an always-on contract for approvals, handoffs and the completion report), eleven prompts, seven worked examples and a worked completion report, human templates, hook helper scripts with a reviewed sample, pack-specific tooling and offline tests. Vendor files for Claude Code, GitHub Copilot, OpenAI Codex, Kiro and Gemini CLI are generated from the canonical `.apm/` source by APM or by the Code Workflow installer.
+
+The agents read FOCUS exports by default and map provider-native exports when needed. They never buy commitments, change resources, alter policies, publish figures or send messages without explicit approval, and they keep estimated savings apart from realized ones. The pack configures no connector, credential or paid service.
