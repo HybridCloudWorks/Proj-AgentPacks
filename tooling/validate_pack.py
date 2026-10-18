@@ -267,6 +267,15 @@ def consistency(root: Path, rep: Report, info: dict[str, object]) -> None:
         fallback = rc.get("fallback")
         if isinstance(fallback, str):
             rep.add("structural", "contract instruction states the fallback sentence", fallback in raw)
+        defined = {s for v in rc.values() if isinstance(v, list) for s in v if isinstance(s, str)}
+        status_like = set()
+        for path in (root / ".apm").rglob("*.md"):
+            status_like |= set(re.findall(r"\b[A-Z]{3,}(?:_[A-Z]+)+\b", path.read_text(encoding="utf-8", errors="replace")))
+        status_words = {"READY", "VERIFIED", "BLOCKED", "COMPLETE", "COMPLETED", "REQUIRED", "ANALYSIS", "PREPARED", "APPROVED",
+                        "FAILED", "PASSED", "PENDING", "PARTIAL", "SKIPPED", "REVIEW", "MERGE", "DECISION", "VERIFY"}
+        status_like = {s for s in status_like if set(s.split("_")) & status_words}
+        undefined = sorted(status_like - defined)
+        rep.add("structural", "status names used in installed content are defined in report-contract.yml", not undefined, ", ".join(undefined[:6]))
 
 
 def executable(root: Path, rep: Report, info: dict[str, object], install_check: bool) -> None:
@@ -316,6 +325,12 @@ def executable(root: Path, rep: Report, info: dict[str, object], install_check: 
         rep.add("executable", "generated vendor files reference only installed things", not hits, "; ".join(hits))
 
 
+def prompt_version(root: Path) -> str:
+    path = root / "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md"
+    m = re.search(r"Prompt version ([0-9]+(?:\.[0-9]+)?)", path.read_text(encoding="utf-8", errors="replace")) if path.is_file() else None
+    return m.group(1) if m else "unknown"
+
+
 def render(root: Path, rep: Report, info: dict[str, object]) -> str:
     manifest = info["manifest"]
     assert isinstance(manifest, dict)
@@ -324,7 +339,7 @@ def render(root: Path, rep: Report, info: dict[str, object]) -> str:
     skipped = sum(r[2] == "skipped" for r in rep.rows)
     lines = ["# VALIDATION_REPORT", "",
              f"Pack: {manifest.get('name')} {manifest.get('version')}",
-             "Standard: agent-pack-prompt v2.2",
+             f"Standard: agent-pack-prompt v{prompt_version(root)}",
              f"Validated: {dt.date.today().isoformat()}",
              f"Status: {'PASS' if not fails else 'FAIL'}", "",
              f"Checks: {len(rep.rows)}  Passed: {passed}  Failed: {len(fails)}  Skipped: {skipped}", "",

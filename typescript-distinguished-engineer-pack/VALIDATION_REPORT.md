@@ -1,11 +1,11 @@
 # VALIDATION_REPORT
 
 Pack: typescript-distinguished-engineer 1.1.0
-Standard: agent-pack-prompt v2.2
+Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 183  Passed: 182  Failed: 0  Skipped: 1
+Checks: 184  Passed: 183  Failed: 0  Skipped: 1
 
 ## Scope
 
@@ -200,6 +200,7 @@ Checks: 183  Passed: 182  Failed: 0  Skipped: 1
 | structural | tests/trigger-cases.yml prompt files exist | pass |  |
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |
+| structural | status names used in installed content are defined in report-contract.yml | pass |  |
 | executable | pack unit tests | skipped | no test_*.py in tests/ |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |

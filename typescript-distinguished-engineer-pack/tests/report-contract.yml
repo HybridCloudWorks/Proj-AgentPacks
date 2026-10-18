@@ -4,6 +4,11 @@ completion_statuses:
   - CHANGES_REQUIRED
   - BLOCKED_ON_HUMAN_DECISION
   - NOT_VERIFIED
+review_verdicts:
+  - READY_FOR_REVIEW
+  - CHANGES_REQUIRED
+  - BLOCKED_ON_HUMAN_DECISION
+  - NOT_VERIFIED
 required_concepts:
   - acceptance criteria
   - files changed
