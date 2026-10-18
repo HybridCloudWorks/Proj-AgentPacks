@@ -1,4 +1,4 @@
-# apple-code-reviewer 1.1.0: artifact catalog
+# apple-code-reviewer 1.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -6,6 +6,14 @@ Every file in this pack, with its purpose and location. Contents are in the file
 |---|---|---|
 | apple-code-reviewer.agent.md | Canonical agent: Review Swift, SwiftUI, UIKit, AppKit, Objective-C interoperability, Xcode, and Apple-platform changes for correctness, security, privacy, accessibility, performance, tests, configuration, and release risk. Use for pull requests, branch diffs, feature work, bug fixes, refactors, security or performance changes, and audits of AI-generated Apple code. | .apm/agents/apple-code-reviewer.agent.md |
 | apple-code-reviewer-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the apple code reviewer pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/apple-code-reviewer-contract.instructions.md |
+| assess-apple-release-readiness.prompt.md | Canonical prompt: Assess whether an Apple-platform release candidate has the evidence it needs to ship | .apm/prompts/assess-apple-release-readiness.prompt.md |
+| audit-ai-generated-apple-code.prompt.md | Canonical prompt: Audit AI-generated Swift or Apple-platform code for defects, unsupported claims and missing tests | .apm/prompts/audit-ai-generated-apple-code.prompt.md |
+| review-apple-pull-request.prompt.md | Canonical prompt: Review an Apple-platform pull request or branch diff and recommend whether it can merge | .apm/prompts/review-apple-pull-request.prompt.md |
+| review-apple-runtime-quality.prompt.md | Canonical prompt: Review Apple-platform changes for responsiveness, memory, energy, retry and logging risk | .apm/prompts/review-apple-runtime-quality.prompt.md |
+| review-apple-security-privacy.prompt.md | Canonical prompt: Review Apple-platform trust boundaries, credential storage, entitlements and privacy declarations | .apm/prompts/review-apple-security-privacy.prompt.md |
+| review-apple-ui-accessibility.prompt.md | Canonical prompt: Review SwiftUI, UIKit or AppKit changes for state, navigation, layout, localization and accessibility defects | .apm/prompts/review-apple-ui-accessibility.prompt.md |
+| review-swift-correctness.prompt.md | Canonical prompt: Review changed Swift for concurrency, ARC, optional, error-handling and interoperability defects | .apm/prompts/review-swift-correctness.prompt.md |
+| verify-apple-build-and-ci.prompt.md | Canonical prompt: Establish what an Apple change can be built and tested with here, and interpret its CI evidence | .apm/prompts/verify-apple-build-and-ci.prompt.md |
 | openai.yaml | Canonical skill | .apm/skills/assess-apple-runtime-quality/agents/openai.yaml |
 | official-sources.md | Canonical skill | .apm/skills/assess-apple-runtime-quality/references/official-sources.md |
 | runtime-quality-checklist.md | Canonical skill | .apm/skills/assess-apple-runtime-quality/references/runtime-quality-checklist.md |
@@ -41,11 +49,23 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | vendor-sources.yml | Vendor compatibility metadata | compatibility/vendor-sources.yml |
 | DESCRIPTION.md | What the pack is for and who uses it. | DESCRIPTION.md |
 | DESIGN_DECISIONS.md | Pack contract or inventory | docs/DESIGN_DECISIONS.md |
+| PROMPT_INVENTORY.md | Pack contract or inventory | docs/PROMPT_INVENTORY.md |
 | SOURCE_TRACEABILITY.md | Pack contract or inventory | docs/SOURCE_TRACEABILITY.md |
+| assess-apple-release-readiness-blocked.md | Worked example | examples/assess-apple-release-readiness-blocked.md |
+| audit-ai-generated-apple-code.md | Worked example | examples/audit-ai-generated-apple-code.md |
+| review-apple-pull-request.md | Worked example | examples/review-apple-pull-request.md |
+| review-apple-runtime-quality.md | Worked example | examples/review-apple-runtime-quality.md |
+| review-apple-security-privacy.md | Worked example | examples/review-apple-security-privacy.md |
+| review-apple-ui-accessibility.md | Worked example | examples/review-apple-ui-accessibility.md |
 | README.md | Hook helper script | hooks/README.md |
 | LICENSE | License terms. | LICENSE |
 | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | The master prompt this pack was built to. | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md |
 | README.md | How to install and use the pack. | README.md |
+| build-test-evidence.md | Reusable template | templates/build-test-evidence.md |
+| completion-report.md | Reusable template | templates/completion-report.md |
+| documentation-impact-entries.md | Reusable template | templates/documentation-impact-entries.md |
+| engineer-handoff.md | Reusable template | templates/engineer-handoff.md |
+| review-scope.md | Reusable template | templates/review-scope.md |
 | capability-coverage.yml | Local test or recorded evidence | tests/capability-coverage.yml |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
 | skill-coverage.yml | Local test or recorded evidence | tests/skill-coverage.yml |
@@ -56,10 +76,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 
 ## Build outputs (dist/, not committed)
 
-- copilot-apple-code-reviewer.zip: 29 files generated by `apm install --target copilot`
-- claude-apple-code-reviewer.zip: 29 files generated by `apm install --target claude`
+- copilot-apple-code-reviewer.zip: 37 files generated by `apm install --target copilot`
+- claude-apple-code-reviewer.zip: 37 files generated by `apm install --target claude`
 - codex-apple-code-reviewer.zip: 28 files generated by `apm install --target codex`
 - kiro-apple-code-reviewer.zip: 29 files generated by `apm install --target kiro`
-- gemini-apple-code-reviewer.zip: 27 files generated by `apm install --target gemini`
+- gemini-apple-code-reviewer.zip: 35 files generated by `apm install --target gemini`
 - agent-skills-apple-code-reviewer.zip: 27 files generated by `apm install --target agent-skills`
 - apple-code-reviewer-canonical.zip, apple-code-reviewer-prompt.zip, apple-code-reviewer-validation.zip, apple-code-reviewer-skills.zip, apple-code-reviewer-full-pack.zip, SHA256SUMS.txt
