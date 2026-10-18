@@ -1,0 +1,52 @@
+version: 1
+client: codex
+agent_source: project-or-user-.codex/agents
+agents:
+  - id: ansible-expert-engineer
+    agent_name: ansible-expert-engineer
+    capability: Ansible engineering and automation
+    enabled_by_default: true
+  - id: apple-code-reviewer
+    agent_name: apple-code-reviewer
+    capability: Apple platform code review
+    enabled_by_default: true
+  - id: aws-cloud-architect
+    agent_name: aws-cloud-architect
+    capability: AWS cloud architecture
+    enabled_by_default: true
+  - id: aws-expert-designer
+    agent_name: aws-expert-designer
+    capability: AWS architecture diagrams and design
+    enabled_by_default: true
+  - id: azure-cloud-architect
+    agent_name: azure-cloud-architect
+    capability: Azure cloud architecture
+    enabled_by_default: true
+  - id: azure-expert-designer
+    agent_name: azure-expert-designer
+    capability: Azure architecture diagrams and design
+    enabled_by_default: true
+  - id: cloud-documentation-archivist
+    agent_name: cloud-documentation-archivist
+    capability: Cloud documentation and knowledge management
+    enabled_by_default: true
+  - id: cloud-prepress-reviewer
+    agent_name: cloud-prepress-reviewer
+    capability: Pre-deployment cloud architecture and code review
+    enabled_by_default: true
+  - id: github-expert-engineer
+    agent_name: github-expert-engineer
+    capability: GitHub administration, workflows, repositories, PRs, and Copilot
+    enabled_by_default: true
+  - id: hypervelocity-engineer
+    agent_name: hypervelocity-engineer
+    capability: AI-accelerated software delivery and developer productivity
+    enabled_by_default: true
+  - id: infrastructure-pr-reviewer
+    agent_name: infrastructure-pr-reviewer
+    capability: Infrastructure pull-request review
+    enabled_by_default: true
+  - id: terraform-expert-engineer
+    agent_name: terraform-expert-engineer
+    capability: Terraform, HCL, state, HCP Terraform, and IaC
+    enabled_by_default: true

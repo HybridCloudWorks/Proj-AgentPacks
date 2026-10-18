@@ -1,0 +1,30 @@
+capabilities:
+  - id: official_courseware_governance
+    source: [mct-courseware-governance]
+  - id: learn_mapping
+    source: [microsoft-learn-curriculum-mapping]
+  - id: objectives_assessment
+    source: [learning-objectives-and-assessment]
+  - id: syllabus_facilitation
+    source: [course-architecture-and-syllabus, instructor-led-facilitation]
+  - id: trainer_rehearsal
+    source: [trainer-preparation-and-rehearsal, lab-and-demo-engineering]
+  - id: m365_copilot
+    source: [microsoft-365-copilot-instruction, microsoft-365-apps-workflows]
+  - id: prompting_checks
+    source: [copilot-prompting-and-knowledge-checks]
+  - id: copilot_studio
+    source: [copilot-studio-course-labs]
+  - id: designer_visuals
+    source: [microsoft-designer-and-visual-content]
+  - id: powerpoint
+    source: [powerpoint-courseware-engineering]
+  - id: github_handoff
+    source: [git-and-github-course-delivery]
+  - id: azure_handoff
+    source: [azure-and-cloud-lab-handoff]
+  - id: evaluation_maintenance
+    source: [course-evaluation-and-feedback, training-content-maintenance]
+  - id: safe_automation
+    source: [trainer-automation-and-tools]
+

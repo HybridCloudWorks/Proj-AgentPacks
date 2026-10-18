@@ -1,0 +1,7 @@
+name: python-distinguished-engineer
+version: 2.0.0
+description: Enterprise Python and agentic engineering with optional specialists and evidence-based delivery.
+source: .apm
+agents: .apm/agents
+skills: .apm/skills
+license: MIT

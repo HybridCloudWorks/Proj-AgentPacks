@@ -1,0 +1,12 @@
+pack: microsoft-certified-trainer
+primary_agent: microsoft-certified-trainer
+capabilities:
+  curriculum_governance: [mct-courseware-governance, microsoft-learn-curriculum-mapping, training-content-maintenance]
+  learning_design: [learning-objectives-and-assessment, course-architecture-and-syllabus, instructor-led-facilitation]
+  trainer_readiness: [trainer-preparation-and-rehearsal, lab-and-demo-engineering, trainer-automation-and-tools]
+  microsoft_365: [microsoft-365-copilot-instruction, microsoft-365-apps-workflows, copilot-prompting-and-knowledge-checks]
+  courseware: [powerpoint-courseware-engineering, microsoft-designer-and-visual-content]
+  copilot_studio: [copilot-studio-course-labs]
+  partner_handoffs: [git-and-github-course-delivery, azure-and-cloud-lab-handoff]
+  improvement: [course-evaluation-and-feedback]
+

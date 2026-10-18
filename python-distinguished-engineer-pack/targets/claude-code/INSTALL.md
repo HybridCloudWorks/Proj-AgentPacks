@@ -1,0 +1,3 @@
+# Installation and use
+
+Merge the vendor agent/Skill directories and shared, docs, templates, tests, compatibility and context files into an authorized project. Preserve existing context and policy. Use the primary role directly and specialists for bounded tasks; native visibility/delegation differs by client. Shared prompts are task recipes; hooks are manual helpers, not installed native hook configuration. Run python shared/tooling/hook_runner.py preflight --root . or completion --report PATH. Confirm installed tool names and agent discovery; no credentials/MCP/provider/model or live deployment is configured.

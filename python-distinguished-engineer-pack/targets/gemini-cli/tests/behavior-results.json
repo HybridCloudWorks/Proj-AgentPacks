@@ -1,0 +1,39 @@
+{
+  "command": "python -m unittest discover -s tests -p test_behavior.py -v",
+  "exit_code": 0,
+  "test_count": 21,
+  "python_version": "3.14.7",
+  "source_sha256": {
+    "tests/test_behavior.py": "e34bae36b7fb6080c73960a3b88e75479964f943bac0b1c543849aee01c018e3",
+    "tooling/completion_contract.py": "85c49d83637c5047e4515c431901815294393383dfa160d46216902a1aafc8b8",
+    "tooling/hook_runner.py": "10bcd24ca2f9e2956a5c140fb51b816988ed21f6d41170f358a2c2264361a083",
+    "tooling/validate_python_pack.py": "9001e7be3febb8aa700d298e67fac82f0c86fbc9f136c7a6f39d8f1b3cc7050e",
+    "templates/api_contract.py": "016e1d3b7316d63631e32971455a4bf2e6e05b01e574352596ea86e5ff5cc41d",
+    "tests/fixtures/valid-completion.json": "f63e16891d50722029ed897611a00168c69b778803ef542cd229892bd86df0c9",
+    "tests/fixtures/invalid-completion.json": "18844ac41d7251ecc11777d907ba7bf9857dc26af0f8d9c4669f10c21a4d2ad6"
+  },
+  "evidence": [
+    "test_cancellation_cleans_up_owned_resource (test_behavior.AsyncContractTests.test_cancellation_cleans_up_owned_resource) ... ok",
+    "test_deadline_cancels_owned_work (test_behavior.AsyncContractTests.test_deadline_cancels_owned_work) ... ok",
+    "test_boolean_exit_code_is_not_numeric_success (test_behavior.CompletionTests.test_boolean_exit_code_is_not_numeric_success) ... ok",
+    "test_failed_command_cannot_be_claimed_passed (test_behavior.CompletionTests.test_failed_command_cannot_be_claimed_passed) ... ok",
+    "test_missing_and_malformed_reports (test_behavior.CompletionTests.test_missing_and_malformed_reports) ... ok",
+    "test_unverified_criterion_blocks_complete_claim (test_behavior.CompletionTests.test_unverified_criterion_blocks_complete_claim) ... ok",
+    "test_valid_local_fixture (test_behavior.CompletionTests.test_valid_local_fixture) ... ok",
+    "test_conflicting_replay_is_rejected (test_behavior.DomainTests.test_conflicting_replay_is_rejected) ... ok",
+    "test_cross_tenant_cannot_read_job (test_behavior.DomainTests.test_cross_tenant_cannot_read_job) ... ok",
+    "test_retry_preserves_original_job (test_behavior.DomainTests.test_retry_preserves_original_job) ... ok",
+    "test_runtime_validation_rejects_oversize_and_invalid_types (test_behavior.DomainTests.test_runtime_validation_rejects_oversize_and_invalid_types) ... ok",
+    "test_runtime_validation_rejects_unknown_fields (test_behavior.DomainTests.test_runtime_validation_rejects_unknown_fields) ... ok",
+    "test_scope_is_independent_of_argument_content (test_behavior.DomainTests.test_scope_is_independent_of_argument_content) ... ok",
+    "test_invalid_stdin_does_not_echo_sensitive_content (test_behavior.HookTests.test_invalid_stdin_does_not_echo_sensitive_content) ... ok",
+    "test_metadata_is_not_promoted_to_prompt_instructions (test_behavior.HookTests.test_metadata_is_not_promoted_to_prompt_instructions) ... ok",
+    "test_missing_optional_completion_does_not_block_conversation (test_behavior.HookTests.test_missing_optional_completion_does_not_block_conversation) ... ok",
+    "test_payload_validation (test_behavior.HookTests.test_payload_validation) ... ok",
+    "test_preflight_reads_version_without_importing (test_behavior.HookTests.test_preflight_reads_version_without_importing) ... ok",
+    "test_stale_report_is_rejected_and_retry_bounded (test_behavior.HookTests.test_stale_report_is_rejected_and_retry_bounded) ... ok",
+    "test_syntax_inventory_does_not_execute_source (test_behavior.HookTests.test_syntax_inventory_does_not_execute_source) ... ok",
+    "test_valid_current_session_report_is_accepted (test_behavior.HookTests.test_valid_current_session_report_is_accepted) ... ok",
+    "OK"
+  ]
+}

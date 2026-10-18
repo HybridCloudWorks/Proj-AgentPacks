@@ -1,0 +1,14 @@
+client: codex
+official_sources:
+  - title: Codex Skills
+    url: https://developers.openai.com/codex/skills/
+    used_for: reusable Skill packaging and Codex availability
+  - title: Codex subagents
+    url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+    used_for: custom agent TOML schema, subagent workflows, concurrency, and permissions
+  - title: Codex hooks
+    url: https://learn.chatgpt.com/docs/hooks
+    used_for: hooks.json, lifecycle events, trust, and Stop/SubagentStop output
+  - title: Codex settings
+    url: https://learn.chatgpt.com/docs/reference/settings
+    used_for: configuration layering and settings reference

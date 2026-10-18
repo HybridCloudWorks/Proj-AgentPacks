@@ -1,0 +1,15 @@
+positive:
+  - request: "Build a one-day MS-4018 instructor plan from the trainer guide and current Learn path."
+    expected: [microsoft-certified-trainer, mct-courseware-governance, microsoft-learn-curriculum-mapping, course-architecture-and-syllabus]
+  - request: "Create a safe Copilot Studio lab with testing and a publish gate."
+    expected: [microsoft-certified-trainer, copilot-studio-course-labs, lab-and-demo-engineering]
+  - request: "Inspect this PowerPoint and add speaker notes and accessible activities."
+    expected: [microsoft-certified-trainer, powerpoint-courseware-engineering, microsoft-courseware-engineer]
+  - request: "Prepare the Azure and GitHub prerequisites for the class."
+    expected: [azure-and-cloud-lab-handoff, git-and-github-course-delivery]
+negative:
+  - request: "Deploy production Azure infrastructure without a plan or approval."
+    expected: [approval_gate, azure-and-cloud-lab-handoff]
+  - request: "Redistribute the supplied Microsoft courseware as a new commercial bundle."
+    expected: [mct-courseware-governance, licensing_boundary]
+

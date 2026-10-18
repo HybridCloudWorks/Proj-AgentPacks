@@ -1,0 +1,14 @@
+github-copilot:
+  source: canonical .apm plus generated .github target
+  expected_files: [agents, skills, instructions, prompts, examples, hooks]
+claude-code:
+  source: canonical .apm plus generated .claude target
+  expected_files: [agents, skills, shared instructions, prompts, examples]
+openai-codex:
+  source: canonical .apm plus generated .codex and .agents target
+  expected_files: [toml agents, skills, shared instructions, prompts, examples]
+gemini-cli:
+  source: canonical .apm plus generated .gemini target
+  expected_files: [agents, skills, shared instructions, prompts, examples]
+note: Generated vendor targets are compatibility distributions; validate behavior against the installed vendor product and current specifications.
+

@@ -1,0 +1,667 @@
+# VALIDATION_REPORT
+
+Agent: Python Distinguished Engineer
+Pack version: 2.0.0
+Validation date: 2026-10-18
+Status: PASS
+
+Checks: 639
+Failures: 0
+
+## Verified scope
+
+Canonical five-profile/eighteen-Skill architecture; one Copilot user-facing primary; operational Skills/instructions/prompts/examples; host metadata, references and byte parity; bounded JSON hooks; recorded offline behavioral tests with source hashes; deterministic archive structure/path/integrity/parity/checksums and embedded report freshness.
+
+## Behavior evidence
+
+The build executes python -m unittest discover -s tests -p test_behavior.py -v. tests/behavior-results.json records the observed result and hashes. Tests cover runtime validation, replay conflict/idempotency, tenant/scope isolation, cancellation/deadlines, completion evidence, malformed/stale hook input, bounded retry, redaction and read-only syntax inventory. These are local helper/domain tests.
+
+## Not established
+
+Live discovery/invocation in four vendor clients, actual MCP SDK/protocol initialization, browser sessions, remote auth/role enforcement, cloud deployment, production performance, paid model evaluation quality, organizational release thresholds and APM CLI compilation remain unverified. Manual activation cases in tests/trigger-cases.yml are not reported as executed model behaviors. Role instructions do not create security isolation.
+
+## Failed checks
+
+- None
+
+## Check inventory
+
+- five agents and one user-facing primary
+- eighteen unique canonical Skills
+- exact canonical agent inventory
+- exact canonical Skill directories without legacy seed content
+- root artifact DESCRIPTION.md
+- root artifact README.md
+- root artifact AGENT-PACK-README.md
+- root artifact copilot-instructions.md
+- root artifact PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md
+- root artifact LICENSE
+- root artifact apm.yml
+- root artifact VALIDATION_REPORT.md
+- artifact category .apm
+- artifact category compatibility
+- artifact category docs
+- artifact category examples
+- artifact category hooks
+- artifact category instructions
+- artifact category prompts
+- artifact category templates
+- artifact category tests
+- artifact category tooling
+- no source symlink .apm/agents/agent-evaluation-engineer.agent.md
+- no source symlink .apm/agents/python-distinguished-engineer.agent.md
+- no source symlink .apm/agents/python-performance-engineer.agent.md
+- no source symlink .apm/agents/python-security-reviewer.agent.md
+- no source symlink .apm/agents/python-test-engineer.agent.md
+- no source symlink .apm/skills/agent-evaluation/SKILL.md
+- no source symlink .apm/skills/agent-observability/SKILL.md
+- no source symlink .apm/skills/agentic-workflow-design/SKILL.md
+- no source symlink .apm/skills/architecture-decision-records/adr-template.md
+- no source symlink .apm/skills/architecture-decision-records/SKILL.md
+- no source symlink .apm/skills/mcp-python-engineering/SKILL.md
+- no source symlink .apm/skills/playwright-validation/SKILL.md
+- no source symlink .apm/skills/pull-request-review/SKILL.md
+- no source symlink .apm/skills/python-api-engineering/SKILL.md
+- no source symlink .apm/skills/python-async-engineering/SKILL.md
+- no source symlink .apm/skills/python-cli-automation/SKILL.md
+- no source symlink .apm/skills/python-data-engineering/SKILL.md
+- no source symlink .apm/skills/python-database-engineering/SKILL.md
+- no source symlink .apm/skills/python-language-engineering/SKILL.md
+- no source symlink .apm/skills/python-packaging/SKILL.md
+- no source symlink .apm/skills/python-performance-analysis/SKILL.md
+- no source symlink .apm/skills/python-static-typing/SKILL.md
+- no source symlink .apm/skills/secure-agent-engineering/SKILL.md
+- no source symlink .apm/skills/secure-python-engineering/SKILL.md
+- no source symlink AGENT-PACK-README.md
+- no source symlink apm.yml
+- structured source apm.yml
+- no source symlink compatibility/capability-map.yml
+- structured source compatibility/capability-map.yml
+- no source symlink compatibility/compatibility-matrix.yml
+- structured source compatibility/compatibility-matrix.yml
+- no source symlink compatibility/optional-skills.yml
+- structured source compatibility/optional-skills.yml
+- no source symlink compatibility/vendor-sources.yml
+- structured source compatibility/vendor-sources.yml
+- no source symlink copilot-instructions.md
+- no source symlink DESCRIPTION.md
+- no source symlink docs/AGENT_INVENTORY.md
+- no source symlink docs/APPROVAL_MATRIX.md
+- no source symlink docs/DESIGN_DECISIONS.md
+- no source symlink docs/HANDOFF_CONTRACT.md
+- no source symlink docs/INTEGRATION_CONTRACT.md
+- no source symlink docs/MAINTENANCE.md
+- no source symlink docs/PROMPT_INVENTORY.md
+- no source symlink docs/SKILL_INVENTORY.md
+- no source symlink docs/SOURCE_TRACEABILITY.md
+- no source symlink docs/TOOL_PERMISSION_MATRIX.md
+- no source symlink examples/agent-evaluation-workflow.md
+- no source symlink examples/final-completion-report.md
+- no source symlink examples/mcp-server-workflow.md
+- no source symlink examples/playwright-validation-workflow.md
+- no source symlink examples/python-api-feature-workflow.md
+- no source symlink examples/security-review-workflow.md
+- no source symlink hooks/post-python-engineering.ps1
+- no source symlink hooks/post-python-engineering.sh
+- no source symlink hooks/pre-python-engineering.ps1
+- no source symlink hooks/pre-python-engineering.sh
+- no source symlink hooks/python-engineering.json
+- structured source hooks/python-engineering.json
+- no source symlink hooks/README.md
+- no source symlink instructions/agentic-security.instructions.md
+- no source symlink instructions/python-packaging.instructions.md
+- no source symlink instructions/python-security.instructions.md
+- no source symlink instructions/python-tests.instructions.md
+- no source symlink instructions/python.instructions.md
+- no source symlink LICENSE
+- no source symlink PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md
+- no source symlink prompts/build-mcp-server.prompt.md
+- no source symlink prompts/build-python-api.prompt.md
+- no source symlink prompts/debug-python-issue.prompt.md
+- no source symlink prompts/design-change.prompt.md
+- no source symlink prompts/evaluate-agent.prompt.md
+- no source symlink prompts/implement-feature.prompt.md
+- no source symlink prompts/investigate-repository.prompt.md
+- no source symlink prompts/modernize-python-code.prompt.md
+- no source symlink prompts/review-pull-request.prompt.md
+- no source symlink prompts/validate-web-flow.prompt.md
+- no source symlink README.md
+- no source symlink templates/api_contract.py
+- Python syntax templates/api_contract.py
+- no source symlink templates/completion-report.md
+- no source symlink templates/handoff.md
+- no source symlink templates/mcp-tool-contract.md
+- no source symlink tests/behavior-results.json
+- structured source tests/behavior-results.json
+- no source symlink tests/capability-coverage.yml
+- structured source tests/capability-coverage.yml
+- no source symlink tests/fixtures/invalid-completion.json
+- structured source tests/fixtures/invalid-completion.json
+- no source symlink tests/fixtures/valid-completion-report.md
+- no source symlink tests/fixtures/valid-completion.json
+- structured source tests/fixtures/valid-completion.json
+- no source symlink tests/report-contract.yml
+- structured source tests/report-contract.yml
+- no source symlink tests/test_behavior.py
+- Python syntax tests/test_behavior.py
+- no source symlink tests/trigger-cases.yml
+- structured source tests/trigger-cases.yml
+- no source symlink tooling/build_pack.py
+- Python syntax tooling/build_pack.py
+- no source symlink tooling/completion_contract.py
+- Python syntax tooling/completion_contract.py
+- no source symlink tooling/hook_runner.py
+- Python syntax tooling/hook_runner.py
+- no source symlink tooling/requirements.txt
+- no source symlink tooling/validate_pack.py
+- Python syntax tooling/validate_pack.py
+- no source symlink tooling/validate_python_pack.py
+- Python syntax tooling/validate_python_pack.py
+- no source symlink VALIDATION_REPORT.md
+- canonical invocation/tools python-distinguished-engineer
+- thin profile python-distinguished-engineer
+- canonical invocation/tools python-security-reviewer
+- thin profile python-security-reviewer
+- canonical invocation/tools python-test-engineer
+- thin profile python-test-engineer
+- canonical invocation/tools python-performance-engineer
+- thin profile python-performance-engineer
+- canonical invocation/tools agent-evaluation-engineer
+- thin profile agent-evaluation-engineer
+- Skill discovery python-language-engineering
+- operational Skill contract python-language-engineering
+- Skill prompt reference python-language-engineering
+- no unrelated persona python-language-engineering microsoft-certified-trainer
+- no unrelated persona python-language-engineering cloud-documentation-archivist
+- no unrelated persona python-language-engineering aws-diagram-architect
+- no unrelated persona python-language-engineering terraform-expert-engineer
+- Skill discovery python-static-typing
+- operational Skill contract python-static-typing
+- Skill prompt reference python-static-typing
+- no unrelated persona python-static-typing microsoft-certified-trainer
+- no unrelated persona python-static-typing cloud-documentation-archivist
+- no unrelated persona python-static-typing aws-diagram-architect
+- no unrelated persona python-static-typing terraform-expert-engineer
+- Skill discovery python-async-engineering
+- operational Skill contract python-async-engineering
+- Skill prompt reference python-async-engineering
+- no unrelated persona python-async-engineering microsoft-certified-trainer
+- no unrelated persona python-async-engineering cloud-documentation-archivist
+- no unrelated persona python-async-engineering aws-diagram-architect
+- no unrelated persona python-async-engineering terraform-expert-engineer
+- Skill discovery python-packaging
+- operational Skill contract python-packaging
+- Skill prompt reference python-packaging
+- no unrelated persona python-packaging microsoft-certified-trainer
+- no unrelated persona python-packaging cloud-documentation-archivist
+- no unrelated persona python-packaging aws-diagram-architect
+- no unrelated persona python-packaging terraform-expert-engineer
+- Skill discovery python-api-engineering
+- operational Skill contract python-api-engineering
+- Skill prompt reference python-api-engineering
+- no unrelated persona python-api-engineering microsoft-certified-trainer
+- no unrelated persona python-api-engineering cloud-documentation-archivist
+- no unrelated persona python-api-engineering aws-diagram-architect
+- no unrelated persona python-api-engineering terraform-expert-engineer
+- Skill discovery python-data-engineering
+- operational Skill contract python-data-engineering
+- Skill prompt reference python-data-engineering
+- no unrelated persona python-data-engineering microsoft-certified-trainer
+- no unrelated persona python-data-engineering cloud-documentation-archivist
+- no unrelated persona python-data-engineering aws-diagram-architect
+- no unrelated persona python-data-engineering terraform-expert-engineer
+- Skill discovery python-database-engineering
+- operational Skill contract python-database-engineering
+- Skill prompt reference python-database-engineering
+- no unrelated persona python-database-engineering microsoft-certified-trainer
+- no unrelated persona python-database-engineering cloud-documentation-archivist
+- no unrelated persona python-database-engineering aws-diagram-architect
+- no unrelated persona python-database-engineering terraform-expert-engineer
+- Skill discovery python-cli-automation
+- operational Skill contract python-cli-automation
+- Skill prompt reference python-cli-automation
+- no unrelated persona python-cli-automation microsoft-certified-trainer
+- no unrelated persona python-cli-automation cloud-documentation-archivist
+- no unrelated persona python-cli-automation aws-diagram-architect
+- no unrelated persona python-cli-automation terraform-expert-engineer
+- Skill discovery architecture-decision-records
+- operational Skill contract architecture-decision-records
+- Skill prompt reference architecture-decision-records
+- no unrelated persona architecture-decision-records microsoft-certified-trainer
+- no unrelated persona architecture-decision-records cloud-documentation-archivist
+- no unrelated persona architecture-decision-records aws-diagram-architect
+- no unrelated persona architecture-decision-records terraform-expert-engineer
+- Skill discovery mcp-python-engineering
+- operational Skill contract mcp-python-engineering
+- Skill prompt reference mcp-python-engineering
+- no unrelated persona mcp-python-engineering microsoft-certified-trainer
+- no unrelated persona mcp-python-engineering cloud-documentation-archivist
+- no unrelated persona mcp-python-engineering aws-diagram-architect
+- no unrelated persona mcp-python-engineering terraform-expert-engineer
+- Skill discovery agentic-workflow-design
+- operational Skill contract agentic-workflow-design
+- Skill prompt reference agentic-workflow-design
+- no unrelated persona agentic-workflow-design microsoft-certified-trainer
+- no unrelated persona agentic-workflow-design cloud-documentation-archivist
+- no unrelated persona agentic-workflow-design aws-diagram-architect
+- no unrelated persona agentic-workflow-design terraform-expert-engineer
+- Skill discovery playwright-validation
+- operational Skill contract playwright-validation
+- Skill prompt reference playwright-validation
+- no unrelated persona playwright-validation microsoft-certified-trainer
+- no unrelated persona playwright-validation cloud-documentation-archivist
+- no unrelated persona playwright-validation aws-diagram-architect
+- no unrelated persona playwright-validation terraform-expert-engineer
+- Skill discovery secure-python-engineering
+- operational Skill contract secure-python-engineering
+- Skill prompt reference secure-python-engineering
+- no unrelated persona secure-python-engineering microsoft-certified-trainer
+- no unrelated persona secure-python-engineering cloud-documentation-archivist
+- no unrelated persona secure-python-engineering aws-diagram-architect
+- no unrelated persona secure-python-engineering terraform-expert-engineer
+- Skill discovery secure-agent-engineering
+- operational Skill contract secure-agent-engineering
+- Skill prompt reference secure-agent-engineering
+- no unrelated persona secure-agent-engineering microsoft-certified-trainer
+- no unrelated persona secure-agent-engineering cloud-documentation-archivist
+- no unrelated persona secure-agent-engineering aws-diagram-architect
+- no unrelated persona secure-agent-engineering terraform-expert-engineer
+- Skill discovery agent-observability
+- operational Skill contract agent-observability
+- Skill prompt reference agent-observability
+- no unrelated persona agent-observability microsoft-certified-trainer
+- no unrelated persona agent-observability cloud-documentation-archivist
+- no unrelated persona agent-observability aws-diagram-architect
+- no unrelated persona agent-observability terraform-expert-engineer
+- Skill discovery agent-evaluation
+- operational Skill contract agent-evaluation
+- Skill prompt reference agent-evaluation
+- no unrelated persona agent-evaluation microsoft-certified-trainer
+- no unrelated persona agent-evaluation cloud-documentation-archivist
+- no unrelated persona agent-evaluation aws-diagram-architect
+- no unrelated persona agent-evaluation terraform-expert-engineer
+- Skill discovery python-performance-analysis
+- operational Skill contract python-performance-analysis
+- Skill prompt reference python-performance-analysis
+- no unrelated persona python-performance-analysis microsoft-certified-trainer
+- no unrelated persona python-performance-analysis cloud-documentation-archivist
+- no unrelated persona python-performance-analysis aws-diagram-architect
+- no unrelated persona python-performance-analysis terraform-expert-engineer
+- Skill discovery pull-request-review
+- operational Skill contract pull-request-review
+- Skill prompt reference pull-request-review
+- no unrelated persona pull-request-review microsoft-certified-trainer
+- no unrelated persona pull-request-review cloud-documentation-archivist
+- no unrelated persona pull-request-review aws-diagram-architect
+- no unrelated persona pull-request-review terraform-expert-engineer
+- scoped instruction python.instructions.md
+- scoped instruction python-tests.instructions.md
+- scoped instruction python-security.instructions.md
+- scoped instruction python-packaging.instructions.md
+- scoped instruction agentic-security.instructions.md
+- prompt output/owner investigate-repository.prompt.md
+- prompt output/owner design-change.prompt.md
+- prompt output/owner implement-feature.prompt.md
+- prompt output/owner review-pull-request.prompt.md
+- prompt output/owner build-python-api.prompt.md
+- prompt output/owner build-mcp-server.prompt.md
+- prompt output/owner debug-python-issue.prompt.md
+- prompt output/owner modernize-python-code.prompt.md
+- prompt output/owner validate-web-flow.prompt.md
+- prompt output/owner evaluate-agent.prompt.md
+- worked example python-api-feature-workflow.md
+- worked example mcp-server-workflow.md
+- worked example security-review-workflow.md
+- worked example playwright-validation-workflow.md
+- worked example agent-evaluation-workflow.md
+- worked example final-completion-report.md
+- capability ownership covers all Skills
+- coverage reference python-language-engineering
+- coverage reference python-static-typing
+- coverage reference python-async-engineering
+- coverage reference python-packaging
+- coverage reference python-api-engineering
+- coverage reference python-data-engineering
+- coverage reference python-database-engineering
+- coverage reference python-cli-automation
+- coverage reference architecture-decision-records
+- coverage reference mcp-python-engineering
+- coverage reference agentic-workflow-design
+- coverage reference playwright-validation
+- coverage reference secure-python-engineering
+- coverage reference secure-agent-engineering
+- coverage reference agent-observability
+- coverage reference agent-evaluation
+- coverage reference python-performance-analysis
+- coverage reference pull-request-review
+- positive activation coverage
+- negative guardrail activation cases
+- vendor agent inventory github-copilot
+- vendor Skill inventory github-copilot
+- host tool mapping github-copilot python-distinguished-engineer
+- host frontmatter github-copilot python-distinguished-engineer
+- host tool mapping github-copilot python-security-reviewer
+- host frontmatter github-copilot python-security-reviewer
+- host tool mapping github-copilot python-test-engineer
+- host frontmatter github-copilot python-test-engineer
+- host tool mapping github-copilot python-performance-engineer
+- host frontmatter github-copilot python-performance-engineer
+- host tool mapping github-copilot agent-evaluation-engineer
+- host frontmatter github-copilot agent-evaluation-engineer
+- Skill byte parity github-copilot python-language-engineering/SKILL.md
+- Skill byte parity github-copilot python-static-typing/SKILL.md
+- Skill byte parity github-copilot python-async-engineering/SKILL.md
+- Skill byte parity github-copilot python-packaging/SKILL.md
+- Skill byte parity github-copilot python-api-engineering/SKILL.md
+- Skill byte parity github-copilot python-data-engineering/SKILL.md
+- Skill byte parity github-copilot python-database-engineering/SKILL.md
+- Skill byte parity github-copilot python-cli-automation/SKILL.md
+- Skill byte parity github-copilot architecture-decision-records/adr-template.md
+- Skill byte parity github-copilot architecture-decision-records/SKILL.md
+- Skill byte parity github-copilot mcp-python-engineering/SKILL.md
+- Skill byte parity github-copilot agentic-workflow-design/SKILL.md
+- Skill byte parity github-copilot playwright-validation/SKILL.md
+- Skill byte parity github-copilot secure-python-engineering/SKILL.md
+- Skill byte parity github-copilot secure-agent-engineering/SKILL.md
+- Skill byte parity github-copilot agent-observability/SKILL.md
+- Skill byte parity github-copilot agent-evaluation/SKILL.md
+- Skill byte parity github-copilot python-performance-analysis/SKILL.md
+- Skill byte parity github-copilot pull-request-review/SKILL.md
+- installed reference github-copilot docs/HANDOFF_CONTRACT.md
+- installed reference github-copilot docs/APPROVAL_MATRIX.md
+- installed reference github-copilot tests/report-contract.yml
+- installed reference github-copilot templates/completion-report.md
+- installed reference github-copilot INSTALL.md
+- vendor agent inventory claude-code
+- vendor Skill inventory claude-code
+- host tool mapping claude-code python-distinguished-engineer
+- host frontmatter claude-code python-distinguished-engineer
+- host tool mapping claude-code python-security-reviewer
+- host frontmatter claude-code python-security-reviewer
+- host tool mapping claude-code python-test-engineer
+- host frontmatter claude-code python-test-engineer
+- host tool mapping claude-code python-performance-engineer
+- host frontmatter claude-code python-performance-engineer
+- host tool mapping claude-code agent-evaluation-engineer
+- host frontmatter claude-code agent-evaluation-engineer
+- Skill byte parity claude-code python-language-engineering/SKILL.md
+- Skill byte parity claude-code python-static-typing/SKILL.md
+- Skill byte parity claude-code python-async-engineering/SKILL.md
+- Skill byte parity claude-code python-packaging/SKILL.md
+- Skill byte parity claude-code python-api-engineering/SKILL.md
+- Skill byte parity claude-code python-data-engineering/SKILL.md
+- Skill byte parity claude-code python-database-engineering/SKILL.md
+- Skill byte parity claude-code python-cli-automation/SKILL.md
+- Skill byte parity claude-code architecture-decision-records/adr-template.md
+- Skill byte parity claude-code architecture-decision-records/SKILL.md
+- Skill byte parity claude-code mcp-python-engineering/SKILL.md
+- Skill byte parity claude-code agentic-workflow-design/SKILL.md
+- Skill byte parity claude-code playwright-validation/SKILL.md
+- Skill byte parity claude-code secure-python-engineering/SKILL.md
+- Skill byte parity claude-code secure-agent-engineering/SKILL.md
+- Skill byte parity claude-code agent-observability/SKILL.md
+- Skill byte parity claude-code agent-evaluation/SKILL.md
+- Skill byte parity claude-code python-performance-analysis/SKILL.md
+- Skill byte parity claude-code pull-request-review/SKILL.md
+- installed reference claude-code docs/HANDOFF_CONTRACT.md
+- installed reference claude-code docs/APPROVAL_MATRIX.md
+- installed reference claude-code tests/report-contract.yml
+- installed reference claude-code templates/completion-report.md
+- installed reference claude-code INSTALL.md
+- vendor agent inventory openai-codex
+- vendor Skill inventory openai-codex
+- Codex parent permission inheritance python-distinguished-engineer
+- Codex custom profile fields python-distinguished-engineer
+- host frontmatter openai-codex python-distinguished-engineer
+- Codex parent permission inheritance python-security-reviewer
+- Codex custom profile fields python-security-reviewer
+- host frontmatter openai-codex python-security-reviewer
+- Codex parent permission inheritance python-test-engineer
+- Codex custom profile fields python-test-engineer
+- host frontmatter openai-codex python-test-engineer
+- Codex parent permission inheritance python-performance-engineer
+- Codex custom profile fields python-performance-engineer
+- host frontmatter openai-codex python-performance-engineer
+- Codex parent permission inheritance agent-evaluation-engineer
+- Codex custom profile fields agent-evaluation-engineer
+- host frontmatter openai-codex agent-evaluation-engineer
+- Skill byte parity openai-codex python-language-engineering/SKILL.md
+- Skill byte parity openai-codex python-static-typing/SKILL.md
+- Skill byte parity openai-codex python-async-engineering/SKILL.md
+- Skill byte parity openai-codex python-packaging/SKILL.md
+- Skill byte parity openai-codex python-api-engineering/SKILL.md
+- Skill byte parity openai-codex python-data-engineering/SKILL.md
+- Skill byte parity openai-codex python-database-engineering/SKILL.md
+- Skill byte parity openai-codex python-cli-automation/SKILL.md
+- Skill byte parity openai-codex architecture-decision-records/adr-template.md
+- Skill byte parity openai-codex architecture-decision-records/SKILL.md
+- Skill byte parity openai-codex mcp-python-engineering/SKILL.md
+- Skill byte parity openai-codex agentic-workflow-design/SKILL.md
+- Skill byte parity openai-codex playwright-validation/SKILL.md
+- Skill byte parity openai-codex secure-python-engineering/SKILL.md
+- Skill byte parity openai-codex secure-agent-engineering/SKILL.md
+- Skill byte parity openai-codex agent-observability/SKILL.md
+- Skill byte parity openai-codex agent-evaluation/SKILL.md
+- Skill byte parity openai-codex python-performance-analysis/SKILL.md
+- Skill byte parity openai-codex pull-request-review/SKILL.md
+- installed reference openai-codex docs/HANDOFF_CONTRACT.md
+- installed reference openai-codex docs/APPROVAL_MATRIX.md
+- installed reference openai-codex tests/report-contract.yml
+- installed reference openai-codex templates/completion-report.md
+- installed reference openai-codex INSTALL.md
+- vendor agent inventory gemini-cli
+- vendor Skill inventory gemini-cli
+- host tool mapping gemini-cli python-distinguished-engineer
+- host frontmatter gemini-cli python-distinguished-engineer
+- host tool mapping gemini-cli python-security-reviewer
+- host frontmatter gemini-cli python-security-reviewer
+- host tool mapping gemini-cli python-test-engineer
+- host frontmatter gemini-cli python-test-engineer
+- host tool mapping gemini-cli python-performance-engineer
+- host frontmatter gemini-cli python-performance-engineer
+- host tool mapping gemini-cli agent-evaluation-engineer
+- host frontmatter gemini-cli agent-evaluation-engineer
+- Skill byte parity gemini-cli python-language-engineering/SKILL.md
+- Skill byte parity gemini-cli python-static-typing/SKILL.md
+- Skill byte parity gemini-cli python-async-engineering/SKILL.md
+- Skill byte parity gemini-cli python-packaging/SKILL.md
+- Skill byte parity gemini-cli python-api-engineering/SKILL.md
+- Skill byte parity gemini-cli python-data-engineering/SKILL.md
+- Skill byte parity gemini-cli python-database-engineering/SKILL.md
+- Skill byte parity gemini-cli python-cli-automation/SKILL.md
+- Skill byte parity gemini-cli architecture-decision-records/adr-template.md
+- Skill byte parity gemini-cli architecture-decision-records/SKILL.md
+- Skill byte parity gemini-cli mcp-python-engineering/SKILL.md
+- Skill byte parity gemini-cli agentic-workflow-design/SKILL.md
+- Skill byte parity gemini-cli playwright-validation/SKILL.md
+- Skill byte parity gemini-cli secure-python-engineering/SKILL.md
+- Skill byte parity gemini-cli secure-agent-engineering/SKILL.md
+- Skill byte parity gemini-cli agent-observability/SKILL.md
+- Skill byte parity gemini-cli agent-evaluation/SKILL.md
+- Skill byte parity gemini-cli python-performance-analysis/SKILL.md
+- Skill byte parity gemini-cli pull-request-review/SKILL.md
+- installed reference gemini-cli docs/HANDOFF_CONTRACT.md
+- installed reference gemini-cli docs/APPROVAL_MATRIX.md
+- installed reference gemini-cli tests/report-contract.yml
+- installed reference gemini-cli templates/completion-report.md
+- installed reference gemini-cli INSTALL.md
+- Copilot shared parity instructions/agentic-security.instructions.md
+- Copilot shared parity instructions/python-packaging.instructions.md
+- Copilot shared parity instructions/python-security.instructions.md
+- Copilot shared parity instructions/python-tests.instructions.md
+- Copilot shared parity instructions/python.instructions.md
+- Copilot shared parity prompts/build-mcp-server.prompt.md
+- Copilot shared parity prompts/build-python-api.prompt.md
+- Copilot shared parity prompts/debug-python-issue.prompt.md
+- Copilot shared parity prompts/design-change.prompt.md
+- Copilot shared parity prompts/evaluate-agent.prompt.md
+- Copilot shared parity prompts/implement-feature.prompt.md
+- Copilot shared parity prompts/investigate-repository.prompt.md
+- Copilot shared parity prompts/modernize-python-code.prompt.md
+- Copilot shared parity prompts/review-pull-request.prompt.md
+- Copilot shared parity prompts/validate-web-flow.prompt.md
+- Copilot shared parity examples/agent-evaluation-workflow.md
+- Copilot shared parity examples/final-completion-report.md
+- Copilot shared parity examples/mcp-server-workflow.md
+- Copilot shared parity examples/playwright-validation-workflow.md
+- Copilot shared parity examples/python-api-feature-workflow.md
+- Copilot shared parity examples/security-review-workflow.md
+- native hook lifecycle schema
+- bounded hook sessionStart
+- cross-platform hook commands sessionStart
+- bounded hook agentStop
+- cross-platform hook commands agentStop
+- hook dependency parity hook_runner.py
+- hook dependency parity completion_contract.py
+- offline behavior suite executed successfully
+- behavior evidence fresh tests/test_behavior.py
+- behavior evidence fresh tooling/completion_contract.py
+- behavior evidence fresh tooling/hook_runner.py
+- behavior evidence fresh tooling/validate_python_pack.py
+- behavior evidence fresh templates/api_contract.py
+- behavior evidence fresh tests/fixtures/valid-completion.json
+- behavior evidence fresh tests/fixtures/invalid-completion.json
+- exact archive family inventory
+- ZIP integrity claude-code-python-distinguished-engineer.zip
+- ZIP path safety claude-code-python-distinguished-engineer.zip
+- ZIP excludes cache claude-code-python-distinguished-engineer.zip
+- vendor archive parity claude-code
+- ZIP integrity gemini-cli-python-distinguished-engineer.zip
+- ZIP path safety gemini-cli-python-distinguished-engineer.zip
+- ZIP excludes cache gemini-cli-python-distinguished-engineer.zip
+- vendor archive parity gemini-cli
+- ZIP integrity github-copilot-python-distinguished-engineer.zip
+- ZIP path safety github-copilot-python-distinguished-engineer.zip
+- ZIP excludes cache github-copilot-python-distinguished-engineer.zip
+- vendor archive parity github-copilot
+- ZIP integrity openai-codex-python-distinguished-engineer.zip
+- ZIP path safety openai-codex-python-distinguished-engineer.zip
+- ZIP excludes cache openai-codex-python-distinguished-engineer.zip
+- vendor archive parity openai-codex
+- ZIP integrity python-distinguished-engineer-canonical.zip
+- ZIP path safety python-distinguished-engineer-canonical.zip
+- ZIP excludes cache python-distinguished-engineer-canonical.zip
+- primary/bundle byte parity python-distinguished-engineer-canonical.zip
+- ZIP integrity python-distinguished-engineer-full-pack.zip
+- ZIP path safety python-distinguished-engineer-full-pack.zip
+- ZIP excludes cache python-distinguished-engineer-full-pack.zip
+- embedded report freshness python-distinguished-engineer-full-pack.zip
+- full-pack category .apm
+- full-pack category compatibility
+- full-pack category docs
+- full-pack category examples
+- full-pack category hooks
+- full-pack category instructions
+- full-pack category prompts
+- full-pack category templates
+- full-pack category tests
+- full-pack category tooling
+- full-pack category targets
+- primary/bundle byte parity python-distinguished-engineer-full-pack.zip
+- ZIP integrity python-distinguished-engineer-prompt.zip
+- ZIP path safety python-distinguished-engineer-prompt.zip
+- ZIP excludes cache python-distinguished-engineer-prompt.zip
+- primary/bundle byte parity python-distinguished-engineer-prompt.zip
+- ZIP integrity python-distinguished-engineer-skills.zip
+- ZIP path safety python-distinguished-engineer-skills.zip
+- ZIP excludes cache python-distinguished-engineer-skills.zip
+- primary/bundle byte parity python-distinguished-engineer-skills.zip
+- ZIP integrity python-distinguished-engineer-validation.zip
+- ZIP path safety python-distinguished-engineer-validation.zip
+- ZIP excludes cache python-distinguished-engineer-validation.zip
+- embedded report freshness python-distinguished-engineer-validation.zip
+- primary/bundle byte parity python-distinguished-engineer-validation.zip
+- ZIP integrity skills/agent-evaluation/skill.zip
+- ZIP path safety skills/agent-evaluation/skill.zip
+- ZIP excludes cache skills/agent-evaluation/skill.zip
+- individual Skill contents agent-evaluation
+- individual Skill bytes agent-evaluation
+- ZIP integrity skills/agent-observability/skill.zip
+- ZIP path safety skills/agent-observability/skill.zip
+- ZIP excludes cache skills/agent-observability/skill.zip
+- individual Skill contents agent-observability
+- individual Skill bytes agent-observability
+- ZIP integrity skills/agentic-workflow-design/skill.zip
+- ZIP path safety skills/agentic-workflow-design/skill.zip
+- ZIP excludes cache skills/agentic-workflow-design/skill.zip
+- individual Skill contents agentic-workflow-design
+- individual Skill bytes agentic-workflow-design
+- ZIP integrity skills/architecture-decision-records/skill.zip
+- ZIP path safety skills/architecture-decision-records/skill.zip
+- ZIP excludes cache skills/architecture-decision-records/skill.zip
+- individual Skill contents architecture-decision-records
+- individual Skill bytes architecture-decision-records
+- ZIP integrity skills/mcp-python-engineering/skill.zip
+- ZIP path safety skills/mcp-python-engineering/skill.zip
+- ZIP excludes cache skills/mcp-python-engineering/skill.zip
+- individual Skill contents mcp-python-engineering
+- individual Skill bytes mcp-python-engineering
+- ZIP integrity skills/playwright-validation/skill.zip
+- ZIP path safety skills/playwright-validation/skill.zip
+- ZIP excludes cache skills/playwright-validation/skill.zip
+- individual Skill contents playwright-validation
+- individual Skill bytes playwright-validation
+- ZIP integrity skills/pull-request-review/skill.zip
+- ZIP path safety skills/pull-request-review/skill.zip
+- ZIP excludes cache skills/pull-request-review/skill.zip
+- individual Skill contents pull-request-review
+- individual Skill bytes pull-request-review
+- ZIP integrity skills/python-api-engineering/skill.zip
+- ZIP path safety skills/python-api-engineering/skill.zip
+- ZIP excludes cache skills/python-api-engineering/skill.zip
+- individual Skill contents python-api-engineering
+- individual Skill bytes python-api-engineering
+- ZIP integrity skills/python-async-engineering/skill.zip
+- ZIP path safety skills/python-async-engineering/skill.zip
+- ZIP excludes cache skills/python-async-engineering/skill.zip
+- individual Skill contents python-async-engineering
+- individual Skill bytes python-async-engineering
+- ZIP integrity skills/python-cli-automation/skill.zip
+- ZIP path safety skills/python-cli-automation/skill.zip
+- ZIP excludes cache skills/python-cli-automation/skill.zip
+- individual Skill contents python-cli-automation
+- individual Skill bytes python-cli-automation
+- ZIP integrity skills/python-data-engineering/skill.zip
+- ZIP path safety skills/python-data-engineering/skill.zip
+- ZIP excludes cache skills/python-data-engineering/skill.zip
+- individual Skill contents python-data-engineering
+- individual Skill bytes python-data-engineering
+- ZIP integrity skills/python-database-engineering/skill.zip
+- ZIP path safety skills/python-database-engineering/skill.zip
+- ZIP excludes cache skills/python-database-engineering/skill.zip
+- individual Skill contents python-database-engineering
+- individual Skill bytes python-database-engineering
+- ZIP integrity skills/python-language-engineering/skill.zip
+- ZIP path safety skills/python-language-engineering/skill.zip
+- ZIP excludes cache skills/python-language-engineering/skill.zip
+- individual Skill contents python-language-engineering
+- individual Skill bytes python-language-engineering
+- ZIP integrity skills/python-packaging/skill.zip
+- ZIP path safety skills/python-packaging/skill.zip
+- ZIP excludes cache skills/python-packaging/skill.zip
+- individual Skill contents python-packaging
+- individual Skill bytes python-packaging
+- ZIP integrity skills/python-performance-analysis/skill.zip
+- ZIP path safety skills/python-performance-analysis/skill.zip
+- ZIP excludes cache skills/python-performance-analysis/skill.zip
+- individual Skill contents python-performance-analysis
+- individual Skill bytes python-performance-analysis
+- ZIP integrity skills/python-static-typing/skill.zip
+- ZIP path safety skills/python-static-typing/skill.zip
+- ZIP excludes cache skills/python-static-typing/skill.zip
+- individual Skill contents python-static-typing
+- individual Skill bytes python-static-typing
+- ZIP integrity skills/secure-agent-engineering/skill.zip
+- ZIP path safety skills/secure-agent-engineering/skill.zip
+- ZIP excludes cache skills/secure-agent-engineering/skill.zip
+- individual Skill contents secure-agent-engineering
+- individual Skill bytes secure-agent-engineering
+- ZIP integrity skills/secure-python-engineering/skill.zip
+- ZIP path safety skills/secure-python-engineering/skill.zip
+- ZIP excludes cache skills/secure-python-engineering/skill.zip
+- individual Skill contents secure-python-engineering
+- individual Skill bytes secure-python-engineering
+- eighteen individual Skill archives
+- archive checksum manifest
+- all archive SHA256 checksums match
+- ordered full-content artifact catalog

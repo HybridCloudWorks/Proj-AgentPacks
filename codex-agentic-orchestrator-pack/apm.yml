@@ -1,0 +1,7 @@
+name: codex-agentic-orchestrator
+version: 1.0.0
+description: OpenAI Codex orchestration pack for explicit subagent delegation, durable handoffs, hooks, bounded concurrency, and capability-aware workflows.
+source: .apm
+agent: .apm/agents/codex-agentic-orchestrator.agent.md
+skills: .apm/skills
+license: MIT

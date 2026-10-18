@@ -1,0 +1,13 @@
+version: 1
+positive:
+  - prompt: Ask Codex to delegate a Terraform review and documentation update to the appropriate custom agents.
+    expected_skill: codex-agentic-workflow-dispatch
+  - prompt: Use every installed Codex specialist to assess this cross-cloud change.
+    expected_skill: codex-agent-registry-and-capability-discovery
+  - prompt: Did the Codex subagents actually complete and leave evidence?
+    expected_skill: codex-workflow-evidence-and-recovery
+negative:
+  - prompt: Explain what a Terraform module is.
+    expected: do not require orchestration unless delegation is requested or materially needed
+  - prompt: Edit this one line in a README.
+    expected: do not spawn a multi-agent workflow without a reason

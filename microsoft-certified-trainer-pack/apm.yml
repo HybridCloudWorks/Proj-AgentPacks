@@ -1,0 +1,16 @@
+name: microsoft-certified-trainer
+version: 1.0.0
+description: Portable Microsoft Certified Trainer agent and Skill pack for official curriculum delivery and course production.
+license: MIT
+canonical:
+  agent: .apm/agents/microsoft-certified-trainer.agent.md
+  skills_root: .apm/skills
+  source_prompt: PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md
+vendor_targets:
+  - github-copilot
+  - claude-code
+  - openai-codex
+  - gemini-cli
+validation_report: VALIDATION_REPORT.md
+evidence_boundary: static_pack_validation_only
+

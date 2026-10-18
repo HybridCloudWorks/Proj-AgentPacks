@@ -1,0 +1,11 @@
+checks:
+  - objective: ""
+    scenario: ""
+    question: ""
+    options: []
+    answer: ""
+    rationale: ""
+    misconception: ""
+    remediation: ""
+    type: practice
+

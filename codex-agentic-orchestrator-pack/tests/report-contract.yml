@@ -1,0 +1,13 @@
+version: 1
+required_final_fields:
+  - workflow_id
+  - workflow_status
+  - selected_agents
+  - invoked_agents
+  - skipped_agents
+  - blocked_agents
+  - handoff_validation
+  - artifacts
+  - checks_performed
+  - not_verified
+  - next_safe_action

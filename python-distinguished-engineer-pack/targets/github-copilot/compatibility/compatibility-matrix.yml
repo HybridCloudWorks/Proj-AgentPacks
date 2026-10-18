@@ -1,0 +1,41 @@
+{
+  "canonical": {
+    "agents": ".apm/agents",
+    "skills": ".apm/skills",
+    "apm": "APM-friendly source layout; apm.yml is descriptive metadata, not a claim of validation against a particular APM CLI."
+  },
+  "targets": {
+    "github-copilot": {
+      "agents": ".github/agents/*.agent.md",
+      "skills": ".github/skills",
+      "instructions": ".github/instructions",
+      "prompts": ".github/prompts",
+      "hooks": ".github/hooks/python-engineering.json",
+      "specialists": "user-invocable: false; primary includes agent alias",
+      "limits": "Surface support varies; unknown tool names are ignored. No fabricated test/browser/mcp alias. Add only exact approved MCP tool identifiers."
+    },
+    "claude-code": {
+      "agents": ".claude/agents/*.md",
+      "skills": ".claude/skills",
+      "context": "CLAUDE.md",
+      "hooks": "Shared CLI helpers, manually invoked. Copilot JSON is not installed as Claude configuration.",
+      "limits": "No promise of identical picker visibility or delegation depth across clients."
+    },
+    "openai-codex": {
+      "agents": ".codex/agents/*.toml",
+      "skills": ".agents/skills",
+      "context": "AGENTS.md",
+      "hooks": "Shared CLI helpers, manually invoked.",
+      "limits": "Agent files inherit parent sandbox, approvals and MCP; role instructions do not provide independent security isolation."
+    },
+    "gemini-cli": {
+      "agents": ".gemini/agents/*.md",
+      "skills": ".agents/skills",
+      "context": "GEMINI.md",
+      "hooks": "Shared CLI helpers, manually invoked.",
+      "limits": "Verify installed client feature and tool availability using /agents; do not overwrite settings to enable subagents."
+    }
+  },
+  "fallback": "Primary uses the same focused Skills directly when delegation or a connector is unavailable.",
+  "validated": "Static schemas and parity plus local helper behavior; live vendor discovery/sessions remain unverified."
+}

@@ -1,0 +1,14 @@
+version: 1
+capabilities:
+  - capability: workflow-routing
+    skill: codex-agentic-workflow-dispatch
+  - capability: installed-agent-discovery
+    skill: codex-agent-registry-and-capability-discovery
+  - capability: durable-handoff
+    skill: codex-handoff-contract-and-state
+  - capability: native-codex-delegation
+    skill: codex-subagent-delegation-and-concurrency
+  - capability: lifecycle-audit-and-guardrails
+    skill: codex-hooks-and-guardrails
+  - capability: recovery-and-final-validation
+    skill: codex-workflow-evidence-and-recovery

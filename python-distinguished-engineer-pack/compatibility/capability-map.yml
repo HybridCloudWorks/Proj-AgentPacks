@@ -1,0 +1,375 @@
+{
+  "name": "python-distinguished-engineer",
+  "version": "2.0.0",
+  "primary": "python-distinguished-engineer",
+  "agents": [
+    {
+      "name": "python-distinguished-engineer",
+      "description": "Hands-on Distinguished Engineer for enterprise Python design, implementation, repository discovery and evidence-based delivery.",
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "execute",
+        "agent"
+      ],
+      "user_invocable": true,
+      "claude_tools": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Edit",
+        "Write",
+        "Bash",
+        "Agent"
+      ],
+      "gemini_tools": [
+        "read_file",
+        "grep_search",
+        "write_file",
+        "replace",
+        "run_shell_command"
+      ]
+    },
+    {
+      "name": "python-security-reviewer",
+      "description": "Inspect Python and agent trust boundaries, identity, secrets, dependency integrity and privacy; return located security findings.",
+      "tools": [
+        "read",
+        "search"
+      ],
+      "user_invocable": false,
+      "claude_tools": [
+        "Read",
+        "Grep",
+        "Glob"
+      ],
+      "gemini_tools": [
+        "read_file",
+        "grep_search"
+      ]
+    },
+    {
+      "name": "python-test-engineer",
+      "description": "Implement focused Python unit, contract, integration, browser and regression tests using repository conventions.",
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "execute"
+      ],
+      "user_invocable": false,
+      "claude_tools": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Edit",
+        "Write",
+        "Bash"
+      ],
+      "gemini_tools": [
+        "read_file",
+        "grep_search",
+        "write_file",
+        "replace",
+        "run_shell_command"
+      ]
+    },
+    {
+      "name": "python-performance-engineer",
+      "description": "Measure Python and agent performance/cost bottlenecks with representative before-and-after evidence.",
+      "tools": [
+        "read",
+        "search",
+        "execute"
+      ],
+      "user_invocable": false,
+      "claude_tools": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Bash"
+      ],
+      "gemini_tools": [
+        "read_file",
+        "grep_search",
+        "run_shell_command"
+      ]
+    },
+    {
+      "name": "agent-evaluation-engineer",
+      "description": "Design and run scoped agent outcome/process evaluations, safety cases, rubrics and human-review gates.",
+      "tools": [
+        "read",
+        "search",
+        "edit",
+        "execute"
+      ],
+      "user_invocable": false,
+      "claude_tools": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Edit",
+        "Write",
+        "Bash"
+      ],
+      "gemini_tools": [
+        "read_file",
+        "grep_search",
+        "write_file",
+        "replace",
+        "run_shell_command"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "python-language-engineering",
+      "description": "Implement and review Python semantics, module boundaries, resource lifetime, and compatible public interfaces.",
+      "trigger": "A Python implementation, defect, library interface, or version-sensitive change needs hands-on work.",
+      "inputs": "Relevant code and callers, acceptance criteria, supported interpreter range, CI commands.",
+      "dependencies": "Repository interpreter and standard library; existing formatter, linter, tests.",
+      "output": "Focused patch or located review findings; compatibility decision, tests, cleanup behavior and interface impact.",
+      "failure": "Unknown minimum interpreter, changed public contract, import side effects, resource leaks or unreproduced defect.",
+      "exclude": "Do not use to redesign unrelated modules or replace repository style tools.",
+      "prompt": "implement-feature"
+    },
+    {
+      "name": "python-static-typing",
+      "description": "Design precise Python interfaces and resolve static typing errors while keeping runtime validation explicit.",
+      "trigger": "Public API typing, model boundaries, checker errors, stub quality, or modernization is in scope.",
+      "inputs": "Checker configuration/version, failing diagnostics, interface consumers, interpreter support.",
+      "dependencies": "Configured checker and existing runtime boundary validator.",
+      "output": "Typed interface or targeted diagnostic fix, checker evidence, runtime-validation coverage and suppression ledger.",
+      "failure": "Unsupported syntax, missing third-party stubs, checker-version disagreement or typing-only fix that leaves unsafe runtime input.",
+      "exclude": "Avoid repository-wide strictness expansion during a narrow feature.",
+      "prompt": "implement-feature"
+    },
+    {
+      "name": "python-async-engineering",
+      "description": "Build and diagnose Python async workers and services with bounded concurrency, cancellation and deterministic cleanup.",
+      "trigger": "Async I/O, worker lifecycle, task leaks, throughput, timeouts or concurrent shared state is affected.",
+      "inputs": "Task/queue lifecycle, client APIs, deadlines, retry policy, capacity and shutdown requirements.",
+      "dependencies": "Supported asyncio APIs or repository concurrency framework and isolated tests.",
+      "output": "Lifecycle design or patch with cancellation/timeout regression tests, capacity limits and graceful-shutdown evidence.",
+      "failure": "Leaked tasks, swallowed cancellation, unbounded queues/retries, blocking I/O or inability to stop shared test workloads.",
+      "exclude": "Load tests against shared systems require scoped authorization; performance claims require measurements.",
+      "prompt": "debug-python-issue"
+    },
+    {
+      "name": "python-packaging",
+      "description": "Maintain Python build metadata, dependency resolution, lockfiles, distributions and supply-chain compatibility.",
+      "trigger": "Dependencies, packaging, distribution, entry points, runtime versions or reproducibility change.",
+      "inputs": "pyproject/requirements, locks, backend, index policy, CI installation/build steps, consumers.",
+      "dependencies": "Repository package manager/build backend and available approved index metadata.",
+      "output": "Minimal metadata/lock patch, dependency rationale, artifact manifest and build/install evidence.",
+      "failure": "Unverified package, unsupported interpreter, private-index access gap, divergent lock, leaked source/secrets in artifacts or incompatible major upgrade.",
+      "exclude": "Do not impose a preferred manager or publish packages as part of a review.",
+      "prompt": "modernize-python-code"
+    },
+    {
+      "name": "python-api-engineering",
+      "description": "Engineer Python REST, webhook, event, streaming and library contracts with validation and reliable failure behavior.",
+      "trigger": "A Python endpoint, event consumer or public integration contract is created or changed.",
+      "inputs": "Framework/version, schemas, identity rules, consumers, compatibility and service objectives.",
+      "dependencies": "Existing routing/validation/client stack; contract and integration test environment.",
+      "output": "Contract and implementation with unit/contract/integration evidence, telemetry and rollout/rollback implications.",
+      "failure": "Ambiguous authorization, breaking consumer contract, missing commit semantics, unsatisfied service objective or unsafe response disclosure.",
+      "exclude": "Use installed framework conventions; do not assume FastAPI or deploy by default.",
+      "prompt": "build-python-api"
+    },
+    {
+      "name": "python-data-engineering",
+      "description": "Engineer Python transformations and pipelines with schema, precision, memory, lineage and recovery controls.",
+      "trigger": "Data ingestion, transformation, batch/stream processing or data-quality repair is requested.",
+      "inputs": "Source/target schema, volumes, ordering, classification, freshness, precision and retention needs.",
+      "dependencies": "Existing processing libraries, approved representative fixtures, checkpoint/storage contract.",
+      "output": "Pipeline/transform patch, schema/data-quality checks, lineage and recovery notes, memory/throughput evidence where measured.",
+      "failure": "Schema drift, precision loss, cross-tenant mixing, unbounded memory, unknown data rights or non-recoverable partial writes.",
+      "exclude": "Do not access production datasets solely to make an example realistic.",
+      "prompt": "implement-feature"
+    },
+    {
+      "name": "python-database-engineering",
+      "description": "Engineer Python persistence, transactions, schemas, pooling, migrations and recovery.",
+      "trigger": "Database access, query performance, consistency, cache behavior or schema migration changes.",
+      "inputs": "Driver/ORM and database versions, schema/migrations, query consumers, consistency and rollout requirements.",
+      "dependencies": "Existing database adapter and isolated representative database or explicitly unavailable integration evidence.",
+      "output": "Persistence patch or migration plan with query/transaction evidence, compatibility and data recovery limits.",
+      "failure": "Destructive shared migration without approval, missing backup evidence, pool leak, duplicate writes, unsafe query construction or engine-dependent unknown.",
+      "exclude": "SQLite or mocks do not establish production database semantics.",
+      "prompt": "design-change"
+    },
+    {
+      "name": "python-cli-automation",
+      "description": "Build Python CLI and subprocess automation with explicit arguments, exit codes and safe filesystem behavior.",
+      "trigger": "CLI command, background automation, file processing or subprocess integration is requested.",
+      "inputs": "CLI framework, argument contract, execution identities, target paths, expected side effects and shell/platform.",
+      "dependencies": "Repository CLI/runtime and identified executable dependencies.",
+      "output": "CLI or automation patch with documented usage, exit behavior, side-effect scope and regression evidence.",
+      "failure": "Ambiguous delete target, shell injection, unexpected executable identity, secret output or unsafe recovery.",
+      "exclude": "Do not treat shell access as permission to publish, delete or contact external systems.",
+      "prompt": "implement-feature"
+    },
+    {
+      "name": "architecture-decision-records",
+      "description": "Record significant Python, API, identity, persistence, cloud and agent architecture choices with alternatives.",
+      "trigger": "A change affects durable public contracts, runtime minimums, core tooling, shared coupling, deployment, cost or difficult-to-reverse architecture.",
+      "inputs": "Problem, constraints, candidate options, affected consumers, evidence and decision owner.",
+      "dependencies": "Existing ADR conventions and adr-template.md in this Skill.",
+      "output": "One decision record per significant decision, with alternatives, evidence, owner/status and implementation validation.",
+      "failure": "Missing decision owner, unsupported claim, incompatible consumer need or an alternative eliminated without evidence.",
+      "exclude": "An ADR draft cannot approve deployment, data loss or permission changes.",
+      "prompt": "design-change"
+    },
+    {
+      "name": "mcp-python-engineering",
+      "description": "Implement and review Python MCP servers/clients with protocol, transport, schema, identity and tool boundaries.",
+      "trigger": "Python MCP resource, prompt, tool, transport, protocol test or supply-chain review is requested.",
+      "inputs": "Pinned MCP/SDK versions, consumers, transport, identity/tenancy, operations and data classification.",
+      "dependencies": "Approved SDK/docs for exact version and local protocol-test harness.",
+      "output": "Protocol contract and implementation/test evidence, authz matrix, redaction/telemetry and rollback plan.",
+      "failure": "SDK/protocol mismatch, arbitrary file/URL/query tool, unapproved server, missing authz or protocol contamination.",
+      "exclude": "Do not claim tool annotations or prompt instructions enforce permissions; never auto-register a remote service.",
+      "prompt": "build-mcp-server"
+    },
+    {
+      "name": "agentic-workflow-design",
+      "description": "Design Python tool-using workflows, state, memory, budgets and optional specialist handoffs.",
+      "trigger": "A Python agent application or multi-step tool workflow needs design or change.",
+      "inputs": "User outcome, stable/uncertain decisions, tool contracts, identities, state/memory, latency/cost constraints.",
+      "dependencies": "Repository orchestration stack and policy enforcement boundary.",
+      "output": "Workflow/state design, tool and handoff contracts, budgets, failure/escalation path and evaluation cases.",
+      "failure": "Nonterminating loop, cross-user context, self-approval, ungrounded memory or unnecessary agent hierarchy.",
+      "exclude": "Do not add multi-agent orchestration merely to reproduce an organization chart.",
+      "prompt": "evaluate-agent"
+    },
+    {
+      "name": "playwright-validation",
+      "description": "Validate Python web journeys using existing Playwright/browser tooling and observable user outcomes.",
+      "trigger": "A web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
+      "inputs": "Authorized URL/environment/account, user journey, expected state, data and side-effect limits.",
+      "dependencies": "Existing Playwright tests or approved browser adapter; isolated authentication/test data.",
+      "output": "Journey evidence with exact environment, assertions/results, failures, sanitized artifacts and cleanup status.",
+      "failure": "Missing test auth, unexpected domain, unavailable browser, hidden/no-op control, state leakage or blocked consequential action.",
+      "exclude": "Do not treat a screenshot alone as persistence, authorization or deployment proof.",
+      "prompt": "validate-web-flow"
+    },
+    {
+      "name": "secure-python-engineering",
+      "description": "Assess and repair Python security boundaries, identity, secrets, data handling and supply chain.",
+      "trigger": "Security review or a Python change affects authentication, input/output, execution, storage or dependencies.",
+      "inputs": "Changed code/callers, assets/actors/trust boundaries, configured controls and available diagnostics.",
+      "dependencies": "Repository security scanners/policy and representative sanitized fixtures.",
+      "output": "Evidence-based findings or requested remediation with negative tests, residual risk and approval gaps.",
+      "failure": "Unreproducible vulnerability claim, sensitive evidence disclosure, unknown dependency provenance or unavailable production controls.",
+      "exclude": "Read-only security specialist gets no shell/edit tools by default; primary runs approved diagnostics.",
+      "prompt": "review-pull-request"
+    },
+    {
+      "name": "secure-agent-engineering",
+      "description": "Assess prompt injection, tool abuse, memory poisoning, isolation, privacy and responsible AI in Python agents.",
+      "trigger": "Agent, retrieval, browser, model output, MCP or durable-memory boundaries are in scope.",
+      "inputs": "Prompt/tool/retrieval/memory flows, identities/tenancy, oversight, data policy and misuse scenarios.",
+      "dependencies": "Application policy enforcement layer and sanitized security/evaluation fixtures.",
+      "output": "Threat model, misuse findings, executable negative-case plan, responsible-AI constraints and release/escalation recommendation.",
+      "failure": "Policy enforced only by model prose, missing tenant isolation, retained secrets or unsafe fallback.",
+      "exclude": "Do not send confidential prompts/source/customer data to unapproved evaluators.",
+      "prompt": "evaluate-agent"
+    },
+    {
+      "name": "agent-observability",
+      "description": "Instrument Python services and agent runs with useful metrics, traces, provenance and redaction.",
+      "trigger": "Operational diagnostics, service telemetry, agent tracing or run-cost visibility changes.",
+      "inputs": "Service/run boundaries, operators/SLOs, existing telemetry/version and data classification.",
+      "dependencies": "Existing logging/metrics/tracing stack; approved collector/export destination.",
+      "output": "Signal/alert design or instrumentation patch with redaction tests, operator actions, export costs and limits.",
+      "failure": "Sensitive export, missing correlation, high-cardinality explosion, telemetry-caused request failure or false live-health claim.",
+      "exclude": "Telemetry success does not prove business correctness or authorize broad collection.",
+      "prompt": "debug-python-issue"
+    },
+    {
+      "name": "agent-evaluation",
+      "description": "Evaluate agent outcomes and tool-use process with datasets, deterministic checks, rubrics and human review.",
+      "trigger": "Agent behavior, release gates, prompt/tool changes or reliability/safety evaluation is requested.",
+      "inputs": "Task distribution, dataset provenance, expected/prohibited behavior, tool policy, budgets and approved thresholds.",
+      "dependencies": "Versioned isolated evaluator, deterministic assertions and optional approved model judge.",
+      "output": "Evaluation plan/results with scenario failures, scoring provenance, budgets, human-review gaps and release recommendation.",
+      "failure": "Unapproved external judge/data, arbitrary threshold presented as policy, judge-only correctness or benchmark overgeneralization.",
+      "exclude": "Do not run cost-bearing provider evaluations without scoped authorization.",
+      "prompt": "evaluate-agent"
+    },
+    {
+      "name": "python-performance-analysis",
+      "description": "Measure Python service, worker, data and agent latency, throughput, memory and cost bottlenecks.",
+      "trigger": "A measurable performance issue or explicit performance/cost objective exists.",
+      "inputs": "Representative workload/data, environment, baseline, SLOs, resource and cost limits.",
+      "dependencies": "Configured profiler/benchmark tooling and approved isolated workload generator.",
+      "output": "Measured bottleneck, experiment/patch, before/after results and variance, trade-offs, rollback and remaining uncertainty.",
+      "failure": "No representative baseline, noisy experiment, changed workload, cost overrun or unsafe shared load.",
+      "exclude": "Do not report faster code from intuition or a single unrepresentative timing.",
+      "prompt": "debug-python-issue"
+    },
+    {
+      "name": "pull-request-review",
+      "description": "Review Python and agent changes with located evidence, compatibility and operational readiness.",
+      "trigger": "PR, branch, staged diff or requested pre-merge review is in scope.",
+      "inputs": "Exact base/head or diff, repository instructions, acceptance criteria and relevant consumers/tests.",
+      "dependencies": "Read/search tools; test execution by primary when authorized and available.",
+      "output": "Prioritized findings, evidence/commands, criterion coverage, residual risks and readiness recommendation.",
+      "failure": "Unknown diff base, fabricated finding, missing caller context, unrun check represented as passed or unapproved external write.",
+      "exclude": "Review-only requests do not authorize remediation, posting, approval or merge.",
+      "prompt": "review-pull-request"
+    }
+  ],
+  "instructions": [
+    "python.instructions.md",
+    "python-tests.instructions.md",
+    "python-security.instructions.md",
+    "python-packaging.instructions.md",
+    "agentic-security.instructions.md"
+  ],
+  "prompts": [
+    "investigate-repository.prompt.md",
+    "design-change.prompt.md",
+    "implement-feature.prompt.md",
+    "review-pull-request.prompt.md",
+    "build-python-api.prompt.md",
+    "build-mcp-server.prompt.md",
+    "debug-python-issue.prompt.md",
+    "modernize-python-code.prompt.md",
+    "validate-web-flow.prompt.md",
+    "evaluate-agent.prompt.md"
+  ],
+  "examples": [
+    "python-api-feature-workflow.md",
+    "mcp-server-workflow.md",
+    "security-review-workflow.md",
+    "playwright-validation-workflow.md",
+    "agent-evaluation-workflow.md",
+    "final-completion-report.md"
+  ],
+  "root_files": [
+    "DESCRIPTION.md",
+    "README.md",
+    "AGENT-PACK-README.md",
+    "copilot-instructions.md",
+    "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md",
+    "LICENSE",
+    "apm.yml",
+    "VALIDATION_REPORT.md"
+  ],
+  "source_dirs": [
+    ".apm",
+    "compatibility",
+    "docs",
+    "examples",
+    "hooks",
+    "instructions",
+    "prompts",
+    "templates",
+    "tests",
+    "tooling"
+  ]
+}

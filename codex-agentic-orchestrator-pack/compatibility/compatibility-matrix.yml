@@ -1,0 +1,32 @@
+version: 1
+client: codex
+tested_against_documentation: 2026-08-24
+features:
+  project_agents:
+    path: .codex/agents/<name>.toml
+    support: documented
+  project_skills:
+    path: .agents/skills/<name>/SKILL.md
+    support: documented
+  subagent_workflows:
+    support: documented
+    limitation: availability and concurrency depend on the installed Codex release and configuration
+  subagent_start_hook:
+    event: SubagentStart
+    support: documented
+    limitation: observational; cannot stop the subagent from starting
+  subagent_stop_hook:
+    event: SubagentStop
+    support: documented
+  stop_continuation_guard:
+    event: Stop
+    support: documented
+    limitation: asks Codex to continue; it does not guarantee model success
+  project_hook_trust:
+    support: documented
+    limitation: non-managed hooks require review and trust
+runtime_limits:
+  - client installation and authentication
+  - model and API availability
+  - sandbox, approval, and permission policy
+  - context, concurrency, rate, and cost limits

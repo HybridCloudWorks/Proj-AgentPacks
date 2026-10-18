@@ -1,0 +1,11 @@
+{
+  "selection": "Load only Skills needed for this task. All eighteen are shipped, none must be eagerly preloaded.",
+  "optional_specialists": [
+    "python-security-reviewer",
+    "python-test-engineer",
+    "python-performance-engineer",
+    "agent-evaluation-engineer"
+  ],
+  "external_tools": "No third-party MCP, cloud credential or paid model is installed/configured by the pack.",
+  "cloud_routing": "Azure expertise is encoded in Python integration guidance; broad cloud platform work should use an explicitly available cloud specialist, never an assumed dependency."
+}

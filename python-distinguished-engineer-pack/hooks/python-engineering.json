@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "python3 .github/hooks/scripts/hook_runner.py sessionStart",
+        "powershell": "python .github/hooks/scripts/hook_runner.py sessionStart",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "python3 .github/hooks/scripts/hook_runner.py agentStop",
+        "powershell": "python .github/hooks/scripts/hook_runner.py agentStop",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}

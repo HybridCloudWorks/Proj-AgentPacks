@@ -1,0 +1,90 @@
+{
+  "verified_on": "2026-10-18",
+  "sources": [
+    {
+      "id": "python",
+      "url": "https://docs.python.org/3/",
+      "application": "Language/reference; choose repository-supported version."
+    },
+    {
+      "id": "asyncio",
+      "url": "https://docs.python.org/3/library/asyncio-task.html",
+      "application": "Cancellation/deadline/structured concurrency guidance; check version support."
+    },
+    {
+      "id": "packaging",
+      "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+      "application": "Build metadata and requires-python."
+    },
+    {
+      "id": "typing",
+      "url": "https://typing.python.org/en/latest/",
+      "application": "Static types and interface modeling."
+    },
+    {
+      "id": "pytest",
+      "url": "https://docs.pytest.org/en/stable/",
+      "application": "Fixtures, integration, assertions and test configuration."
+    },
+    {
+      "id": "mcp",
+      "url": "https://modelcontextprotocol.io/specification/",
+      "application": "Protocol, resources/prompts/tools; SDK and transport pinning required."
+    },
+    {
+      "id": "playwright",
+      "url": "https://playwright.dev/python/docs/locators",
+      "application": "Accessible locators and browser validation."
+    },
+    {
+      "id": "opentelemetry",
+      "url": "https://opentelemetry.io/docs/languages/python/",
+      "application": "Signals, context and Python instrumentation."
+    },
+    {
+      "id": "azure",
+      "url": "https://learn.microsoft.com/en-us/azure/developer/python/sdk/authentication/overview",
+      "application": "Python Azure identity; verify actual deployment auth path."
+    },
+    {
+      "id": "copilot",
+      "url": "https://docs.github.com/en/copilot/reference/custom-agents-configuration",
+      "application": "Agent folder, user-invocable and supported tool aliases."
+    },
+    {
+      "id": "copilot-instructions",
+      "url": "https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions",
+      "application": "Path-scoped applyTo frontmatter."
+    },
+    {
+      "id": "copilot-hooks",
+      "url": "https://docs.github.com/en/copilot/reference/hooks-reference",
+      "application": "Version-1 hook events/input/output and host differences."
+    },
+    {
+      "id": "claude",
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "application": "Tools mapped to Read/Grep/Glob/Bash/Edit/Write/Agent."
+    },
+    {
+      "id": "codex",
+      "url": "https://developers.openai.com/codex/subagents/",
+      "application": "Custom-agent TOML: parent sandbox/approval inheritance; no false per-agent isolation."
+    },
+    {
+      "id": "codex-skills",
+      "url": "https://developers.openai.com/codex/skills/",
+      "application": "Repository .agents/skills layout."
+    },
+    {
+      "id": "gemini",
+      "url": "https://geminicli.com/docs/core/subagents/",
+      "application": "Local agent kind/tools and feature enablement."
+    },
+    {
+      "id": "gemini-skills",
+      "url": "https://geminicli.com/docs/cli/skills/",
+      "application": "Workspace Skills and CLI discovery."
+    }
+  ]
+}

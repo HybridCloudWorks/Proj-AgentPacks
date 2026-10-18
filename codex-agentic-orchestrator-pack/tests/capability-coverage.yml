@@ -1,0 +1,22 @@
+version: 1
+cases:
+  - id: one-agent
+    mode: one
+    expected: one selected required node and one valid handoff
+  - id: selected-subset
+    mode: selected
+    expected: only named nodes are eligible
+  - id: all-installed
+    mode: all
+    expected: every installed default registry agent is eligible
+  - id: all-with-missing
+    mode: all
+    expected: installed agents are required and missing registry entries are skipped_optional unless require-all is explicit
+  - id: optional-missing
+    expected: skipped_optional and no workflow break
+  - id: required-missing
+    expected: blocked_required_agent and no false success
+  - id: dependency-order
+    expected: dependent node waits for upstream handoff
+  - id: resume
+    expected: valid completed nodes are preserved and retryable nodes resume

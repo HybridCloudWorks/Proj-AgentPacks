@@ -1,0 +1,18 @@
+required_sections:
+  - assumptions
+  - source_map
+  - objectives
+  - agenda
+  - activity_and_demo_map
+  - lab_requirements
+  - assessment_plan
+  - accessibility_notes
+  - risks_and_fallbacks
+  - deliverables
+  - verification_evidence
+evidence_labels: [source, static, local_rehearsal, live, unverified]
+required_disclosures:
+  - no_claim_of_mct_status
+  - no_claim_of_license_or_tenant_access
+  - no_claim_of_live_publication_without_evidence
+

@@ -1,0 +1,26 @@
+pack: microsoft-certified-trainer
+targets:
+  github-copilot:
+    agents: .github/agents
+    skills: [.github/skills, .agents/skills]
+    instructions: .github/instructions
+    prompts: .github/prompts
+    hooks: .github/hooks
+    primary_tools: [read, search, edit, execute, web, todo, agent, github/*, playwright/*]
+  claude-code:
+    agents: .claude/agents
+    skills: .claude/skills
+    shared: shared
+  openai-codex:
+    agents: .codex/agents
+    skills: .agents/skills
+    shared: shared
+  gemini-cli:
+    agents: .gemini/agents
+    skills: .agents/skills
+    shared: shared
+archives:
+  individual_skill: dist/skills/<skill-name>/skill.zip
+  vendor: dist/<vendor>-microsoft-certified-trainer.zip
+  validation: dist/microsoft-certified-trainer-validation.zip
+

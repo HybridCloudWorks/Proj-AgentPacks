@@ -1,0 +1,292 @@
+# VALIDATION REPORT
+
+Status: **PASS**
+
+This is a static, local pack validation. It verifies source structure, frontmatter, required content, target parity, tooling compilation, hook syntax, tests, templates, and archive integrity. It does not prove MCT authorization, courseware redistribution rights, provider or tenant access, live Copilot behavior, Copilot Studio publication, cloud deployment, browser mutation, model quality, or classroom learning outcomes.
+
+## Summary
+
+- Five canonical agents, with a fully capable primary trainer agent.
+- Eighteen focused Skills.
+- Six shared instructions, twelve prompts, eight examples, and seven templates.
+- GitHub Copilot, Claude Code, OpenAI Codex, and Gemini CLI targets.
+- Individual validated `skill.zip` archives.
+
+Checks passed: 265
+Checks failed: 0
+
+## Passed checks
+
+- exists: .apm\agents\microsoft-certified-trainer.agent.md
+- canonical agent contract: microsoft-certified-trainer.agent.md
+- exists: .apm\agents\microsoft-course-architect.agent.md
+- canonical agent contract: microsoft-course-architect.agent.md
+- exists: .apm\agents\microsoft-lab-demo-engineer.agent.md
+- canonical agent contract: microsoft-lab-demo-engineer.agent.md
+- exists: .apm\agents\microsoft-courseware-engineer.agent.md
+- canonical agent contract: microsoft-courseware-engineer.agent.md
+- exists: .apm\agents\microsoft-copilot-learning-reviewer.agent.md
+- canonical agent contract: microsoft-copilot-learning-reviewer.agent.md
+- canonical Skills: exactly 18 expected Skills
+- exists: .apm\skills\mct-courseware-governance\SKILL.md
+- Skill content: mct-courseware-governance
+- exists: .apm\skills\microsoft-learn-curriculum-mapping\SKILL.md
+- Skill content: microsoft-learn-curriculum-mapping
+- exists: .apm\skills\learning-objectives-and-assessment\SKILL.md
+- Skill content: learning-objectives-and-assessment
+- exists: .apm\skills\course-architecture-and-syllabus\SKILL.md
+- Skill content: course-architecture-and-syllabus
+- exists: .apm\skills\instructor-led-facilitation\SKILL.md
+- Skill content: instructor-led-facilitation
+- exists: .apm\skills\trainer-preparation-and-rehearsal\SKILL.md
+- Skill content: trainer-preparation-and-rehearsal
+- exists: .apm\skills\microsoft-365-copilot-instruction\SKILL.md
+- Skill content: microsoft-365-copilot-instruction
+- exists: .apm\skills\microsoft-365-apps-workflows\SKILL.md
+- Skill content: microsoft-365-apps-workflows
+- exists: .apm\skills\copilot-prompting-and-knowledge-checks\SKILL.md
+- Skill content: copilot-prompting-and-knowledge-checks
+- exists: .apm\skills\copilot-studio-course-labs\SKILL.md
+- Skill content: copilot-studio-course-labs
+- exists: .apm\skills\microsoft-designer-and-visual-content\SKILL.md
+- Skill content: microsoft-designer-and-visual-content
+- exists: .apm\skills\powerpoint-courseware-engineering\SKILL.md
+- Skill content: powerpoint-courseware-engineering
+- exists: .apm\skills\lab-and-demo-engineering\SKILL.md
+- Skill content: lab-and-demo-engineering
+- exists: .apm\skills\git-and-github-course-delivery\SKILL.md
+- Skill content: git-and-github-course-delivery
+- exists: .apm\skills\azure-and-cloud-lab-handoff\SKILL.md
+- Skill content: azure-and-cloud-lab-handoff
+- exists: .apm\skills\course-evaluation-and-feedback\SKILL.md
+- Skill content: course-evaluation-and-feedback
+- exists: .apm\skills\training-content-maintenance\SKILL.md
+- Skill content: training-content-maintenance
+- exists: .apm\skills\trainer-automation-and-tools\SKILL.md
+- Skill content: trainer-automation-and-tools
+- exists: instructions\mct.instructions.md
+- shared content: instructions/mct.instructions.md
+- exists: instructions\curriculum.instructions.md
+- shared content: instructions/curriculum.instructions.md
+- exists: instructions\delivery.instructions.md
+- shared content: instructions/delivery.instructions.md
+- exists: instructions\courseware.instructions.md
+- shared content: instructions/courseware.instructions.md
+- exists: instructions\copilot.instructions.md
+- shared content: instructions/copilot.instructions.md
+- exists: instructions\security-and-privacy.instructions.md
+- shared content: instructions/security-and-privacy.instructions.md
+- exists: prompts\ingest-mct-courseware.prompt.md
+- shared content: prompts/ingest-mct-courseware.prompt.md
+- exists: prompts\map-learn-content.prompt.md
+- shared content: prompts/map-learn-content.prompt.md
+- exists: prompts\design-course.prompt.md
+- shared content: prompts/design-course.prompt.md
+- exists: prompts\build-one-day-agenda.prompt.md
+- shared content: prompts/build-one-day-agenda.prompt.md
+- exists: prompts\prepare-instructor-guide.prompt.md
+- shared content: prompts/prepare-instructor-guide.prompt.md
+- exists: prompts\create-interactive-lab.prompt.md
+- shared content: prompts/create-interactive-lab.prompt.md
+- exists: prompts\rehearse-demo.prompt.md
+- shared content: prompts/rehearse-demo.prompt.md
+- exists: prompts\engineer-powerpoint-deck.prompt.md
+- shared content: prompts/engineer-powerpoint-deck.prompt.md
+- exists: prompts\create-knowledge-checks.prompt.md
+- shared content: prompts/create-knowledge-checks.prompt.md
+- exists: prompts\create-copilot-studio-workshop.prompt.md
+- shared content: prompts/create-copilot-studio-workshop.prompt.md
+- exists: prompts\refresh-from-change-log.prompt.md
+- shared content: prompts/refresh-from-change-log.prompt.md
+- exists: prompts\evaluate-session.prompt.md
+- shared content: prompts/evaluate-session.prompt.md
+- exists: examples\ms-4018-course-map.md
+- shared content: examples/ms-4018-course-map.md
+- exists: examples\one-day-agenda.md
+- shared content: examples/one-day-agenda.md
+- exists: examples\copilot-demo-runbook.md
+- shared content: examples/copilot-demo-runbook.md
+- exists: examples\copilot-studio-lab.md
+- shared content: examples/copilot-studio-lab.md
+- exists: examples\interactive-powerpoint-session.md
+- shared content: examples/interactive-powerpoint-session.md
+- exists: examples\azure-github-handoff.md
+- shared content: examples/azure-github-handoff.md
+- exists: examples\session-evaluation.md
+- shared content: examples/session-evaluation.md
+- exists: examples\refresh-from-change-log.md
+- shared content: examples/refresh-from-change-log.md
+- exists: DESCRIPTION.md
+- exists: README.md
+- exists: AGENT-PACK-README.md
+- exists: copilot-instructions.md
+- exists: PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md
+- exists: LICENSE
+- exists: apm.yml
+- exists: docs\DESIGN_DECISIONS.md
+- exists: docs\SOURCE_TRACEABILITY.md
+- exists: docs\MS-4018_SOURCE_NOTES.md
+- exists: docs\AGENT_INVENTORY.md
+- exists: docs\SKILL_INVENTORY.md
+- exists: docs\TOOL_PERMISSION_MATRIX.md
+- exists: docs\APPROVAL_MATRIX.md
+- exists: docs\HANDOFF_CONTRACT.md
+- exists: docs\PROMPT_INVENTORY.md
+- exists: docs\DELIVERABLE_CONTRACT.md
+- exists: compatibility\capability-map.yml
+- exists: compatibility\compatibility-matrix.yml
+- exists: compatibility\optional-skills.yml
+- exists: compatibility\vendor-sources.yml
+- exists: tests\capability-coverage.yml
+- exists: tests\report-contract.yml
+- exists: tests\trigger-cases.yml
+- exists: tests\fixtures\valid-completion-report.md
+- exists: templates\course-plan.md
+- exists: templates\instructor-guide.md
+- exists: templates\lab-runbook.md
+- exists: templates\demo-runbook.md
+- exists: templates\knowledge-checks.yml
+- exists: templates\session-evaluation.md
+- exists: templates\partner-handoff.md
+- github-copilot: five agents
+- github-copilot: 18 Skills
+- exists: targets\github-copilot\DESCRIPTION.md
+- exists: targets\github-copilot\INSTALL.md
+- exists: targets\github-copilot\templates\course-plan.md
+- claude-code: five agents
+- claude-code: 18 Skills
+- exists: targets\claude-code\DESCRIPTION.md
+- exists: targets\claude-code\INSTALL.md
+- exists: targets\claude-code\templates\course-plan.md
+- exists: targets\claude-code\CLAUDE.md
+- exists: targets\claude-code\shared\hooks\README.md
+- exists: targets\claude-code\shared\hooks\pre-trainer-session.ps1
+- exists: targets\claude-code\shared\hooks\pre-trainer-session.sh
+- exists: targets\claude-code\shared\hooks\post-trainer-session.ps1
+- exists: targets\claude-code\shared\hooks\post-trainer-session.sh
+- openai-codex: five agents
+- openai-codex: 18 Skills
+- exists: targets\openai-codex\DESCRIPTION.md
+- exists: targets\openai-codex\INSTALL.md
+- exists: targets\openai-codex\templates\course-plan.md
+- exists: targets\openai-codex\AGENTS.md
+- exists: targets\openai-codex\shared\hooks\README.md
+- exists: targets\openai-codex\shared\hooks\pre-trainer-session.ps1
+- exists: targets\openai-codex\shared\hooks\pre-trainer-session.sh
+- exists: targets\openai-codex\shared\hooks\post-trainer-session.ps1
+- exists: targets\openai-codex\shared\hooks\post-trainer-session.sh
+- gemini-cli: five agents
+- gemini-cli: 18 Skills
+- exists: targets\gemini-cli\DESCRIPTION.md
+- exists: targets\gemini-cli\INSTALL.md
+- exists: targets\gemini-cli\templates\course-plan.md
+- exists: targets\gemini-cli\GEMINI.md
+- exists: targets\gemini-cli\shared\hooks\README.md
+- exists: targets\gemini-cli\shared\hooks\pre-trainer-session.ps1
+- exists: targets\gemini-cli\shared\hooks\pre-trainer-session.sh
+- exists: targets\gemini-cli\shared\hooks\post-trainer-session.ps1
+- exists: targets\gemini-cli\shared\hooks\post-trainer-session.sh
+- exists: targets\github-copilot\.github\instructions\mct.instructions.md
+- exists: targets\github-copilot\.github\instructions\curriculum.instructions.md
+- exists: targets\github-copilot\.github\instructions\delivery.instructions.md
+- exists: targets\github-copilot\.github\instructions\courseware.instructions.md
+- exists: targets\github-copilot\.github\instructions\copilot.instructions.md
+- exists: targets\github-copilot\.github\instructions\security-and-privacy.instructions.md
+- exists: targets\github-copilot\.github\prompts\ingest-mct-courseware.prompt.md
+- exists: targets\github-copilot\.github\prompts\map-learn-content.prompt.md
+- exists: targets\github-copilot\.github\prompts\design-course.prompt.md
+- exists: targets\github-copilot\.github\prompts\build-one-day-agenda.prompt.md
+- exists: targets\github-copilot\.github\prompts\prepare-instructor-guide.prompt.md
+- exists: targets\github-copilot\.github\prompts\create-interactive-lab.prompt.md
+- exists: targets\github-copilot\.github\prompts\rehearse-demo.prompt.md
+- exists: targets\github-copilot\.github\prompts\engineer-powerpoint-deck.prompt.md
+- exists: targets\github-copilot\.github\prompts\create-knowledge-checks.prompt.md
+- exists: targets\github-copilot\.github\prompts\create-copilot-studio-workshop.prompt.md
+- exists: targets\github-copilot\.github\prompts\refresh-from-change-log.prompt.md
+- exists: targets\github-copilot\.github\prompts\evaluate-session.prompt.md
+- exists: targets\github-copilot\.github\examples\ms-4018-course-map.md
+- exists: targets\github-copilot\.github\examples\one-day-agenda.md
+- exists: targets\github-copilot\.github\examples\copilot-demo-runbook.md
+- exists: targets\github-copilot\.github\examples\copilot-studio-lab.md
+- exists: targets\github-copilot\.github\examples\interactive-powerpoint-session.md
+- exists: targets\github-copilot\.github\examples\azure-github-handoff.md
+- exists: targets\github-copilot\.github\examples\session-evaluation.md
+- exists: targets\github-copilot\.github\examples\refresh-from-change-log.md
+- exists: targets\github-copilot\.github\copilot-instructions.md
+- exists: targets\github-copilot\.github\AGENT-PACK-README.md
+- exists: targets\github-copilot\.github\hooks\microsoft-certified-trainer.json
+- Copilot hook configuration: version 1 with sessionStart and agentStop
+- exists: targets\github-copilot\.github\hooks\scripts\pre-trainer-session.ps1
+- exists: targets\github-copilot\.github\hooks\scripts\pre-trainer-session.sh
+- exists: targets\github-copilot\.github\hooks\scripts\post-trainer-session.ps1
+- exists: targets\github-copilot\.github\hooks\scripts\post-trainer-session.sh
+- Copilot compatibility skill mirror
+- Python compile: tooling\build_pack.py
+- Python compile: tooling\validate_pack.py
+- exists: hooks\pre-trainer-session.ps1
+- exists: hooks\pre-trainer-session.sh
+- exists: hooks\post-trainer-session.ps1
+- exists: hooks\post-trainer-session.sh
+- exists: hooks\microsoft-certified-trainer.json
+- exists: dist\github-copilot-microsoft-certified-trainer.zip
+- archive integrity: github-copilot-microsoft-certified-trainer.zip
+- exists: dist\claude-code-microsoft-certified-trainer.zip
+- archive integrity: claude-code-microsoft-certified-trainer.zip
+- exists: dist\openai-codex-microsoft-certified-trainer.zip
+- archive integrity: openai-codex-microsoft-certified-trainer.zip
+- exists: dist\gemini-cli-microsoft-certified-trainer.zip
+- archive integrity: gemini-cli-microsoft-certified-trainer.zip
+- exists: dist\microsoft-certified-trainer-canonical.zip
+- archive integrity: microsoft-certified-trainer-canonical.zip
+- exists: dist\microsoft-certified-trainer-prompt.zip
+- archive integrity: microsoft-certified-trainer-prompt.zip
+- exists: dist\microsoft-certified-trainer-skills.zip
+- archive integrity: microsoft-certified-trainer-skills.zip
+- exists: dist\microsoft-certified-trainer-validation.zip
+- archive integrity: microsoft-certified-trainer-validation.zip
+- exists: dist\microsoft-certified-trainer-full-pack.zip
+- archive integrity: microsoft-certified-trainer-full-pack.zip
+- exists: dist\skills\mct-courseware-governance\skill.zip
+- individual Skill archive: mct-courseware-governance
+- exists: dist\skills\microsoft-learn-curriculum-mapping\skill.zip
+- individual Skill archive: microsoft-learn-curriculum-mapping
+- exists: dist\skills\learning-objectives-and-assessment\skill.zip
+- individual Skill archive: learning-objectives-and-assessment
+- exists: dist\skills\course-architecture-and-syllabus\skill.zip
+- individual Skill archive: course-architecture-and-syllabus
+- exists: dist\skills\instructor-led-facilitation\skill.zip
+- individual Skill archive: instructor-led-facilitation
+- exists: dist\skills\trainer-preparation-and-rehearsal\skill.zip
+- individual Skill archive: trainer-preparation-and-rehearsal
+- exists: dist\skills\microsoft-365-copilot-instruction\skill.zip
+- individual Skill archive: microsoft-365-copilot-instruction
+- exists: dist\skills\microsoft-365-apps-workflows\skill.zip
+- individual Skill archive: microsoft-365-apps-workflows
+- exists: dist\skills\copilot-prompting-and-knowledge-checks\skill.zip
+- individual Skill archive: copilot-prompting-and-knowledge-checks
+- exists: dist\skills\copilot-studio-course-labs\skill.zip
+- individual Skill archive: copilot-studio-course-labs
+- exists: dist\skills\microsoft-designer-and-visual-content\skill.zip
+- individual Skill archive: microsoft-designer-and-visual-content
+- exists: dist\skills\powerpoint-courseware-engineering\skill.zip
+- individual Skill archive: powerpoint-courseware-engineering
+- exists: dist\skills\lab-and-demo-engineering\skill.zip
+- individual Skill archive: lab-and-demo-engineering
+- exists: dist\skills\git-and-github-course-delivery\skill.zip
+- individual Skill archive: git-and-github-course-delivery
+- exists: dist\skills\azure-and-cloud-lab-handoff\skill.zip
+- individual Skill archive: azure-and-cloud-lab-handoff
+- exists: dist\skills\course-evaluation-and-feedback\skill.zip
+- individual Skill archive: course-evaluation-and-feedback
+- exists: dist\skills\training-content-maintenance\skill.zip
+- individual Skill archive: training-content-maintenance
+- exists: dist\skills\trainer-automation-and-tools\skill.zip
+- individual Skill archive: trainer-automation-and-tools
+
+## Failed checks
+
+- None
+
+## Evidence boundary
+
+Static validation is not live MCT authorization, courseware license proof, tenant or provider behavior, Copilot Studio publication, cloud deployment, external mutation, or verified learning mastery.

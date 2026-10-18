@@ -1,0 +1,11 @@
+primary_agent_is_complete: true
+specialists:
+  - microsoft-course-architect
+  - microsoft-lab-demo-engineer
+  - microsoft-courseware-engineer
+  - microsoft-copilot-learning-reviewer
+handoffs:
+  - Azure Architect
+  - GitHub Expert Engineer
+rule: Specialists improve focus and parallelism; they do not provide capabilities absent from the primary agent.
+
