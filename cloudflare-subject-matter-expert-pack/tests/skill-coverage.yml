@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "cloudflare-agents-and-ai": {
+      "description": "Build AI features and agents on Cloudflare with Workers AI, AI Gateway, Vectorize and AI Search retrieval, Browser Rendering, the Agents SDK and remote MCP servers built with McpAgent and OAuth, including tool authorization, human approval and cost controls. Use when adding inference, retrieval, chat or scheduled agents, tool-using agents, approval steps, or an MCP server hosted on Cloudflare.",
+      "activation": "Use when adding inference, retrieval, chat or scheduled agents, tool-using agents, approval steps, or an MCP server hosted on Cloudflare.",
+      "source": ".apm/skills/cloudflare-agents-and-ai/SKILL.md"
+    },
+    "cloudflare-application-security": {
+      "description": "Protect Cloudflare zones and APIs with WAF custom and managed rules, rate limiting, bot management, DDoS overrides, API Shield, Turnstile and security event analysis, including expression writing, false-positive tuning, log-first rollout and attack response. Use when hardening a zone, writing or reviewing security rules, tuning a false positive, responding to an attack, or adding bot or API protection.",
+      "activation": "Use when hardening a zone, writing or reviewing security rules, tuning a false positive, responding to an attack, or adding bot or API protection.",
+      "source": ".apm/skills/cloudflare-application-security/SKILL.md"
+    },
+    "cloudflare-change-control": {
+      "description": "Plan, apply, verify and roll back changes to live Cloudflare accounts, covering Worker deploys and gradual rollouts, secrets, DNS and TLS switches, rule and policy enablement, Zero Trust rollouts, D1 and Durable Object migrations, Terraform applies and cache purges, with pre-change snapshots and post-change evidence. Use when a task will write to a Cloudflare account or affect production traffic, or when a release, rollback or emergency change is requested.",
+      "activation": "Use when a task will write to a Cloudflare account or affect production traffic, or when a release, rollback or emergency change is requested.",
+      "source": ".apm/skills/cloudflare-change-control/SKILL.md"
+    },
+    "cloudflare-edge-delivery-and-performance": {
+      "description": "Configure and tune zone traffic on Cloudflare: DNS records and proxy status, DNSSEC, SSL/TLS modes and certificates, origin protection, caching and cache rules, redirect, transform, origin and configuration rules, load balancing, Argo and Smart Placement, Images, and Core Web Vitals audits. Use when onboarding a zone, changing DNS or TLS, raising cache hit ratio, fixing redirects or headers, or improving page and origin performance.",
+      "activation": "Use when onboarding a zone, changing DNS or TLS, raising cache hit ratio, fixing redirects or headers, or improving page and origin performance.",
+      "source": ".apm/skills/cloudflare-edge-delivery-and-performance/SKILL.md"
+    },
+    "cloudflare-iac-and-api-automation": {
+      "description": "Author, review and operate Cloudflare automation with the Terraform provider, Pulumi, the REST API and SDKs, Wrangler in CI and Cloudflare MCP tools, covering API token scope, state import and drift, provider upgrades, pagination, rate limits and safe ruleset updates. Use when writing or reviewing Cloudflare Terraform or Pulumi code, scripting the Cloudflare API, building a deploy pipeline, or reconciling dashboard drift.",
+      "activation": "Use when writing or reviewing Cloudflare Terraform or Pulumi code, scripting the Cloudflare API, building a deploy pipeline, or reconciling dashboard drift.",
+      "source": ".apm/skills/cloudflare-iac-and-api-automation/SKILL.md"
+    },
+    "cloudflare-migration-planning": {
+      "description": "Plan migrations onto Cloudflare from another DNS provider, CDN or WAF, object storage or serverless platform, legacy VPN, or a SASE stack such as Zscaler or Palo Alto, with structured inventories, rule-by-rule accounting, parity gaps, dependency-ordered staging, cutover and rollback. Use when assessing, mapping or sequencing a move to Cloudflare, or checking that every source rule is accounted for.",
+      "activation": "Use when assessing, mapping or sequencing a move to Cloudflare, or checking that every source rule is accounted for.",
+      "source": ".apm/skills/cloudflare-migration-planning/SKILL.md"
+    },
+    "cloudflare-observability-and-troubleshooting": {
+      "description": "Diagnose Cloudflare incidents and instrument Workers using Ray IDs, Cloudflare error codes, response headers, Workers Logs and traces, wrangler tail, Tail Workers, Logpush, the GraphQL Analytics API, Analytics Engine, Security Events, Gateway and Access logs and Tunnel diagnostics. Use when a site, API or Worker returns errors, behaves differently through Cloudflare, is slow, is blocked unexpectedly, or needs logging, metrics and alerts.",
+      "activation": "Use when a site, API or Worker returns errors, behaves differently through Cloudflare, is slow, is blocked unexpectedly, or needs logging, metrics and alerts.",
+      "source": ".apm/skills/cloudflare-observability-and-troubleshooting/SKILL.md"
+    },
+    "cloudflare-solution-architecture": {
+      "description": "Choose Cloudflare products and design solution architectures across compute, storage, AI, networking, delivery, security and Zero Trust, recording limits, plan entitlements, cost drivers, alternatives and open decisions. Use when someone asks which Cloudflare product fits, how to architect a workload on Cloudflare, or whether a design will hold within platform limits.",
+      "activation": "Use when someone asks which Cloudflare product fits, how to architect a workload on Cloudflare, or whether a design will hold within platform limits.",
+      "source": ".apm/skills/cloudflare-solution-architecture/SKILL.md"
+    },
+    "cloudflare-storage-and-state": {
+      "description": "Design and implement data and state on Cloudflare with KV, D1, R2, Durable Objects, Queues, Workflows, Hyperdrive, Vectorize and Secrets Store, covering consistency, concurrency, schema migrations, idempotency, backups and limits. Use when choosing or changing a Cloudflare data store, writing Durable Objects, queue consumers or Workflows, or planning a schema or data migration on Cloudflare.",
+      "activation": "Use when choosing or changing a Cloudflare data store, writing Durable Objects, queue consumers or Workflows, or planning a schema or data migration on Cloudflare.",
+      "source": ".apm/skills/cloudflare-storage-and-state/SKILL.md"
+    },
+    "cloudflare-workers-development": {
+      "description": "Build, review and test Cloudflare Workers code and Wrangler configuration, including bindings, static assets, service bindings, Hyperdrive, cron and queue handlers, Containers and Sandbox, local development with Miniflare and tests with the Workers Vitest pool. Use when writing or reviewing Worker code, editing Wrangler configuration, or diagnosing Worker build and runtime errors in a repository.",
+      "activation": "Use when writing or reviewing Worker code, editing Wrangler configuration, or diagnosing Worker build and runtime errors in a repository.",
+      "source": ".apm/skills/cloudflare-workers-development/SKILL.md"
+    },
+    "cloudflare-zero-trust": {
+      "description": "Design, configure, troubleshoot and review Cloudflare One deployments: Access applications and policies, identity providers and SCIM, service tokens, Gateway DNS, network and HTTP policies, TLS inspection, DLP and CASB, device client enrollment, device profiles and split tunnels, Cloudflare Tunnel and private networks. Use when replacing a VPN, protecting internal or SaaS applications, filtering user traffic, or diagnosing an Access, Gateway, device client or Tunnel problem.",
+      "activation": "Use when replacing a VPN, protecting internal or SaaS applications, filtering user traffic, or diagnosing an Access, Gateway, device client or Tunnel problem.",
+      "source": ".apm/skills/cloudflare-zero-trust/SKILL.md"
+    }
+  }
+}

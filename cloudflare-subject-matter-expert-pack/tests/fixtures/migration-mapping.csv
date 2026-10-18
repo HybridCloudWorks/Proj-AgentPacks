@@ -1,0 +1,7 @@
+source_id,source_name,disposition,target,reason,security_impact,owner,owner_decision
+zia-url-001,Block gambling categories,migrated,MIG-gateway-http-block-gambling,,,,
+zia-url-002,Caution on social media,partial,MIG-gateway-http-isolate-social,No exact equivalent for caution; isolate chosen pending decision,Users no longer see a warning page,secops,accepted
+zia-ssl-001,Do not inspect banking,migrated,MIG-gateway-http-do-not-inspect-banking,,,,
+zia-dlp-001,Custom PAN engine,not_migrated,none,Custom engine must be rebuilt as a DLP profile,No PAN detection until the profile exists,dlp-team,
+zpa-seg-001,Engineering wiki segment,migrated,MIG-access-app-eng-wiki,,,,
+zpa-seg-001,Engineering wiki segment,migrated,MIG-tunnel-route-10.20.0.0/16,,,,

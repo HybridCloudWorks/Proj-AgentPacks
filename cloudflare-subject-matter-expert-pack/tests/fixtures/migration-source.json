@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {"id": "zia-url-001", "name": "Block gambling categories", "type": "url_filtering", "hit_count": 1520},
+    {"id": "zia-url-002", "name": "Caution on social media", "type": "url_filtering", "hit_count": 98110},
+    {"id": "zia-ssl-001", "name": "Do not inspect banking", "type": "ssl_inspection", "hit_count": 4410},
+    {"id": "zia-dlp-001", "name": "Custom PAN engine", "type": "dlp", "hit_count": 12},
+    {"id": "zpa-seg-001", "name": "Engineering wiki segment", "type": "app_segment", "hit_count": 30211}
+  ]
+}

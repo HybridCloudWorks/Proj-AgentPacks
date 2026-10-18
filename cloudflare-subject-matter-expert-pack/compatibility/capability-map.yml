@@ -1,0 +1,77 @@
+{
+  "name": "cloudflare-subject-matter-expert",
+  "version": "1.0.0",
+  "primary": "cloudflare-subject-matter-expert",
+  "note": "tools lists each agent's declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the vendor translations an installer applies. The canonical agent files declare no tools. Gemini has no web tool in the verified vendor facts, so the web intent is not mapped for Gemini.",
+  "agents": [
+    {
+      "name": "cloudflare-subject-matter-expert",
+      "user_invocable": true,
+      "intent": ["delegate", "edit", "read", "shell", "web"],
+      "tools": ["read", "search", "edit", "execute", "web", "agent"],
+      "claude_tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash", "WebFetch", "WebSearch", "Agent"],
+      "gemini_tools": ["read_file", "read_many_files", "grep_search", "glob", "write_file", "replace", "run_shell_command"],
+      "kiro_tools": ["read", "write", "shell", "web", "subagent"]
+    },
+    {
+      "name": "cloudflare-security-reviewer",
+      "user_invocable": false,
+      "intent": ["read", "web"],
+      "tools": ["read", "search", "web"],
+      "claude_tools": ["Read", "Grep", "Glob", "WebFetch", "WebSearch"],
+      "gemini_tools": ["read_file", "read_many_files", "grep_search", "glob"],
+      "kiro_tools": ["read", "web"]
+    },
+    {
+      "name": "cloudflare-migration-analyst",
+      "user_invocable": false,
+      "intent": ["edit", "read", "shell"],
+      "tools": ["read", "search", "edit", "execute"],
+      "claude_tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash"],
+      "gemini_tools": ["read_file", "read_many_files", "grep_search", "glob", "write_file", "replace", "run_shell_command"],
+      "kiro_tools": ["read", "write", "shell"]
+    }
+  ],
+  "skills": [
+    {"name": "cloudflare-solution-architecture", "prompt": "design-cloudflare-architecture", "bundled": ["decision-record-template.md"], "output": "Architecture brief with sourced limits, decisions and open questions."},
+    {"name": "cloudflare-workers-development", "prompt": "build-workers-application", "bundled": ["scripts/wrangler_check.py"], "output": "Worker diff, types, checker result, local tests and release notes."},
+    {"name": "cloudflare-storage-and-state", "prompt": "build-workers-application", "bundled": [], "output": "State placement, access code, migrations, concurrency tests and recovery plan."},
+    {"name": "cloudflare-agents-and-ai", "prompt": "build-agent-or-mcp-server", "bundled": [], "output": "Agent or MCP contract, code, evaluation cases and cost notes."},
+    {"name": "cloudflare-edge-delivery-and-performance", "prompt": "troubleshoot-cloudflare-issue", "bundled": [], "output": "Current state, change plan with probes, and performance findings."},
+    {"name": "cloudflare-application-security", "prompt": "secure-zone-and-apis", "bundled": [], "output": "Posture summary, findings, proposed rules and observe-then-enforce plan."},
+    {"name": "cloudflare-zero-trust", "prompt": "deploy-zero-trust-access", "bundled": [], "output": "Design or staged change set with validation cases and rollback."},
+    {"name": "cloudflare-migration-planning", "prompt": "plan-cloudflare-migration", "bundled": ["scripts/rule_accounting.py", "rule-accounting-template.md"], "output": "Accounting table, checker summary and wave plan."},
+    {"name": "cloudflare-iac-and-api-automation", "prompt": "review-cloudflare-change", "bundled": ["scripts/ruleset_guard.py"], "output": "Findings or code, ownership map, plan summary and guard output."},
+    {"name": "cloudflare-change-control", "prompt": "release-cloudflare-change", "bundled": ["change-plan-template.md"], "output": "Change plan, snapshots, verified steps and rollback status."},
+    {"name": "cloudflare-observability-and-troubleshooting", "prompt": "troubleshoot-cloudflare-issue", "bundled": [], "output": "Diagnostic report with evidence, cause and next test."}
+  ],
+  "instructions": [
+    "cloudflare-subject-matter-expert-contract.instructions.md",
+    "cloudflare-workers-config.instructions.md",
+    "cloudflare-iac.instructions.md",
+    "cloudflare-ci-deploy.instructions.md"
+  ],
+  "prompts": [
+    "design-cloudflare-architecture.prompt.md",
+    "build-workers-application.prompt.md",
+    "build-agent-or-mcp-server.prompt.md",
+    "secure-zone-and-apis.prompt.md",
+    "deploy-zero-trust-access.prompt.md",
+    "plan-cloudflare-migration.prompt.md",
+    "review-cloudflare-change.prompt.md",
+    "troubleshoot-cloudflare-issue.prompt.md",
+    "release-cloudflare-change.prompt.md"
+  ],
+  "examples": [
+    "workers-d1-queue-feature-workflow.md",
+    "remote-mcp-server-workflow.md",
+    "waf-false-positive-tuning-workflow.md",
+    "vpn-replacement-migration-workflow.md",
+    "origin-522-troubleshooting-workflow.md",
+    "gradual-worker-release-workflow.md",
+    "final-completion-report.md"
+  ],
+  "root_files": ["apm.yml", "DESCRIPTION.md", "README.md", "LICENSE", "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md"],
+  "generated_by_engine": ["AGENT-PACK-README.md", "VALIDATION_REPORT.md"],
+  "source_dirs": [".apm", "compatibility", "docs", "examples", "hooks", "templates", "tests", "tooling"]
+}

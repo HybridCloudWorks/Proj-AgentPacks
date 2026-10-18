@@ -1,0 +1,37 @@
+{
+  "outcome": "Synthetic fixture: a local-only Worker change validated by the report checker.",
+  "acceptance_criteria": [
+    {
+      "id": "rejects-oversized-body",
+      "status": "passed",
+      "evidence": "Fixture only; real run evidence belongs in the session's own report."
+    }
+  ],
+  "target_scope": "Local workspace only; no account in scope.",
+  "files_changed": ["src/index.ts", "test/index.spec.ts"],
+  "account_changes": [],
+  "decisions": "Not applicable to this synthetic fixture.",
+  "sources_consulted": ["Fixture only; no documentation retrieved."],
+  "limits_and_entitlements": "Not applicable to this synthetic fixture.",
+  "checks": [
+    {
+      "command": "npx vitest run",
+      "environment": "local",
+      "exit_code": 0,
+      "status": "passed",
+      "evidence": "Illustrative fixture; not a real command result."
+    }
+  ],
+  "security_review": "Not applicable to this synthetic fixture.",
+  "secrets_handling": "No secrets involved.",
+  "blast_radius": "None; nothing was applied.",
+  "cost_impact": "None.",
+  "observability": "Not applicable to this synthetic fixture.",
+  "rollout": "Not applicable to this synthetic fixture.",
+  "rollback": "Revert the commit.",
+  "unverified": [],
+  "remaining_risks": ["No account, zone or production behavior is established by this fixture."],
+  "followups": "None.",
+  "status": "COMPLETE_VERIFIED",
+  "session_id": "fixture"
+}

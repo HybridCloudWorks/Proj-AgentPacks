@@ -1,0 +1,32 @@
+{
+  "verified_on": "2026-10-18",
+  "note": "AI-client facts come from the repository's client-locations.md. Cloudflare URLs are the entry points agents retrieve at task time; the pack does not copy their numbers.",
+  "sources": [
+    {"id": "cloudflare-docs", "url": "https://developers.cloudflare.com/", "application": "Product documentation entry point; limits and pricing pages per product."},
+    {"id": "cloudflare-changelog", "url": "https://developers.cloudflare.com/changelog/", "application": "Recent changes to limits, features and deprecations."},
+    {"id": "workers", "url": "https://developers.cloudflare.com/workers/", "application": "Runtime APIs, bindings, static assets, compatibility dates and flags."},
+    {"id": "workers-best-practices", "url": "https://developers.cloudflare.com/workers/best-practices/workers-best-practices/", "application": "Code rules used by the Workers skill and review checklist."},
+    {"id": "wrangler", "url": "https://developers.cloudflare.com/workers/wrangler/", "application": "Commands, configuration keys, versions, gradual deployments, secrets."},
+    {"id": "durable-objects", "url": "https://developers.cloudflare.com/durable-objects/", "application": "Storage, concurrency, alarms, WebSockets, migrations."},
+    {"id": "workflows", "url": "https://developers.cloudflare.com/workflows/", "application": "Step semantics, limits and retention."},
+    {"id": "agents", "url": "https://developers.cloudflare.com/agents/", "application": "Agents SDK, MCP servers and clients, securing MCP."},
+    {"id": "workers-ai", "url": "https://developers.cloudflare.com/workers-ai/models/", "application": "Model catalog and parameters."},
+    {"id": "ai-gateway", "url": "https://developers.cloudflare.com/ai-gateway/", "application": "Provider routing, caching, rate limiting, logging."},
+    {"id": "ruleset-engine", "url": "https://developers.cloudflare.com/ruleset-engine/", "application": "Phases, rules language fields, actions and the traffic sequence."},
+    {"id": "waf", "url": "https://developers.cloudflare.com/waf/", "application": "Custom rules, managed rulesets, rate limiting."},
+    {"id": "dns", "url": "https://developers.cloudflare.com/dns/", "application": "Records, proxy status, DNSSEC, zone setups."},
+    {"id": "ssl", "url": "https://developers.cloudflare.com/ssl/", "application": "Encryption modes, edge and origin certificates."},
+    {"id": "cache", "url": "https://developers.cloudflare.com/cache/", "application": "Cache rules, keys, purge, Tiered Cache."},
+    {"id": "cloudflare-one", "url": "https://developers.cloudflare.com/cloudflare-one/", "application": "Access, Gateway, device client, Tunnel, DLP, CASB."},
+    {"id": "terraform-provider", "url": "https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs", "application": "Resources and upgrade guides; use the pinned version's documentation."},
+    {"id": "cloudflare-api", "url": "https://developers.cloudflare.com/api/", "application": "REST API reference and token permissions."},
+    {"id": "support-troubleshooting", "url": "https://developers.cloudflare.com/support/troubleshooting/", "application": "Cloudflare 5xx and 1xxx error meanings."},
+    {"id": "web-vitals", "url": "https://web.dev/articles/vitals", "application": "Core Web Vitals definitions and thresholds."},
+    {"id": "apm", "url": "https://microsoft.github.io/apm/reference/targets-matrix/", "application": "What apm install generates per target; recorded in client-locations.md."},
+    {"id": "copilot-agents", "url": "https://docs.github.com/en/copilot/reference/custom-agents-configuration", "application": "user-invocable and include-custom-instructions fields."},
+    {"id": "claude-subagents", "url": "https://code.claude.com/docs/en/sub-agents", "application": "Agent frontmatter; tools inherited when none are declared."},
+    {"id": "codex-subagents", "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents", "application": "Agent TOML fields and inherited sandbox."},
+    {"id": "kiro-agents", "url": "https://kiro.dev/docs/custom-agents/", "application": "Agent files, steering and capability tags."},
+    {"id": "gemini-subagents", "url": "https://geminicli.com/docs/core/subagents/", "application": "Agent fields and tool names."}
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "required_fields": [
+    "outcome",
+    "acceptance_criteria",
+    "target_scope",
+    "files_changed",
+    "account_changes",
+    "decisions",
+    "sources_consulted",
+    "limits_and_entitlements",
+    "checks",
+    "security_review",
+    "secrets_handling",
+    "blast_radius",
+    "cost_impact",
+    "observability",
+    "rollout",
+    "rollback",
+    "unverified",
+    "remaining_risks",
+    "followups"
+  ],
+  "statuses": [
+    "COMPLETE_VERIFIED",
+    "CHANGE_PREPARED_NOT_APPLIED",
+    "APPLIED_NOT_VERIFIED",
+    "ANALYSIS_ONLY",
+    "CHANGES_REQUIRED",
+    "BLOCKED_ON_HUMAN_DECISION"
+  ],
+  "criterion_statuses": [
+    "passed",
+    "failed",
+    "unverified"
+  ],
+  "check_fields": [
+    "command",
+    "environment",
+    "exit_code",
+    "status",
+    "evidence"
+  ],
+  "environments": [
+    "local",
+    "preview",
+    "staging",
+    "production"
+  ],
+  "approval_levels": [
+    "Level 0",
+    "Level 1",
+    "Level 2"
+  ],
+  "fallback": "The Cloudflare change is prepared, but its completion is not verified.",
+  "finding_fields": [
+    "severity",
+    "location",
+    "evidence",
+    "impact",
+    "recommended_change",
+    "blocking"
+  ],
+  "severity": [
+    "Critical",
+    "High",
+    "Medium",
+    "Low",
+    "Informational"
+  ],
+  "handoff_fields": [
+    "goal",
+    "scope",
+    "non_goals",
+    "target_scope",
+    "products",
+    "verified_facts",
+    "assumptions",
+    "relevant_files",
+    "sources_consulted",
+    "acceptance_criteria",
+    "risks",
+    "prohibited_actions",
+    "approval_state",
+    "requested_output"
+  ],
+  "specialist_return_fields": [
+    "findings",
+    "changes",
+    "checks",
+    "unverified",
+    "next_action"
+  ]
+}
