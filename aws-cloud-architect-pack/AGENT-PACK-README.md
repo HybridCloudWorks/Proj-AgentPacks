@@ -1,4 +1,4 @@
-# aws-cloud-architect 1.1.0: artifact catalog
+# aws-cloud-architect 1.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -6,6 +6,16 @@ Every file in this pack, with its purpose and location. Contents are in the file
 |---|---|---|
 | aws-cloud-architect.agent.md | Canonical agent: Senior AWS Cloud Architect for enterprise foundations, workload design, deployment, operations, migration, security, resilience, cost, and evidence-aware handoff. | .apm/agents/aws-cloud-architect.agent.md |
 | aws-cloud-architect-contract.instructions.md | Canonical instruction: Approval, handoff and completion-report rules for the aws cloud architect pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/aws-cloud-architect-contract.instructions.md |
+| create-architecture-diagram.prompt.md | Canonical prompt: Turn an approved AWS architecture into an editable Draw.io diagram, validate it structurally, semantically and visually, and report what was proven | .apm/prompts/create-architecture-diagram.prompt.md |
+| design-aws-workload.prompt.md | Canonical prompt: Design a production AWS workload from business requirements and hand it off as REQ, TOPOLOGY, CONSTRAINTS and ADR | .apm/prompts/design-aws-workload.prompt.md |
+| design-hybrid-network.prompt.md | Canonical prompt: Design or choose AWS network, hybrid and edge connectivity: VPC layout, Transit Gateway, peering, PrivateLink, Direct Connect, VPN, DNS and egress | .apm/prompts/design-hybrid-network.prompt.md |
+| design-landing-zone.prompt.md | Canonical prompt: Design a multi-account AWS landing zone: Organizations, Control Tower, OUs, guardrails, identity, logging, network hub and account vending | .apm/prompts/design-landing-zone.prompt.md |
+| plan-migration-and-dr.prompt.md | Canonical prompt: Plan an AWS migration or disaster-recovery strategy from explicit RTO and RPO, with waves, cutover, rollback and recovery testing | .apm/prompts/plan-migration-and-dr.prompt.md |
+| review-aws-cost.prompt.md | Canonical prompt: Analyze AWS architecture economics or spend and recommend measured cost and sustainability optimizations without weakening security or resilience | .apm/prompts/review-aws-cost.prompt.md |
+| review-deployment-plan.prompt.md | Canonical prompt: Review a CloudFormation, CDK or Terraform change for replacement, data loss, drift, policy widening and rollback before anyone applies it | .apm/prompts/review-deployment-plan.prompt.md |
+| review-well-architected.prompt.md | Canonical prompt: Run a Well-Architected six-pillar review, with CAF perspectives when readiness is in scope, and turn gaps into prioritized, owned actions | .apm/prompts/review-well-architected.prompt.md |
+| troubleshoot-aws-incident.prompt.md | Canonical prompt: Investigate an AWS production incident or performance problem with a read-only, hypothesis-driven loop, keeping mitigation separate from root cause | .apm/prompts/troubleshoot-aws-incident.prompt.md |
+| verify-aws-evidence.prompt.md | Canonical prompt: Verify current AWS service behavior, quotas, Region availability, pricing or CLI syntax from official sources or authorized MCP tools, and record the evidence | .apm/prompts/verify-aws-evidence.prompt.md |
 | SKILL.md | Canonical skill: Discover AWS workload requirements and turn them into explicit architecture scope, constraints, assumptions, topology, and decision inputs. | .apm/skills/aws-architecture-foundations/SKILL.md |
 | SKILL.md | Canonical skill: Produce implementation-ready AWS architecture handoffs with REQ, TOPOLOGY, CONSTRAINTS, ADRs, risks, verification criteria, and downstream ownership. | .apm/skills/aws-architecture-handoff-and-adr/SKILL.md |
 | SKILL.md | Canonical skill: Route approved AWS architecture designs into correct editable Draw.io diagrams while preserving source evidence, boundaries, flow semantics, and visual validation limits. | .apm/skills/aws-architecture-visualization/SKILL.md |
@@ -34,12 +44,26 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | vendor-sources.yml | Vendor compatibility metadata | compatibility/vendor-sources.yml |
 | DESCRIPTION.md | What the pack is for and who uses it. | DESCRIPTION.md |
 | DESIGN_DECISIONS.md | Pack contract or inventory | docs/DESIGN_DECISIONS.md |
+| PROMPT_INVENTORY.md | Pack contract or inventory | docs/PROMPT_INVENTORY.md |
+| SKILL_INVENTORY.md | Pack contract or inventory | docs/SKILL_INVENTORY.md |
 | SOURCE_TRACEABILITY.md | Pack contract or inventory | docs/SOURCE_TRACEABILITY.md |
+| architecture-diagram.md | Worked example | examples/architecture-diagram.md |
+| deployment-review-blocked.md | Worked example | examples/deployment-review-blocked.md |
+| greenfield-workload-design.md | Worked example | examples/greenfield-workload-design.md |
+| incident-troubleshooting.md | Worked example | examples/incident-troubleshooting.md |
+| landing-zone-design.md | Worked example | examples/landing-zone-design.md |
+| migration-and-dr-plan.md | Worked example | examples/migration-and-dr-plan.md |
 | architecture-review.ps1 | Hook helper script | hooks/architecture-review.ps1 |
 | README.md | Hook helper script | hooks/README.md |
 | LICENSE | License terms. | LICENSE |
 | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | The master prompt this pack was built to. | PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md |
 | README.md | How to install and use the pack. | README.md |
+| ADR.md | Reusable template | templates/ADR.md |
+| completion-report.md | Reusable template | templates/completion-report.md |
+| CONSTRAINTS.json | Reusable template | templates/CONSTRAINTS.json |
+| REQ.md | Reusable template | templates/REQ.md |
+| TOPOLOGY.json | Reusable template | templates/TOPOLOGY.json |
+| well-architected-review.md | Reusable template | templates/well-architected-review.md |
 | capability-coverage.yml | Local test or recorded evidence | tests/capability-coverage.yml |
 | minimal.drawio | Local test or recorded evidence | tests/fixtures/minimal.drawio |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
@@ -50,10 +74,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 
 ## Build outputs (dist/, not committed)
 
-- copilot-aws-cloud-architect.zip: 22 files generated by `apm install --target copilot`
-- claude-aws-cloud-architect.zip: 22 files generated by `apm install --target claude`
+- copilot-aws-cloud-architect.zip: 32 files generated by `apm install --target copilot`
+- claude-aws-cloud-architect.zip: 32 files generated by `apm install --target claude`
 - codex-aws-cloud-architect.zip: 21 files generated by `apm install --target codex`
 - kiro-aws-cloud-architect.zip: 22 files generated by `apm install --target kiro`
-- gemini-aws-cloud-architect.zip: 20 files generated by `apm install --target gemini`
+- gemini-aws-cloud-architect.zip: 30 files generated by `apm install --target gemini`
 - agent-skills-aws-cloud-architect.zip: 20 files generated by `apm install --target agent-skills`
 - aws-cloud-architect-canonical.zip, aws-cloud-architect-prompt.zip, aws-cloud-architect-validation.zip, aws-cloud-architect-skills.zip, aws-cloud-architect-full-pack.zip, SHA256SUMS.txt
