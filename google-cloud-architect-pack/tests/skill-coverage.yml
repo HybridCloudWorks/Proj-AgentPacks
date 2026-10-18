@@ -2,6 +2,21 @@
   "version": 1,
   "generated_from": ".apm/skills/*/SKILL.md",
   "skills": {
+    "diagram-validation-and-evidence": {
+      "description": "Validate Draw.io diagrams for AWS, Azure, Google Cloud, or several providers together: structure, icon currency against draw.io's current libraries, boundary semantics, and source evidence, then report static, rendered, live and unresolved results without overstating what was proven. Use when reviewing, auditing or regression-checking a diagram, or before any claim that a diagram is correct.",
+      "activation": "Use when reviewing, auditing or regression-checking a diagram, or before any claim that a diagram is correct.",
+      "source": ".apm/skills/diagram-validation-and-evidence/SKILL.md"
+    },
+    "drawio-core-generation": {
+      "description": "Create and edit native, editable Draw.io diagrams for AWS, Azure, Google Cloud, or several providers in one diagram: choose the generation path, take each provider's current icon library, and nest boundaries the way each provider scopes its networks. Use when creating or substantially editing a diagram file, choosing provider icons, or drawing account, subscription, project, region, zone, network or subnet boundaries.",
+      "activation": "Use when creating or substantially editing a diagram file, choosing provider icons, or drawing account, subscription, project, region, zone, network or subnet boundaries.",
+      "source": ".apm/skills/drawio-core-generation/SKILL.md"
+    },
+    "drawio-render-export-and-review": {
+      "description": "Export Draw.io diagrams through the installed Draw.io Desktop command line and review the rendered output for AWS, Azure, Google Cloud, or mixed diagrams: icons that failed to draw, labels, edges, boundaries and legibility. Use when exporting a diagram to PNG, SVG, PDF or JPG, inspecting a render, or troubleshooting an output that does not look right.",
+      "activation": "Use when exporting a diagram to PNG, SVG, PDF or JPG, inspecting a render, or troubleshooting an output that does not look right.",
+      "source": ".apm/skills/drawio-render-export-and-review/SKILL.md"
+    },
     "gcp-ai-agent-architecture": {
       "description": "Design generative AI and agent systems on Google Cloud - single or multi-agent patterns, model choice and endpoints on Gemini Enterprise Agent Platform, agent runtimes, memory and sessions, retrieval with RAG Engine, vector databases or search, tools and MCP servers, Model Armor and agent gateways, evaluation, quotas and monitoring. Use when designing, reviewing or productionizing an AI agent, RAG application, model-serving platform or AI-enabled workflow on Google Cloud.",
       "activation": "Use when designing, reviewing or productionizing an AI agent, RAG application, model-serving platform or AI-enabled workflow on Google Cloud.",

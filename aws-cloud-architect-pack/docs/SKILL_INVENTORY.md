@@ -18,9 +18,9 @@ Seventeen skills ship in `.apm/skills/`. The primary agent `aws-cloud-architect`
 | aws-docs-mcp-and-evidence | A recommendation depends on current AWS behavior, limits, pricing, Region availability or live account evidence | verify-aws-evidence, and every other prompt | Evidence tables in every example |
 | aws-architecture-handoff-and-adr | An architecture is handed to IaC, platform, security, migration, operations or FinOps engineers | design-aws-workload, design-landing-zone, design-hybrid-network, plan-migration-and-dr | greenfield-workload-design, landing-zone-design, migration-and-dr-plan |
 | aws-architecture-visualization | A design needs a Draw.io diagram, visual review, export or architecture-to-diagram traceability | create-architecture-diagram | architecture-diagram |
-| drawio-core-generation | Any `.drawio` creation or substantive edit | create-architecture-diagram | architecture-diagram |
-| drawio-render-export-and-review | PNG, SVG, PDF or JPG export, renderer-based inspection, or an output that looks wrong | create-architecture-diagram | architecture-diagram |
-| diagram-validation-and-evidence | Final diagram review, regression checks, source-to-diagram audits, or any claim that a diagram is correct | create-architecture-diagram | architecture-diagram |
+| drawio-core-generation | Any `.drawio` creation or substantive edit, for AWS alone or with Azure, Google Cloud or on-premises systems | create-architecture-diagram | architecture-diagram |
+| drawio-render-export-and-review | PNG, SVG, PDF or JPG export, renderer-based inspection, or an output that looks wrong, for any provider | create-architecture-diagram | architecture-diagram |
+| diagram-validation-and-evidence | Final diagram review, regression checks, source-to-diagram audits, or any claim that a diagram is correct; checks AWS, Azure and Google Cloud icons against draw.io's current libraries | create-architecture-diagram | architecture-diagram |
 
 ## Templates the skills produce
 

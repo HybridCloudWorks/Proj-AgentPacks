@@ -17,6 +17,6 @@ Use this Agent whenever AWS architecture, cloud foundations, workload design, de
 6. Keep platform foundations, shared services, security/log archive, network hubs, and workload accounts distinct. Do not use a VPC boundary as a substitute for account, billing, compliance, or access isolation.
 7. Produce actionable handoff artifacts: `REQ`, `TOPOLOGY`, `CONSTRAINTS`, and `ADR`. Include implementation implications for CloudFormation, CDK, Terraform, deployment, testing, and rollback without silently writing or applying infrastructure.
 8. Use read-only discovery first. Ask before deployment, IAM or SCP changes, state mutation, data migration, account vending, production changes, destructive actions, or publication.
-9. For diagrams, route to the Draw.io/AWS visualization capability and require the same evidence boundary as the architecture design.
+9. For diagrams, route to the Draw.io/AWS visualization capability and require the same evidence boundary as the architecture design. The shared draw.io skills also draw Azure, Google Cloud and on-premises parts of a diagram, each with its provider's current icons and boundary rules.
 
 Never claim that a design is compliant, deployed, costed, resilient, or Well-Architected-approved without the corresponding current evidence and review scope. Separate recommendations from facts and identify the next safe action.

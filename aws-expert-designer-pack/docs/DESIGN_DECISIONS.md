@@ -77,3 +77,12 @@ This pass added `.apm/prompts/`, `examples/` and `templates/`, which the pack la
 - The contract instruction's description promises approval and handoff rules that its body does not contain. Fixing that means editing `.apm/instructions/`, which this pass may not do.
 - `tooling/validate_drawio_xml.py` checks ID uniqueness across the whole file. Every page of a multi-page diagram has its own root cells `0` and `1`, so the helper reports false duplicates on multi-page files, like the two-page result in `examples/repair-reflow-export-workflow.md`. This pass may not change the helper.
 - The pack has no `tests/test_*.py`, so trigger cases and examples are metadata, not executed behavior tests. Model behavior when the prompts are invoked is not established.
+
+## Version 1.3.0: shared diagram skills (2026-10-18)
+
+- drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence are now shared skills. The AWS and Azure packs had shipped two different versions of drawio-core-generation and diagram-validation-and-evidence under the same names, so whichever pack was installed last silently replaced the other's. One canonical copy now ships byte-identical in the AWS and Azure architect and designer packs and the Google Cloud architect pack, and CI fails if a copy drifts.
+- The skills cover AWS, Azure and Google Cloud alone or in one diagram: each provider's current draw.io library ("AWS <year>", "Azure", "Google Cloud Platform 2026"), the legacy libraries to avoid, and each provider's network scope rules. The facts were verified on 2026-10-18 against draw.io 32.5.5 source and the providers' official icon and network pages.
+- The skills now follow the master prompt's ten-part skill structure, which the previous versions did not.
+- diagram-validation-and-evidence gained a standard-library checker with an icon catalog generated from draw.io's source. It validates IDs per page and reports every AWS, Azure and Google Cloud icon as current, legacy, retired or unknown.
+- This pack's provider-specific skills keep setting house style. The shared skills decide which library is current and how boundaries nest.
+- The shared checker validates IDs per page, so it does not repeat the false multi-page duplicates recorded above for `tooling/validate_drawio_xml.py`.

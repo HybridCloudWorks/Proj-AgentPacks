@@ -7,7 +7,7 @@
         <mxCell id="region" value="Azure Region" style="rounded=1;whiteSpace=wrap;html=1;container=0;fontFamily=Helvetica;fillColor=#F5F5F5;strokeColor=#0078D4;" vertex="1" parent="1">
           <mxGeometry x="40" y="40" width="420" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="app_service" value="Azure App Service" style="shape=image;aspect=fixed;html=1;image=img/lib/azure2/app_services/App_Service.svg;fontFamily=Helvetica;" vertex="1" parent="region">
+        <mxCell id="app_service" value="Azure App Service" style="shape=image;aspect=fixed;html=1;image=img/lib/azure2/app_services/App_Services.svg;fontFamily=Helvetica;" vertex="1" parent="region">
           <mxGeometry x="80" y="90" width="120" height="120" as="geometry" />
         </mxCell>
         <mxCell id="storage" value="Azure Storage" style="shape=image;aspect=fixed;html=1;image=img/lib/azure2/storage/Storage_Accounts.svg;fontFamily=Helvetica;" vertex="1" parent="region">

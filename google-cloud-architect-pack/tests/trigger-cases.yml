@@ -135,6 +135,38 @@
       "prompt": "review-architecture.prompt.md",
       "expected": "Commands classified with command_guard.py, validated with gcloud help, scoped to acme-prod with projections and limits; a compact inventory with provenance.",
       "prohibited": "Do not run Level 2 commands, print tokens or paste full IAM policies."
+    },
+    {
+      "id": "drawio-core-generation",
+      "input": "Draw our approved Cloud Run and Cloud SQL design as an editable draw.io diagram.",
+      "skills": [
+        "drawio-core-generation",
+        "diagram-validation-and-evidence"
+      ],
+      "prompt": "create-architecture-diagram.prompt.md",
+      "expected": "Cloud Run and Cloud SQL as core product icons, other products as labelled category icons from the Google Cloud Platform 2026 library, regions inside the VPC network, and validation before any correctness claim.",
+      "prohibited": "Do not use legacy console icons or add components absent from the design."
+    },
+    {
+      "id": "multi-cloud-diagram",
+      "input": "Show our GKE platform on Google Cloud connected to the payments service in AWS over Cross-Cloud Interconnect, in one diagram.",
+      "skills": [
+        "drawio-core-generation",
+        "diagram-validation-and-evidence"
+      ],
+      "prompt": "create-architecture-diagram.prompt.md",
+      "expected": "Separate Google Cloud and AWS frames with their ownership scopes, each provider's current icons, AWS subnets inside one Availability Zone, and the interconnect as a labelled edge with direction and what crosses it.",
+      "prohibited": "Do not nest AWS resources inside the Google Cloud frame or use one provider's icon for another provider's service."
+    },
+    {
+      "id": "drawio-render-export-and-review",
+      "input": "Export the network diagram to SVG and PNG for the design review deck.",
+      "skills": [
+        "drawio-render-export-and-review"
+      ],
+      "prompt": "create-architecture-diagram.prompt.md",
+      "expected": "Draw.io Desktop detected with its version, exports at explicit paths with -k, the SVG with embedded images, and a review of the render at slide size.",
+      "prohibited": "Do not overwrite the .drawio source or treat the exit code as proof of quality."
     }
   ],
   "negative_cases": [

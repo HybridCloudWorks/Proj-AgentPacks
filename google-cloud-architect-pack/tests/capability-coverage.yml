@@ -135,6 +135,30 @@
       "prompt": "review-architecture.prompt.md",
       "expected_output": "Compact inventory with command provenance, permission gaps with the role that closes each, proposed Level 2 commands with reasons, and findings when risks are visible.",
       "negative": "Level 2 command executed, unscoped list across an estate, guessed command syntax, identity switched after Permission Denied, or tokens printed."
+    },
+    {
+      "id": "drawio-core-generation",
+      "skill": "drawio-core-generation",
+      "agent": "google-cloud-architect",
+      "prompt": "create-architecture-diagram.prompt.md",
+      "expected_output": "Uncompressed .drawio file with Google Cloud Platform 2026 icons, labelled category icons, VPC network > region > subnet nesting, separate frames per provider and labelled cross-provider links.",
+      "negative": "Legacy gcp2 or console icons in new work, a VPC network drawn inside one region, a subnet inside a zone frame, or components absent from the approved design."
+    },
+    {
+      "id": "drawio-render-export-and-review",
+      "skill": "drawio-render-export-and-review",
+      "agent": "google-cloud-architect",
+      "prompt": "create-architecture-diagram.prompt.md",
+      "expected_output": "Exports at explicit paths made with -k and without --layout or --normalize, the draw.io version and commands used, and render findings including any icon drawn without its symbol.",
+      "negative": "Source overwritten, an export claimed as visual proof without being opened, or an SVG exported without embedded images."
+    },
+    {
+      "id": "diagram-validation-and-evidence",
+      "skill": "diagram-validation-and-evidence",
+      "agent": "google-cloud-architect",
+      "prompt": "create-architecture-diagram.prompt.md",
+      "expected_output": "Checker results per provider with the catalog's draw.io version, boundary and semantic findings with evidence labels, and visual results taken only from a render.",
+      "negative": "Static checks reported as visual validation, unknown icons ignored, or semantic checks passed without a source of truth."
     }
   ],
   "critical_guardrails": [
