@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "required_fields": [
+    "outcome",
+    "acceptance_criteria",
+    "deliverables",
+    "decisions",
+    "assumptions",
+    "security_posture",
+    "reliability_posture",
+    "cost_estimate",
+    "sustainability_impact",
+    "operational_impact",
+    "performance_impact",
+    "compliance_and_residency",
+    "cloud_changes",
+    "checks",
+    "unverified",
+    "remaining_risks",
+    "rollback",
+    "followups"
+  ],
+  "statuses": [
+    "COMPLETE_VERIFIED",
+    "DESIGN_READY_FOR_REVIEW",
+    "PREPARED_NOT_VERIFIED",
+    "ANALYSIS_ONLY",
+    "CHANGES_REQUIRED",
+    "BLOCKED_ON_HUMAN_DECISION"
+  ],
+  "criterion_statuses": [
+    "passed",
+    "failed",
+    "unverified"
+  ],
+  "decision_statuses": [
+    "Proposed",
+    "Accepted",
+    "Superseded",
+    "Rejected"
+  ],
+  "check_fields": [
+    "command",
+    "target",
+    "exit_code",
+    "status",
+    "evidence"
+  ],
+  "cloud_change_fields": [
+    "target",
+    "action",
+    "approval"
+  ],
+  "fallback": "The design is prepared, but completion is not verified.",
+  "finding_fields": [
+    "severity",
+    "pillar",
+    "location",
+    "evidence",
+    "impact",
+    "recommendation",
+    "blocking"
+  ],
+  "severity": [
+    "Critical",
+    "High",
+    "Medium",
+    "Low",
+    "Advisory",
+    "Question"
+  ],
+  "pillars": [
+    "security",
+    "reliability",
+    "operations",
+    "cost",
+    "performance",
+    "sustainability"
+  ],
+  "approval_levels": [
+    "Level 0",
+    "Level 1",
+    "Level 2"
+  ]
+}

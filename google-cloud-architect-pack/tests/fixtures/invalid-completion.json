@@ -1,0 +1,45 @@
+{
+  "status": "COMPLETE_VERIFIED",
+  "outcome": "Synthetic fixture: claims completion while a decision is still Proposed and a check never ran.",
+  "acceptance_criteria": [
+    {
+      "id": "AC-1 every requirement traced",
+      "status": "passed",
+      "evidence": "Fixture only."
+    }
+  ],
+  "deliverables": [
+    "solution-guide.md"
+  ],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "title": "Primary region",
+      "status": "Proposed"
+    }
+  ],
+  "assumptions": [],
+  "security_posture": "Not applicable to this synthetic fixture.",
+  "reliability_posture": "Not applicable to this synthetic fixture.",
+  "cost_estimate": "Not applicable to this synthetic fixture.",
+  "sustainability_impact": "Not applicable to this synthetic fixture.",
+  "operational_impact": "Not applicable to this synthetic fixture.",
+  "performance_impact": "Not applicable to this synthetic fixture.",
+  "compliance_and_residency": "Not applicable to this synthetic fixture.",
+  "cloud_changes": [],
+  "checks": [
+    {
+      "command": "terraform plan -input=false -out=tfplan",
+      "target": "synthetic-project",
+      "exit_code": null,
+      "status": "unverified",
+      "evidence": "No credentials were available, so the plan did not run."
+    }
+  ],
+  "unverified": [
+    "Plan against the target project."
+  ],
+  "remaining_risks": [],
+  "rollback": "Not applicable to this synthetic fixture.",
+  "followups": []
+}

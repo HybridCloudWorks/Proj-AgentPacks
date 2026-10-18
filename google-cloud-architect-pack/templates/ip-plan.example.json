@@ -1,0 +1,37 @@
+{
+  "reserved": [
+    {"name": "on-premises", "cidr": "10.0.0.0/12"},
+    {"name": "other-cloud", "cidr": "172.16.0.0/16"}
+  ],
+  "allow_overlap": [],
+  "subnets": [
+    {
+      "name": "prod-app-europe-west1",
+      "region": "europe-west1",
+      "cidr": "10.16.0.0/20",
+      "expected_hosts": 400,
+      "secondary": [
+        {"name": "prod-gke-pods", "cidr": "10.32.0.0/15"},
+        {"name": "prod-gke-services", "cidr": "10.34.0.0/20"}
+      ],
+      "gke": {"pods_range": "prod-gke-pods", "services_range": "prod-gke-services", "max_pods_per_node": 48, "max_nodes": 600, "expected_services": 1500}
+    },
+    {
+      "name": "prod-serverless-europe-west1",
+      "region": "europe-west1",
+      "cidr": "10.17.0.0/22",
+      "serverless": {"max_instances": 300}
+    },
+    {
+      "name": "nonprod-app-europe-west1",
+      "region": "europe-west1",
+      "cidr": "10.20.0.0/21",
+      "expected_hosts": 200,
+      "secondary": [
+        {"name": "nonprod-gke-pods", "cidr": "100.64.0.0/16"},
+        {"name": "nonprod-gke-services", "cidr": "10.21.0.0/22"}
+      ],
+      "gke": {"pods_range": "nonprod-gke-pods", "services_range": "nonprod-gke-services", "max_pods_per_node": 110, "max_nodes": 200, "expected_services": 500}
+    }
+  ]
+}
