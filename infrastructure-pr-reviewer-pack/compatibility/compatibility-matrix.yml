@@ -1,0 +1,29 @@
+schema_version: "1.0"
+last_verified: "2026-08-22"
+targets:
+  copilot:
+    agent: .github/agents/infrastructure-pr-reviewer.agent.md
+    skills: .github/skills/<skill-name>/SKILL.md
+    instructions: .github/instructions/infrastructure-review.instructions.md
+    permission_posture: explicit read, search, execute, web, and repository-scoped GitHub tools; no edit alias
+    code_review_setup: included
+    limitations:
+      - Copilot code review leaves Comment reviews and does not satisfy required approvals or block merging.
+  claude:
+    agent: .claude/agents/infrastructure-pr-reviewer.md
+    skills: .claude/skills/<skill-name>/SKILL.md
+    permission_posture: plan mode with write and edit tools denied
+    limitations:
+      - Native host loading must be tested in an installed Claude Code environment.
+  codex:
+    agent: .codex/agents/infrastructure-pr-reviewer.toml
+    skills: .agents/skills/<skill-name>/SKILL.md
+    permission_posture: read-only sandbox
+    limitations:
+      - APM does not preserve complete per-agent tool and MCP restrictions for Codex; use the generated native adapter and review project MCP access.
+  gemini:
+    agent: .gemini/agents/infrastructure-pr-reviewer.md
+    skills: .agents/skills/<skill-name>/SKILL.md
+    permission_posture: explicit read, search, shell, web, and activate_skill tools; no write tools
+    limitations:
+      - Microsoft APM documentation still does not deploy Gemini Agent primitives even though Gemini CLI supports native subagents; use the generated adapter.

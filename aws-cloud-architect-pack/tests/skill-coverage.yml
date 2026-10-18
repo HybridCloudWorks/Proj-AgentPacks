@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "aws-architecture-foundations": {
+      "description": "Discover AWS workload requirements and turn them into explicit architecture scope, constraints, assumptions, topology, and decision inputs.",
+      "activation": "Discover AWS workload requirements and turn them into explicit architecture scope, constraints, assumptions, topology, and decision inputs.",
+      "source": ".apm/skills/aws-architecture-foundations/SKILL.md"
+    },
+    "aws-architecture-handoff-and-adr": {
+      "description": "Produce implementation-ready AWS architecture handoffs with REQ, TOPOLOGY, CONSTRAINTS, ADRs, risks, verification criteria, and downstream ownership.",
+      "activation": "Use this Skill when an architecture must be handed to Terraform, CloudFormation, CDK, platform, security, migration, operations, or FinOps engineers.",
+      "source": ".apm/skills/aws-architecture-handoff-and-adr/SKILL.md"
+    },
+    "aws-architecture-visualization": {
+      "description": "Route approved AWS architecture designs into correct editable Draw.io diagrams while preserving source evidence, boundaries, flow semantics, and visual validation limits.",
+      "activation": "Use this Skill when a design needs a Draw.",
+      "source": ".apm/skills/aws-architecture-visualization/SKILL.md"
+    },
+    "aws-caf-landing-zones-and-governance": {
+      "description": "Design AWS Organizations, OUs, Control Tower landing zones, account vending, guardrails, shared services, logging, and governance boundaries.",
+      "activation": "Design AWS Organizations, OUs, Control Tower landing zones, account vending, guardrails, shared services, logging, and governance boundaries.",
+      "source": ".apm/skills/aws-caf-landing-zones-and-governance/SKILL.md"
+    },
+    "aws-cost-sustainability-and-finops": {
+      "description": "Make AWS architecture cost-aware and sustainable through demand modeling, cost drivers, transfer analysis, budgets, ownership, and measured optimization.",
+      "activation": "Use this Skill when selecting Regions/services, reviewing architecture economics, analyzing spend, optimizing resources, planning commitments, or addressing sustainability.",
+      "source": ".apm/skills/aws-cost-sustainability-and-finops/SKILL.md"
+    },
+    "aws-data-and-application-patterns": {
+      "description": "Design AWS serverless, event-driven, container, API, data platform, analytics, and AI application patterns with clear consistency and failure semantics.",
+      "activation": "Design AWS serverless, event-driven, container, API, data platform, analytics, and AI application patterns with clear consistency and failure semantics.",
+      "source": ".apm/skills/aws-data-and-application-patterns/SKILL.md"
+    },
+    "aws-docs-mcp-and-evidence": {
+      "description": "Retrieve current AWS documentation, API facts, service limits, Region availability, pricing, and architecture guidance through official sources or authorized MCP tools.",
+      "activation": "Use this Skill whenever a recommendation depends on current AWS behavior, limits, pricing, Region availability, SDK/CLI syntax, framework questions, or live account evidence.",
+      "source": ".apm/skills/aws-docs-mcp-and-evidence/SKILL.md"
+    },
+    "aws-iac-deployment-and-lifecycle": {
+      "description": "Turn AWS architecture into safe CloudFormation, CDK, or Terraform implementation plans with validation, change review, drift, rollback, and lifecycle controls.",
+      "activation": "Turn AWS architecture into safe CloudFormation, CDK, or Terraform implementation plans with validation, change review, drift, rollback, and lifecycle controls.",
+      "source": ".apm/skills/aws-iac-deployment-and-lifecycle/SKILL.md"
+    },
+    "aws-networking-hybrid-and-edge": {
+      "description": "Design and troubleshoot AWS VPC, routing, segmentation, Transit Gateway, Direct Connect, VPN, PrivateLink, DNS, CloudFront, and edge connectivity.",
+      "activation": "Design and troubleshoot AWS VPC, routing, segmentation, Transit Gateway, Direct Connect, VPN, PrivateLink, DNS, CloudFront, and edge connectivity.",
+      "source": ".apm/skills/aws-networking-hybrid-and-edge/SKILL.md"
+    },
+    "aws-operations-observability-and-troubleshooting": {
+      "description": "Design AWS operating models and investigate incidents using CloudWatch, CloudTrail, Config, VPC telemetry, service events, runbooks, and evidence-aware troubleshooting.",
+      "activation": "Design AWS operating models and investigate incidents using CloudWatch, CloudTrail, Config, VPC telemetry, service events, runbooks, and evidence-aware troubleshooting.",
+      "source": ".apm/skills/aws-operations-observability-and-troubleshooting/SKILL.md"
+    },
+    "aws-resilience-dr-and-migration": {
+      "description": "Design AWS availability, backup, disaster recovery, migration, modernization, cutover, rollback, and recovery-testing strategies from explicit RTO and RPO.",
+      "activation": "Design AWS availability, backup, disaster recovery, migration, modernization, cutover, rollback, and recovery-testing strategies from explicit RTO and RPO.",
+      "source": ".apm/skills/aws-resilience-dr-and-migration/SKILL.md"
+    },
+    "aws-security-identity-and-compliance": {
+      "description": "Design AWS identity, authorization, network and data protection, detection, incident response, and compliance controls using shared-responsibility boundaries.",
+      "activation": "Design AWS identity, authorization, network and data protection, detection, incident response, and compliance controls using shared-responsibility boundaries.",
+      "source": ".apm/skills/aws-security-identity-and-compliance/SKILL.md"
+    },
+    "aws-well-architected-and-frameworks": {
+      "description": "Evaluate AWS designs with the Well-Architected six pillars and Cloud Adoption Framework perspectives, turning gaps into prioritized actions instead of checklist theater.",
+      "activation": "Evaluate AWS designs with the Well-Architected six pillars and Cloud Adoption Framework perspectives, turning gaps into prioritized actions instead of checklist theater.",
+      "source": ".apm/skills/aws-well-architected-and-frameworks/SKILL.md"
+    },
+    "aws-workload-and-service-selection": {
+      "description": "Select and compose AWS compute, containers, serverless, storage, databases, messaging, and managed services from workload requirements and operational constraints.",
+      "activation": "Select and compose AWS compute, containers, serverless, storage, databases, messaging, and managed services from workload requirements and operational constraints.",
+      "source": ".apm/skills/aws-workload-and-service-selection/SKILL.md"
+    },
+    "diagram-validation-and-evidence": {
+      "description": "Validate Draw.io structure and AWS diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "activation": "Validate Draw.io structure and AWS diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "source": ".apm/skills/diagram-validation-and-evidence/SKILL.md"
+    },
+    "drawio-core-generation": {
+      "description": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "activation": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "source": ".apm/skills/drawio-core-generation/SKILL.md"
+    },
+    "drawio-render-export-and-review": {
+      "description": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "activation": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "source": ".apm/skills/drawio-render-export-and-review/SKILL.md"
+    }
+  }
+}

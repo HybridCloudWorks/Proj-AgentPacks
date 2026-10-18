@@ -1,0 +1,14 @@
+# Declared tool permissions per agent (source of truth for vendor-specific generation).
+# APM copies the agents' frontmatter verbatim and does not translate tool names, so the
+# canonical agents omit `tools` and inherit the host's tools. Installers that generate
+# vendor files themselves map these intents: read, edit, shell, web, delegate, todo, mcp.
+version: 1
+agents:
+  agent-evaluation-engineer:
+    intent: [edit, read, shell, web]
+  typescript-distinguished-engineer:
+    intent: [edit, mcp, read, shell, web]
+  typescript-security-reviewer:
+    intent: [read, shell, web]
+  typescript-test-engineer:
+    intent: [edit, read, shell, web]

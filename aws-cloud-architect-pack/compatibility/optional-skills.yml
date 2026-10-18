@@ -1,0 +1,14 @@
+pack: aws-cloud-architect
+local_catalog_root: C:\Users\saulp\OneDrive\Desktop\Final\optional files\skills
+route_only_when_available:
+  foundation: [aws-iam, aws-networking, aws-compute, aws-database]
+  iac: [aws-cdk, aws-cloudformation, infrastructure-terraform]
+  deployment: [aws-deployment, aws-transform]
+  serverless: [aws-serverless, connecting-lambda-to-api-gateway, connecting-lambda-to-dynamodb]
+  containers: [aws-containers, kubernetes-skill]
+  data_and_messaging: [aws-messaging-and-streaming, ingesting-into-data-lake, querying-data-lake]
+  operations: [aws-observability, aws-network-monitoring, querying-aws-cloudwatch]
+  networking: [transitgateway, directconnect, route53, cloudfront, sitetositevpn]
+  security: [securing-aws-iam-permissions, securing-s3-buckets, securing-api-gateway-with-aws-waf, detecting-cloud-threats-with-guardduty]
+  cost: [aws-billing-and-cost-management, aws-cost-explorer-analyst, workload-cost-optimizer, cross-az-egress-investigator]
+  visualization: [aws-architecture-diagram]

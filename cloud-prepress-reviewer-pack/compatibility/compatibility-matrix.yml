@@ -1,0 +1,17 @@
+pack: cloud-prepress-reviewer
+targets:
+  github-copilot:
+    agent_path: .github/agents/cloud-prepress-reviewer.agent.md
+    skill_root: .agents/skills
+  claude-code:
+    agent_path: .claude/agents/cloud-prepress-reviewer.md
+    skill_root: .claude/skills
+  openai-codex:
+    agent_path: .codex/agents/cloud-prepress-reviewer.toml
+    skill_root: .agents/skills
+  gemini-cli:
+    agent_path: .gemini/agents/cloud-prepress-reviewer.md
+    skill_root: .agents/skills
+  canonical-apm:
+    agent_path: .apm/agents/cloud-prepress-reviewer.agent.md
+    skill_root: .apm/skills

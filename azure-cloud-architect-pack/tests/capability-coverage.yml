@@ -1,0 +1,31 @@
+pack: azure-cloud-architect
+required_capabilities:
+  - structured_requirements_and_architecture_handoff
+  - well_architected_five_pillars
+  - caf_and_alz_governance
+  - tenant_management_group_subscription_boundaries
+  - security_identity_and_compliance
+  - networking_hybrid_and_edge
+  - workload_service_selection
+  - data_application_and_integration_patterns
+  - resilience_dr_migration_and_recovery
+  - iac_avm_repo_standardization_and_deployment_lifecycle
+  - operations_observability_and_troubleshooting
+  - cost_sustainability_and_finops
+  - official_docs_and_mcp_evidence
+  - drawio_visualization_routing
+skill_map:
+  azure-architecture-foundations: [structured_requirements_and_architecture_handoff]
+  azure-well-architected-and-frameworks: [well_architected_five_pillars]
+  azure-caf-landing-zones-and-governance: [caf_and_alz_governance, tenant_management_group_subscription_boundaries]
+  azure-security-identity-and-compliance: [security_identity_and_compliance]
+  azure-networking-hybrid-and-edge: [networking_hybrid_and_edge]
+  azure-workload-and-service-selection: [workload_service_selection]
+  azure-data-and-application-patterns: [data_application_and_integration_patterns]
+  azure-resilience-dr-and-migration: [resilience_dr_migration_and_recovery]
+  azure-iac-avm-and-repo-standardization: [iac_avm_repo_standardization_and_deployment_lifecycle]
+  azure-deployment-and-lifecycle: [iac_avm_repo_standardization_and_deployment_lifecycle]
+  azure-operations-observability-and-troubleshooting: [operations_observability_and_troubleshooting]
+  azure-cost-sustainability-and-finops: [cost_sustainability_and_finops]
+  azure-docs-mcp-and-evidence: [official_docs_and_mcp_evidence]
+  azure-architecture-visualization: [drawio_visualization_routing]

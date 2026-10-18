@@ -1,0 +1,14 @@
+pack: azure-cloud-architect
+local_catalog_root: C:\Users\saulp\OneDrive\Desktop\Final\optional files\skills
+route_only_when_available:
+  foundation: [azure-enterprise-infra-planner, azure-resource-lookup, azure-prepare]
+  iac: [azure-verified-modules, infrastructure-terraform]
+  deployment: [azure-deploy, azure-validate]
+  workload: [azure-compute, azure-kubernetes, azure-storage, azure-messaging]
+  data_and_ai: [azure-ai, azure-kusto]
+  operations: [azure-diagnostics, azure-reliability]
+  networking: [azure-networking, azure-private-link]
+  security: [azure-compliance, azure-aigateway]
+  cost: [azure-cost]
+  migration: [azure-cloud-migrate]
+  visualization: [azure2-architecture-diagram, azure-resource-visualizer]

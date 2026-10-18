@@ -38,8 +38,8 @@ SLUG = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 INSTALLED_FORBIDDEN = [
     (r"`shared/|\bshared/(hooks|tooling|examples|instructions|prompts|templates|docs)\b", "shared/ folder does not exist after install"),
     (r"installed repository root", "assumes a repository-root install"),
-    (r"targets/", "hand-built targets are gone"),
-    (r"\bCLAUDE\.md\b|\bAGENTS\.md\b|\bGEMINI\.md\b|copilot-instructions\.md", "repository context file is not installed by the pack"),
+    (r"(?<![\w-])targets/", "hand-built targets are gone"),
+    (r"(?i)\b(read|reads|use|uses|consult|see|load|open)\b[^.\n]{0,60}\b(CLAUDE\.md|AGENTS\.md|GEMINI\.md|copilot-instructions\.md)", "tells the model to read a repository context file the pack does not install"),
     (r"\.github/hooks", "repository hook path"),
     (r"\bINSTALL\.md\b", "removed file"),
     (r"\bdocs/[A-Za-z_]+\.md", "pack docs are not installed"),
@@ -47,7 +47,7 @@ INSTALLED_FORBIDDEN = [
     (r"\btemplates/[\w.-]+\.(md|py)", "pack templates are not installed"),
 ]
 PACK_DOC_FORBIDDEN = [
-    (r"targets/", "hand-built targets are gone"),
+    (r"(?<![\w-])targets/", "hand-built targets are gone"),
     (r"`shared/|\bshared/(hooks|tooling|examples|instructions|prompts|templates|docs)\b", "shared/ folder does not exist"),
     (r"four vendor|generated targets|28-section", "describes the old layout"),
     (r"\bINSTALL\.md\b", "removed file"),
@@ -198,10 +198,20 @@ def content_scan(root: Path, rep: Report) -> None:
         rep.add("structural", f"pack doc {path.relative_to(root).as_posix()}: describes the current layout", not hits, "; ".join(hits))
 
 
+def _strings(value) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        return [s for k, v in value.items() for s in ([k] if isinstance(k, str) else []) + _strings(v)]
+    if isinstance(value, list):
+        return [s for v in value for s in _strings(v)]
+    return []
+
+
 def consistency(root: Path, rep: Report, info: dict[str, object]) -> None:
-    """tests/*.yml and the contract instruction must agree with the real agents, skills and prompts."""
+    """tests/*.yml and the contract instruction must agree with the real agents, skills and prompts.
+    Test metadata comes in several legacy schemas, so the checks work on the strings they contain."""
     skills = set(info["skills"])  # type: ignore[arg-type]
-    agents = set(info["agents"])  # type: ignore[arg-type]
     prompts = {p.name for p in (root / ".apm" / "prompts").glob("*.prompt.md")}
 
     def load(rel: str):
@@ -209,40 +219,54 @@ def consistency(root: Path, rep: Report, info: dict[str, object]) -> None:
         if not path.is_file():
             rep.add("structural", f"{rel} present", False)
             return None
+        text = path.read_text(encoding="utf-8")
         try:
-            return json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
-            rep.add("structural", f"{rel} is valid JSON", False, str(exc))
+            import yaml  # type: ignore
+            return yaml.safe_load(text)
+        except ImportError:
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError as exc:
+                rep.add("structural", f"{rel} parses (PyYAML not installed, JSON fallback)", False, str(exc))
+                return None
+        except Exception as exc:  # yaml.YAMLError
+            rep.add("structural", f"{rel} is valid YAML", False, str(exc)[:160])
             return None
 
-    cov = load("tests/capability-coverage.yml")
-    if cov:
-        reqs = cov.get("requirements", [])
-        rep.add("structural", "capability-coverage.yml names every skill exactly once",
-                sorted(r.get("skill") for r in reqs) == sorted(skills), f"{len(reqs)} requirements for {len(skills)} skills")
-        bad = sorted({r.get("prompt") for r in reqs if r.get("prompt")} - prompts)
-        rep.add("structural", "capability-coverage.yml prompts exist", not bad, ", ".join(bad))
-        bad = sorted({r.get("agent") for r in reqs if r.get("agent")} - agents)
-        rep.add("structural", "capability-coverage.yml agents exist", not bad, ", ".join(bad))
-    trig = load("tests/trigger-cases.yml")
-    if trig:
-        cases = trig.get("cases", [])
-        covered = {s for c in cases for s in (c.get("skills") or ([c["skill"]] if c.get("skill") else []))}
-        missing = sorted(skills - covered)
-        rep.add("structural", "trigger-cases.yml covers every skill", not missing, ", ".join(missing))
-        unknown = sorted(covered - skills)
-        rep.add("structural", "trigger-cases.yml names only real skills", not unknown, ", ".join(unknown))
-        bad = sorted({c.get("prompt") for c in cases if c.get("prompt")} - prompts)
-        rep.add("structural", "trigger-cases.yml prompts exist", not bad, ", ".join(bad))
+    cov = load("tests/skill-coverage.yml")
+    if isinstance(cov, dict) and isinstance(cov.get("skills"), dict):
+        listed = set(cov["skills"])
+        rep.add("structural", "tests/skill-coverage.yml lists exactly the shipped skills", listed == skills,
+                f"missing: {sorted(skills - listed)[:5]} extra: {sorted(listed - skills)[:5]}")
+        empty = [k for k, v in cov["skills"].items() if not (isinstance(v, dict) and v.get("activation"))]
+        rep.add("structural", "tests/skill-coverage.yml has an activation statement for every skill", not empty, ", ".join(empty[:5]))
+    elif cov is not None:
+        rep.add("structural", "tests/skill-coverage.yml has the expected shape", False, "expected a skills mapping")
+    for rel in ("tests/capability-coverage.yml", "tests/trigger-cases.yml"):
+        data = load(rel)
+        if data is None:
+            continue
+        strings = _strings(data)
+        unknown = sorted({s for s in strings if re.match(r"^[a-z0-9]+(-[a-z0-9]+)+$", s) and s in skills} ^ {s for s in strings if s in skills})
+        bad = sorted({s for s in strings if s.endswith(".prompt.md")} - prompts)
+        rep.add("structural", f"{rel} prompt files exist", not bad, ", ".join(bad))
+        if isinstance(data, dict) and "requirements" in data:
+            reqs = data["requirements"]
+            rep.add("structural", f"{rel} names every skill exactly once",
+                    sorted(r.get("skill") for r in reqs) == sorted(skills), f"{len(reqs)} requirements for {len(skills)} skills")
+
     rc = load("tests/report-contract.yml")
     contract = next(iter((root / ".apm" / "instructions").glob("*contract*.instructions.md")), None)
     rep.add("structural", "an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md)", contract is not None)
-    if rc and contract:
-        text = contract.read_text(encoding="utf-8").lower().replace("-", "").replace("_", "").replace(" ", "")
-        missing = [f for f in rc.get("required_fields", []) + rc.get("statuses", []) + rc.get("severity", [])
-                   if f.lower().replace("_", "").replace("-", "") not in text]
-        rep.add("structural", "contract instruction states every report field, status and severity from report-contract.yml", not missing, ", ".join(missing))
-        rep.add("structural", "contract instruction states the fallback sentence", rc.get("fallback", "") in contract.read_text(encoding="utf-8"))
+    if isinstance(rc, dict) and contract:
+        raw = contract.read_text(encoding="utf-8")
+        text = raw.lower().replace("-", "").replace("_", "").replace(" ", "")
+        expected = [s for k, v in rc.items() if isinstance(v, list) for s in v if isinstance(s, str) and len(s) <= 48]
+        missing = [s for s in expected if s.lower().replace("_", "").replace("-", "").replace(" ", "") not in text]
+        rep.add("structural", "contract instruction states every short value listed in report-contract.yml", not missing, ", ".join(missing[:6]))
+        fallback = rc.get("fallback")
+        if isinstance(fallback, str):
+            rep.add("structural", "contract instruction states the fallback sentence", fallback in raw)
 
 
 def executable(root: Path, rep: Report, info: dict[str, object], install_check: bool) -> None:

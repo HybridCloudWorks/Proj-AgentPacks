@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "assess-apple-runtime-quality": {
+      "description": "Assess Apple-platform changes for UI stalls, excessive work, memory or resource leaks, rendering churn, unbounded growth, network and storage inefficiency, battery or thermal risk, unsafe retries, weak failure handling, sensitive or noisy logging, and missing observability. Use when reviewing hot paths, main-actor work, lists, media, networking, persistence, background tasks, timers, notifications, logging, metrics, or performance-sensitive code.",
+      "activation": "Use when reviewing hot paths, main-actor work, lists, media, networking, persistence, background tasks, timers, notifications, logging, metrics, or performance-sensitive code.",
+      "source": ".apm/skills/assess-apple-runtime-quality/SKILL.md"
+    },
+    "assess-apple-security-privacy": {
+      "description": "Assess Apple-platform code and configuration for trust-boundary failures, authentication or authorization bypass, secret exposure, unsafe storage or networking, WebKit and deep-link attacks, entitlement misuse, permission problems, privacy-manifest gaps, sensitive logging, and App Store security or privacy risk. Use when changes handle user or external input, identity, credentials, personal data, files, URLs, network calls, Keychain, permissions, entitlements, extensions, or third-party SDKs.",
+      "activation": "Use when changes handle user or external input, identity, credentials, personal data, files, URLs, network calls, Keychain, permissions, entitlements, extensions, or third-party SDKs.",
+      "source": ".apm/skills/assess-apple-security-privacy/SKILL.md"
+    },
+    "assess-apple-ui-accessibility": {
+      "description": "Assess SwiftUI, UIKit, and AppKit changes for lifecycle and state defects, navigation errors, invalid update flow, adaptive-layout failures, localization problems, input and focus issues, and accessibility regressions. Use when reviewing views, view controllers, scenes, windows, navigation, forms, lists, gestures, custom controls, animations, or UI tests; do not use for visual taste or product-design changes unsupported by requirements.",
+      "activation": "Use when reviewing views, view controllers, scenes, windows, navigation, forms, lists, gestures, custom controls, animations, or UI tests; do not use for visual taste or product-design changes unsupported by requirements.",
+      "source": ".apm/skills/assess-apple-ui-accessibility/SKILL.md"
+    },
+    "inspect-swift-correctness": {
+      "description": "Inspect Swift and Objective-C-interoperable code for behavioral defects, unsafe state, optional and error misuse, ARC ownership problems, concurrency violations, API-design hazards, and data-integrity risks. Use when reviewing Swift source, async or actor code, closures, protocols, persistence models, collection or string logic, or Objective-C and C boundaries; do not use for UI-only layout or build-system analysis.",
+      "activation": "Use when reviewing Swift source, async or actor code, closures, protocols, persistence models, collection or string logic, or Objective-C and C boundaries; do not use for UI-only layout or build-system analysis.",
+      "source": ".apm/skills/inspect-swift-correctness/SKILL.md"
+    },
+    "review-apple-code": {
+      "description": "Review an Apple-platform code change end to end and produce a severity-classified, evidence-based, handoff-ready report. Use for Swift, SwiftUI, UIKit, AppKit, Objective-C interoperability, Xcode, SwiftPM, Apple CI, pull requests, branch diffs, feature or bug-fix reviews, refactors, security or performance changes, and audits of AI-generated Apple code; do not use for implementing fixes or broad documentation cleanup.",
+      "activation": "Review an Apple-platform code change end to end and produce a severity-classified, evidence-based, handoff-ready report",
+      "source": ".apm/skills/review-apple-code/SKILL.md"
+    },
+    "verify-apple-build-tests": {
+      "description": "Verify the build, test, dependency, configuration, signing-input, and CI evidence for Apple-platform changes. Use when reviewing Xcode projects or workspaces, Swift packages, schemes, build settings, XCTest or Swift Testing, XCUITest, dependency locks, entitlements, Info.plist, privacy manifests, xcconfig, CI workflows, archives, or release readiness; do not claim Apple app validation when macOS and the required Xcode toolchain are unavailable.",
+      "activation": "Use when reviewing Xcode projects or workspaces, Swift packages, schemes, build settings, XCTest or Swift Testing, XCUITest, dependency locks, entitlements, Info.",
+      "source": ".apm/skills/verify-apple-build-tests/SKILL.md"
+    }
+  }
+}

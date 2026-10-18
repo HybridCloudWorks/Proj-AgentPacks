@@ -1,0 +1,30 @@
+pack: aws-cloud-architect
+required_capabilities:
+  - structured_requirements_and_architecture_handoff
+  - well_architected_six_pillars
+  - caf_six_perspectives
+  - multi_account_landing_zone_governance
+  - security_identity_and_compliance
+  - networking_hybrid_and_edge
+  - workload_service_selection
+  - data_application_and_integration_patterns
+  - resilience_dr_migration_and_recovery
+  - iac_deployment_drift_and_rollback
+  - operations_observability_and_troubleshooting
+  - cost_sustainability_and_finops
+  - official_docs_and_mcp_evidence
+  - drawio_visualization_routing
+skill_map:
+  aws-architecture-foundations: [structured_requirements_and_architecture_handoff]
+  aws-well-architected-and-frameworks: [well_architected_six_pillars, caf_six_perspectives]
+  aws-caf-landing-zones-and-governance: [multi_account_landing_zone_governance]
+  aws-security-identity-and-compliance: [security_identity_and_compliance]
+  aws-networking-hybrid-and-edge: [networking_hybrid_and_edge]
+  aws-workload-and-service-selection: [workload_service_selection]
+  aws-data-and-application-patterns: [data_application_and_integration_patterns]
+  aws-resilience-dr-and-migration: [resilience_dr_migration_and_recovery]
+  aws-iac-deployment-and-lifecycle: [iac_deployment_drift_and_rollback]
+  aws-operations-observability-and-troubleshooting: [operations_observability_and_troubleshooting]
+  aws-cost-sustainability-and-finops: [cost_sustainability_and_finops]
+  aws-docs-mcp-and-evidence: [official_docs_and_mcp_evidence]
+  aws-architecture-visualization: [drawio_visualization_routing]

@@ -28,6 +28,6 @@ Report status as one of: COMPLETE_VERIFIED, IMPLEMENTATION_PREPARED_NOT_VERIFIED
 
 Cover each of: outcome, acceptance criteria (each passed, failed or unverified), files changed, decisions, public contract impact, dependency impact, data migration impact, checks (command, exit code, status, evidence), security review, observability impact, operational impact, performance impact, cost impact, compatibility, unverified items, remaining risks, rollback, follow-ups.
 
-Review findings carry severity (Blocker, High, Medium, Low, Suggestion, Question), location, evidence, impact, recommended change and whether they block.
+Review findings carry severity (Blocker, High, Medium, Low, Suggestion, Question), location, evidence, impact, recommended change and a blocking flag.
 
 When required validation is unavailable, say exactly: "Implementation is prepared, but completion is not verified." Analysis-only work is reported as analysis. Never describe an unexecuted check as passed.

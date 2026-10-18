@@ -1,0 +1,10 @@
+snapshot_date: 2026-08-22
+sources:
+  gh_aw_overview: https://github.github.com/gh-aw/introduction/overview/
+  gh_aw_creation: https://github.com/github/gh-aw/blob/main/docs/src/content/docs/setup/creating-workflows.mdx
+  gh_aw_frontmatter: https://github.github.com/gh-aw/reference/frontmatter/
+  gh_aw_compilation: https://github.github.com/gh-aw/reference/compilation-process/
+  gh_aw_safe_outputs: https://github.github.com/gh-aw/reference/safe-outputs/
+  gh_aw_observability: https://github.github.com/gh-aw/guides/open-telemetry/
+  github_actions_permissions: https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication
+  apm: https://microsoft.github.io/apm/

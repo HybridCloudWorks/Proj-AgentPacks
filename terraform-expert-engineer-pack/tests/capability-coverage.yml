@@ -1,0 +1,22 @@
+pack: terraform-expert-engineer
+required_capabilities:
+  - terraform_language_and_hcl_style
+  - modules_and_safe_refactoring
+  - remote_state_and_locking
+  - s3_and_azure_storage_backends
+  - hcp_terraform_and_stacks
+  - terraform_tests_and_mocks
+  - policy_and_governance
+  - ci_cd_and_plan_quality
+  - provider_development
+  - azure_verified_modules
+skill_map:
+  terraform-core-and-style: [terraform_language_and_hcl_style]
+  terraform-modules-and-refactoring: [modules_and_safe_refactoring]
+  terraform-state-backends-and-imports: [remote_state_and_locking, s3_and_azure_storage_backends]
+  terraform-cloud-and-stacks: [hcp_terraform_and_stacks]
+  terraform-testing-and-validation: [terraform_tests_and_mocks]
+  terraform-policy-and-governance: [policy_and_governance]
+  terraform-ci-cd-and-quality: [ci_cd_and_plan_quality]
+  terraform-provider-development: [provider_development]
+  azure-verified-modules: [azure_verified_modules]

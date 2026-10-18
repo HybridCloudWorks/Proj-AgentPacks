@@ -1,0 +1,29 @@
+pack: typescript-distinguished-engineer
+canonical:
+  agents: .apm/agents
+  skills: .apm/skills
+targets:
+  github-copilot:
+    agents: .github/agents
+    skills: .agents/skills
+    instructions: .github/instructions
+    prompts: .github/prompts
+  claude-code:
+    agents: .claude/agents
+    skills: .claude/skills
+    shared_instructions: instructions
+    prompts: prompts
+  openai-codex:
+    agents: .codex/agents
+    skills: .agents/skills
+    shared_instructions: instructions
+    prompts: prompts
+  gemini-cli:
+    agents: .gemini/agents
+    skills: .agents/skills
+    shared_instructions: instructions
+    prompts: prompts
+notes:
+  - Vendor-native frontmatter and agent files are generated from canonical agents.
+  - Copilot also receives .github/skills/README.md as a compatibility pointer; .agents/skills is the discoverable Skills location.
+  - Host permissions and live side-effect controls remain host-specific.

@@ -1,0 +1,14 @@
+pack: github-expert-engineer
+targets:
+  github-copilot:
+    agent: .github/agents/github-expert-engineer.agent.md
+    skills: .agents/skills
+  claude-code:
+    agent: .claude/agents/github-expert-engineer.md
+    skills: .claude/skills
+  openai-codex:
+    agent: .codex/agents/github-expert-engineer.toml
+    skills: .agents/skills
+  gemini-cli:
+    agent: .gemini/agents/github-expert-engineer.md
+    skills: .agents/skills

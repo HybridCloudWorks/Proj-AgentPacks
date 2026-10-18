@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "azure-verified-modules": {
+      "description": "Develop or review Azure Terraform modules against current Azure Verified Modules requirements, with focused checks for registry references, providers, interfaces, tests, documentation, and upgrade safety.",
+      "activation": "Use this Skill when an Azure Terraform module is intended to consume or meet Azure Verified Modules (AVM) requirements.",
+      "source": ".apm/skills/azure-verified-modules/SKILL.md"
+    },
+    "terraform-ci-cd-and-quality": {
+      "description": "Build and review Terraform CI/CD pipelines with formatting, validation, tests, lint, security, plan artifacts, approval gates, and controlled apply.",
+      "activation": "Build and review Terraform CI/CD pipelines with formatting, validation, tests, lint, security, plan artifacts, approval gates, and controlled apply.",
+      "source": ".apm/skills/terraform-ci-cd-and-quality/SKILL.md"
+    },
+    "terraform-cloud-and-stacks": {
+      "description": "Work with HCP Terraform and Terraform Enterprise workspaces, remote runs, variables, policies, run tasks, registries, Stacks, deployments, and linked outputs.",
+      "activation": "Work with HCP Terraform and Terraform Enterprise workspaces, remote runs, variables, policies, run tasks, registries, Stacks, deployments, and linked outputs.",
+      "source": ".apm/skills/terraform-cloud-and-stacks/SKILL.md"
+    },
+    "terraform-core-and-style": {
+      "description": "Author, review, and validate ordinary Terraform and HCL configuration, provider requirements, dependency locks, variables, outputs, expressions, and secure style.",
+      "activation": "Author, review, and validate ordinary Terraform and HCL configuration, provider requirements, dependency locks, variables, outputs, expressions, and secure style.",
+      "source": ".apm/skills/terraform-core-and-style/SKILL.md"
+    },
+    "terraform-modules-and-refactoring": {
+      "description": "Design, review, version, test, publish, and safely refactor Terraform modules without breaking state addresses or consumer contracts.",
+      "activation": "Design, review, version, test, publish, and safely refactor Terraform modules without breaking state addresses or consumer contracts.",
+      "source": ".apm/skills/terraform-modules-and-refactoring/SKILL.md"
+    },
+    "terraform-policy-and-governance": {
+      "description": "Author, convert, test, and review Terraform policy controls using Sentinel, tfpolicy, and CI policy checks with explicit enforcement boundaries.",
+      "activation": "Author, convert, test, and review Terraform policy controls using Sentinel, tfpolicy, and CI policy checks with explicit enforcement boundaries.",
+      "source": ".apm/skills/terraform-policy-and-governance/SKILL.md"
+    },
+    "terraform-provider-development": {
+      "description": "Scaffold, implement, test, debug, and publish Terraform providers with the Terraform Plugin Framework and Go when provider development is in scope.",
+      "activation": "Scaffold, implement, test, debug, and publish Terraform providers with the Terraform Plugin Framework and Go when provider development is in scope.",
+      "source": ".apm/skills/terraform-provider-development/SKILL.md"
+    },
+    "terraform-state-backends-and-imports": {
+      "description": "Design and operate Terraform remote state, S3 and Azure Storage backends, locking, migrations, state recovery, Terraform Search, and safe imports.",
+      "activation": "Use this Skill whenever a task mentions state, backend, locking, S3, Azure Storage, azurerm backend, remote backend, Terraform Search, import, state migration, state mv, state rm, or force-unlock.",
+      "source": ".apm/skills/terraform-state-backends-and-imports/SKILL.md"
+    },
+    "terraform-testing-and-validation": {
+      "description": "Create and run Terraform validation, unit, plan, mock, integration, and provider acceptance tests while controlling credentials, cost, and cleanup risk.",
+      "activation": "Create and run Terraform validation, unit, plan, mock, integration, and provider acceptance tests while controlling credentials, cost, and cleanup risk.",
+      "source": ".apm/skills/terraform-testing-and-validation/SKILL.md"
+    }
+  }
+}

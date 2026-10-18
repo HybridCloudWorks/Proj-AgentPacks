@@ -1,0 +1,19 @@
+pack: aws-cloud-architect
+official:
+  well_architected:
+    url: https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html
+  cloud_adoption_framework:
+    url: https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-cloud-transformation/introduction.html
+  aws_knowledge_mcp:
+    url: https://awslabs.github.io/mcp/servers/aws-knowledge-mcp-server
+  aws_mcp_server:
+    url: https://docs.aws.amazon.com/aws-mcp/latest/userguide/understanding-mcp-server-tools.html
+integrations:
+  - aws-cli
+  - aws-knowledge-mcp-server
+  - aws-mcp-server
+  - aws-iac-mcp-server
+  - aws-pricing-mcp-server
+  - cloudwatch-mcp-server
+  - cloudtrail-mcp-server
+  - well-architected-security-mcp-server

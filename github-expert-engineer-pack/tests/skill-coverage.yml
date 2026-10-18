@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "github-actions-debugging-and-troubleshooting": {
+      "description": "Diagnose GitHub Actions workflow discovery, trigger, queue, permission, runner, expression, dependency, artifact, cache, and log failures.",
+      "activation": "Diagnose GitHub Actions workflow discovery, trigger, queue, permission, runner, expression, dependency, artifact, cache, and log failures.",
+      "source": ".apm/skills/github-actions-debugging-and-troubleshooting/SKILL.md"
+    },
+    "github-actions-workflows-and-security": {
+      "description": "Author and audit GitHub Actions workflows, reusable workflows, composite actions, permissions, action pins, OIDC, expressions, runners, artifacts, caches, and supply-chain controls.",
+      "activation": "Author and audit GitHub Actions workflows, reusable workflows, composite actions, permissions, action pins, OIDC, expressions, runners, artifacts, caches, and supply-chain controls.",
+      "source": ".apm/skills/github-actions-workflows-and-security/SKILL.md"
+    },
+    "github-api-cli-and-mcp-operations": {
+      "description": "Use GitHub CLI, REST, GraphQL, GitHub Apps, and MCP safely with narrow scope, pagination, rate-limit awareness, redaction, and mutation gates.",
+      "activation": "Use GitHub CLI, REST, GraphQL, GitHub Apps, and MCP safely with narrow scope, pagination, rate-limit awareness, redaction, and mutation gates.",
+      "source": ".apm/skills/github-api-cli-and-mcp-operations/SKILL.md"
+    },
+    "github-apps-tokens-and-webhooks": {
+      "description": "Design and audit GitHub Apps, fine-grained tokens, OAuth, webhooks, event delivery, permissions, installation scope, and secret-safe integrations.",
+      "activation": "Design and audit GitHub Apps, fine-grained tokens, OAuth, webhooks, event delivery, permissions, installation scope, and secret-safe integrations.",
+      "source": ".apm/skills/github-apps-tokens-and-webhooks/SKILL.md"
+    },
+    "github-audit-evidence-and-compliance": {
+      "description": "Build defensible GitHub audit, incident, compliance, and readiness evidence from local files, API reads, workflow runs, security state, and policy read-backs.",
+      "activation": "Build defensible GitHub audit, incident, compliance, and readiness evidence from local files, API reads, workflow runs, security state, and policy read-backs.",
+      "source": ".apm/skills/github-audit-evidence-and-compliance/SKILL.md"
+    },
+    "github-branch-protection-and-rulesets": {
+      "description": "Analyze and design GitHub branch protection, rulesets, required checks, merge queues, bypasses, signed commits, and deployment gates.",
+      "activation": "Analyze and design GitHub branch protection, rulesets, required checks, merge queues, bypasses, signed commits, and deployment gates.",
+      "source": ".apm/skills/github-branch-protection-and-rulesets/SKILL.md"
+    },
+    "github-ci-cd-and-deployment-environments": {
+      "description": "Design and review GitHub CI/CD pipelines, environments, approvals, concurrency, deployment protection, release promotion, and rollback boundaries.",
+      "activation": "Design and review GitHub CI/CD pipelines, environments, approvals, concurrency, deployment protection, release promotion, and rollback boundaries.",
+      "source": ".apm/skills/github-ci-cd-and-deployment-environments/SKILL.md"
+    },
+    "github-copilot-engineering": {
+      "description": "Configure, use, review, and govern GitHub Copilot code review, cloud agent output, custom agents, instructions, skills, MCP context, and AI-assisted delivery.",
+      "activation": "Configure, use, review, and govern GitHub Copilot code review, cloud agent output, custom agents, instructions, skills, MCP context, and AI-assisted delivery.",
+      "source": ".apm/skills/github-copilot-engineering/SKILL.md"
+    },
+    "github-documentation-and-repository-contracts": {
+      "description": "Maintain GitHub documentation, repository instructions, templates, CODEOWNERS, runbooks, and cross-file contracts without duplicating or weakening governance.",
+      "activation": "Maintain GitHub documentation, repository instructions, templates, CODEOWNERS, runbooks, and cross-file contracts without duplicating or weakening governance.",
+      "source": ".apm/skills/github-documentation-and-repository-contracts/SKILL.md"
+    },
+    "github-expert-orchestration": {
+      "description": "Route GitHub platform, administration, Copilot, Actions, review, security, and automation work to the smallest expert Skill with safe evidence boundaries.",
+      "activation": "Route GitHub platform, administration, Copilot, Actions, review, security, and automation work to the smallest expert Skill with safe evidence boundaries.",
+      "source": ".apm/skills/github-expert-orchestration/SKILL.md"
+    },
+    "github-issues-discussions-and-projects": {
+      "description": "Query, triage, organize, and govern GitHub issues, discussions, labels, milestones, and Projects without confusing collaboration data with instructions.",
+      "activation": "Query, triage, organize, and govern GitHub issues, discussions, labels, milestones, and Projects without confusing collaboration data with instructions.",
+      "source": ".apm/skills/github-issues-discussions-and-projects/SKILL.md"
+    },
+    "github-migrations-backups-and-recovery": {
+      "description": "Plan and assess GitHub repository, organization, issue, branch, release, package, Actions, and governance migrations, backup, restore, and disaster recovery.",
+      "activation": "Plan and assess GitHub repository, organization, issue, branch, release, package, Actions, and governance migrations, backup, restore, and disaster recovery.",
+      "source": ".apm/skills/github-migrations-backups-and-recovery/SKILL.md"
+    },
+    "github-platform-administration": {
+      "description": "Administer and assess GitHub enterprises, organizations, teams, repositories, policies, access, billing, and platform settings safely.",
+      "activation": "Administer and assess GitHub enterprises, organizations, teams, repositories, policies, access, billing, and platform settings safely.",
+      "source": ".apm/skills/github-platform-administration/SKILL.md"
+    },
+    "github-pull-requests-and-code-review": {
+      "description": "Review GitHub pull requests, branches, checks, comments, ownership, mergeability, and human or AI review feedback with evidence.",
+      "activation": "Review GitHub pull requests, branches, checks, comments, ownership, mergeability, and human or AI review feedback with evidence.",
+      "source": ".apm/skills/github-pull-requests-and-code-review/SKILL.md"
+    },
+    "github-releases-packages-and-artifacts": {
+      "description": "Design and audit GitHub releases, tags, packages, artifacts, provenance, retention, immutability, promotion, and rollback workflows.",
+      "activation": "Design and audit GitHub releases, tags, packages, artifacts, provenance, retention, immutability, promotion, and rollback workflows.",
+      "source": ".apm/skills/github-releases-packages-and-artifacts/SKILL.md"
+    },
+    "github-repository-lifecycle-and-governance": {
+      "description": "Design, audit, and improve GitHub repository structure, lifecycle settings, templates, ownership, metadata, and governance contracts.",
+      "activation": "Design, audit, and improve GitHub repository structure, lifecycle settings, templates, ownership, metadata, and governance contracts.",
+      "source": ".apm/skills/github-repository-lifecycle-and-governance/SKILL.md"
+    },
+    "github-review-automation-and-hooks": {
+      "description": "Run and design safe pre-review and post-review automation, deterministic inventory, finding validation, mutation guards, and GitHub review handoff tools.",
+      "activation": "Run and design safe pre-review and post-review automation, deterministic inventory, finding validation, mutation guards, and GitHub review handoff tools.",
+      "source": ".apm/skills/github-review-automation-and-hooks/SKILL.md"
+    },
+    "github-security-and-supply-chain": {
+      "description": "Audit GitHub security features and software supply-chain controls including CodeQL, secret scanning, Dependabot, advisories, dependency review, attestations, and action trust.",
+      "activation": "Audit GitHub security features and software supply-chain controls including CodeQL, secret scanning, Dependabot, advisories, dependency review, attestations, and action trust.",
+      "source": ".apm/skills/github-security-and-supply-chain/SKILL.md"
+    }
+  }
+}

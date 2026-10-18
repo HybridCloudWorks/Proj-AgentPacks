@@ -1,7 +1,14 @@
 name: codex-agentic-orchestrator
-version: 1.0.0
+version: 1.1.0
 description: OpenAI Codex orchestration pack for explicit subagent delegation, durable handoffs, hooks, bounded concurrency, and capability-aware workflows.
-source: .apm
-agent: .apm/agents/codex-agentic-orchestrator.agent.md
-skills: .apm/skills
+author: saulpatinojr
 license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [agentic, codex, orchestrator]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

@@ -1,0 +1,77 @@
+schema_version: "1.1"
+agent: apple-code-reviewer
+capabilities:
+  repository_read:
+    required: true
+    purpose: Inspect changed code, tests, configuration, and nearby context.
+    bindings:
+      copilot: read
+      claude: Read
+      codex: native read-only workspace access
+      gemini: [read_file, list_directory]
+
+  repository_search:
+    required: true
+    purpose: Trace symbols, callers, dependencies, and duplicated behavior.
+    bindings:
+      copilot: search
+      claude: [Grep, Glob]
+      codex: native repository search
+      gemini: [grep_search, glob]
+
+  diff_and_pr_metadata:
+    required: true
+    purpose: Establish changed behavior and review scope.
+    fallback: Use local git commands or a user-provided diff when hosted PR metadata is unavailable.
+    bindings:
+      copilot: "github/*"
+      claude: Bash or configured read-only connector
+      codex: local git or configured MCP
+      gemini: run_shell_command or configured MCP
+
+  non_destructive_shell:
+    required: true
+    purpose: Run repository-provided build, test, lint, and static checks when supported.
+    bindings:
+      copilot: execute
+      claude: Bash under plan-mode and host permissions
+      codex: read-only sandbox shell
+      gemini: run_shell_command under host confirmation and policy
+
+  official_documentation_search:
+    required_for_version_sensitive_claims: true
+    purpose: Verify current Apple, Swift, and vendor behavior.
+    fallback: Mark the claim unverified when external documentation is inaccessible.
+    bindings:
+      copilot: web
+      claude: [WebSearch, WebFetch]
+      codex: configured web search or MCP
+      gemini: google_web_search
+
+  ci_read:
+    required_for_release_claims: true
+    purpose: Inspect macOS build and test evidence, including failures, cancellations, and timeouts.
+    fallback: Mark release evidence unavailable and do not approve on build or test grounds.
+
+  skill_activation:
+    required: true
+    skills:
+      - review-apple-code
+      - inspect-swift-correctness
+      - assess-apple-ui-accessibility
+      - assess-apple-security-privacy
+      - assess-apple-runtime-quality
+      - verify-apple-build-tests
+    bindings:
+      copilot: automatic skill discovery by description
+      claude: Skill
+      codex: native skill discovery
+      gemini: activate_skill
+
+  write_or_edit:
+    required: false
+    denied_by_default: true
+
+  deploy_sign_publish:
+    required: false
+    denied: true

@@ -1,7 +1,6 @@
 ---
 name: microsoft-certified-trainer
 description: Microsoft Certified Trainer specialist for official Microsoft curriculum delivery, course design, labs, demonstrations, assessment, and Microsoft 365 Copilot learning experiences.
-tools: [read, search, edit, execute, web, todo, agent, github/*, playwright/*]
 user-invocable: true
 ---
 

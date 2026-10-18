@@ -1,0 +1,17 @@
+pack: github-expert-engineer
+capabilities:
+  administration: github-platform-administration
+  repository-governance: github-repository-lifecycle-and-governance
+  rulesets: github-branch-protection-and-rulesets
+  pull-requests: github-pull-requests-and-code-review
+  copilot: github-copilot-engineering
+  actions: github-actions-workflows-and-security
+  deployment-environments: github-ci-cd-and-deployment-environments
+  security: github-security-and-supply-chain
+  collaboration: github-issues-discussions-and-projects
+  releases: github-releases-packages-and-artifacts
+  api-cli-mcp: github-api-cli-and-mcp-operations
+  audit: github-audit-evidence-and-compliance
+  recovery: github-migrations-backups-and-recovery
+  automation: github-review-automation-and-hooks
+  integrations: github-apps-tokens-and-webhooks

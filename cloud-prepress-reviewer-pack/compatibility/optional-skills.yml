@@ -1,0 +1,11 @@
+pack: cloud-prepress-reviewer
+local_catalog_root: C:\Users\saulp\OneDrive\Desktop\Final\optional files\skills
+route_only_when_available:
+  azure: [azure-validate, azure-diagnostics, azure-compliance, azure-resource-lookup, azure-cost]
+  iac: [infrastructure-terraform, azure-verified-modules, azure-deploy, azure-prepare]
+  code: [software-engineering, testing, dependency-management]
+  security: [secret-scanning-in-ci-cd, infrastructure-as-code-security-scanning, github-advanced-security-for-code-scanning]
+  operations: [azure-reliability, cloud-logging-query-generation]
+  policy: [azure-compliance, policy-as-code]
+  evidence: [azure-mcp-setup]
+Use these only when installed and relevant; they do not override the canonical reviewer boundary.

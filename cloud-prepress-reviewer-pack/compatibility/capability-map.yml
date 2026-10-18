@@ -1,0 +1,17 @@
+pack: cloud-prepress-reviewer
+capabilities:
+  orchestration: cloud-prepress-orchestration
+  change_scope_and_blast_radius: change-scope-and-impact
+  architecture_and_adrs: architecture-and-adr-consistency
+  code_defects_and_quality: code-defect-and-quality-review
+  security_secrets_and_supply_chain: security-secrets-and-supply-chain-review
+  iac_policy_and_identity: iac-policy-and-identity-review
+  deployment_preview_and_environment: deployment-preview-and-environment-review
+  tests_build_and_dependencies: tests-build-and-dependency-review
+  operations_resilience_and_rollback: operability-resilience-and-rollback-review
+  cost_allocation_and_governance: cost-allocation-and-governance-review
+  azure_evidence_and_mcp: azure-evidence-and-mcp-review
+  role_authority_and_handoff: role-authority-and-handoff-review
+  documentation_and_repository_contracts: documentation-inputs-and-repository-contracts
+  report_and_pr_gate: review-report-and-pr-gate
+  hooks_and_automation: review-hooks-and-automation

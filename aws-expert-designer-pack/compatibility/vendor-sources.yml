@@ -1,0 +1,16 @@
+upstream:
+  name: Agents365-ai/drawio-skill
+  url: https://github.com/Agents365-ai/drawio-skill
+  skill_path: skills/drawio-skill
+  role: generic Draw.io generation, import, layout, repair, validation, and export foundation
+official:
+  - name: AWS Architecture Icons
+    url: https://aws.amazon.com/architecture/icons/
+    role: current AWS-approved icon packages, usage, and update verification
+  - name: AWS Architecture Diagramming
+    url: https://aws.amazon.com/what-is/architecture-diagramming/
+    role: communication, layers, legends, and maintainable architecture diagrams
+local_prerequisite:
+  name: Draw.io Desktop CLI
+  role: renderer-based export and visual validation
+  required_for: [rendered_visual_checks, png_export, svg_export, pdf_export]

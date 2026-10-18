@@ -1,0 +1,21 @@
+pack: hypervelocity-engineer
+required_capabilities:
+  - agent-routing-and-selection
+  - gh-aw-authoring-and-lifecycle
+  - prompt-token-efficiency
+  - copilot-review-feedback
+  - agent-usage-reporting
+  - workflow-governance-and-guardrails
+  - delegation-and-composition
+  - workflow-observability-and-evaluation
+  - evidence-aware-delivery
+skill_map:
+  agentic-workflows: [agent-routing-and-selection, gh-aw-authoring-and-lifecycle]
+  optimize-agentic-workflow: [prompt-token-efficiency, workflow-observability-and-evaluation]
+  prompt-token-efficiency: [prompt-token-efficiency]
+  copilot-review-feedback: [copilot-review-feedback, evidence-aware-delivery]
+  agent-usage-reporting: [agent-usage-reporting]
+  workflow-lifecycle-and-release: [gh-aw-authoring-and-lifecycle, evidence-aware-delivery]
+  agent-governance-and-guardrails: [workflow-governance-and-guardrails]
+  agent-delegation-and-composition: [agent-routing-and-selection, delegation-and-composition]
+  workflow-observability-and-evaluation: [workflow-observability-and-evaluation, evidence-aware-delivery]

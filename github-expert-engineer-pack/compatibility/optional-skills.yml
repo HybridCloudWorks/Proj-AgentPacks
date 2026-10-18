@@ -1,0 +1,7 @@
+pack: github-expert-engineer
+optional_skills:
+  - github-copilot-engineering
+  - github-actions-workflows-and-security
+  - github-api-cli-and-mcp-operations
+  - github-apps-tokens-and-webhooks
+selection: Load only Skills matching the request and affected evidence.

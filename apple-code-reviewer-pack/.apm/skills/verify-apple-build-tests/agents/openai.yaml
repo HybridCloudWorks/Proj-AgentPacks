@@ -1,0 +1,3 @@
+interface:
+  display_name: "Verify Apple Build and Tests"
+  short_description: "Verify Apple toolchain, tests, dependencies, config, and CI."

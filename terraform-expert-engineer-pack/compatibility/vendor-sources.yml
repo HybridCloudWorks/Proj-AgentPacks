@@ -1,0 +1,16 @@
+pack: terraform-expert-engineer
+official:
+  - name: Microsoft APM
+    url: https://microsoft.github.io/apm/
+  - name: GitHub Copilot custom agents
+    url: https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-agents
+  - name: Claude Code subagents
+    url: https://docs.anthropic.com/en/docs/claude-code/sub-agents
+  - name: OpenAI Codex
+    url: https://developers.openai.com/codex/
+  - name: Gemini CLI
+    url: https://google-github-actions.github.io/gemini-cli/
+support:
+  - Native adapter syntax can drift independently from canonical SKILL.md content.
+  - Vendor package generation does not prove the target client is installed or configured.
+  - Terraform, HCP Terraform, Stacks, tfpolicy, provider, and AVM syntax is version-sensitive.

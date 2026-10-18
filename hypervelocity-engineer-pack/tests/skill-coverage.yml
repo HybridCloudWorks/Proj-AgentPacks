@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "agent-delegation-and-composition": {
+      "description": "Select and compose agents, subagents, deterministic scripts, MCP tools, and human review so each task has a bounded owner and reliable handoff.",
+      "activation": "Use this skill when work could be split across agents, subagents, scripts, MCP tools, ordinary CI, or human decisions.",
+      "source": ".apm/skills/agent-delegation-and-composition/SKILL.md"
+    },
+    "agent-governance-and-guardrails": {
+      "description": "Design least-privilege permissions, safe outputs, network and MCP boundaries, secrets handling, approvals, and failure containment for agent-assisted engineering.",
+      "activation": "Use this skill when an agent, workflow, MCP server, copilot, automation, or generated change can read external data, modify a repository, open a pull request, publish an output, access secrets, or affect production.",
+      "source": ".apm/skills/agent-governance-and-guardrails/SKILL.md"
+    },
+    "agent-usage-reporting": {
+      "description": "Measure observed agent, skill, and tool activity with an optional non-blocking report hook when a repository needs lightweight usage visibility.",
+      "activation": "Use this skill when the user asks for agent usage, skill usage, tool-call counts, adoption reporting, or a lightweight activity summary.",
+      "source": ".apm/skills/agent-usage-reporting/SKILL.md"
+    },
+    "agentic-workflows": {
+      "description": "Route GitHub Agentic Workflows design, creation, update, debugging, audit, and upgrade requests to the correct gh-aw procedure and current official reference. Use when a Markdown workflow, gh aw command, GitHub Actions agent, or gh-aw skill is in scope.",
+      "activation": "Use when a Markdown workflow, gh aw command, GitHub Actions agent, or gh-aw skill is in scope.",
+      "source": ".apm/skills/agentic-workflows/SKILL.md"
+    },
+    "copilot-review-feedback": {
+      "description": "Collect, filter, resolve, reply to, and close GitHub pull request review feedback from Copilot, GitHub Actions, repository collaborators, and trusted team members before declaring the work complete.",
+      "activation": "Collect, filter, resolve, reply to, and close GitHub pull request review feedback from Copilot, GitHub Actions, repository collaborators, and trusted team members before declaring the work complete.",
+      "source": ".apm/skills/copilot-review-feedback/SKILL.md"
+    },
+    "optimize-agentic-workflow": {
+      "description": "Measure and reduce token use, AI credits, tool denials, timeouts, context waste, and run frequency in GitHub Agentic Workflows while preserving safe-output behavior and equivalent result quality.",
+      "activation": "Measure and reduce token use, AI credits, tool denials, timeouts, context waste, and run frequency in GitHub Agentic Workflows while preserving safe-output behavior and equivalent result quality.",
+      "source": ".apm/skills/optimize-agentic-workflow/SKILL.md"
+    },
+    "prompt-token-efficiency": {
+      "description": "Rewrite prompts and agent instructions for minimal tokens, maximal clarity, low ambiguity, stable terminology, and testable output without removing safety or task-critical context.",
+      "activation": "Rewrite prompts and agent instructions for minimal tokens, maximal clarity, low ambiguity, stable terminology, and testable output without removing safety or task-critical context.",
+      "source": ".apm/skills/prompt-token-efficiency/SKILL.md"
+    },
+    "workflow-lifecycle-and-release": {
+      "description": "Create, compile, validate, run, upgrade, review, and release GitHub Agentic Workflows with source and generated artifacts kept aligned.",
+      "activation": "Use this skill when a task creates, changes, debugs, upgrades, validates, runs, or releases a GitHub Agentic Workflow.",
+      "source": ".apm/skills/workflow-lifecycle-and-release/SKILL.md"
+    },
+    "workflow-observability-and-evaluation": {
+      "description": "Observe agentic workflow runs and evaluate quality, safety, cost, latency, and reliability with reproducible evidence.",
+      "activation": "Use this skill when a user asks why an agentic workflow behaved a certain way, whether an optimization helped, or whether a workflow is reliable enough to operate.",
+      "source": ".apm/skills/workflow-observability-and-evaluation/SKILL.md"
+    }
+  }
+}

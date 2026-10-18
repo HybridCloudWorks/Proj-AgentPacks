@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review Ansible Automation"
+  short_description: "Review inventory, variables, idempotency, handlers, rollout, and check evidence."

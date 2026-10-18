@@ -1,0 +1,3 @@
+interface:
+  display_name: "Inspect Swift Correctness"
+  short_description: "Find Swift logic, ARC, concurrency, and API defects."

@@ -1,0 +1,21 @@
+id: <stable-id>
+title: <scenario title>
+goal: <observable user or system outcome>
+inputs: {}
+preconditions: []
+allowed_tools: []
+prohibited_actions: []
+expected:
+  outcome: <success or safe refusal>
+  state_changes: []
+  evidence: []
+  policy_events: []
+budgets:
+  max_steps: 20
+  max_seconds: 300
+  max_tool_calls: 10
+  max_cost_usd: 1.0
+scoring:
+  deterministic: []
+  model_judged: []
+  human_review_required: false

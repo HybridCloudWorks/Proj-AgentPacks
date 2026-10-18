@@ -1,0 +1,15 @@
+recommendations:
+  - DOCUMENTATION_READY
+  - REVIEW_REQUIRED
+  - CHANGES_REQUIRED
+  - BLOCKED_ON_SOURCE_OR_OWNER
+  - NOT_VERIFIED
+required_sections:
+  - Scope and audience
+  - Source and evidence
+  - Content decision
+  - Validation
+  - Limitations
+  - Ownership and next review
+finding_fields: [id, severity, source, impact, remediation, verification]
+redaction: Reject secret-like, private-key, credential, customer-data, and personal-data values.

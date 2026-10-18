@@ -1,0 +1,18 @@
+pack: azure-cloud-architect
+capabilities:
+  foundations_and_requirements: azure-architecture-foundations
+  well_architected_and_caf: azure-well-architected-and-frameworks
+  landing_zones_and_governance: azure-caf-landing-zones-and-governance
+  security_identity_and_compliance: azure-security-identity-and-compliance
+  networking_hybrid_and_edge: azure-networking-hybrid-and-edge
+  workload_and_service_selection: azure-workload-and-service-selection
+  data_and_application_patterns: azure-data-and-application-patterns
+  resilience_dr_and_migration: azure-resilience-dr-and-migration
+  iac_avm_and_repo_standardization: azure-iac-avm-and-repo-standardization
+  deployment_and_lifecycle: azure-deployment-and-lifecycle
+  operations_observability_and_troubleshooting: azure-operations-observability-and-troubleshooting
+  cost_sustainability_and_finops: azure-cost-sustainability-and-finops
+  official_docs_and_mcp: azure-docs-mcp-and-evidence
+  handoff_and_adrs: azure-architecture-handoff-and-adr
+  visualization: azure-architecture-visualization
+  diagram_mechanics: drawio-core-generation

@@ -1,292 +1,221 @@
-# VALIDATION REPORT
+# VALIDATION_REPORT
 
-Status: **PASS**
+Pack: microsoft-certified-trainer 1.1.0
+Standard: agent-pack-prompt v2.2
+Validated: 2026-10-18
+Status: PASS
 
-This is a static, local pack validation. It verifies source structure, frontmatter, required content, target parity, tooling compilation, hook syntax, tests, templates, and archive integrity. It does not prove MCT authorization, courseware redistribution rights, provider or tenant access, live Copilot behavior, Copilot Studio publication, cloud deployment, browser mutation, model quality, or classroom learning outcomes.
+Checks: 192  Passed: 191  Failed: 0  Skipped: 1
 
-## Summary
+## Scope
 
-- Five canonical agents, with a fully capable primary trainer agent.
-- Eighteen focused Skills.
-- Six shared instructions, twelve prompts, eight examples, and seven templates.
-- GitHub Copilot, Claude Code, OpenAI Codex, and Gemini CLI targets.
-- Individual validated `skill.zip` archives.
-
-Checks passed: 265
-Checks failed: 0
-
-## Passed checks
-
-- exists: .apm\agents\microsoft-certified-trainer.agent.md
-- canonical agent contract: microsoft-certified-trainer.agent.md
-- exists: .apm\agents\microsoft-course-architect.agent.md
-- canonical agent contract: microsoft-course-architect.agent.md
-- exists: .apm\agents\microsoft-lab-demo-engineer.agent.md
-- canonical agent contract: microsoft-lab-demo-engineer.agent.md
-- exists: .apm\agents\microsoft-courseware-engineer.agent.md
-- canonical agent contract: microsoft-courseware-engineer.agent.md
-- exists: .apm\agents\microsoft-copilot-learning-reviewer.agent.md
-- canonical agent contract: microsoft-copilot-learning-reviewer.agent.md
-- canonical Skills: exactly 18 expected Skills
-- exists: .apm\skills\mct-courseware-governance\SKILL.md
-- Skill content: mct-courseware-governance
-- exists: .apm\skills\microsoft-learn-curriculum-mapping\SKILL.md
-- Skill content: microsoft-learn-curriculum-mapping
-- exists: .apm\skills\learning-objectives-and-assessment\SKILL.md
-- Skill content: learning-objectives-and-assessment
-- exists: .apm\skills\course-architecture-and-syllabus\SKILL.md
-- Skill content: course-architecture-and-syllabus
-- exists: .apm\skills\instructor-led-facilitation\SKILL.md
-- Skill content: instructor-led-facilitation
-- exists: .apm\skills\trainer-preparation-and-rehearsal\SKILL.md
-- Skill content: trainer-preparation-and-rehearsal
-- exists: .apm\skills\microsoft-365-copilot-instruction\SKILL.md
-- Skill content: microsoft-365-copilot-instruction
-- exists: .apm\skills\microsoft-365-apps-workflows\SKILL.md
-- Skill content: microsoft-365-apps-workflows
-- exists: .apm\skills\copilot-prompting-and-knowledge-checks\SKILL.md
-- Skill content: copilot-prompting-and-knowledge-checks
-- exists: .apm\skills\copilot-studio-course-labs\SKILL.md
-- Skill content: copilot-studio-course-labs
-- exists: .apm\skills\microsoft-designer-and-visual-content\SKILL.md
-- Skill content: microsoft-designer-and-visual-content
-- exists: .apm\skills\powerpoint-courseware-engineering\SKILL.md
-- Skill content: powerpoint-courseware-engineering
-- exists: .apm\skills\lab-and-demo-engineering\SKILL.md
-- Skill content: lab-and-demo-engineering
-- exists: .apm\skills\git-and-github-course-delivery\SKILL.md
-- Skill content: git-and-github-course-delivery
-- exists: .apm\skills\azure-and-cloud-lab-handoff\SKILL.md
-- Skill content: azure-and-cloud-lab-handoff
-- exists: .apm\skills\course-evaluation-and-feedback\SKILL.md
-- Skill content: course-evaluation-and-feedback
-- exists: .apm\skills\training-content-maintenance\SKILL.md
-- Skill content: training-content-maintenance
-- exists: .apm\skills\trainer-automation-and-tools\SKILL.md
-- Skill content: trainer-automation-and-tools
-- exists: instructions\mct.instructions.md
-- shared content: instructions/mct.instructions.md
-- exists: instructions\curriculum.instructions.md
-- shared content: instructions/curriculum.instructions.md
-- exists: instructions\delivery.instructions.md
-- shared content: instructions/delivery.instructions.md
-- exists: instructions\courseware.instructions.md
-- shared content: instructions/courseware.instructions.md
-- exists: instructions\copilot.instructions.md
-- shared content: instructions/copilot.instructions.md
-- exists: instructions\security-and-privacy.instructions.md
-- shared content: instructions/security-and-privacy.instructions.md
-- exists: prompts\ingest-mct-courseware.prompt.md
-- shared content: prompts/ingest-mct-courseware.prompt.md
-- exists: prompts\map-learn-content.prompt.md
-- shared content: prompts/map-learn-content.prompt.md
-- exists: prompts\design-course.prompt.md
-- shared content: prompts/design-course.prompt.md
-- exists: prompts\build-one-day-agenda.prompt.md
-- shared content: prompts/build-one-day-agenda.prompt.md
-- exists: prompts\prepare-instructor-guide.prompt.md
-- shared content: prompts/prepare-instructor-guide.prompt.md
-- exists: prompts\create-interactive-lab.prompt.md
-- shared content: prompts/create-interactive-lab.prompt.md
-- exists: prompts\rehearse-demo.prompt.md
-- shared content: prompts/rehearse-demo.prompt.md
-- exists: prompts\engineer-powerpoint-deck.prompt.md
-- shared content: prompts/engineer-powerpoint-deck.prompt.md
-- exists: prompts\create-knowledge-checks.prompt.md
-- shared content: prompts/create-knowledge-checks.prompt.md
-- exists: prompts\create-copilot-studio-workshop.prompt.md
-- shared content: prompts/create-copilot-studio-workshop.prompt.md
-- exists: prompts\refresh-from-change-log.prompt.md
-- shared content: prompts/refresh-from-change-log.prompt.md
-- exists: prompts\evaluate-session.prompt.md
-- shared content: prompts/evaluate-session.prompt.md
-- exists: examples\ms-4018-course-map.md
-- shared content: examples/ms-4018-course-map.md
-- exists: examples\one-day-agenda.md
-- shared content: examples/one-day-agenda.md
-- exists: examples\copilot-demo-runbook.md
-- shared content: examples/copilot-demo-runbook.md
-- exists: examples\copilot-studio-lab.md
-- shared content: examples/copilot-studio-lab.md
-- exists: examples\interactive-powerpoint-session.md
-- shared content: examples/interactive-powerpoint-session.md
-- exists: examples\azure-github-handoff.md
-- shared content: examples/azure-github-handoff.md
-- exists: examples\session-evaluation.md
-- shared content: examples/session-evaluation.md
-- exists: examples\refresh-from-change-log.md
-- shared content: examples/refresh-from-change-log.md
-- exists: DESCRIPTION.md
-- exists: README.md
-- exists: AGENT-PACK-README.md
-- exists: copilot-instructions.md
-- exists: PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md
-- exists: LICENSE
-- exists: apm.yml
-- exists: docs\DESIGN_DECISIONS.md
-- exists: docs\SOURCE_TRACEABILITY.md
-- exists: docs\MS-4018_SOURCE_NOTES.md
-- exists: docs\AGENT_INVENTORY.md
-- exists: docs\SKILL_INVENTORY.md
-- exists: docs\TOOL_PERMISSION_MATRIX.md
-- exists: docs\APPROVAL_MATRIX.md
-- exists: docs\HANDOFF_CONTRACT.md
-- exists: docs\PROMPT_INVENTORY.md
-- exists: docs\DELIVERABLE_CONTRACT.md
-- exists: compatibility\capability-map.yml
-- exists: compatibility\compatibility-matrix.yml
-- exists: compatibility\optional-skills.yml
-- exists: compatibility\vendor-sources.yml
-- exists: tests\capability-coverage.yml
-- exists: tests\report-contract.yml
-- exists: tests\trigger-cases.yml
-- exists: tests\fixtures\valid-completion-report.md
-- exists: templates\course-plan.md
-- exists: templates\instructor-guide.md
-- exists: templates\lab-runbook.md
-- exists: templates\demo-runbook.md
-- exists: templates\knowledge-checks.yml
-- exists: templates\session-evaluation.md
-- exists: templates\partner-handoff.md
-- github-copilot: five agents
-- github-copilot: 18 Skills
-- exists: targets\github-copilot\DESCRIPTION.md
-- exists: targets\github-copilot\INSTALL.md
-- exists: targets\github-copilot\templates\course-plan.md
-- claude-code: five agents
-- claude-code: 18 Skills
-- exists: targets\claude-code\DESCRIPTION.md
-- exists: targets\claude-code\INSTALL.md
-- exists: targets\claude-code\templates\course-plan.md
-- exists: targets\claude-code\CLAUDE.md
-- exists: targets\claude-code\shared\hooks\README.md
-- exists: targets\claude-code\shared\hooks\pre-trainer-session.ps1
-- exists: targets\claude-code\shared\hooks\pre-trainer-session.sh
-- exists: targets\claude-code\shared\hooks\post-trainer-session.ps1
-- exists: targets\claude-code\shared\hooks\post-trainer-session.sh
-- openai-codex: five agents
-- openai-codex: 18 Skills
-- exists: targets\openai-codex\DESCRIPTION.md
-- exists: targets\openai-codex\INSTALL.md
-- exists: targets\openai-codex\templates\course-plan.md
-- exists: targets\openai-codex\AGENTS.md
-- exists: targets\openai-codex\shared\hooks\README.md
-- exists: targets\openai-codex\shared\hooks\pre-trainer-session.ps1
-- exists: targets\openai-codex\shared\hooks\pre-trainer-session.sh
-- exists: targets\openai-codex\shared\hooks\post-trainer-session.ps1
-- exists: targets\openai-codex\shared\hooks\post-trainer-session.sh
-- gemini-cli: five agents
-- gemini-cli: 18 Skills
-- exists: targets\gemini-cli\DESCRIPTION.md
-- exists: targets\gemini-cli\INSTALL.md
-- exists: targets\gemini-cli\templates\course-plan.md
-- exists: targets\gemini-cli\GEMINI.md
-- exists: targets\gemini-cli\shared\hooks\README.md
-- exists: targets\gemini-cli\shared\hooks\pre-trainer-session.ps1
-- exists: targets\gemini-cli\shared\hooks\pre-trainer-session.sh
-- exists: targets\gemini-cli\shared\hooks\post-trainer-session.ps1
-- exists: targets\gemini-cli\shared\hooks\post-trainer-session.sh
-- exists: targets\github-copilot\.github\instructions\mct.instructions.md
-- exists: targets\github-copilot\.github\instructions\curriculum.instructions.md
-- exists: targets\github-copilot\.github\instructions\delivery.instructions.md
-- exists: targets\github-copilot\.github\instructions\courseware.instructions.md
-- exists: targets\github-copilot\.github\instructions\copilot.instructions.md
-- exists: targets\github-copilot\.github\instructions\security-and-privacy.instructions.md
-- exists: targets\github-copilot\.github\prompts\ingest-mct-courseware.prompt.md
-- exists: targets\github-copilot\.github\prompts\map-learn-content.prompt.md
-- exists: targets\github-copilot\.github\prompts\design-course.prompt.md
-- exists: targets\github-copilot\.github\prompts\build-one-day-agenda.prompt.md
-- exists: targets\github-copilot\.github\prompts\prepare-instructor-guide.prompt.md
-- exists: targets\github-copilot\.github\prompts\create-interactive-lab.prompt.md
-- exists: targets\github-copilot\.github\prompts\rehearse-demo.prompt.md
-- exists: targets\github-copilot\.github\prompts\engineer-powerpoint-deck.prompt.md
-- exists: targets\github-copilot\.github\prompts\create-knowledge-checks.prompt.md
-- exists: targets\github-copilot\.github\prompts\create-copilot-studio-workshop.prompt.md
-- exists: targets\github-copilot\.github\prompts\refresh-from-change-log.prompt.md
-- exists: targets\github-copilot\.github\prompts\evaluate-session.prompt.md
-- exists: targets\github-copilot\.github\examples\ms-4018-course-map.md
-- exists: targets\github-copilot\.github\examples\one-day-agenda.md
-- exists: targets\github-copilot\.github\examples\copilot-demo-runbook.md
-- exists: targets\github-copilot\.github\examples\copilot-studio-lab.md
-- exists: targets\github-copilot\.github\examples\interactive-powerpoint-session.md
-- exists: targets\github-copilot\.github\examples\azure-github-handoff.md
-- exists: targets\github-copilot\.github\examples\session-evaluation.md
-- exists: targets\github-copilot\.github\examples\refresh-from-change-log.md
-- exists: targets\github-copilot\.github\copilot-instructions.md
-- exists: targets\github-copilot\.github\AGENT-PACK-README.md
-- exists: targets\github-copilot\.github\hooks\microsoft-certified-trainer.json
-- Copilot hook configuration: version 1 with sessionStart and agentStop
-- exists: targets\github-copilot\.github\hooks\scripts\pre-trainer-session.ps1
-- exists: targets\github-copilot\.github\hooks\scripts\pre-trainer-session.sh
-- exists: targets\github-copilot\.github\hooks\scripts\post-trainer-session.ps1
-- exists: targets\github-copilot\.github\hooks\scripts\post-trainer-session.sh
-- Copilot compatibility skill mirror
-- Python compile: tooling\build_pack.py
-- Python compile: tooling\validate_pack.py
-- exists: hooks\pre-trainer-session.ps1
-- exists: hooks\pre-trainer-session.sh
-- exists: hooks\post-trainer-session.ps1
-- exists: hooks\post-trainer-session.sh
-- exists: hooks\microsoft-certified-trainer.json
-- exists: dist\github-copilot-microsoft-certified-trainer.zip
-- archive integrity: github-copilot-microsoft-certified-trainer.zip
-- exists: dist\claude-code-microsoft-certified-trainer.zip
-- archive integrity: claude-code-microsoft-certified-trainer.zip
-- exists: dist\openai-codex-microsoft-certified-trainer.zip
-- archive integrity: openai-codex-microsoft-certified-trainer.zip
-- exists: dist\gemini-cli-microsoft-certified-trainer.zip
-- archive integrity: gemini-cli-microsoft-certified-trainer.zip
-- exists: dist\microsoft-certified-trainer-canonical.zip
-- archive integrity: microsoft-certified-trainer-canonical.zip
-- exists: dist\microsoft-certified-trainer-prompt.zip
-- archive integrity: microsoft-certified-trainer-prompt.zip
-- exists: dist\microsoft-certified-trainer-skills.zip
-- archive integrity: microsoft-certified-trainer-skills.zip
-- exists: dist\microsoft-certified-trainer-validation.zip
-- archive integrity: microsoft-certified-trainer-validation.zip
-- exists: dist\microsoft-certified-trainer-full-pack.zip
-- archive integrity: microsoft-certified-trainer-full-pack.zip
-- exists: dist\skills\mct-courseware-governance\skill.zip
-- individual Skill archive: mct-courseware-governance
-- exists: dist\skills\microsoft-learn-curriculum-mapping\skill.zip
-- individual Skill archive: microsoft-learn-curriculum-mapping
-- exists: dist\skills\learning-objectives-and-assessment\skill.zip
-- individual Skill archive: learning-objectives-and-assessment
-- exists: dist\skills\course-architecture-and-syllabus\skill.zip
-- individual Skill archive: course-architecture-and-syllabus
-- exists: dist\skills\instructor-led-facilitation\skill.zip
-- individual Skill archive: instructor-led-facilitation
-- exists: dist\skills\trainer-preparation-and-rehearsal\skill.zip
-- individual Skill archive: trainer-preparation-and-rehearsal
-- exists: dist\skills\microsoft-365-copilot-instruction\skill.zip
-- individual Skill archive: microsoft-365-copilot-instruction
-- exists: dist\skills\microsoft-365-apps-workflows\skill.zip
-- individual Skill archive: microsoft-365-apps-workflows
-- exists: dist\skills\copilot-prompting-and-knowledge-checks\skill.zip
-- individual Skill archive: copilot-prompting-and-knowledge-checks
-- exists: dist\skills\copilot-studio-course-labs\skill.zip
-- individual Skill archive: copilot-studio-course-labs
-- exists: dist\skills\microsoft-designer-and-visual-content\skill.zip
-- individual Skill archive: microsoft-designer-and-visual-content
-- exists: dist\skills\powerpoint-courseware-engineering\skill.zip
-- individual Skill archive: powerpoint-courseware-engineering
-- exists: dist\skills\lab-and-demo-engineering\skill.zip
-- individual Skill archive: lab-and-demo-engineering
-- exists: dist\skills\git-and-github-course-delivery\skill.zip
-- individual Skill archive: git-and-github-course-delivery
-- exists: dist\skills\azure-and-cloud-lab-handoff\skill.zip
-- individual Skill archive: azure-and-cloud-lab-handoff
-- exists: dist\skills\course-evaluation-and-feedback\skill.zip
-- individual Skill archive: course-evaluation-and-feedback
-- exists: dist\skills\training-content-maintenance\skill.zip
-- individual Skill archive: training-content-maintenance
-- exists: dist\skills\trainer-automation-and-tools\skill.zip
-- individual Skill archive: trainer-automation-and-tools
+5 agents, 18 skills, 7 instruction files, 12 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
 
 ## Failed checks
 
 - None
 
-## Evidence boundary
+## Not established
 
-Static validation is not live MCT authorization, courseware license proof, tenant or provider behavior, Copilot Studio publication, cloud deployment, external mutation, or verified learning mastery.
+- Agents appear and run in the VS Code agent pane for Claude Code, Codex, and GitHub Copilot.
+- A user-profile install (Code Workflow installer, or `apm install -g`) behaves identically on Windows and macOS.
+- Kiro and Antigravity IDE behaviour, and Gemini CLI behaviour, on a live install.
+- Model behaviour of the agents when actually invoked; tests cover helper code and contracts only.
+- Hook behaviour: hooks ship as helper scripts and samples; no native hook was installed or exercised.
+
+## Check inventory
+
+| Kind | Check | Result | Detail |
+|---|---|---|---|
+| structural | required artifact apm.yml | pass |  |
+| structural | required artifact DESCRIPTION.md | pass |  |
+| structural | required artifact README.md | pass |  |
+| structural | required artifact LICENSE | pass |  |
+| structural | required artifact PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md | pass |  |
+| structural | required artifact docs | pass |  |
+| structural | required artifact compatibility | pass |  |
+| structural | required artifact examples | pass |  |
+| structural | required artifact templates | pass |  |
+| structural | required artifact hooks/README.md | pass |  |
+| structural | required artifact tests | pass |  |
+| structural | required artifact .apm/agents | pass |  |
+| structural | required artifact .apm/skills | pass |  |
+| structural | required artifact .apm/instructions | pass |  |
+| structural | required artifact .apm/prompts | pass |  |
+| structural | no stale folder targets/ | pass |  |
+| structural | no stale folder claude-code/ | pass |  |
+| structural | no stale folder gemini-cli/ | pass |  |
+| structural | no stale folder github-copilot/ | pass |  |
+| structural | no stale folder openai-codex/ | pass |  |
+| structural | no stale folder instructions/ | pass |  |
+| structural | no stale folder prompts/ | pass |  |
+| structural | no __pycache__ or .pyc outside tests/ and tooling/ | pass |  |
+| structural | no archives at pack root | pass |  |
+| structural | no native hook JSON for APM to deploy | pass | native hooks would carry repository-relative commands; hooks ship as helper scripts and samples |
+| structural | no per-pack copy of tooling/validate_pack.py (shared tooling lives at the repository root) | pass |  |
+| structural | no per-pack copy of tooling/build_pack.py (shared tooling lives at the repository root) | pass |  |
+| structural | apm.yml uses only APM-defined fields | pass |  |
+| structural | apm.yml has name and version | pass |  |
+| structural | apm.yml version is semantic | pass |  |
+| structural | apm.yml name equals the pack folder name without -pack | pass | microsoft-certified-trainer vs microsoft-certified-trainer-pack |
+| structural | apm.yml targets are valid APM targets | pass | targets: ['copilot', 'claude', 'codex', 'kiro', 'gemini', 'agent-skills'] |
+| structural | at least one agent | pass |  |
+| structural | agent microsoft-certified-trainer: name and description present | pass |  |
+| structural | agent microsoft-certified-trainer: file name equals name | pass |  |
+| structural | agent microsoft-certified-trainer: no tools field (declared in compatibility/tool-permissions.yml) | pass |  |
+| structural | agent microsoft-certified-trainer: description within 1024 characters | pass |  |
+| structural | agent microsoft-certified-trainer: body within 300 lines | pass |  |
+| structural | agent microsoft-copilot-learning-reviewer: name and description present | pass |  |
+| structural | agent microsoft-copilot-learning-reviewer: file name equals name | pass |  |
+| structural | agent microsoft-copilot-learning-reviewer: no tools field (declared in compatibility/tool-permissions.yml) | pass |  |
+| structural | agent microsoft-copilot-learning-reviewer: description within 1024 characters | pass |  |
+| structural | agent microsoft-copilot-learning-reviewer: body within 300 lines | pass |  |
+| structural | agent microsoft-course-architect: name and description present | pass |  |
+| structural | agent microsoft-course-architect: file name equals name | pass |  |
+| structural | agent microsoft-course-architect: no tools field (declared in compatibility/tool-permissions.yml) | pass |  |
+| structural | agent microsoft-course-architect: description within 1024 characters | pass |  |
+| structural | agent microsoft-course-architect: body within 300 lines | pass |  |
+| structural | agent microsoft-courseware-engineer: name and description present | pass |  |
+| structural | agent microsoft-courseware-engineer: file name equals name | pass |  |
+| structural | agent microsoft-courseware-engineer: no tools field (declared in compatibility/tool-permissions.yml) | pass |  |
+| structural | agent microsoft-courseware-engineer: description within 1024 characters | pass |  |
+| structural | agent microsoft-courseware-engineer: body within 300 lines | pass |  |
+| structural | agent microsoft-lab-demo-engineer: name and description present | pass |  |
+| structural | agent microsoft-lab-demo-engineer: file name equals name | pass |  |
+| structural | agent microsoft-lab-demo-engineer: no tools field (declared in compatibility/tool-permissions.yml) | pass |  |
+| structural | agent microsoft-lab-demo-engineer: description within 1024 characters | pass |  |
+| structural | agent microsoft-lab-demo-engineer: body within 300 lines | pass |  |
+| structural | exactly one user-invocable primary agent | pass | user-invocable agents: 1 |
+| structural | tool-permissions.yml covers every agent | pass | missing: [] |
+| structural | at least one skill | pass |  |
+| structural | skill azure-and-cloud-lab-handoff: SKILL.md with name equal to folder | pass |  |
+| structural | skill azure-and-cloud-lab-handoff: description within 1024 characters | pass |  |
+| structural | skill copilot-prompting-and-knowledge-checks: SKILL.md with name equal to folder | pass |  |
+| structural | skill copilot-prompting-and-knowledge-checks: description within 1024 characters | pass |  |
+| structural | skill copilot-studio-course-labs: SKILL.md with name equal to folder | pass |  |
+| structural | skill copilot-studio-course-labs: description within 1024 characters | pass |  |
+| structural | skill course-architecture-and-syllabus: SKILL.md with name equal to folder | pass |  |
+| structural | skill course-architecture-and-syllabus: description within 1024 characters | pass |  |
+| structural | skill course-evaluation-and-feedback: SKILL.md with name equal to folder | pass |  |
+| structural | skill course-evaluation-and-feedback: description within 1024 characters | pass |  |
+| structural | skill git-and-github-course-delivery: SKILL.md with name equal to folder | pass |  |
+| structural | skill git-and-github-course-delivery: description within 1024 characters | pass |  |
+| structural | skill instructor-led-facilitation: SKILL.md with name equal to folder | pass |  |
+| structural | skill instructor-led-facilitation: description within 1024 characters | pass |  |
+| structural | skill lab-and-demo-engineering: SKILL.md with name equal to folder | pass |  |
+| structural | skill lab-and-demo-engineering: description within 1024 characters | pass |  |
+| structural | skill learning-objectives-and-assessment: SKILL.md with name equal to folder | pass |  |
+| structural | skill learning-objectives-and-assessment: description within 1024 characters | pass |  |
+| structural | skill mct-courseware-governance: SKILL.md with name equal to folder | pass |  |
+| structural | skill mct-courseware-governance: description within 1024 characters | pass |  |
+| structural | skill microsoft-365-apps-workflows: SKILL.md with name equal to folder | pass |  |
+| structural | skill microsoft-365-apps-workflows: description within 1024 characters | pass |  |
+| structural | skill microsoft-365-copilot-instruction: SKILL.md with name equal to folder | pass |  |
+| structural | skill microsoft-365-copilot-instruction: description within 1024 characters | pass |  |
+| structural | skill microsoft-designer-and-visual-content: SKILL.md with name equal to folder | pass |  |
+| structural | skill microsoft-designer-and-visual-content: description within 1024 characters | pass |  |
+| structural | skill microsoft-learn-curriculum-mapping: SKILL.md with name equal to folder | pass |  |
+| structural | skill microsoft-learn-curriculum-mapping: description within 1024 characters | pass |  |
+| structural | skill powerpoint-courseware-engineering: SKILL.md with name equal to folder | pass |  |
+| structural | skill powerpoint-courseware-engineering: description within 1024 characters | pass |  |
+| structural | skill trainer-automation-and-tools: SKILL.md with name equal to folder | pass |  |
+| structural | skill trainer-automation-and-tools: description within 1024 characters | pass |  |
+| structural | skill trainer-preparation-and-rehearsal: SKILL.md with name equal to folder | pass |  |
+| structural | skill trainer-preparation-and-rehearsal: description within 1024 characters | pass |  |
+| structural | skill training-content-maintenance: SKILL.md with name equal to folder | pass |  |
+| structural | skill training-content-maintenance: description within 1024 characters | pass |  |
+| structural | instruction copilot.instructions.md: description and applyTo | pass |  |
+| structural | instruction courseware.instructions.md: description and applyTo | pass |  |
+| structural | instruction curriculum.instructions.md: description and applyTo | pass |  |
+| structural | instruction delivery.instructions.md: description and applyTo | pass |  |
+| structural | instruction mct.instructions.md: description and applyTo | pass |  |
+| structural | instruction microsoft-certified-trainer-contract.instructions.md: description and applyTo | pass |  |
+| structural | instruction security-and-privacy.instructions.md: description and applyTo | pass |  |
+| structural | prompt build-one-day-agenda.prompt.md: description | pass |  |
+| structural | prompt create-copilot-studio-workshop.prompt.md: description | pass |  |
+| structural | prompt create-interactive-lab.prompt.md: description | pass |  |
+| structural | prompt create-knowledge-checks.prompt.md: description | pass |  |
+| structural | prompt design-course.prompt.md: description | pass |  |
+| structural | prompt engineer-powerpoint-deck.prompt.md: description | pass |  |
+| structural | prompt evaluate-session.prompt.md: description | pass |  |
+| structural | prompt ingest-mct-courseware.prompt.md: description | pass |  |
+| structural | prompt map-learn-content.prompt.md: description | pass |  |
+| structural | prompt prepare-instructor-guide.prompt.md: description | pass |  |
+| structural | prompt refresh-from-change-log.prompt.md: description | pass |  |
+| structural | prompt rehearse-demo.prompt.md: description | pass |  |
+| structural | authoring prompt is version 2.2 or later | pass |  |
+| structural | installed content .apm/agents/microsoft-certified-trainer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/microsoft-copilot-learning-reviewer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/microsoft-course-architect.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/microsoft-courseware-engineer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/microsoft-lab-demo-engineer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/copilot.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/courseware.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/curriculum.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/delivery.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/mct.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/microsoft-certified-trainer-contract.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/security-and-privacy.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/build-one-day-agenda.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/create-copilot-studio-workshop.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/create-interactive-lab.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/create-knowledge-checks.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-course.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/engineer-powerpoint-deck.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/evaluate-session.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/ingest-mct-courseware.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/map-learn-content.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/prepare-instructor-guide.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/refresh-from-change-log.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/rehearse-demo.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/azure-and-cloud-lab-handoff/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/copilot-prompting-and-knowledge-checks/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/copilot-studio-course-labs/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/course-architecture-and-syllabus/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/course-evaluation-and-feedback/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/git-and-github-course-delivery/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/instructor-led-facilitation/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/lab-and-demo-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/learning-objectives-and-assessment/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/mct-courseware-governance/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/microsoft-365-apps-workflows/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/microsoft-365-copilot-instruction/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/microsoft-designer-and-visual-content/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/microsoft-learn-curriculum-mapping/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/powerpoint-courseware-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/trainer-automation-and-tools/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/trainer-preparation-and-rehearsal/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/training-content-maintenance/SKILL.md: references only installed things | pass |  |
+| structural | pack doc README.md: describes the current layout | pass |  |
+| structural | pack doc DESCRIPTION.md: describes the current layout | pass |  |
+| structural | pack doc hooks/README.md: describes the current layout | pass |  |
+| structural | pack doc docs/AGENT_INVENTORY.md: describes the current layout | pass |  |
+| structural | pack doc docs/APPROVAL_MATRIX.md: describes the current layout | pass |  |
+| structural | pack doc docs/DELIVERABLE_CONTRACT.md: describes the current layout | pass |  |
+| structural | pack doc docs/HANDOFF_CONTRACT.md: describes the current layout | pass |  |
+| structural | pack doc docs/MS-4018_SOURCE_NOTES.md: describes the current layout | pass |  |
+| structural | pack doc docs/PROMPT_INVENTORY.md: describes the current layout | pass |  |
+| structural | pack doc docs/SKILL_INVENTORY.md: describes the current layout | pass |  |
+| structural | pack doc docs/SOURCE_TRACEABILITY.md: describes the current layout | pass |  |
+| structural | pack doc docs/TOOL_PERMISSION_MATRIX.md: describes the current layout | pass |  |
+| structural | pack doc compatibility/capability-map.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/compatibility-matrix.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/optional-skills.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/tool-permissions.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/vendor-sources.yml: describes the current layout | pass |  |
+| structural | tests/skill-coverage.yml lists exactly the shipped skills | pass | missing: [] extra: [] |
+| structural | tests/skill-coverage.yml has an activation statement for every skill | pass |  |
+| structural | tests/capability-coverage.yml prompt files exist | pass |  |
+| structural | tests/trigger-cases.yml prompt files exist | pass |  |
+| structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
+| structural | contract instruction states every short value listed in report-contract.yml | pass |  |
+| executable | pack unit tests | skipped | no test_*.py in tests/ |
+| executable | apm compile --validate | pass | [*] All primitives validated successfully! |
+| executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |
+| executable | copilot: 5 agents generated | pass | found 5 |
+| executable | claude: 5 agents generated | pass | found 5 |
+| executable | codex: 5 agents generated | pass | found 5 |
+| executable | kiro: 5 agents generated | pass | found 5 |
+| executable | no hook files generated | pass |  |
+| executable | claude: instructions generated as rules | pass | found 7 |
+| executable | generated vendor files reference only installed things | pass |  |

@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "agent-evaluation": {
+      "description": "Evaluate agent outcomes and tool-use process with datasets, deterministic checks, rubrics and human review. Use when agent behavior, release gates, prompt/tool changes or reliability/safety evaluation is requested.",
+      "activation": "Use when agent behavior, release gates, prompt/tool changes or reliability/safety evaluation is requested.",
+      "source": ".apm/skills/agent-evaluation/SKILL.md"
+    },
+    "agent-observability": {
+      "description": "Instrument Python services and agent runs with useful metrics, traces, provenance and redaction. Use when operational diagnostics, service telemetry, agent tracing or run-cost visibility changes.",
+      "activation": "Use when operational diagnostics, service telemetry, agent tracing or run-cost visibility changes.",
+      "source": ".apm/skills/agent-observability/SKILL.md"
+    },
+    "agentic-workflow-design": {
+      "description": "Design Python tool-using workflows, state, memory, budgets and optional specialist handoffs. Use when a Python agent application or multi-step tool workflow needs design or change.",
+      "activation": "Use when a Python agent application or multi-step tool workflow needs design or change.",
+      "source": ".apm/skills/agentic-workflow-design/SKILL.md"
+    },
+    "architecture-decision-records": {
+      "description": "Record significant Python, API, identity, persistence, cloud and agent architecture choices with alternatives. Use when a change affects durable public contracts, runtime minimums, core tooling, shared coupling, deployment, cost or difficult-to-reverse architecture.",
+      "activation": "Use when a change affects durable public contracts, runtime minimums, core tooling, shared coupling, deployment, cost or difficult-to-reverse architecture.",
+      "source": ".apm/skills/architecture-decision-records/SKILL.md"
+    },
+    "mcp-python-engineering": {
+      "description": "Implement and review Python MCP servers/clients with protocol, transport, schema, identity and tool boundaries. Use when python MCP resource, prompt, tool, transport, protocol test or supply-chain review is requested.",
+      "activation": "Use when python MCP resource, prompt, tool, transport, protocol test or supply-chain review is requested.",
+      "source": ".apm/skills/mcp-python-engineering/SKILL.md"
+    },
+    "playwright-validation": {
+      "description": "Validate Python web journeys using existing Playwright/browser tooling and observable user outcomes. Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
+      "activation": "Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification.",
+      "source": ".apm/skills/playwright-validation/SKILL.md"
+    },
+    "pull-request-review": {
+      "description": "Review Python and agent changes with located evidence, compatibility and operational readiness. Use when pR, branch, staged diff or requested pre-merge review is in scope.",
+      "activation": "Use when pR, branch, staged diff or requested pre-merge review is in scope.",
+      "source": ".apm/skills/pull-request-review/SKILL.md"
+    },
+    "python-api-engineering": {
+      "description": "Engineer Python REST, webhook, event, streaming and library contracts with validation and reliable failure behavior. Use when a Python endpoint, event consumer or public integration contract is created or changed.",
+      "activation": "Use when a Python endpoint, event consumer or public integration contract is created or changed.",
+      "source": ".apm/skills/python-api-engineering/SKILL.md"
+    },
+    "python-async-engineering": {
+      "description": "Build and diagnose Python async workers and services with bounded concurrency, cancellation and deterministic cleanup. Use when async I/O, worker lifecycle, task leaks, throughput, timeouts or concurrent shared state is affected.",
+      "activation": "Use when async I/O, worker lifecycle, task leaks, throughput, timeouts or concurrent shared state is affected.",
+      "source": ".apm/skills/python-async-engineering/SKILL.md"
+    },
+    "python-cli-automation": {
+      "description": "Build Python CLI and subprocess automation with explicit arguments, exit codes and safe filesystem behavior. Use when cLI command, background automation, file processing or subprocess integration is requested.",
+      "activation": "Use when cLI command, background automation, file processing or subprocess integration is requested.",
+      "source": ".apm/skills/python-cli-automation/SKILL.md"
+    },
+    "python-data-engineering": {
+      "description": "Engineer Python transformations and pipelines with schema, precision, memory, lineage and recovery controls. Use when data ingestion, transformation, batch/stream processing or data-quality repair is requested.",
+      "activation": "Use when data ingestion, transformation, batch/stream processing or data-quality repair is requested.",
+      "source": ".apm/skills/python-data-engineering/SKILL.md"
+    },
+    "python-database-engineering": {
+      "description": "Engineer Python persistence, transactions, schemas, pooling, migrations and recovery. Use when database access, query performance, consistency, cache behavior or schema migration changes.",
+      "activation": "Use when database access, query performance, consistency, cache behavior or schema migration changes.",
+      "source": ".apm/skills/python-database-engineering/SKILL.md"
+    },
+    "python-language-engineering": {
+      "description": "Implement and review Python semantics, module boundaries, resource lifetime, and compatible public interfaces. Use when a Python implementation, defect, library interface, or version-sensitive change needs hands-on work.",
+      "activation": "Use when a Python implementation, defect, library interface, or version-sensitive change needs hands-on work.",
+      "source": ".apm/skills/python-language-engineering/SKILL.md"
+    },
+    "python-packaging": {
+      "description": "Maintain Python build metadata, dependency resolution, lockfiles, distributions and supply-chain compatibility. Use when dependencies, packaging, distribution, entry points, runtime versions or reproducibility change.",
+      "activation": "Use when dependencies, packaging, distribution, entry points, runtime versions or reproducibility change.",
+      "source": ".apm/skills/python-packaging/SKILL.md"
+    },
+    "python-performance-analysis": {
+      "description": "Measure Python service, worker, data and agent latency, throughput, memory and cost bottlenecks. Use when a measurable performance issue or explicit performance/cost objective exists.",
+      "activation": "Use when a measurable performance issue or explicit performance/cost objective exists.",
+      "source": ".apm/skills/python-performance-analysis/SKILL.md"
+    },
+    "python-static-typing": {
+      "description": "Design precise Python interfaces and resolve static typing errors while keeping runtime validation explicit. Use when public API typing, model boundaries, checker errors, stub quality, or modernization is in scope.",
+      "activation": "Use when public API typing, model boundaries, checker errors, stub quality, or modernization is in scope.",
+      "source": ".apm/skills/python-static-typing/SKILL.md"
+    },
+    "secure-agent-engineering": {
+      "description": "Assess prompt injection, tool abuse, memory poisoning, isolation, privacy and responsible AI in Python agents. Use when agent, retrieval, browser, model output, MCP or durable-memory boundaries are in scope.",
+      "activation": "Use when agent, retrieval, browser, model output, MCP or durable-memory boundaries are in scope.",
+      "source": ".apm/skills/secure-agent-engineering/SKILL.md"
+    },
+    "secure-python-engineering": {
+      "description": "Assess and repair Python security boundaries, identity, secrets, data handling and supply chain. Use when security review or a Python change affects authentication, input/output, execution, storage or dependencies.",
+      "activation": "Use when security review or a Python change affects authentication, input/output, execution, storage or dependencies.",
+      "source": ".apm/skills/secure-python-engineering/SKILL.md"
+    }
+  }
+}

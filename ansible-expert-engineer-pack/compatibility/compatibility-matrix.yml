@@ -1,0 +1,24 @@
+snapshot_date: 2026-08-22
+skill_format:
+  frontmatter_required: [name, description]
+  entrypoint: SKILL.md
+  progressive_disclosure: true
+targets:
+  github-copilot:
+    agent: .github/agents/ansible-expert-engineer.agent.md
+    skills: .agents/skills
+    native_agent: true
+  claude-code:
+    agent: .claude/agents/ansible-expert-engineer.md
+    skills: .claude/skills
+    native_agent: true
+  openai-codex:
+    agent: .codex/agents/ansible-expert-engineer.toml
+    skills: .agents/skills
+    native_agent: true
+    note: Validate native Agent fields against the installed Codex release; APM may compile Agents differently.
+  gemini-cli:
+    agent: .gemini/agents/ansible-expert-engineer.md
+    skills: .agents/skills
+    native_agent: true
+    note: Agent Skills are native; subagent frontmatter is version-sensitive.

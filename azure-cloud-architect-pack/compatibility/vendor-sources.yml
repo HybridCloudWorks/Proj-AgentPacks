@@ -1,0 +1,22 @@
+pack: azure-cloud-architect
+official:
+  well_architected:
+    url: https://learn.microsoft.com/en-us/azure/well-architected/
+  cloud_adoption_framework:
+    url: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/
+  azure_landing_zones:
+    url: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/
+  azure_mcp_server:
+    url: https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/
+  azure_verified_modules:
+    url: https://azure.github.io/Azure-Verified-Modules/
+  bicep_what_if:
+    url: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-what-if
+integrations:
+  - az-cli
+  - azure-powershell
+  - azure-mcp-server
+  - microsoft-learn
+  - bicep
+  - terraform
+  - avm-registry

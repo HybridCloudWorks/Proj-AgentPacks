@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "azure-architecture-design": {
+      "description": "Translate Azure requirements and repository evidence into an architecture model, separating observed resources, inferred relationships, design choices, and unresolved questions.",
+      "activation": "Use this Skill when the diagram represents Azure architecture, whether the input is prose, Bicep, ARM, Terraform, Azure Developer CLI, Kubernetes, CI/CD, or an application repository.",
+      "source": ".apm/skills/azure-architecture-design/SKILL.md"
+    },
+    "azure-architecture-patterns": {
+      "description": "Model common Azure architecture patterns such as private networking, AKS, serverless, analytics, CI/CD, landing zones, hybrid connectivity, and multi-region designs without misleading flows.",
+      "activation": "Use this Skill when a diagram needs a recognizable Azure architecture pattern or a review of whether a pattern is represented honestly.",
+      "source": ".apm/skills/azure-architecture-patterns/SKILL.md"
+    },
+    "azure-icons-and-visual-language": {
+      "description": "Apply official Azure2 icons, labels, boundary styles, typography, and visual conventions without distorting service meaning or implying false isolation.",
+      "activation": "Use this Skill whenever an Azure product, resource boundary, governance scope, or Azure visual style is shown.",
+      "source": ".apm/skills/azure-icons-and-visual-language/SKILL.md"
+    },
+    "diagram-validation-and-evidence": {
+      "description": "Validate Draw.io structure and Azure diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "activation": "Validate Draw.io structure and Azure diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "source": ".apm/skills/diagram-validation-and-evidence/SKILL.md"
+    },
+    "drawio-core-generation": {
+      "description": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "activation": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "source": ".apm/skills/drawio-core-generation/SKILL.md"
+    },
+    "drawio-layout-and-composition": {
+      "description": "Compose Azure diagrams with deterministic spacing, hierarchy, orthogonal routing, readable labels, and clear flow direction across dense architecture views.",
+      "activation": "Compose Azure diagrams with deterministic spacing, hierarchy, orthogonal routing, readable labels, and clear flow direction across dense architecture views.",
+      "source": ".apm/skills/drawio-layout-and-composition/SKILL.md"
+    },
+    "drawio-render-export-and-review": {
+      "description": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "activation": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "source": ".apm/skills/drawio-render-export-and-review/SKILL.md"
+    },
+    "drawio-xml-authoring": {
+      "description": "Author and repair reviewable uncompressed Draw.io XML with safe IDs, explicit containment, Azure2 image paths, valid edges, and no hidden structural defects.",
+      "activation": "Author and repair reviewable uncompressed Draw.io XML with safe IDs, explicit containment, Azure2 image paths, valid edges, and no hidden structural defects.",
+      "source": ".apm/skills/drawio-xml-authoring/SKILL.md"
+    }
+  }
+}

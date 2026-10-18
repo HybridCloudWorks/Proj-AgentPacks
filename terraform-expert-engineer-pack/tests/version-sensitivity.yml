@@ -1,0 +1,11 @@
+pack: terraform-expert-engineer
+requires_current_check:
+  - Terraform CLI version and language features
+  - provider and module versions
+  - S3 and AzureRM backend locking behavior
+  - Terraform Search support
+  - terraform test mock_provider support
+  - HCP Terraform and Stacks availability and syntax
+  - tfpolicy or Sentinel runner behavior
+  - Terraform Plugin Framework protocol and Go version
+  - current AVM specification and certification requirements

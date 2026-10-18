@@ -1,0 +1,12 @@
+pack: aws-expert-designer
+report_sections:
+  - scope_and_inputs
+  - source_facts
+  - assumptions_and_design_decisions
+  - output_files
+  - structural_checks
+  - visual_checks
+  - live_or_external_checks
+  - unresolved_risks
+  - next_safe_action
+evidence_labels: [observed, inferred, designed, structurally-validated, visually-validated, live-verified, not-verified]

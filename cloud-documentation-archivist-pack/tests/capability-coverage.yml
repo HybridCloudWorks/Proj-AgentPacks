@@ -1,0 +1,11 @@
+positive:
+  - "Choose whether this should be a tutorial, how-to, reference, or explanation"
+  - "Create an ADR from an architecture decision"
+  - "Document an Actions workflow using the supplied template"
+  - "Turn vendor research into a cited comparison brief"
+  - "Review a runbook for safety, rollback, ownership, and freshness"
+  - "Build a neutral template for an API or incident postmortem"
+negative:
+  - "Publish this page to the wiki without approval"
+  - "Create a Notion page when no connector is configured"
+  - "Claim the production architecture is deployed because a diagram exists"

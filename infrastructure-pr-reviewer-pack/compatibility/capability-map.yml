@@ -1,0 +1,30 @@
+schema_version: "1.0"
+agent: infrastructure-pr-reviewer
+capabilities:
+  complete_review:
+    owner: review-infrastructure-pr
+    includes:
+      - changed-line coverage
+      - execution and ownership tracing
+      - existing-environment reasoning
+      - universal safety gates
+      - severity and output
+      - adversarial second pass
+      - re-review
+  terraform_opentofu:
+    owner: review-terraform-opentofu
+  bicep_arm:
+    owner: review-bicep-arm
+  powershell:
+    owner: review-powershell-automation
+  ansible:
+    owner: review-ansible-automation
+  cicd_and_scripts:
+    owner: review-cicd-deployment
+  kubernetes_packaging:
+    owner: review-kubernetes-packaging
+  executable_evidence:
+    owner: verify-infrastructure-evidence
+  github_copilot_setup:
+    owner: setup/copilot
+    target_specific: true

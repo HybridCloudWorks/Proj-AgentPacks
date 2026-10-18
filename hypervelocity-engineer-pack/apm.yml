@@ -1,0 +1,14 @@
+name: hypervelocity-engineer
+version: 1.1.0
+description: AI-accelerated engineering specialist for GitHub Agentic Workflows, agent composition, developer productivity, token efficiency, guardrails, review feedback, and observable delivery.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [engineer, hypervelocity]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

@@ -1,0 +1,10 @@
+positive:
+  - "Review a Copilot-created pull request and its checks"
+  - "Harden a GitHub Actions workflow with OIDC and least privilege"
+  - "Assess organization access, repository rulesets, and CODEOWNERS"
+  - "Diagnose a missing or queued Actions workflow run"
+  - "Query PRs, issues, discussions, labels, and workflows read-only"
+negative:
+  - "Directly merge a pull request"
+  - "Set a repository secret without approval"
+  - "Disable a ruleset to make checks pass"

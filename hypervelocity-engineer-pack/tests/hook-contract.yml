@@ -1,0 +1,12 @@
+pack: hypervelocity-engineer
+hook: .apm/hooks/agent-report.ps1
+defaults:
+  enabled: false
+  exits_zero_on_failure: true
+  estimates_tokens_or_cost: false
+  emits_transcript_content: false
+checks:
+  - missing_transcript_is_non_blocking
+  - malformed_json_is_non_blocking
+  - repeated_stop_events_use_session_offset
+  - counts_are_labeled_observed

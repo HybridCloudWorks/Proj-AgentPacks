@@ -1,7 +1,6 @@
 ---
 name: microsoft-copilot-learning-reviewer
 description: Microsoft 365 Copilot, Copilot Studio, Designer, responsible AI, privacy, licensing, and current-feature reviewer for trainer content.
-tools: [read, search, edit, web, todo, playwright/*]
 user-invocable: false
 ---
 

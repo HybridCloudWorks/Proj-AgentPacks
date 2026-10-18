@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "aws-architecture-design": {
+      "description": "Translate AWS requirements and repository evidence into an architecture model, separating observed resources, inferred relationships, design choices, and unresolved questions.",
+      "activation": "Use this Skill when the diagram represents AWS architecture, whether the input is prose, CloudFormation, CDK, Terraform, or an application repository.",
+      "source": ".apm/skills/aws-architecture-design/SKILL.md"
+    },
+    "aws-architecture-patterns": {
+      "description": "Model common AWS patterns such as VPC networking, serverless, containers, event-driven systems, data platforms, hybrid connectivity, CI/CD, and multi-Region designs honestly.",
+      "activation": "Use this Skill when a diagram needs a recognizable AWS architecture pattern or a review of whether a pattern is represented honestly.",
+      "source": ".apm/skills/aws-architecture-patterns/SKILL.md"
+    },
+    "aws-icons-and-visual-language": {
+      "description": "Apply current AWS4 service and resource icons, labels, category containers, boundary styles, typography, and AWS architecture diagram conventions.",
+      "activation": "Use this Skill whenever an AWS product, resource, account boundary, network scope, or AWS visual style is shown.",
+      "source": ".apm/skills/aws-icons-and-visual-language/SKILL.md"
+    },
+    "aws-layout-and-composition": {
+      "description": "Compose AWS diagrams with deterministic spacing, account and network hierarchy, orthogonal routing, readable labels, and visible cost-bearing flows.",
+      "activation": "Compose AWS diagrams with deterministic spacing, account and network hierarchy, orthogonal routing, readable labels, and visible cost-bearing flows.",
+      "source": ".apm/skills/aws-layout-and-composition/SKILL.md"
+    },
+    "aws-xml-authoring": {
+      "description": "Author and repair reviewable uncompressed Draw.io XML with safe IDs, explicit AWS containment, valid AWS4 icon names, valid edges, and no hidden structural defects.",
+      "activation": "Author and repair reviewable uncompressed Draw.io XML with safe IDs, explicit AWS containment, valid AWS4 icon names, valid edges, and no hidden structural defects.",
+      "source": ".apm/skills/aws-xml-authoring/SKILL.md"
+    },
+    "diagram-validation-and-evidence": {
+      "description": "Validate Draw.io structure and AWS diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "activation": "Validate Draw.io structure and AWS diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "source": ".apm/skills/diagram-validation-and-evidence/SKILL.md"
+    },
+    "drawio-core-generation": {
+      "description": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "activation": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "source": ".apm/skills/drawio-core-generation/SKILL.md"
+    },
+    "drawio-render-export-and-review": {
+      "description": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "activation": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "source": ".apm/skills/drawio-render-export-and-review/SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+schema_version: "1.0"
+phases:
+  1_scope: review-apple-code
+  2_architecture: review-apple-code
+  3_code_quality: review-apple-code
+  4_defect_logic: inspect-swift-correctness
+  5_security: assess-apple-security-privacy
+  6_performance: assess-apple-runtime-quality
+  7_errors_observability: assess-apple-runtime-quality
+  8_tests: verify-apple-build-tests
+  9_dependencies_configuration: verify-apple-build-tests
+  10_documentation: review-apple-code
+  11_validation_deduplication: review-apple-code
+  12_final_report: review-apple-code
+cross_cutting:
+  ui_accessibility: assess-apple-ui-accessibility
+  secret_redaction: assess-apple-security-privacy
+  toolchain_detection: verify-apple-build-tests
+  severity_and_labels: review-apple-code
+  handoff: review-apple-code

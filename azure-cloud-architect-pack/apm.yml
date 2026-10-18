@@ -1,0 +1,14 @@
+name: azure-cloud-architect
+version: 1.1.0
+description: Senior Azure Cloud Architect for enterprise foundations, workload design, deployment, operations, migration, security, resilience, cost, landing zones, AVM, and official-evidence workflows.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [architect, azure, cloud]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

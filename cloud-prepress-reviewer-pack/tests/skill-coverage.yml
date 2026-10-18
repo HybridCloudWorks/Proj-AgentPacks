@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "architecture-and-adr-consistency": {
+      "description": "Reviews implementation and infrastructure changes against approved architecture, topology, ADRs, service boundaries, ownership, and stated acceptance criteria.",
+      "activation": "Reviews implementation and infrastructure changes against approved architecture, topology, ADRs, service boundaries, ownership, and stated acceptance criteria.",
+      "source": ".apm/skills/architecture-and-adr-consistency/SKILL.md"
+    },
+    "azure-evidence-and-mcp-review": {
+      "description": "Grounds Azure review claims in current Microsoft documentation, Azure MCP results, repository evidence, previews, and clearly labeled confidence boundaries.",
+      "activation": "Grounds Azure review claims in current Microsoft documentation, Azure MCP results, repository evidence, previews, and clearly labeled confidence boundaries.",
+      "source": ".apm/skills/azure-evidence-and-mcp-review/SKILL.md"
+    },
+    "change-scope-and-impact": {
+      "description": "Determines the exact change boundary, architecture context, resource blast radius, state and dependency impact, and files that must be reviewed before approval.",
+      "activation": "Determines the exact change boundary, architecture context, resource blast radius, state and dependency impact, and files that must be reviewed before approval.",
+      "source": ".apm/skills/change-scope-and-impact/SKILL.md"
+    },
+    "cloud-prepress-orchestration": {
+      "description": "Orchestrates the evidence-first review between implementation and pull request or deployment, selecting only the review domains required by the changed artifact.",
+      "activation": "Orchestrates the evidence-first review between implementation and pull request or deployment, selecting only the review domains required by the changed artifact.",
+      "source": ".apm/skills/cloud-prepress-orchestration/SKILL.md"
+    },
+    "code-defect-and-quality-review": {
+      "description": "Performs evidence-first code review for defects, logic, maintainability, error handling, observability, performance, and safe behavior across changed application code.",
+      "activation": "Performs evidence-first code review for defects, logic, maintainability, error handling, observability, performance, and safe behavior across changed application code.",
+      "source": ".apm/skills/code-defect-and-quality-review/SKILL.md"
+    },
+    "cost-allocation-and-governance-review": {
+      "description": "Reviews cost, allocation, tags, budgets, quotas, resource sizing, sustainability, policy exceptions, and operational ownership before a change reaches deployment.",
+      "activation": "Reviews cost, allocation, tags, budgets, quotas, resource sizing, sustainability, policy exceptions, and operational ownership before a change reaches deployment.",
+      "source": ".apm/skills/cost-allocation-and-governance-review/SKILL.md"
+    },
+    "deployment-preview-and-environment-review": {
+      "description": "Reviews deployment readiness, environment configuration, authentication, Bicep what-if, Terraform plan, AZD previews, and mutation gates without executing deployment actions.",
+      "activation": "Reviews deployment readiness, environment configuration, authentication, Bicep what-if, Terraform plan, AZD previews, and mutation gates without executing deployment actions.",
+      "source": ".apm/skills/deployment-preview-and-environment-review/SKILL.md"
+    },
+    "documentation-inputs-and-repository-contracts": {
+      "description": "Reviews whether changed behavior, inputs, secrets references, runbooks, ADRs, review records, checklists, and repository contracts are documented in the correct artifact.",
+      "activation": "Reviews whether changed behavior, inputs, secrets references, runbooks, ADRs, review records, checklists, and repository contracts are documented in the correct artifact.",
+      "source": ".apm/skills/documentation-inputs-and-repository-contracts/SKILL.md"
+    },
+    "iac-policy-and-identity-review": {
+      "description": "Reviews Terraform, Bicep, ARM, Azure Policy, RBAC, managed identity, tags, naming, and infrastructure governance changes for correctness and least privilege.",
+      "activation": "Reviews Terraform, Bicep, ARM, Azure Policy, RBAC, managed identity, tags, naming, and infrastructure governance changes for correctness and least privilege.",
+      "source": ".apm/skills/iac-policy-and-identity-review/SKILL.md"
+    },
+    "operability-resilience-and-rollback-review": {
+      "description": "Reviews observability, alerting, backup, recovery, rollout, rollback, migration, downtime, and day-two operating readiness before deployment.",
+      "activation": "Reviews observability, alerting, backup, recovery, rollout, rollback, migration, downtime, and day-two operating readiness before deployment.",
+      "source": ".apm/skills/operability-resilience-and-rollback-review/SKILL.md"
+    },
+    "review-hooks-and-automation": {
+      "description": "Uses the pack's pre-review and post-review hooks plus deterministic inventory and report validators to make recurring review checks consistent and non-mutating.",
+      "activation": "Uses the pack's pre-review and post-review hooks plus deterministic inventory and report validators to make recurring review checks consistent and non-mutating.",
+      "source": ".apm/skills/review-hooks-and-automation/SKILL.md"
+    },
+    "review-report-and-pr-gate": {
+      "description": "Produces the final pre-press findings report, merge or deployment recommendation, evidence ledger, unresolved risks, and precise engineer handoff without overstating validation.",
+      "activation": "Produces the final pre-press findings report, merge or deployment recommendation, evidence ledger, unresolved risks, and precise engineer handoff without overstating validation.",
+      "source": ".apm/skills/review-report-and-pr-gate/SKILL.md"
+    },
+    "role-authority-and-handoff-review": {
+      "description": "Verifies agent roles, tool permissions, ownership, reviewer boundaries, handoff contracts, approval gates, and whether the next actor can safely continue the work.",
+      "activation": "Verifies agent roles, tool permissions, ownership, reviewer boundaries, handoff contracts, approval gates, and whether the next actor can safely continue the work.",
+      "source": ".apm/skills/role-authority-and-handoff-review/SKILL.md"
+    },
+    "security-secrets-and-supply-chain-review": {
+      "description": "Reviews changed code and infrastructure for trust-boundary failures, secret exposure, identity misuse, insecure defaults, dependency risk, and supply-chain weaknesses.",
+      "activation": "Reviews changed code and infrastructure for trust-boundary failures, secret exposure, identity misuse, insecure defaults, dependency risk, and supply-chain weaknesses.",
+      "source": ".apm/skills/security-secrets-and-supply-chain-review/SKILL.md"
+    },
+    "tests-build-and-dependency-review": {
+      "description": "Verifies that changed code, infrastructure, containers, dependencies, and configuration have appropriate build, test, lint, package, and regression evidence.",
+      "activation": "Verifies that changed code, infrastructure, containers, dependencies, and configuration have appropriate build, test, lint, package, and regression evidence.",
+      "source": ".apm/skills/tests-build-and-dependency-review/SKILL.md"
+    }
+  }
+}

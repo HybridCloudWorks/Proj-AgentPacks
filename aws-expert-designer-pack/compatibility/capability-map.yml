@@ -1,0 +1,11 @@
+pack: aws-expert-designer
+capabilities:
+  drawio_generation: drawio-core-generation
+  aws_architecture_semantics: aws-architecture-design
+  source_code_extraction: aws-architecture-design
+  icon_and_visual_language: aws-icons-and-visual-language
+  xml_authoring: aws-xml-authoring
+  layout_and_routing: aws-layout-and-composition
+  architecture_patterns: aws-architecture-patterns
+  export_and_render_review: drawio-render-export-and-review
+  evidence_and_validation: diagram-validation-and-evidence

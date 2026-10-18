@@ -5,7 +5,7 @@ Standard: agent-pack-prompt v2.2
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 190  Passed: 190  Failed: 0  Skipped: 0
+Checks: 189  Passed: 189  Failed: 0  Skipped: 0
 
 ## Scope
 
@@ -198,14 +198,13 @@ Checks: 190  Passed: 190  Failed: 0  Skipped: 0
 | structural | pack doc compatibility/optional-skills.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/tool-permissions.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/vendor-sources.yml: describes the current layout | pass |  |
-| structural | capability-coverage.yml names every skill exactly once | pass | 18 requirements for 18 skills |
-| structural | capability-coverage.yml prompts exist | pass |  |
-| structural | capability-coverage.yml agents exist | pass |  |
-| structural | trigger-cases.yml covers every skill | pass |  |
-| structural | trigger-cases.yml names only real skills | pass |  |
-| structural | trigger-cases.yml prompts exist | pass |  |
+| structural | tests/skill-coverage.yml lists exactly the shipped skills | pass | missing: [] extra: [] |
+| structural | tests/skill-coverage.yml has an activation statement for every skill | pass |  |
+| structural | tests/capability-coverage.yml prompt files exist | pass |  |
+| structural | tests/capability-coverage.yml names every skill exactly once | pass | 18 requirements for 18 skills |
+| structural | tests/trigger-cases.yml prompt files exist | pass |  |
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
-| structural | contract instruction states every report field, status and severity from report-contract.yml | pass |  |
+| structural | contract instruction states every short value listed in report-contract.yml | pass |  |
 | structural | contract instruction states the fallback sentence | pass |  |
 | executable | pack unit tests (python -m unittest discover -s tests) | pass | OK |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |

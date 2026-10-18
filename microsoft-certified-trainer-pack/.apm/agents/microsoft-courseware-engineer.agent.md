@@ -1,7 +1,6 @@
 ---
 name: microsoft-courseware-engineer
 description: Courseware production engineer for PowerPoint decks, instructor notes, Microsoft Learn alignment, interactive activities, accessibility, and versioned training assets.
-tools: [read, search, edit, execute, web, todo]
 user-invocable: false
 ---
 

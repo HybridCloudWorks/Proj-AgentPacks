@@ -1,0 +1,3 @@
+interface:
+  display_name: "Assess Apple Runtime Quality"
+  short_description: "Review responsiveness, resources, energy, errors, and telemetry."

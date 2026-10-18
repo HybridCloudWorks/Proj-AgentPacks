@@ -1,0 +1,79 @@
+schema_version: "1.0"
+cases:
+  - skill: review-apple-code
+    should_trigger: true
+    query: Review this iOS pull request and tell me whether it is safe to merge.
+  - skill: review-apple-code
+    should_trigger: true
+    query: Audit the AI-generated Swift feature for release blockers and missing tests.
+  - skill: review-apple-code
+    should_trigger: false
+    query: Implement a new settings screen in SwiftUI.
+  - skill: review-apple-code
+    should_trigger: false
+    query: Rewrite the repository README.
+
+  - skill: inspect-swift-correctness
+    should_trigger: true
+    query: Check this actor and Task code for races and cancellation bugs.
+  - skill: inspect-swift-correctness
+    should_trigger: true
+    query: Review these optionals, continuations, and closure captures for defects.
+  - skill: inspect-swift-correctness
+    should_trigger: false
+    query: Check the app icon sizes.
+  - skill: inspect-swift-correctness
+    should_trigger: false
+    query: Verify our provisioning profiles in CI.
+
+  - skill: assess-apple-ui-accessibility
+    should_trigger: true
+    query: Review this SwiftUI form for state, navigation, Dynamic Type, and VoiceOver issues.
+  - skill: assess-apple-ui-accessibility
+    should_trigger: true
+    query: Check this reusable UIKit cell and focus behavior on iPad.
+  - skill: assess-apple-ui-accessibility
+    should_trigger: false
+    query: Inspect our Keychain token storage.
+  - skill: assess-apple-ui-accessibility
+    should_trigger: false
+    query: Review Package.resolved for dependency risk.
+
+  - skill: assess-apple-security-privacy
+    should_trigger: true
+    query: Review deep links, WebKit messages, Keychain, entitlements, and PrivacyInfo.xcprivacy.
+  - skill: assess-apple-security-privacy
+    should_trigger: true
+    query: Check whether this SDK change creates App Store privacy or tracking risk.
+  - skill: assess-apple-security-privacy
+    should_trigger: false
+    query: Find slow list rendering in this SwiftUI view.
+  - skill: assess-apple-security-privacy
+    should_trigger: false
+    query: Suggest clearer Swift method names.
+
+  - skill: assess-apple-runtime-quality
+    should_trigger: true
+    query: Find main-thread stalls, memory leaks, retry storms, and noisy logs in this feature.
+  - skill: assess-apple-runtime-quality
+    should_trigger: true
+    query: Review this image pipeline for allocations, caching, cancellation, and energy impact.
+  - skill: assess-apple-runtime-quality
+    should_trigger: false
+    query: Check the privacy manifest for required-reason APIs.
+  - skill: assess-apple-runtime-quality
+    should_trigger: false
+    query: Verify the Xcode scheme builds in CI.
+
+  - skill: verify-apple-build-tests
+    should_trigger: true
+    query: Verify this Xcode workspace, schemes, tests, dependencies, entitlements, and macOS CI run.
+  - skill: verify-apple-build-tests
+    should_trigger: true
+    query: Can this Swift package be built here, and what validation is unavailable without Xcode?
+  - skill: verify-apple-build-tests
+    should_trigger: false
+    query: Review this actor for reentrancy.
+  - skill: verify-apple-build-tests
+    should_trigger: false
+    query: Check VoiceOver labels in this custom control.

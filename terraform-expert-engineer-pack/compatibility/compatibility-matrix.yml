@@ -1,0 +1,22 @@
+pack: terraform-expert-engineer
+canonical:
+  format: apm
+  agent: .apm/agents/terraform-expert-engineer.agent.md
+  skills: .apm/skills/*/SKILL.md
+targets:
+  github-copilot:
+    agent: .github/agents/terraform-expert-engineer.agent.md
+    skills: .agents/skills/*/SKILL.md
+    notes: Generated Copilot adapter; native tool names and repository policy still apply.
+  claude-code:
+    agent: .claude/agents/terraform-expert-engineer.md
+    skills: .claude/skills/*/SKILL.md
+    notes: Generated Claude adapter; permission mode remains default and no hook is included.
+  openai-codex:
+    agent: .codex/agents/terraform-expert-engineer.toml
+    skills: .agents/skills/*/SKILL.md
+    notes: Generated Codex adapter; sandbox and approval values require review against the installed release.
+  gemini-cli:
+    agent: .gemini/agents/terraform-expert-engineer.md
+    skills: .agents/skills/*/SKILL.md
+    notes: Generated Gemini adapter; local shell/file-write consent remains vendor and repository controlled.

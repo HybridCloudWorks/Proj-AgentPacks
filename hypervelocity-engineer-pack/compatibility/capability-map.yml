@@ -1,0 +1,18 @@
+agent: hypervelocity-engineer
+capabilities:
+  design_route:
+    - agentic-workflows
+    - agent-delegation-and-composition
+  create_update_upgrade:
+    - agentic-workflows
+    - workflow-lifecycle-and-release
+  optimize:
+    - optimize-agentic-workflow
+    - prompt-token-efficiency
+  guardrail:
+    - agent-governance-and-guardrails
+  observe_evaluate:
+    - workflow-observability-and-evaluation
+    - agent-usage-reporting
+  review_feedback:
+    - copilot-review-feedback

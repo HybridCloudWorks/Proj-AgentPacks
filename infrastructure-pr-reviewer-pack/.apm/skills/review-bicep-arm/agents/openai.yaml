@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review Bicep and ARM"
+  short_description: "Review scope, resource identity, lifecycle, compilation, and what-if evidence."

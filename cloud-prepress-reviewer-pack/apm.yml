@@ -1,0 +1,14 @@
+name: cloud-prepress-reviewer
+version: 1.1.0
+description: Expert pre-PR and pre-deployment reviewer for application and Azure infrastructure changes, evidence, defects, security, IaC, policy, tests, previews, rollback, cost, and handoff.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [cloud, prepress, reviewer]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

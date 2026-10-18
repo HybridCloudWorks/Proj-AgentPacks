@@ -1,0 +1,14 @@
+name: apple-code-reviewer
+version: 1.1.0
+description: Portable Apple-platform code review agent with focused, progressively disclosed skills for Swift correctness, UI and accessibility, security and privacy, runtime quality, and build and test verification.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [apple, code, reviewer]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

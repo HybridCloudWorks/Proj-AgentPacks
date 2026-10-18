@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "ansible-bootstrap-interactive": {
+      "description": "Guide a connection-first Ansible project bootstrap or hands-on build by gathering hosts, OS, SSH, become, environment, collections, and secrets constraints before writing automation.",
+      "activation": "Guide a connection-first Ansible project bootstrap or hands-on build by gathering hosts, OS, SSH, become, environment, collections, and secrets constraints before writing automation.",
+      "source": ".apm/skills/ansible-bootstrap-interactive/SKILL.md"
+    },
+    "ansible-collections-supply-chain": {
+      "description": "Choose, install, pin, verify, upgrade, and troubleshoot Ansible collections and roles with requirements files, FQCN ownership, Galaxy or Automation Hub sources, signatures, and compatibility evidence.",
+      "activation": "Choose, install, pin, verify, upgrade, and troubleshoot Ansible collections and roles with requirements files, FQCN ownership, Galaxy or Automation Hub sources, signatures, and compatibility evidence.",
+      "source": ".apm/skills/ansible-collections-supply-chain/SKILL.md"
+    },
+    "ansible-convert-imperative-automation": {
+      "description": "Convert shell scripts, manual runbooks, Dockerfile RUN steps, cloud-init, or imperative host setup into idempotent Ansible playbooks and roles. Use when replacing repeated command sequences with declarative configuration management.",
+      "activation": "Use when replacing repeated command sequences with declarative configuration management.",
+      "source": ".apm/skills/ansible-convert-imperative-automation/SKILL.md"
+    },
+    "ansible-debug-runtime-failures": {
+      "description": "Diagnose Ansible UNREACHABLE, SSH, authentication, become, module, templating, variable, version, idempotency, or performance failures from commands and evidence. Use when a playbook or inventory fails or behaves unexpectedly.",
+      "activation": "Use when a playbook or inventory fails or behaves unexpectedly.",
+      "source": ".apm/skills/ansible-debug-runtime-failures/SKILL.md"
+    },
+    "ansible-execution-control": {
+      "description": "Design or review Ansible rollout safety, host selection, serial batches, strategies, delegation, run_once, throttle, async work, handlers, failure policy, and blast-radius controls.",
+      "activation": "Design or review Ansible rollout safety, host selection, serial batches, strategies, delegation, run_once, throttle, async work, handlers, failure policy, and blast-radius controls.",
+      "source": ".apm/skills/ansible-execution-control/SKILL.md"
+    },
+    "ansible-inventory-and-variable-design": {
+      "description": "Design or troubleshoot Ansible inventories, inventory plugins, host/group variables, precedence, facts, caching, environment separation, and target selection without accidental cross-environment or cross-host changes.",
+      "activation": "Design or troubleshoot Ansible inventories, inventory plugins, host/group variables, precedence, facts, caching, environment separation, and target selection without accidental cross-environment or cross-host changes.",
+      "source": ".apm/skills/ansible-inventory-and-variable-design/SKILL.md"
+    },
+    "ansible-playbook-development": {
+      "description": "Create or review Ansible playbooks, roles, tasks, handlers, templates, inventories, and variables using FQCN modules, explicit contracts, idempotency, and current Ansible validation. Use when the task is authoring or changing reusable Ansible automation.",
+      "activation": "Use when the task is authoring or changing reusable Ansible automation.",
+      "source": ".apm/skills/ansible-playbook-development/SKILL.md"
+    },
+    "ansible-role-collection-engineering": {
+      "description": "Build or review production-quality Ansible roles and collections, including public variable contracts, argument specifications, metadata, documentation, Molecule scenarios, ansible-test, and supported-version evidence.",
+      "activation": "Build or review production-quality Ansible roles and collections, including public variable contracts, argument specifications, metadata, documentation, Molecule scenarios, ansible-test, and supported-version evidence.",
+      "source": ".apm/skills/ansible-role-collection-engineering/SKILL.md"
+    },
+    "ansible-validate-content": {
+      "description": "Validate Ansible playbooks, roles, collections, inventories, and CI with ansible-lint, syntax checks, inventory inspection, check/diff mode, idempotency evidence, and targeted tests. Use before execution or when remediating validation failures.",
+      "activation": "Validate Ansible playbooks, roles, collections, inventories, and CI with ansible-lint, syntax checks, inventory inspection, check/diff mode, idempotency evidence, and targeted tests",
+      "source": ".apm/skills/ansible-validate-content/SKILL.md"
+    },
+    "ansible-vault-secrets": {
+      "description": "Manage Ansible Vault, vault IDs, secret-manager integration, plaintext-secret migration, no_log, diff suppression, and CI-safe password delivery. Use whenever Ansible variables, templates, inventory, output, or dependencies contain credentials or sensitive data.",
+      "activation": "Use whenever Ansible variables, templates, inventory, output, or dependencies contain credentials or sensitive data.",
+      "source": ".apm/skills/ansible-vault-secrets/SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+positive:
+  - "Create an idempotent Ansible role for nginx and validate it with Molecule."
+  - "Convert this shell bootstrap script into a playbook with handlers."
+  - "Why is this Ansible host UNREACHABLE after the core upgrade?"
+  - "Pin the collections in requirements.yml and verify their FQCNs."
+  - "Design a serial rollout with safe delegation and failure behavior."
+negative:
+  - "Provision an Azure virtual network with Terraform."
+  - "Write a generic Python web service."
+  - "Deploy this production playbook to every host now."

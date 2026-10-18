@@ -1,0 +1,16 @@
+snapshot_date: 2026-08-22
+sources:
+  ansible_release_table: https://docs.ansible.com/projects/ansible/latest/reference_appendices/release_and_maintenance.html
+  ansible_porting_guides: https://docs.ansible.com/projects/ansible/latest/porting_guides/core_porting_guides.html
+  ansible_execution: https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_execution.html
+  ansible_molecule: https://docs.ansible.com/projects/molecule/
+  ansible_testing: https://docs.ansible.com/projects/dev-tools/user-guide/testing/
+  github_copilot_agents: https://docs.github.com/en/copilot/reference/custom-agents-configuration
+  github_copilot_skills: https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
+  claude_code_skills: https://code.claude.com/docs/en/slash-commands
+  claude_code_subagents: https://code.claude.com/docs/en/sub-agents
+  openai_codex_skills: https://developers.openai.com/api/reference/python/resources/skills/methods/create
+  gemini_cli_skills: https://geminicli.com/docs/cli/using-agent-skills/
+  gemini_cli_subagents: https://geminicli.com/docs/core/subagents/
+  apm: https://microsoft.github.io/apm/
+  apm_targets: https://microsoft.github.io/apm/concepts/primitives-and-targets/

@@ -1,0 +1,20 @@
+pack: cloud-documentation-archivist
+capabilities:
+  orchestration: documentation-archivist-orchestration
+  purpose-and-architecture: documentation-purpose-and-information-architecture
+  diataxis: diataxis-content-design
+  editorial-quality: documentation-style-and-editorial-quality
+  reference: technical-reference-and-api-docs
+  tutorial-how-to: tutorials-and-how-to-guides
+  explanation: explanation-and-architecture-docs
+  decisions: adr-and-decision-records
+  operations: runbooks-and-operational-docs
+  governance: repository-and-project-doc-governance
+  templates: templates-and-content-models
+  docs-as-code: docs-as-code-and-publishing
+  validation: documentation-validation-and-link-checking
+  research: research-synthesis-and-source-traceability
+  releases: changelogs-release-notes-and-migration
+  security: docs-security-privacy-and-redaction
+  knowledge-base: knowledge-base-and-taxonomy
+  automation: documentation-hooks-and-automation

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Verify Infrastructure Evidence"
+  short_description: "Run safe checks and validate plans, previews, tests, scans, and CI evidence."

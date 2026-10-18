@@ -1,0 +1,66 @@
+schema_version: "1.1"
+last_verified: "2026-08-21"
+canonical_source:
+  agent: .apm/agents/apple-code-reviewer.agent.md
+  skills: .apm/skills/
+  note: Vendor directories are generated outputs. Edit only the canonical source.
+
+targets:
+  copilot:
+    native_agent: .github/agents/apple-code-reviewer.agent.md
+    native_skills: .agents/skills/
+    agent_format: markdown-yaml
+    tools: [read, search, execute, web, "github/*"]
+    skill_activation: automatic-by-description
+    restrictions:
+      - No edit tool is granted.
+      - Shell execution remains subject to the Agent's non-destructive command contract and host approvals.
+      - GitHub MCP access is read-only and source-repository scoped in Copilot cloud agent.
+    generator: tooling/generate_targets.py
+
+  claude:
+    native_agent: .claude/agents/apple-code-reviewer.md
+    native_skills: .claude/skills/
+    agent_format: markdown-yaml
+    tools: [Read, Grep, Glob, Bash, WebFetch, WebSearch, Skill]
+    disallowed_tools: [Write, Edit, MultiEdit, NotebookEdit]
+    permission_mode: plan
+    skill_activation: Skill-tool-on-demand
+    restrictions:
+      - Skills are not preloaded; this preserves progressive disclosure.
+      - Parent permission modes and organization policy can override or further restrict subagent behavior.
+    generator: tooling/generate_targets.py
+
+  codex:
+    native_agent: .codex/agents/apple-code-reviewer.toml
+    native_skills: .agents/skills/
+    agent_format: toml
+    sandbox_mode: read-only
+    skill_activation: native-skill-discovery
+    restrictions:
+      - APM's Agent conversion does not preserve every tool restriction.
+      - Use the generated TOML adapter or inspect APM diagnostics before running the APM-generated Agent.
+    generator: tooling/generate_targets.py
+
+  gemini:
+    native_agent: .gemini/agents/apple-code-reviewer.md
+    native_skills: .agents/skills/
+    agent_format: markdown-yaml
+    tools: [list_directory, read_file, glob, grep_search, run_shell_command, google_web_search, activate_skill]
+    skill_activation: activate_skill-on-demand
+    restrictions:
+      - File-write tools are not granted.
+      - Shell commands remain subject to Gemini CLI confirmation, sandbox, and policy controls.
+      - Current APM documentation does not deploy the Gemini Agent primitive; use the generated adapter.
+    generator: tooling/generate_targets.py
+
+apm_direct_deployment:
+  copilot_and_claude:
+    status: supported
+    note: Canonical cross-vendor tool aliases are preserved; generated adapters add target-specific hardening.
+  codex:
+    status: transformed-with-warning
+    note: Tool restrictions may be lost during APM Agent conversion.
+  gemini:
+    status: skills-supported-agent-adapter-required
+    note: APM deploys Skills but not the current native Gemini subagent file.

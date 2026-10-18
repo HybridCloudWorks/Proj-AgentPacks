@@ -1,0 +1,23 @@
+agent: ansible-expert-engineer
+required:
+  - author_playbooks_roles
+  - convert_imperative_automation
+  - debug_runtime_failures
+  - validate_content
+  - protect_secrets
+  - manage_collection_dependencies
+  - bootstrap_interactively
+  - control_rollouts
+  - engineer_reusable_content
+  - design_inventory_variables
+owners:
+  author_playbooks_roles: ansible-playbook-development
+  convert_imperative_automation: ansible-convert-imperative-automation
+  debug_runtime_failures: ansible-debug-runtime-failures
+  validate_content: ansible-validate-content
+  protect_secrets: ansible-vault-secrets
+  manage_collection_dependencies: ansible-collections-supply-chain
+  bootstrap_interactively: ansible-bootstrap-interactive
+  control_rollouts: ansible-execution-control
+  engineer_reusable_content: ansible-role-collection-engineering
+  design_inventory_variables: ansible-inventory-and-variable-design

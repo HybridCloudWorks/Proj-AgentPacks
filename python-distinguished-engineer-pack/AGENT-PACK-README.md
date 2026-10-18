@@ -86,6 +86,7 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | valid-completion-report.md | Local test or recorded evidence | tests/fixtures/valid-completion-report.md |
 | valid-completion.json | Local test or recorded evidence | tests/fixtures/valid-completion.json |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
+| skill-coverage.yml | Local test or recorded evidence | tests/skill-coverage.yml |
 | test_behavior.py | Local test or recorded evidence | tests/test_behavior.py |
 | trigger-cases.yml | Local test or recorded evidence | tests/trigger-cases.yml |
 | completion_contract.py | Pack-specific helper code | tooling/completion_contract.py |

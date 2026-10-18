@@ -1,0 +1,17 @@
+pack: azure-cloud-architect
+targets:
+  github-copilot:
+    agent_path: .github/agents/azure-cloud-architect.agent.md
+    skill_root: .agents/skills
+  claude-code:
+    agent_path: .claude/agents/azure-cloud-architect.md
+    skill_root: .claude/skills
+  openai-codex:
+    agent_path: .codex/agents/azure-cloud-architect.toml
+    skill_root: .agents/skills
+  gemini-cli:
+    agent_path: .gemini/agents/azure-cloud-architect.md
+    skill_root: .agents/skills
+  canonical-apm:
+    agent_path: .apm/agents/azure-cloud-architect.agent.md
+    skill_root: .apm/skills

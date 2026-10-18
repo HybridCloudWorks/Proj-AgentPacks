@@ -1,0 +1,17 @@
+pack: aws-cloud-architect
+capabilities:
+  foundations_and_requirements: aws-architecture-foundations
+  well_architected_and_caf: aws-well-architected-and-frameworks
+  landing_zones_and_governance: aws-caf-landing-zones-and-governance
+  security_identity_and_compliance: aws-security-identity-and-compliance
+  networking_hybrid_and_edge: aws-networking-hybrid-and-edge
+  workload_and_service_selection: aws-workload-and-service-selection
+  data_and_application_patterns: aws-data-and-application-patterns
+  resilience_dr_and_migration: aws-resilience-dr-and-migration
+  iac_deployment_and_lifecycle: aws-iac-deployment-and-lifecycle
+  operations_observability_and_troubleshooting: aws-operations-observability-and-troubleshooting
+  cost_sustainability_and_finops: aws-cost-sustainability-and-finops
+  official_docs_and_mcp: aws-docs-mcp-and-evidence
+  handoff_and_adrs: aws-architecture-handoff-and-adr
+  visualization: aws-architecture-visualization
+  diagram_mechanics: drawio-core-generation

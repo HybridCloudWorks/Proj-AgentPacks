@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review Terraform and OpenTofu"
+  short_description: "Review state, lifecycle, providers, modules, plans, and apply integrity."

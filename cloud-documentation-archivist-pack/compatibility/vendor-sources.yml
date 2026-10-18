@@ -1,0 +1,7 @@
+targets:
+  github-copilot: GitHub custom agent profiles and Agent Skills
+  claude-code: Claude Code subagents and Agent Skills
+  openai-codex: Codex agent configuration and Agent Skills
+  gemini-cli: Gemini CLI local agents and Agent Skills
+source_of_truth: .apm and templates
+generated_by: tooling/build_pack.py

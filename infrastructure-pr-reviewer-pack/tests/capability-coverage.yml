@@ -1,0 +1,30 @@
+schema_version: "1.0"
+required_capabilities:
+  - name: complete_changed_line_coverage
+    owner: review-infrastructure-pr
+  - name: execution_and_ownership_graph
+    owner: review-infrastructure-pr
+  - name: target_and_identity_correctness
+    owner: review-infrastructure-pr
+  - name: lifecycle_and_destructive_impact
+    owner: review-infrastructure-pr
+  - name: terraform_opentofu
+    owner: review-terraform-opentofu
+  - name: bicep_arm
+    owner: review-bicep-arm
+  - name: powershell
+    owner: review-powershell-automation
+  - name: ansible
+    owner: review-ansible-automation
+  - name: cicd_and_deployment_scripts
+    owner: review-cicd-deployment
+  - name: kubernetes_helm_kustomize
+    owner: review-kubernetes-packaging
+  - name: safe_static_checks
+    owner: verify-infrastructure-evidence
+  - name: evidence_integrity
+    owner: verify-infrastructure-evidence
+  - name: severity_and_output
+    owner: review-infrastructure-pr
+  - name: github_copilot_setup
+    owner: setup/copilot

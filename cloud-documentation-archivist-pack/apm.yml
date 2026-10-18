@@ -1,0 +1,14 @@
+name: cloud-documentation-archivist
+version: 1.1.0
+description: Repository-neutral cloud documentation Agent, Skills, templates, validation, and safe docs-as-code tooling.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [archivist, cloud, documentation]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

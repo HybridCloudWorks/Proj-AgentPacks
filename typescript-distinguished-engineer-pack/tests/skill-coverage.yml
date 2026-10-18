@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "agent-evaluation": {
+      "description": "Create evaluation datasets and rubrics for agentic TypeScript systems, MCP tools, workflow reliability, safety, grounding, cost, and human oversight.",
+      "activation": "Create evaluation datasets and rubrics for agentic TypeScript systems, MCP tools, workflow reliability, safety, grounding, cost, and human oversight.",
+      "source": ".apm/skills/agent-evaluation/SKILL.md"
+    },
+    "agent-observability-and-telemetry": {
+      "description": "Design useful, privacy-aware observability for TypeScript services, tool calls, agent runs, workflows, and operational decisions.",
+      "activation": "Design useful, privacy-aware observability for TypeScript services, tool calls, agent runs, workflows, and operational decisions.",
+      "source": ".apm/skills/agent-observability-and-telemetry/SKILL.md"
+    },
+    "agent-state-and-context-engineering": {
+      "description": "Engineer reliable agent state, memory, context selection, compaction, retrieval grounding, provenance, and handoff behavior.",
+      "activation": "Engineer reliable agent state, memory, context selection, compaction, retrieval grounding, provenance, and handoff behavior.",
+      "source": ".apm/skills/agent-state-and-context-engineering/SKILL.md"
+    },
+    "agentic-cost-and-budget-controls": {
+      "description": "Bound and measure model, tool, workflow, and cloud consumption in agentic TypeScript applications.",
+      "activation": "Bound and measure model, tool, workflow, and cloud consumption in agentic TypeScript applications.",
+      "source": ".apm/skills/agentic-cost-and-budget-controls/SKILL.md"
+    },
+    "agentic-workflow-design": {
+      "description": "Design bounded, auditable agentic workflows and tool-calling loops that use autonomy only where it adds value.",
+      "activation": "Design bounded, auditable agentic workflows and tool-calling loops that use autonomy only where it adds value.",
+      "source": ".apm/skills/agentic-workflow-design/SKILL.md"
+    },
+    "api-contract-and-integration-engineering": {
+      "description": "Design or review versionable TypeScript APIs and integrations with validated contracts, safe retries, idempotency, and observable failure handling.",
+      "activation": "Design or review versionable TypeScript APIs and integrations with validated contracts, safe retries, idempotency, and observable failure handling.",
+      "source": ".apm/skills/api-contract-and-integration-engineering/SKILL.md"
+    },
+    "cloud-integration-and-identity": {
+      "description": "Integrate TypeScript systems with Azure, AWS, and Google Cloud using explicit identity, configuration, resilience, and provider-neutral operational boundaries.",
+      "activation": "Integrate TypeScript systems with Azure, AWS, and Google Cloud using explicit identity, configuration, resilience, and provider-neutral operational boundaries.",
+      "source": ".apm/skills/cloud-integration-and-identity/SKILL.md"
+    },
+    "dependency-supply-chain-and-reproducibility": {
+      "description": "Manage TypeScript and JavaScript dependencies for compatibility, provenance, reproducible builds, vulnerability response, and minimal supply-chain risk.",
+      "activation": "Manage TypeScript and JavaScript dependencies for compatibility, provenance, reproducible builds, vulnerability response, and minimal supply-chain risk.",
+      "source": ".apm/skills/dependency-supply-chain-and-reproducibility/SKILL.md"
+    },
+    "enterprise-architecture-and-adr": {
+      "description": "Make consequential TypeScript system decisions explicit through boundaries, trade-offs, ADRs, migration plans, and operational ownership.",
+      "activation": "Make consequential TypeScript system decisions explicit through boundaries, trade-offs, ADRs, migration plans, and operational ownership.",
+      "source": ".apm/skills/enterprise-architecture-and-adr/SKILL.md"
+    },
+    "frontend-react-engineering": {
+      "description": "Design and implement maintainable React and modern web changes with accessible behavior, state clarity, performance awareness, and browser evidence.",
+      "activation": "Design and implement maintainable React and modern web changes with accessible behavior, state clarity, performance awareness, and browser evidence.",
+      "source": ".apm/skills/frontend-react-engineering/SKILL.md"
+    },
+    "javascript-node-runtime-engineering": {
+      "description": "Engineer Node.js services and JavaScript modules with correct ESM/CommonJS behavior, lifecycle management, resource cleanup, and operational readiness.",
+      "activation": "Engineer Node.js services and JavaScript modules with correct ESM/CommonJS behavior, lifecycle management, resource cleanup, and operational readiness.",
+      "source": ".apm/skills/javascript-node-runtime-engineering/SKILL.md"
+    },
+    "layered-testing-and-test-engineering": {
+      "description": "Build a proportionate layered test strategy for TypeScript systems, public contracts, integrations, browser journeys, and regression coverage.",
+      "activation": "Build a proportionate layered test strategy for TypeScript systems, public contracts, integrations, browser journeys, and regression coverage.",
+      "source": ".apm/skills/layered-testing-and-test-engineering/SKILL.md"
+    },
+    "mcp-typescript-engineering": {
+      "description": "Build or review TypeScript MCP servers and clients with precise schemas, safe transports, authorization, bounded results, and approval-aware actions.",
+      "activation": "Build or review TypeScript MCP servers and clients with precise schemas, safe transports, authorization, bounded results, and approval-aware actions.",
+      "source": ".apm/skills/mcp-typescript-engineering/SKILL.md"
+    },
+    "performance-reliability-and-operability": {
+      "description": "Improve TypeScript system performance and production operability using measured bottlenecks, resilience controls, and recovery evidence.",
+      "activation": "Improve TypeScript system performance and production operability using measured bottlenecks, resilience controls, and recovery evidence.",
+      "source": ".apm/skills/performance-reliability-and-operability/SKILL.md"
+    },
+    "playwright-validation": {
+      "description": "Validate important web behavior with Playwright using accessible, stable locators, meaningful assertions, and diagnostic traces.",
+      "activation": "Validate important web behavior with Playwright using accessible, stable locators, meaningful assertions, and diagnostic traces.",
+      "source": ".apm/skills/playwright-validation/SKILL.md"
+    },
+    "pull-request-review-and-delivery": {
+      "description": "Review implementation diffs and pull requests for correctness, maintainability, security, tests, operations, and delivery readiness without silently merging or publishing.",
+      "activation": "Review implementation diffs and pull requests for correctness, maintainability, security, tests, operations, and delivery readiness without silently merging or publishing.",
+      "source": ".apm/skills/pull-request-review-and-delivery/SKILL.md"
+    },
+    "requirements-and-change-planning": {
+      "description": "Turn ambiguous enterprise engineering requests into explicit scope, acceptance criteria, options, risks, dependencies, and reviewable implementation plans.",
+      "activation": "Turn ambiguous enterprise engineering requests into explicit scope, acceptance criteria, options, risks, dependencies, and reviewable implementation plans.",
+      "source": ".apm/skills/requirements-and-change-planning/SKILL.md"
+    },
+    "secure-agent-engineering": {
+      "description": "Apply secure-by-default controls to TypeScript applications, APIs, MCP tools, agentic workflows, dependencies, and delivery pipelines.",
+      "activation": "Apply secure-by-default controls to TypeScript applications, APIs, MCP tools, agentic workflows, dependencies, and delivery pipelines.",
+      "source": ".apm/skills/secure-agent-engineering/SKILL.md"
+    },
+    "typescript-distinguished-engineer-orchestration": {
+      "description": "Route substantial enterprise TypeScript and JavaScript work through repository discovery, scoped planning, implementation, validation, and evidence-based completion.",
+      "activation": "Use when the task crosses components, has ambiguous requirements, or needs implementation plus review.",
+      "source": ".apm/skills/typescript-distinguished-engineer-orchestration/SKILL.md"
+    },
+    "typescript-strict-engineering": {
+      "description": "Design, implement, or review maintainable strict TypeScript with explicit contracts, safe narrowing, runtime validation, and reliable asynchronous behavior.",
+      "activation": "Design, implement, or review maintainable strict TypeScript with explicit contracts, safe narrowing, runtime validation, and reliable asynchronous behavior.",
+      "source": ".apm/skills/typescript-strict-engineering/SKILL.md"
+    }
+  }
+}

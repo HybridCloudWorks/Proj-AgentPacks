@@ -1,0 +1,20 @@
+pack: aws-expert-designer
+required_capabilities:
+  - editable_uncompressed_drawio_xml
+  - source_derived_aws_architecture
+  - aws_account_region_az_vpc_subnet_semantics
+  - official_aws4_icon_usage
+  - deterministic_layout_and_orthogonal_edges
+  - cross_az_cross_region_egress_visibility
+  - common_aws_architecture_patterns
+  - drawio_cli_export_and_review
+  - structural_and_visual_evidence_separation
+skill_map:
+  drawio-core-generation: [editable_uncompressed_drawio_xml]
+  aws-architecture-design: [source_derived_aws_architecture, aws_account_region_az_vpc_subnet_semantics]
+  aws-icons-and-visual-language: [official_aws4_icon_usage]
+  aws-xml-authoring: [editable_uncompressed_drawio_xml]
+  aws-layout-and-composition: [deterministic_layout_and_orthogonal_edges, cross_az_cross_region_egress_visibility]
+  aws-architecture-patterns: [common_aws_architecture_patterns]
+  drawio-render-export-and-review: [drawio_cli_export_and_review]
+  diagram-validation-and-evidence: [structural_and_visual_evidence_separation]

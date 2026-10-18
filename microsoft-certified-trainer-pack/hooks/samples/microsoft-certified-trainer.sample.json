@@ -1,0 +1,20 @@
+{
+  "_comment": "Sample only, not installed by APM. Replace <PACK_HOME> with the installed pack path; the Code Workflow installer does this.",
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "bash <PACK_HOME>/hooks/pre-trainer-session.sh",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File <PACK_HOME>/hooks/pre-trainer-session.ps1"
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "bash <PACK_HOME>/hooks/post-trainer-session.sh",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File <PACK_HOME>/hooks/post-trainer-session.ps1"
+      }
+    ]
+  }
+}

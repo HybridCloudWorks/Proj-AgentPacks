@@ -1,0 +1,3 @@
+interface:
+  display_name: "Assess Apple Security and Privacy"
+  short_description: "Trace Apple trust boundaries, sensitive data, and privacy risk."

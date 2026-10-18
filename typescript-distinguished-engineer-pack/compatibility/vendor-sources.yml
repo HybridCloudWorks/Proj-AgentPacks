@@ -1,0 +1,16 @@
+targets:
+  github-copilot:
+    specification: https://docs.github.com/en/copilot/reference/custom-agents-configuration
+    generated_paths: [.github/agents, .github/instructions, .github/prompts, .agents/skills]
+  claude-code:
+    specification: https://code.claude.com/docs/en/sub-agents
+    skills_specification: https://code.claude.com/docs/en/slash-commands
+    generated_paths: [.claude/agents, .claude/skills]
+  openai-codex:
+    specification: https://developers.openai.com/codex/skills/
+    generated_paths: [.codex/agents, .agents/skills]
+  gemini-cli:
+    specification: https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/using-agent-skills.md
+    generated_paths: [.gemini/agents, .agents/skills]
+source_of_truth: .apm
+builder: tooling/build_pack.py

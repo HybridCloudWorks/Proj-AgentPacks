@@ -1,0 +1,14 @@
+name: github-expert-engineer
+version: 1.1.0
+description: Portable GitHub platform engineering Agent and Skills for administration, Copilot, Actions, security, reviews, APIs, and safe automation.
+author: saulpatinojr
+license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [engineer, expert, github]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

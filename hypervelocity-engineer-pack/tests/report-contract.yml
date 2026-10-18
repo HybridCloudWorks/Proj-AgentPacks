@@ -1,0 +1,14 @@
+pack: hypervelocity-engineer
+required_sections:
+  - objective
+  - scope-and-authorization
+  - actions-and-changed-files
+  - evidence
+  - validation
+  - risks-and-limitations
+  - next-safe-action
+rules:
+  - distinguish observed evidence from inference and unavailable live proof
+  - never claim a live workflow result from static compilation alone
+  - report permissions, safe outputs, secrets, network, and approval boundaries
+  - ask before external writes, permission changes, merges, releases, or production impact

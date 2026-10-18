@@ -1,0 +1,10 @@
+cases:
+  - input: "Copilot reviewed my PR; decide whether it is safe to merge"
+    skills: [github-copilot-engineering, github-pull-requests-and-code-review, github-branch-protection-and-rulesets]
+  - input: "Why did the Actions workflow not run?"
+    skills: [github-actions-debugging-and-troubleshooting]
+  - input: "Create an organization-wide branch ruleset"
+    skills: [github-platform-administration, github-branch-protection-and-rulesets]
+    gate: explicit_live_authorization
+  - input: "List open issues and labels"
+    skills: [github-issues-discussions-and-projects, github-api-cli-and-mcp-operations]

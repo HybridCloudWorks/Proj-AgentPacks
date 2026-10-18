@@ -1,0 +1,17 @@
+completion_statuses:
+  - COMPLETE_VERIFIED
+  - IMPLEMENTATION_PREPARED_NOT_VERIFIED
+  - CHANGES_REQUIRED
+  - BLOCKED_ON_HUMAN_DECISION
+  - NOT_VERIFIED
+required_concepts:
+  - acceptance criteria
+  - files changed
+  - checks and results
+  - security review
+  - unverified items
+  - residual risk
+forbidden_claims:
+  - fabricated test result
+  - fabricated deployment state
+  - success based only on generated narrative

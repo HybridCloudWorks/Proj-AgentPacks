@@ -1,0 +1,22 @@
+pack: typescript-distinguished-engineer
+required:
+  - repository discovery and evidence ledger
+  - strict TypeScript and runtime validation
+  - JavaScript and Node.js runtime behavior
+  - APIs, contracts, retries, idempotency, and integration failures
+  - architecture trade-offs and ADRs
+  - MCP TypeScript servers and clients
+  - bounded agentic workflows, state, context, and handoffs
+  - Playwright browser validation
+  - layered testing and regression coverage
+  - secure application and responsible agent engineering
+  - observability, privacy, and cost controls
+  - evaluation datasets and human review
+  - pull-request review and delivery readiness
+  - React and frontend accessibility
+  - dependency supply chain and reproducibility
+  - performance, reliability, cloud identity, and operational recovery
+  - approval-aware completion reporting
+skills:
+  count: 20
+  all_have_skill_md: true

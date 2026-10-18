@@ -1,0 +1,8 @@
+schema_version: "1.0"
+scripts:
+  change_manifest:
+    path: .apm/skills/review-infrastructure-pr/scripts/change_manifest.py
+    cases: [help, synthetic-git-diff, invalid-base]
+  run_review_checks:
+    path: .apm/skills/verify-infrastructure-evidence/scripts/run_review_checks.py
+    cases: [help, empty-repository, invalid-root]

@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "azure-and-cloud-lab-handoff": {
+      "description": "Prepare Azure and cloud lab requirements, boundaries, cost controls, identity, networking, evidence, and handoffs to an Azure Architect.",
+      "activation": "Use when a Microsoft course needs Azure resources, subscriptions, identities, networking, quotas, automation, or cloud troubleshooting beyond the trainer's direct scope.",
+      "source": ".apm/skills/azure-and-cloud-lab-handoff/SKILL.md"
+    },
+    "copilot-prompting-and-knowledge-checks": {
+      "description": "Teach practical Copilot prompting and create scenario-based knowledge checks with answer rationale, misconceptions, and safe-output verification.",
+      "activation": "Use when creating prompt demonstrations, practice challenges, quizzes, or knowledge checks for Microsoft 365 Copilot.",
+      "source": ".apm/skills/copilot-prompting-and-knowledge-checks/SKILL.md"
+    },
+    "copilot-studio-course-labs": {
+      "description": "Design safe, teachable Microsoft Copilot Studio agent and flow labs with knowledge, tools, testing, evaluation, publishing gates, and monitoring concepts.",
+      "activation": "Use when training learners to create or understand Copilot Studio agents, topics, knowledge, tools, MCP connections, agent flows, evaluation, channels, or publishing.",
+      "source": ".apm/skills/copilot-studio-course-labs/SKILL.md"
+    },
+    "course-architecture-and-syllabus": {
+      "description": "Design modular Microsoft instructor-led courses, one-day agendas, extended syllabi, transitions, breaks, customization points, and delivery timing.",
+      "activation": "Use when converting a course package or Learn path into a schedule for a specific audience and duration.",
+      "source": ".apm/skills/course-architecture-and-syllabus/SKILL.md"
+    },
+    "course-evaluation-and-feedback": {
+      "description": "Evaluate Microsoft training delivery using objective evidence, learner feedback, knowledge checks, lab completion, accessibility, and instructor reflection.",
+      "activation": "Evaluate Microsoft training delivery using objective evidence, learner feedback, knowledge checks, lab completion, accessibility, and instructor reflection.",
+      "source": ".apm/skills/course-evaluation-and-feedback/SKILL.md"
+    },
+    "git-and-github-course-delivery": {
+      "description": "Prepare Git and GitHub repositories for Microsoft training labs, versioned materials, issues, pull requests, branches, Actions, and learner handoffs.",
+      "activation": "Use when a course includes a Git repository, GitHub workflow, lab starter, assignment, or learner contribution.",
+      "source": ".apm/skills/git-and-github-course-delivery/SKILL.md"
+    },
+    "instructor-led-facilitation": {
+      "description": "Deliver Microsoft technical instruction professionally with adult-learning practices, questioning, discussion, learner diagnostics, inclusion, and classroom recovery.",
+      "activation": "Deliver Microsoft technical instruction professionally with adult-learning practices, questioning, discussion, learner diagnostics, inclusion, and classroom recovery.",
+      "source": ".apm/skills/instructor-led-facilitation/SKILL.md"
+    },
+    "lab-and-demo-engineering": {
+      "description": "Build reproducible Microsoft training labs and live demos with preflight, seed data, expected results, troubleshooting, reset, timing, and fallback paths.",
+      "activation": "Build reproducible Microsoft training labs and live demos with preflight, seed data, expected results, troubleshooting, reset, timing, and fallback paths.",
+      "source": ".apm/skills/lab-and-demo-engineering/SKILL.md"
+    },
+    "learning-objectives-and-assessment": {
+      "description": "Create measurable learning objectives, formative checks, knowledge checks, practice activities, and evidence-aligned assessment for Microsoft technical training.",
+      "activation": "Use when a course needs outcomes, knowledge checks, labs, formal assessment, or evidence that learners can transfer skills to work.",
+      "source": ".apm/skills/learning-objectives-and-assessment/SKILL.md"
+    },
+    "mct-courseware-governance": {
+      "description": "Govern Microsoft Certified Trainer, Microsoft Official Curriculum, Learning Download Center, licensing, provenance, and courseware change control.",
+      "activation": "Use when supplied material comes from Microsoft Official Curriculum, Microsoft Learn, the Learning Download Center, a Trainer Preparation Guide, a Change Log, or a Microsoft course package.",
+      "source": ".apm/skills/mct-courseware-governance/SKILL.md"
+    },
+    "microsoft-365-apps-workflows": {
+      "description": "Build cross-app Microsoft 365 learning workflows across Word, PowerPoint, Excel, Teams, Outlook, OneDrive, and Copilot.",
+      "activation": "Use when a lesson spans more than one Microsoft 365 app or teaches an end-to-end work scenario.",
+      "source": ".apm/skills/microsoft-365-apps-workflows/SKILL.md"
+    },
+    "microsoft-365-copilot-instruction": {
+      "description": "Teach Microsoft 365 Copilot Chat and app experiences, work and web grounding, permissions, enterprise data protection, prompts, agents, and responsible use.",
+      "activation": "Use when creating or reviewing content for Copilot Chat, Word, PowerPoint, Excel, Teams, Outlook, Copilot Search, agents, or work/web data.",
+      "source": ".apm/skills/microsoft-365-copilot-instruction/SKILL.md"
+    },
+    "microsoft-designer-and-visual-content": {
+      "description": "Use Microsoft Designer and Microsoft 365 visual capabilities for instructional assets while respecting availability, licensing, accessibility, and brand constraints.",
+      "activation": "Use when adding visual design, image generation, editing, layouts, or branding to a course or presentation.",
+      "source": ".apm/skills/microsoft-designer-and-visual-content/SKILL.md"
+    },
+    "microsoft-learn-curriculum-mapping": {
+      "description": "Map Microsoft Learn courses, learning paths, modules, units, objectives, labs, and official documentation into teachable curriculum evidence.",
+      "activation": "Use when designing from learn.",
+      "source": ".apm/skills/microsoft-learn-curriculum-mapping/SKILL.md"
+    },
+    "powerpoint-courseware-engineering": {
+      "description": "Engineer Microsoft training PowerPoint decks, speaker notes, timing, activities, references, accessibility, and modular delivery without duplicating official courseware.",
+      "activation": "Use when inspecting, adapting, or creating a PPTX-based Microsoft course.",
+      "source": ".apm/skills/powerpoint-courseware-engineering/SKILL.md"
+    },
+    "trainer-automation-and-tools": {
+      "description": "Route safe tools and automation for Microsoft training preparation, Office and PPTX inspection, Learn research, lab checks, accessibility, packaging, and reporting.",
+      "activation": "Use when the trainer needs repeatable preparation checks or artifact generation.",
+      "source": ".apm/skills/trainer-automation-and-tools/SKILL.md"
+    },
+    "trainer-preparation-and-rehearsal": {
+      "description": "Prepare and rehearse Microsoft courses from trainer guides, slide decks, labs, change logs, demonstrations, knowledge checks, and additional reading.",
+      "activation": "Prepare and rehearse Microsoft courses from trainer guides, slide decks, labs, change logs, demonstrations, knowledge checks, and additional reading.",
+      "source": ".apm/skills/trainer-preparation-and-rehearsal/SKILL.md"
+    },
+    "training-content-maintenance": {
+      "description": "Maintain Microsoft training assets against Learn changes, courseware releases, product rollouts, broken links, lab drift, and trainer feedback.",
+      "activation": "Use when refreshing a course, reviewing a Change Log, or checking whether demos and labs still match Microsoft products.",
+      "source": ".apm/skills/training-content-maintenance/SKILL.md"
+    }
+  }
+}

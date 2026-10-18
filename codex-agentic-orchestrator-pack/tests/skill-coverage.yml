@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "codex-agent-registry-and-capability-discovery": {
+      "description": "Discover Codex custom agents and map them to capabilities, required or optional workflow nodes, and safe invocation names.",
+      "activation": "Discover Codex custom agents and map them to capabilities, required or optional workflow nodes, and safe invocation names.",
+      "source": ".apm/skills/codex-agent-registry-and-capability-discovery/SKILL.md"
+    },
+    "codex-agentic-workflow-dispatch": {
+      "description": "Plan and execute OpenAI Codex multi-agent workflows when a request needs one or more custom agents, explicit handoffs, dependency ordering, bounded concurrency, or verifiable completion.",
+      "activation": "Use this Skill whenever the work spans specialist roles or the user asks for delegation, orchestration, parallel review, handoff, or an all-agent workflow.",
+      "source": ".apm/skills/codex-agentic-workflow-dispatch/SKILL.md"
+    },
+    "codex-handoff-contract-and-state": {
+      "description": "Create, inspect, validate, and recover durable Codex workflow state and structured specialist handoffs.",
+      "activation": "Use this Skill when work crosses agent boundaries, must be resumable, or needs evidence that a specialist actually completed its assignment.",
+      "source": ".apm/skills/codex-handoff-contract-and-state/SKILL.md"
+    },
+    "codex-hooks-and-guardrails": {
+      "description": "Configure and use Codex command hooks for orchestration audit, subagent lifecycle tracking, and fail-closed workflow completion checks.",
+      "activation": "Use this Skill when installing, reviewing, or troubleshooting the Codex hook integration.",
+      "source": ".apm/skills/codex-hooks-and-guardrails/SKILL.md"
+    },
+    "codex-subagent-delegation-and-concurrency": {
+      "description": "Delegate work to Codex custom agents with explicit prompts, scoped context, dependency handoffs, bounded concurrency, and permission-aware execution.",
+      "activation": "Use this Skill when the orchestrator is ready to dispatch a registered Codex custom agent.",
+      "source": ".apm/skills/codex-subagent-delegation-and-concurrency/SKILL.md"
+    },
+    "codex-workflow-evidence-and-recovery": {
+      "description": "Validate Codex workflow evidence, classify failures, resume safely, and produce a truthful final orchestration report.",
+      "activation": "Validate Codex workflow evidence, classify failures, resume safely, and produce a truthful final orchestration report.",
+      "source": ".apm/skills/codex-workflow-evidence-and-recovery/SKILL.md"
+    }
+  }
+}

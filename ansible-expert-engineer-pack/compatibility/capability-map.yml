@@ -1,0 +1,20 @@
+agent: ansible-expert-engineer
+capabilities:
+  author:
+    - ansible-playbook-development
+    - ansible-role-collection-engineering
+    - ansible-inventory-and-variable-design
+  convert:
+    - ansible-convert-imperative-automation
+  validate:
+    - ansible-validate-content
+    - ansible-role-collection-engineering
+  secure:
+    - ansible-vault-secrets
+    - ansible-collections-supply-chain
+  debug:
+    - ansible-debug-runtime-failures
+  operate:
+    - ansible-execution-control
+  bootstrap:
+    - ansible-bootstrap-interactive

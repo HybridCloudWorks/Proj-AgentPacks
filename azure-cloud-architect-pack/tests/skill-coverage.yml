@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "azure-architecture-foundations": {
+      "description": "Establishes Azure architecture scope, requirements, boundaries, assumptions, service vocabulary, and a structured REQ/TOPOLOGY/CONSTRAINTS/ADR handoff before specialist design.",
+      "activation": "Establishes Azure architecture scope, requirements, boundaries, assumptions, service vocabulary, and a structured REQ/TOPOLOGY/CONSTRAINTS/ADR handoff before specialist design.",
+      "source": ".apm/skills/azure-architecture-foundations/SKILL.md"
+    },
+    "azure-architecture-handoff-and-adr": {
+      "description": "Produces implementation-ready Azure architecture handoffs, ADRs, topology contracts, acceptance criteria, risks, ownership, and safe next actions.",
+      "activation": "Produces implementation-ready Azure architecture handoffs, ADRs, topology contracts, acceptance criteria, risks, ownership, and safe next actions.",
+      "source": ".apm/skills/azure-architecture-handoff-and-adr/SKILL.md"
+    },
+    "azure-architecture-visualization": {
+      "description": "Routes Azure topology diagrams to the Azure Expert Designer while preserving architecture evidence, boundaries, legend, views, and handoff consistency.",
+      "activation": "Routes Azure topology diagrams to the Azure Expert Designer while preserving architecture evidence, boundaries, legend, views, and handoff consistency.",
+      "source": ".apm/skills/azure-architecture-visualization/SKILL.md"
+    },
+    "azure-caf-landing-zones-and-governance": {
+      "description": "Designs and audits Azure platform and application landing zones, management groups, subscriptions, policy, shared services, naming, tags, and governance inheritance.",
+      "activation": "Designs and audits Azure platform and application landing zones, management groups, subscriptions, policy, shared services, naming, tags, and governance inheritance.",
+      "source": ".apm/skills/azure-caf-landing-zones-and-governance/SKILL.md"
+    },
+    "azure-cost-sustainability-and-finops": {
+      "description": "Embeds Azure cost, unit economics, budgets, tagging, reservations, savings, egress, quota, sustainability, and FinOps controls into architecture decisions.",
+      "activation": "Embeds Azure cost, unit economics, budgets, tagging, reservations, savings, egress, quota, sustainability, and FinOps controls into architecture decisions.",
+      "source": ".apm/skills/azure-cost-sustainability-and-finops/SKILL.md"
+    },
+    "azure-data-and-application-patterns": {
+      "description": "Designs Azure data platforms and application architectures with explicit consistency, partitioning, integration, privacy, lifecycle, and operational trade-offs.",
+      "activation": "Designs Azure data platforms and application architectures with explicit consistency, partitioning, integration, privacy, lifecycle, and operational trade-offs.",
+      "source": ".apm/skills/azure-data-and-application-patterns/SKILL.md"
+    },
+    "azure-deployment-and-lifecycle": {
+      "description": "Plans safe Azure deployment, what-if, validation, deployment-stack, CI/CD, OIDC, drift, rollback, change review, and post-deployment lifecycle workflows.",
+      "activation": "Plans safe Azure deployment, what-if, validation, deployment-stack, CI/CD, OIDC, drift, rollback, change review, and post-deployment lifecycle workflows.",
+      "source": ".apm/skills/azure-deployment-and-lifecycle/SKILL.md"
+    },
+    "azure-docs-mcp-and-evidence": {
+      "description": "Retrieves and records current official Azure documentation, Azure MCP evidence, API/version facts, limits, availability, pricing context, and confidence boundaries.",
+      "activation": "Retrieves and records current official Azure documentation, Azure MCP evidence, API/version facts, limits, availability, pricing context, and confidence boundaries.",
+      "source": ".apm/skills/azure-docs-mcp-and-evidence/SKILL.md"
+    },
+    "azure-iac-avm-and-repo-standardization": {
+      "description": "Designs and reviews Azure IaC with Bicep, ARM, Terraform, AzAPI, AzureRM, AVM, module interfaces, repository standards, policy gates, and safe remote state.",
+      "activation": "Designs and reviews Azure IaC with Bicep, ARM, Terraform, AzAPI, AzureRM, AVM, module interfaces, repository standards, policy gates, and safe remote state.",
+      "source": ".apm/skills/azure-iac-avm-and-repo-standardization/SKILL.md"
+    },
+    "azure-networking-hybrid-and-edge": {
+      "description": "Designs Azure VNets, hub-spoke or Virtual WAN, routing, NSGs, Azure Firewall, Private Link, DNS, ExpressRoute, VPN, edge, ingress, and hybrid connectivity.",
+      "activation": "Designs Azure VNets, hub-spoke or Virtual WAN, routing, NSGs, Azure Firewall, Private Link, DNS, ExpressRoute, VPN, edge, ingress, and hybrid connectivity.",
+      "source": ".apm/skills/azure-networking-hybrid-and-edge/SKILL.md"
+    },
+    "azure-operations-observability-and-troubleshooting": {
+      "description": "Designs and diagnoses Azure operations using Azure Monitor, Log Analytics, Activity Log, Resource Graph, health signals, alerts, runbooks, and evidence-aware incident analysis.",
+      "activation": "Designs and diagnoses Azure operations using Azure Monitor, Log Analytics, Activity Log, Resource Graph, health signals, alerts, runbooks, and evidence-aware incident analysis.",
+      "source": ".apm/skills/azure-operations-observability-and-troubleshooting/SKILL.md"
+    },
+    "azure-resilience-dr-and-migration": {
+      "description": "Designs Azure high availability, backup, disaster recovery, migration, modernization, rollback, and cutover strategies with tested RTO/RPO evidence.",
+      "activation": "Designs Azure high availability, backup, disaster recovery, migration, modernization, rollback, and cutover strategies with tested RTO/RPO evidence.",
+      "source": ".apm/skills/azure-resilience-dr-and-migration/SKILL.md"
+    },
+    "azure-security-identity-and-compliance": {
+      "description": "Designs Azure identity, Zero Trust, Entra, RBAC, PIM, managed identities, secrets, network protection, policy, Defender, Sentinel, and compliance evidence.",
+      "activation": "Designs Azure identity, Zero Trust, Entra, RBAC, PIM, managed identities, secrets, network protection, policy, Defender, Sentinel, and compliance evidence.",
+      "source": ".apm/skills/azure-security-identity-and-compliance/SKILL.md"
+    },
+    "azure-well-architected-and-frameworks": {
+      "description": "Applies Azure Well-Architected five-pillar reviews and Cloud Adoption Framework guidance to architecture decisions, trade-offs, maturity, and production readiness.",
+      "activation": "Applies Azure Well-Architected five-pillar reviews and Cloud Adoption Framework guidance to architecture decisions, trade-offs, maturity, and production readiness.",
+      "source": ".apm/skills/azure-well-architected-and-frameworks/SKILL.md"
+    },
+    "azure-workload-and-service-selection": {
+      "description": "Selects Azure compute, containers, serverless, integration, AI, and platform services from workload requirements, operational fit, limits, and Well-Architected trade-offs.",
+      "activation": "Selects Azure compute, containers, serverless, integration, AI, and platform services from workload requirements, operational fit, limits, and Well-Architected trade-offs.",
+      "source": ".apm/skills/azure-workload-and-service-selection/SKILL.md"
+    },
+    "diagram-validation-and-evidence": {
+      "description": "Validate Draw.io structure and Azure diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "activation": "Validate Draw.io structure and Azure diagram evidence, then report static, rendered, live, and unresolved results without overstating what was proven.",
+      "source": ".apm/skills/diagram-validation-and-evidence/SKILL.md"
+    },
+    "drawio-core-generation": {
+      "description": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "activation": "Create and edit native Draw.io diagrams from requirements, code, structured data, or Mermaid while preserving editable XML and selecting the right generation path.",
+      "source": ".apm/skills/drawio-core-generation/SKILL.md"
+    },
+    "drawio-render-export-and-review": {
+      "description": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "activation": "Export Draw.io diagrams through the installed desktop CLI and perform a renderer-based review of labels, icons, edges, boundaries, and output legibility.",
+      "source": ".apm/skills/drawio-render-export-and-review/SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review Apple Code"
+  short_description: "Run a complete evidence-based Apple-platform code review."

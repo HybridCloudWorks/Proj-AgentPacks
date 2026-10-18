@@ -1,0 +1,11 @@
+pack: azure-expert-designer
+capabilities:
+  drawio_generation: drawio-core-generation
+  azure_architecture_semantics: azure-architecture-design
+  source_code_extraction: azure-architecture-design
+  icon_and_visual_language: azure-icons-and-visual-language
+  xml_authoring: drawio-xml-authoring
+  layout_and_routing: drawio-layout-and-composition
+  architecture_patterns: azure-architecture-patterns
+  export_and_render_review: drawio-render-export-and-review
+  evidence_and_validation: diagram-validation-and-evidence

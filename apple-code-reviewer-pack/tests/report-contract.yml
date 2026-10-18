@@ -1,0 +1,31 @@
+required_sections:
+  - Executive Summary
+  - Review Scope
+  - Findings Summary
+  - Detailed Findings
+  - Category Results
+  - Documentation Impact
+  - Merge or Release Recommendation
+  - Engineer Handoff Notes
+required_finding_fields:
+  - Severity
+  - Label
+  - File
+  - Location
+  - Category
+  - Confidence
+  - Description
+  - Evidence
+  - Trigger or reproduction
+  - Expected behavior
+  - Observed or likely behavior
+  - Impact
+  - Recommendation
+  - Suggested fix
+  - Validation needed
+  - Risk if unfixed
+allowed_recommendations:
+  - Approved
+  - Approved with comments
+  - Changes requested
+  - Blocked

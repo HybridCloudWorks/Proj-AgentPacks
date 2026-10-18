@@ -16,11 +16,28 @@ Code Workflow installs packs into the user profile so they work in every reposit
 
 ## Packs
 
-| Pack | Version | Standard | Notes |
-|---|---|---|---|
-| python-distinguished-engineer-pack | 2.1.0 | prompt v2 | Restructured 2026-10-18. APM validation and six-target install verified. |
-| microsoft-certified-trainer-pack | 1.0.0 | prompt v1 | Not yet restructured. |
-| codex-agentic-orchestrator-pack | 1.0.0 | prompt v1 | Codex-only seed for the Code Workflow orchestrator. Not yet restructured. |
+All packs are at agent-pack-prompt v2.3 and pass the shared validator, including an APM install into a scratch project for copilot, claude, codex, kiro, gemini and agent-skills (2026-10-18). Canonical agents declare no `tools`; intents live in each pack's `compatibility/tool-permissions.yml`.
+
+| Pack | Version | Agents | Skills | Notes |
+|---|---|---|---|---|
+| ansible-expert-engineer-pack | 1.1.0 | 1 | 10 |  |
+| apple-code-reviewer-pack | 1.1.0 | 1 | 6 |  |
+| aws-cloud-architect-pack | 1.1.0 | 1 | 17 |  |
+| aws-expert-designer-pack | 1.1.0 | 1 | 8 |  |
+| azure-cloud-architect-pack | 1.1.0 | 1 | 18 | A leaked copy of the AWS agent was removed during conversion. |
+| azure-expert-designer-pack | 1.1.0 | 1 | 8 |  |
+| cloud-documentation-archivist-pack | 1.1.0 | 1 | 18 |  |
+| cloud-prepress-reviewer-pack | 1.1.0 | 1 | 15 | A leaked copy of the AWS agent was removed during conversion. |
+| codex-agentic-orchestrator-pack | 1.1.0 | 1 | 6 | Codex-only seed; to be rebuilt as the multi-vendor Code Workflow orchestrator. |
+| github-expert-engineer-pack | 1.1.0 | 1 | 18 |  |
+| hypervelocity-engineer-pack | 1.1.0 | 1 | 9 |  |
+| infrastructure-pr-reviewer-pack | 1.1.0 | 1 | 8 |  |
+| microsoft-certified-trainer-pack | 1.1.0 | 5 | 18 |  |
+| python-distinguished-engineer-pack | 2.1.0 | 5 | 18 |  |
+| terraform-expert-engineer-pack | 1.1.0 | 1 | 9 |  |
+| typescript-distinguished-engineer-pack | 1.1.0 | 4 | 20 | Primary set explicitly; three specialists hidden from the picker. |
+
+Not yet packs: the Google Cloud, CloudFlare, FinOps, Notion, Cloud Cybersecurity and Docker folders in the source material are third-party skill collections without an agent or manifest. They need a role pack generated with the master prompt, with the collection as reference material.
 
 ## Working on packs
 

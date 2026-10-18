@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "adr-and-decision-records": {
+      "description": "Author and maintain concise Architecture Decision Records and decision logs with alternatives, consequences, traceability, status, and supersession.",
+      "activation": "Author and maintain concise Architecture Decision Records and decision logs with alternatives, consequences, traceability, status, and supersession.",
+      "source": ".apm/skills/adr-and-decision-records/SKILL.md"
+    },
+    "changelogs-release-notes-and-migration": {
+      "description": "Record shipped changes, release notes, deprecations, breaking changes, migration paths, and upgrade guidance accurately and traceably.",
+      "activation": "Record shipped changes, release notes, deprecations, breaking changes, migration paths, and upgrade guidance accurately and traceably.",
+      "source": ".apm/skills/changelogs-release-notes-and-migration/SKILL.md"
+    },
+    "diataxis-content-design": {
+      "description": "Classify and design documentation as tutorial, how-to guide, reference, or explanation without mixing reader needs or content modes.",
+      "activation": "Classify and design documentation as tutorial, how-to guide, reference, or explanation without mixing reader needs or content modes.",
+      "source": ".apm/skills/diataxis-content-design/SKILL.md"
+    },
+    "docs-as-code-and-publishing": {
+      "description": "Design and operate repository-based documentation workflows, static-site builds, previews, versioning, publication, redirects, and documentation CI safely.",
+      "activation": "Design and operate repository-based documentation workflows, static-site builds, previews, versioning, publication, redirects, and documentation CI safely.",
+      "source": ".apm/skills/docs-as-code-and-publishing/SKILL.md"
+    },
+    "docs-security-privacy-and-redaction": {
+      "description": "Prevent documentation from exposing secrets, personal data, customer information, private infrastructure, unsafe commands, or misleading security claims.",
+      "activation": "Prevent documentation from exposing secrets, personal data, customer information, private infrastructure, unsafe commands, or misleading security claims.",
+      "source": ".apm/skills/docs-security-privacy-and-redaction/SKILL.md"
+    },
+    "documentation-archivist-orchestration": {
+      "description": "Route documentation requests to the smallest content, governance, template, research, publishing, validation, or knowledge-management Skill.",
+      "activation": "Route documentation requests to the smallest content, governance, template, research, publishing, validation, or knowledge-management Skill.",
+      "source": ".apm/skills/documentation-archivist-orchestration/SKILL.md"
+    },
+    "documentation-hooks-and-automation": {
+      "description": "Use safe documentation inventory, pre-write checks, post-write validation, template generation, link checks, freshness reports, and publication gates.",
+      "activation": "Use safe documentation inventory, pre-write checks, post-write validation, template generation, link checks, freshness reports, and publication gates.",
+      "source": ".apm/skills/documentation-hooks-and-automation/SKILL.md"
+    },
+    "documentation-purpose-and-information-architecture": {
+      "description": "Define why documentation is needed, who it serves, what belongs in it, where it lives, and how it connects to adjacent sources.",
+      "activation": "Define why documentation is needed, who it serves, what belongs in it, where it lives, and how it connects to adjacent sources.",
+      "source": ".apm/skills/documentation-purpose-and-information-architecture/SKILL.md"
+    },
+    "documentation-style-and-editorial-quality": {
+      "description": "Edit technical documentation for clarity, accuracy, consistency, accessibility, inclusive language, scannability, and maintainable examples.",
+      "activation": "Edit technical documentation for clarity, accuracy, consistency, accessibility, inclusive language, scannability, and maintainable examples.",
+      "source": ".apm/skills/documentation-style-and-editorial-quality/SKILL.md"
+    },
+    "documentation-validation-and-link-checking": {
+      "description": "Validate documentation structure, frontmatter, links, code examples, templates, terminology, freshness, redaction, and report quality.",
+      "activation": "Validate documentation structure, frontmatter, links, code examples, templates, terminology, freshness, redaction, and report quality.",
+      "source": ".apm/skills/documentation-validation-and-link-checking/SKILL.md"
+    },
+    "explanation-and-architecture-docs": {
+      "description": "Explain cloud architecture, system behavior, design rationale, trade-offs, boundaries, dependencies, and mental models without turning explanations into procedures.",
+      "activation": "Explain cloud architecture, system behavior, design rationale, trade-offs, boundaries, dependencies, and mental models without turning explanations into procedures.",
+      "source": ".apm/skills/explanation-and-architecture-docs/SKILL.md"
+    },
+    "knowledge-base-and-taxonomy": {
+      "description": "Organize durable cloud knowledge with taxonomy, metadata, ownership, lifecycle, search terms, related content, and archive rules.",
+      "activation": "Organize durable cloud knowledge with taxonomy, metadata, ownership, lifecycle, search terms, related content, and archive rules.",
+      "source": ".apm/skills/knowledge-base-and-taxonomy/SKILL.md"
+    },
+    "repository-and-project-doc-governance": {
+      "description": "Govern documentation repositories, ownership, source-of-truth rules, cross-file contracts, lifecycle, review cadence, and documentation change control.",
+      "activation": "Govern documentation repositories, ownership, source-of-truth rules, cross-file contracts, lifecycle, review cadence, and documentation change control.",
+      "source": ".apm/skills/repository-and-project-doc-governance/SKILL.md"
+    },
+    "research-synthesis-and-source-traceability": {
+      "description": "Synthesize cloud research, product documentation, incidents, conversations, and repository evidence into cited briefs, comparisons, and durable knowledge.",
+      "activation": "Synthesize cloud research, product documentation, incidents, conversations, and repository evidence into cited briefs, comparisons, and durable knowledge.",
+      "source": ".apm/skills/research-synthesis-and-source-traceability/SKILL.md"
+    },
+    "runbooks-and-operational-docs": {
+      "description": "Create and review cloud operational runbooks, troubleshooting guides, recovery procedures, incident records, and support handoffs.",
+      "activation": "Create and review cloud operational runbooks, troubleshooting guides, recovery procedures, incident records, and support handoffs.",
+      "source": ".apm/skills/runbooks-and-operational-docs/SKILL.md"
+    },
+    "technical-reference-and-api-docs": {
+      "description": "Create and maintain accurate reference documentation for APIs, CLIs, configuration, schemas, resources, commands, errors, and compatibility.",
+      "activation": "Create and maintain accurate reference documentation for APIs, CLIs, configuration, schemas, resources, commands, errors, and compatibility.",
+      "source": ".apm/skills/technical-reference-and-api-docs/SKILL.md"
+    },
+    "templates-and-content-models": {
+      "description": "Select, adapt, and create reusable documentation templates for blogs, gists, README files, tasks, workflows, ADRs, runbooks, APIs, incidents, migrations, and knowledge pages.",
+      "activation": "Select, adapt, and create reusable documentation templates for blogs, gists, README files, tasks, workflows, ADRs, runbooks, APIs, incidents, migrations, and knowledge pages.",
+      "source": ".apm/skills/templates-and-content-models/SKILL.md"
+    },
+    "tutorials-and-how-to-guides": {
+      "description": "Write practical tutorials and how-to guides for cloud, software, infrastructure, operations, and documentation tasks with safe verification points.",
+      "activation": "Write practical tutorials and how-to guides for cloud, software, infrastructure, operations, and documentation tasks with safe verification points.",
+      "source": ".apm/skills/tutorials-and-how-to-guides/SKILL.md"
+    }
+  }
+}

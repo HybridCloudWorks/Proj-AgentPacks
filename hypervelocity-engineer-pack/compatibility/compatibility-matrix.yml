@@ -1,0 +1,24 @@
+snapshot_date: 2026-08-22
+skill_format:
+  entrypoint: SKILL.md
+  frontmatter_required: [name, description]
+  progressive_disclosure: true
+targets:
+  github-copilot:
+    agent: .github/agents/hypervelocity-engineer.agent.md
+    skills: .agents/skills
+    native_agent: true
+  claude-code:
+    agent: .claude/agents/hypervelocity-engineer.md
+    skills: .claude/skills
+    native_agent: true
+    hook: .claude/hooks/agent-report.ps1
+  openai-codex:
+    agent: .codex/agents/hypervelocity-engineer.toml
+    skills: .agents/skills
+    native_agent: true
+    note: Validate native Agent fields against the installed Codex release.
+  gemini-cli:
+    agent: .gemini/agents/hypervelocity-engineer.md
+    skills: .agents/skills
+    native_agent: true

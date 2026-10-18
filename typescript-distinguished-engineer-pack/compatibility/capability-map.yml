@@ -1,0 +1,22 @@
+pack: typescript-distinguished-engineer
+capabilities:
+  orchestration: typescript-distinguished-engineer-orchestration
+  typescript: typescript-strict-engineering
+  javascript-node: javascript-node-runtime-engineering
+  api-integration: api-contract-and-integration-engineering
+  architecture: enterprise-architecture-and-adr
+  mcp: mcp-typescript-engineering
+  agentic-workflows: agentic-workflow-design
+  agent-state: agent-state-and-context-engineering
+  browser: playwright-validation
+  testing: layered-testing-and-test-engineering
+  security: secure-agent-engineering
+  observability: agent-observability-and-telemetry
+  evaluation: agent-evaluation
+  pull-requests: pull-request-review-and-delivery
+  frontend: frontend-react-engineering
+  supply-chain: dependency-supply-chain-and-reproducibility
+  reliability: performance-reliability-and-operability
+  cloud-identity: cloud-integration-and-identity
+  cost: agentic-cost-and-budget-controls
+  planning: requirements-and-change-planning

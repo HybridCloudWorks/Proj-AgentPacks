@@ -1,0 +1,18 @@
+pack: cloud-documentation-archivist
+targets:
+  github-copilot:
+    agent: .github/agents/cloud-documentation-archivist.agent.md
+    skills: .agents/skills
+    templates: templates
+  claude-code:
+    agent: .claude/agents/cloud-documentation-archivist.md
+    skills: .claude/skills
+    templates: templates
+  openai-codex:
+    agent: .codex/agents/cloud-documentation-archivist.toml
+    skills: .agents/skills
+    templates: templates
+  gemini-cli:
+    agent: .gemini/agents/cloud-documentation-archivist.md
+    skills: .agents/skills
+    templates: templates

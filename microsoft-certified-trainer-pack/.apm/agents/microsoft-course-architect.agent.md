@@ -1,7 +1,6 @@
 ---
 name: microsoft-course-architect
 description: Learning architect for Microsoft Official Curriculum, Microsoft Learn paths, syllabus design, objectives, sequencing, timing, and assessment.
-tools: [read, search, edit, web, todo]
 user-invocable: false
 ---
 

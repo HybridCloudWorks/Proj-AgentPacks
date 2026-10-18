@@ -1,0 +1,52 @@
+schema_version: "1.0"
+cases:
+  - skill: review-infrastructure-pr
+    should_trigger:
+      - Review this infrastructure pull request across Terraform, PowerShell, and GitHub Actions.
+      - Check whether this deployment change is safe against the existing production environment.
+    should_not_trigger:
+      - Rewrite this application README.
+      - Review CSS naming style only.
+  - skill: review-terraform-opentofu
+    should_trigger:
+      - Review a for_each key change and the attached existing-state Terraform plan.
+      - Check this OpenTofu provider alias and backend migration.
+    should_not_trigger:
+      - Review a Bicep deployment scope.
+  - skill: review-bicep-arm
+    should_trigger:
+      - Review this Bicep API-version change and production what-if.
+      - Check an ARM deployment stack that changes deletion behavior.
+    should_not_trigger:
+      - Review a Terraform state move.
+  - skill: review-powershell-automation
+    should_trigger:
+      - Review whether this PowerShell wrapper propagates the native CLI exit code.
+      - Check this module's parameter and object-output contract.
+    should_not_trigger:
+      - Review an Ansible handler.
+  - skill: review-ansible-automation
+    should_trigger:
+      - Review this playbook for inventory selection, idempotency, and handler safety.
+      - Assess an Ansible role with run_once and delegated tasks.
+    should_not_trigger:
+      - Review a Helm values schema.
+  - skill: review-cicd-deployment
+    should_trigger:
+      - Review this GitHub Actions deploy workflow for OIDC scope and artifact provenance.
+      - Check an Azure Pipeline condition and Python deployment wrapper.
+    should_not_trigger:
+      - Review a Kubernetes Deployment probe only.
+  - skill: review-kubernetes-packaging
+    should_trigger:
+      - Review this Helm chart and production values for selector and rollout safety.
+      - Check Kustomize overlays and GitOps prune behavior.
+    should_not_trigger:
+      - Review a PowerShell parser error.
+  - skill: verify-infrastructure-evidence
+    should_trigger:
+      - Run safe local checks and tell me what evidence is still missing.
+      - Verify that the plan and deployed artifact belong to this commit and target.
+    should_not_trigger:
+      - Apply this Terraform plan to production.
+      - Run Ansible against all production hosts.

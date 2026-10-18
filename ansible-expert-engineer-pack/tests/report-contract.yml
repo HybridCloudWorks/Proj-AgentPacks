@@ -1,0 +1,11 @@
+required_sections:
+  - result
+  - evidence
+  - changed_files_or_proposal
+  - unresolved_risks
+  - next_safe_action
+required_distinctions:
+  - observed_fact_vs_inference
+  - skipped_check_vs_passed_check
+  - local_validation_vs_remote_proof
+  - dry_run_vs_real_execution

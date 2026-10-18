@@ -1,0 +1,22 @@
+<mxfile host="app.diagrams.net" version="24.7.17">
+  <diagram id="azure-minimal" name="Page-1">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="region" value="Azure Region" style="rounded=1;whiteSpace=wrap;html=1;container=0;fontFamily=Helvetica;fillColor=#F5F5F5;strokeColor=#9E9E9E;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="420" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="app_service" value="Azure App Service" style="shape=image;aspect=fixed;html=1;image=img/lib/azure2/app_services/App_Service.svg;fontFamily=Helvetica;" vertex="1" parent="region">
+          <mxGeometry x="80" y="90" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" value="Azure Storage" style="shape=image;aspect=fixed;html=1;image=img/lib/azure2/storage/Storage_Accounts.svg;fontFamily=Helvetica;" vertex="1" parent="region">
+          <mxGeometry x="280" y="90" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_app_storage" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;endArrow=block;" edge="1" parent="region" source="app_service" target="storage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

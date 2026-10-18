@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "review-ansible-automation": {
+      "description": "Review Ansible playbooks, roles, collections, inventories, variables, templates, handlers, plugins, vault integration, and execution pipelines for target selection, precedence, idempotency, failure semantics, rollout, privilege, secrets, and dependency integrity. Use when a PR changes Ansible YAML, roles, collections, inventory, ansible.cfg, requirements, or commands that run Ansible. Treat check and diff mode as incomplete evidence.",
+      "activation": "Use when a PR changes Ansible YAML, roles, collections, inventory, ansible.",
+      "source": ".apm/skills/review-ansible-automation/SKILL.md"
+    },
+    "review-bicep-arm": {
+      "description": "Review Bicep, Bicep parameter, ARM JSON, deployment-stack, template-spec, and related pipeline changes for deployment scope, resource identity, deletion behavior, API versions, module contracts, secrets, and what-if integrity. Use when a PR changes .bicep, .bicepparam, ARM templates, deployment stacks, template specs, or commands that build, preview, or deploy them. Do not apply Terraform state rules to these templates.",
+      "activation": "Use when a PR changes .",
+      "source": ".apm/skills/review-bicep-arm/SKILL.md"
+    },
+    "review-cicd-deployment": {
+      "description": "Review GitHub Actions, Azure Pipelines, other CI/CD definitions, reusable workflows and templates, Bash, Python deployment wrappers, Makefiles, and task runners for trust boundaries, permissions, target selection, conditions, artifact provenance, concurrency, cancellation, supply chain, and failure propagation. Use when a PR changes pipeline YAML or orchestration scripts that validate, preview, approve, deploy, clean up, or roll back infrastructure.",
+      "activation": "Use when a PR changes pipeline YAML or orchestration scripts that validate, preview, approve, deploy, clean up, or roll back infrastructure.",
+      "source": ".apm/skills/review-cicd-deployment/SKILL.md"
+    },
+    "review-infrastructure-pr": {
+      "description": "Perform a complete evidence-driven pull request review for infrastructure-as-code, configuration management, deployment automation, platform manifests, and CI/CD. Use when a change affects infrastructure targets, identities, state or ownership, deployment scripts, pipelines, policies, tests, secrets, generated artifacts, or cross-tool handoffs. Audit every changed line internally, invoke only the matching technology Skills, and report concrete defects or material evidence gaps. Do not use for general application-code style review or remediation work.",
+      "activation": "Use when a change affects infrastructure targets, identities, state or ownership, deployment scripts, pipelines, policies, tests, secrets, generated artifacts, or cross-tool handoffs.",
+      "source": ".apm/skills/review-infrastructure-pr/SKILL.md"
+    },
+    "review-kubernetes-packaging": {
+      "description": "Review Kubernetes manifests, Custom Resources, Helm charts and values, Kustomize bases and overlays, operators, GitOps configuration, and related deployment pipelines for cluster and namespace targeting, field ownership, rollout, security, resources, storage, rendering, and prune behavior. Use when a PR changes Kubernetes YAML, Chart.yaml, values files, templates, kustomization files, CRDs, or GitOps applications.",
+      "activation": "Use when a PR changes Kubernetes YAML, Chart.",
+      "source": ".apm/skills/review-kubernetes-packaging/SKILL.md"
+    },
+    "review-powershell-automation": {
+      "description": "Review PowerShell scripts, modules, manifests, DSC, and PowerShell pipeline steps for runtime compatibility, parameter contracts, native command failures, idempotency, quoting, object flow, concurrency, credentials, retries, and tests. Use when a PR changes .ps1, .psm1, .psd1, PowerShell deployment wrappers, or callers that depend on their output. Do not execute deployment scripts merely to validate them.",
+      "activation": "Use when a PR changes .",
+      "source": ".apm/skills/review-powershell-automation/SKILL.md"
+    },
+    "review-terraform-opentofu": {
+      "description": "Review Terraform and OpenTofu pull request changes for state identity, provider and module contracts, lifecycle transitions, expressions, sensitive data, and plan/apply integrity. Use when a diff contains .tf, .tfvars, .tftest.hcl, .terraform.lock.hcl, OpenTofu equivalents, state migration declarations, or pipelines that run Terraform or OpenTofu. Do not use for Bicep, ARM, or unrelated application code.",
+      "activation": "Use when a diff contains .",
+      "source": ".apm/skills/review-terraform-opentofu/SKILL.md"
+    },
+    "verify-infrastructure-evidence": {
+      "description": "Run and interpret safe, non-deploying validation for infrastructure and automation reviews, and assess whether plans, what-if results, rendered output, tests, policies, scans, CI logs, and artifacts are tied to the reviewed commit, target, inputs, identity, and dependency set. Use when a pull request includes or requires executable evidence. Do not run apply, deploy, destroy, target-side Ansible, privileged cluster operations, Terraform tests that can create resources, or untrusted workflows automatically.",
+      "activation": "Use when a pull request includes or requires executable evidence.",
+      "source": ".apm/skills/verify-infrastructure-evidence/SKILL.md"
+    }
+  }
+}

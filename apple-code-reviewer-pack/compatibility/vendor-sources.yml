@@ -1,0 +1,79 @@
+schema_version: "1.0"
+last_verified: "2026-08-21"
+sources:
+  agent_skills_spec:
+    authority: Agent Skills
+    url: https://agentskills.io/specification
+    affects: [skill-frontmatter, skill-layout, progressive-disclosure, validation]
+  agent_skills_best_practices:
+    authority: Agent Skills
+    url: https://agentskills.io/skill-creation/best-practices
+    affects: [skill-scope, references, token-budget, evaluation]
+  microsoft_apm_package:
+    authority: Microsoft
+    url: https://microsoft.github.io/apm/concepts/package-anatomy/
+    affects: [package-layout, manifest, generated-output, lockfile]
+  microsoft_apm_skills:
+    authority: Microsoft
+    url: https://microsoft.github.io/apm/producer/author-primitives/skills/
+    affects: [skill-routing, target-paths, description-guidance]
+  microsoft_apm_agents:
+    authority: Microsoft
+    url: https://microsoft.github.io/apm/producer/author-primitives/instructions-and-agents/
+    affects: [canonical-agent, codex-transform, target-caveats]
+  microsoft_apm_targets:
+    authority: Microsoft
+    url: https://microsoft.github.io/apm/concepts/primitives-and-targets/
+    affects: [target-paths, supported-primitives, adapters]
+  github_custom_agents:
+    authority: GitHub
+    url: https://docs.github.com/en/copilot/reference/custom-agents-configuration
+    affects: [copilot-agent-frontmatter, copilot-tools]
+  github_agent_skills:
+    authority: GitHub
+    url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills
+    affects: [copilot-skill-discovery, copilot-skill-tools]
+  claude_subagents:
+    authority: Anthropic
+    url: https://code.claude.com/docs/en/sub-agents
+    affects: [claude-agent-frontmatter, claude-tools]
+  claude_skills:
+    authority: Anthropic
+    url: https://code.claude.com/docs/en/skills
+    affects: [claude-skill-discovery, skill-extensions]
+  codex_subagents:
+    authority: OpenAI
+    url: https://developers.openai.com/codex/subagents/
+    affects: [codex-agent-toml, sandbox-mode, skill-config]
+  codex_skills:
+    authority: OpenAI
+    url: https://developers.openai.com/codex/skills/
+    affects: [codex-skill-discovery, validation]
+  gemini_subagents:
+    authority: Google
+    url: https://geminicli.com/docs/core/subagents/
+    affects: [gemini-agent-frontmatter, gemini-tools]
+  gemini_skills:
+    authority: Google
+    url: https://geminicli.com/docs/cli/skills/
+    affects: [gemini-skill-discovery, interoperable-path]
+  apple_swift:
+    authority: Apple
+    url: https://developer.apple.com/documentation/swift
+    affects: [swift-review]
+  swift_language:
+    authority: Swift Project
+    url: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/
+    affects: [swift-review, concurrency]
+  apple_app_review:
+    authority: Apple
+    url: https://developer.apple.com/app-store/review/guidelines/
+    affects: [security-privacy, release-risk]
+  apple_accessibility:
+    authority: Apple
+    url: https://developer.apple.com/accessibility/
+    affects: [ui-accessibility]
+  apple_xcode:
+    authority: Apple
+    url: https://developer.apple.com/documentation/xcode
+    affects: [build-tests, ci]

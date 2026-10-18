@@ -1,0 +1,22 @@
+pack: cloud-prepress-reviewer
+official:
+  azure_policy:
+    url: https://learn.microsoft.com/en-us/azure/governance/policy/overview
+  azure_policy_scope:
+    url: https://learn.microsoft.com/en-us/azure/governance/policy/concepts/scope
+  bicep_what_if:
+    url: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-what-if
+  azure_developer_cli:
+    url: https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/get-started
+  terraform_plan:
+    url: https://developer.hashicorp.com/terraform/tutorials/cli/plan
+  azure_mcp_server:
+    url: https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/
+integrations:
+  - git
+  - az-cli
+  - azd
+  - bicep
+  - terraform
+  - Azure MCP when available and authorized
+  - repository test/build/lint tools

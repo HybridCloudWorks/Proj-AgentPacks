@@ -1,0 +1,63 @@
+schema_version: "1.0"
+last_reviewed: "2026-08-22"
+sources:
+  agent_skills_spec:
+    authority: Agent Skills
+    document: Specification
+    url: https://agentskills.io/specification
+    affects: [skill-frontmatter, skill-layout, progressive-disclosure, validation]
+  microsoft_apm_package:
+    authority: Microsoft
+    document: APM Package Anatomy
+    url: https://microsoft.github.io/apm/concepts/package-anatomy/
+    affects: [package-layout, manifest, lockfile, generated-output]
+  microsoft_apm_agents:
+    authority: Microsoft
+    document: APM Instructions and Agents
+    url: https://microsoft.github.io/apm/producer/author-primitives/instructions-and-agents/
+    affects: [canonical-agent, instructions, target-transforms, codex-and-gemini-limitations]
+  github_code_review:
+    authority: GitHub
+    document: Using GitHub Copilot Code Review
+    url: https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review
+    affects: [copilot-code-review, skills-path, head-branch-context, enforcement-limit, environment]
+  github_custom_agents:
+    authority: GitHub
+    document: Custom Agents Configuration
+    url: https://docs.github.com/en/copilot/reference/custom-agents-configuration
+    affects: [copilot-agent-frontmatter, tools, mcp]
+  github_instructions:
+    authority: GitHub
+    document: Adding Repository Custom Instructions
+    url: https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
+    affects: [copilot-instructions, path-specific-rules]
+  claude_subagents:
+    authority: Anthropic
+    document: Create Custom Subagents
+    url: https://code.claude.com/docs/en/sub-agents
+    affects: [claude-agent-path, frontmatter, tools, permission-mode, skills]
+  claude_skills:
+    authority: Anthropic
+    document: Extend Claude with Skills
+    url: https://code.claude.com/docs/en/skills
+    affects: [claude-skill-path, activation]
+  codex_subagents:
+    authority: OpenAI
+    document: Codex Subagents
+    url: https://learn.chatgpt.com/docs/agent-configuration/subagents
+    affects: [codex-agent-toml, sandbox]
+  codex_skills:
+    authority: OpenAI
+    document: Build Skills
+    url: https://learn.chatgpt.com/docs/build-skills
+    affects: [codex-skill-path, openai-metadata, packaging]
+  gemini_subagents:
+    authority: Google
+    document: Gemini CLI Subagents
+    url: https://geminicli.com/docs/core/subagents/
+    affects: [gemini-agent-path, frontmatter, tool-isolation]
+  gemini_skills:
+    authority: Google
+    document: Gemini CLI Agent Skills
+    url: https://geminicli.com/docs/cli/skills/
+    affects: [gemini-skill-path, activate-skill, interoperable-alias]

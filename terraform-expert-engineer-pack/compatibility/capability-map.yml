@@ -1,0 +1,20 @@
+pack: terraform-expert-engineer
+capabilities:
+  terraform_language_and_style:
+    skill: terraform-core-and-style
+  module_design_and_refactoring:
+    skill: terraform-modules-and-refactoring
+  state_backends_locking_and_import:
+    skill: terraform-state-backends-and-imports
+  hcp_terraform_and_stacks:
+    skill: terraform-cloud-and-stacks
+  testing_and_mocks:
+    skill: terraform-testing-and-validation
+  policy_and_governance:
+    skill: terraform-policy-and-governance
+  ci_cd_and_quality:
+    skill: terraform-ci-cd-and-quality
+  provider_development:
+    skill: terraform-provider-development
+  azure_verified_modules:
+    skill: azure-verified-modules

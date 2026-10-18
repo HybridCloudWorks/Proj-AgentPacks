@@ -14,7 +14,7 @@ The Codex target is `dist/openai-codex/openai-codex.zip`. Individual Skill archi
 
 ## Install
 
-Copy the contents of `targets/openai-codex` into the repository. Merge the supplied hook entries into an existing `.codex/hooks.json` and configuration snippet into `.codex/config.toml`; do not replace existing files. Review and trust project hooks in Codex before enabling them.
+Vendor files are generated from `.apm/` by `apm install` or the Code Workflow installer; nothing is copied by hand.
 
 The target contains the orchestrator custom agent, Skills, registry, schemas, hook scripts, and workflow tooling. Domain agents are separate packs and may be installed in any combination.
 

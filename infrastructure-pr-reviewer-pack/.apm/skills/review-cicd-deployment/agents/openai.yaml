@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review CI/CD Deployment"
+  short_description: "Review triggers, identity, conditions, artifacts, scripts, and deployment controls."

@@ -1,0 +1,16 @@
+pack: azure-cloud-architect
+required_handoff_artifacts: [REQ, TOPOLOGY, CONSTRAINTS, ADR]
+report_sections:
+  - scope_and_inputs
+  - business_outcomes_and_requirements
+  - source_facts_and_evidence
+  - framework_alignment
+  - proposed_architecture
+  - assumptions_and_tradeoffs
+  - implementation_and_operating_implications
+  - security_resilience_cost_and_sustainability
+  - output_files
+  - live_or_external_checks
+  - unresolved_risks
+  - next_safe_action
+evidence_labels: [observed, inferred, designed, structurally-validated, live-verified, not-verified]

@@ -1,0 +1,7 @@
+pack: cloud-documentation-archivist
+optional_skills:
+  - technical-reference-and-api-docs
+  - docs-as-code-and-publishing
+  - research-synthesis-and-source-traceability
+  - knowledge-base-and-taxonomy
+selection: Load only the Skills matching the reader, document type, source, and destination.

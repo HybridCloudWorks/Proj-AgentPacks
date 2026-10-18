@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review PowerShell Automation"
+  short_description: "Review contracts, errors, native commands, idempotency, and secret handling."

@@ -1,0 +1,32 @@
+schema_version: "1.0"
+required_sections:
+  - Executive Summary
+  - Review Scope
+  - Coverage and Evidence
+  - Findings Summary
+  - Findings
+  - Evidence Gaps
+  - Residual Risk
+  - Disposition
+  - Handoff
+required_finding_fields:
+  - Finding ID
+  - Severity
+  - Confidence
+  - File
+  - Location
+  - Technology
+  - Category
+  - Title
+  - Execution path or trigger
+  - Description
+  - Impact
+  - Remediation direction
+  - Verify with
+allowed_severities: [Critical, High, Medium, Low]
+allowed_dispositions:
+  - Ready for human approval
+  - Ready with conditions
+  - Changes requested
+  - Blocked by a human or external decision
+  - Insufficient evidence for a safe recommendation

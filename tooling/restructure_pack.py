@@ -58,7 +58,7 @@ def bump(version: str) -> str:
     return f"{parts[0]}.{parts[1] + 1}.0"
 
 
-def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: str) -> list[str]:
+def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: str, primary: str | None = None, drop: tuple[str, ...] = ()) -> list[str]:
     log: list[str] = []
     if dest.exists():
         raise SystemExit(f"destination exists, refusing to overwrite: {dest}")
@@ -85,7 +85,7 @@ def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: st
         m = re.match(r"^([A-Za-z_]+):\s*(.+)$", line)
         if m and m.group(1) in KEEP_MANIFEST + ("version",):
             old[m.group(1)] = m.group(2).strip().strip("\"'")
-    name = old.get("name") or dest.name.removesuffix("-pack")
+    name = (old.get("name") or dest.name).removesuffix("-pack")
     keywords = sorted({w for w in re.split(r"[^a-z0-9]+", name.lower()) if len(w) > 2})
     (dest / "apm.yml").write_text(
         f"name: {name}\nversion: {bump(old.get('version', '1.0.0'))}\ndescription: {old.get('description', name)}\n"
@@ -94,6 +94,11 @@ def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: st
     log.append(f"apm.yml rewritten: {name} {bump(old.get('version', '1.0.0'))}")
 
     # agents
+    for agent_name in drop:
+        victim = dest / ".apm" / "agents" / f"{agent_name}.agent.md"
+        if victim.is_file():
+            victim.unlink()
+            log.append(f"dropped leaked agent {agent_name}")
     perm: dict[str, list[str]] = {}
     for path in sorted((dest / ".apm" / "agents").glob("*.agent.md")):
         fm, body = fm_split(path.read_text(encoding="utf-8"))
@@ -107,7 +112,10 @@ def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: st
                 continue
             kept.append(line)
         agent_name = next((l.split(":", 1)[1].strip() for l in kept if l.startswith("name:")), path.name[: -len(".agent.md")])
-        intents = sorted({ALIAS_INTENT.get(t.lower(), "mcp" if "/" in t else t) for t in (tools or [])}) or ["inherit"]
+        if primary:
+            kept = [l for l in kept if not re.match(r"^user-invocable\s*:", l)]
+            kept.append(f"user-invocable: {'true' if agent_name == primary else 'false'}")
+        intents = sorted({ALIAS_INTENT.get(t.lower(), "mcp" if ("/" in t or "mcp" in t.lower()) else t) for t in (tools or [])}) or ["inherit"]
         perm[agent_name] = intents
         path.write_text("---\n" + "\n".join(kept) + "\n---\n" + body, encoding="utf-8")
         log.append(f"agent {agent_name}: tools {tools} -> intent {intents}")
@@ -144,6 +152,122 @@ def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: st
             shutil.move(str(path), str(pr_dst / path.name))
             log.append(f"prompt {path.name} -> .apm/prompts")
         shutil.rmtree(dest / "prompts")
+
+    for path in sorted(pr_dst.glob("*.prompt.md")):
+        fm, body = fm_split(path.read_text(encoding="utf-8"))
+        if fm is None or "description:" not in fm:
+            h1 = re.search(r"^#\s+(.+)$", body, re.M)
+            desc = (h1.group(1).strip() if h1 else path.name[: -len(".prompt.md")].replace("-", " ").capitalize())
+            fm = f'description: "{desc.replace(chr(34), chr(39))}"' + ("\n" + fm if fm else "")
+            path.write_text("---\n" + fm.strip() + "\n---\n" + body, encoding="utf-8")
+            log.append(f"prompt {path.name}: description added from heading")
+
+    # always-on contract instruction from the pack's own contract documents
+    contract_name = f"{name}-contract"
+    folded: list[str] = []
+    if not any(inst_dst.glob("*contract*.instructions.md")):
+        sections = []
+        docs_dir = dest / "docs"
+        for doc in sorted(docs_dir.glob("*.md")) if docs_dir.is_dir() else []:
+            if re.search(r"CONTRACT|APPROVAL|HANDOFF|GOVERNANCE", doc.name):
+                body = re.sub(r"^#\s+.*\n", "", doc.read_text(encoding="utf-8"), count=1).strip()
+                body = re.sub(r"`?docs/([A-Za-z_-]+)\.md`?", lambda m: "the pack's " + m.group(1).replace("_", " ").lower() + " document (for maintainers, not installed)", body)
+                body = re.sub(r"`?templates/([\w.-]+)`?", lambda m: "the pack's " + m.group(1) + " template (for maintainers, not installed)", body)
+                title = doc.stem.replace("_", " ").capitalize()
+                sections.append(f"## {title}\n\n{body}")
+                folded.append(doc.name)
+        rc_path = dest / "tests" / "report-contract.yml"
+        if rc_path.is_file():
+            rc_text = rc_path.read_text(encoding="utf-8")
+            rc = None
+            try:
+                rc = json.loads(rc_text)
+            except json.JSONDecodeError:
+                try:
+                    import yaml  # type: ignore
+                    rc = yaml.safe_load(rc_text)
+                except Exception:
+                    rc = None
+            if isinstance(rc, dict):
+                parts = []
+                for key, value in rc.items():
+                    label = str(key).replace("_", " ")
+                    if isinstance(value, list) and all(isinstance(v, str) for v in value):
+                        parts.append(f"{label.capitalize()}: " + ", ".join(value) + ".")
+                    elif isinstance(value, str):
+                        parts.append(f"{label.capitalize()}: {value.rstrip('.')}.")
+                    elif isinstance(value, dict):
+                        inner = "; ".join(f"{k}: {', '.join(v) if isinstance(v, list) else v}" for k, v in value.items())
+                        parts.append(f"{label.capitalize()}: {inner}.")
+                if parts:
+                    sections.append("## Completion report\n\n" + "\n\n".join(parts) +
+                                    "\n\nNever describe an unexecuted check as passed; state what was not verified.")
+        title = name.replace("-", " ")
+        (inst_dst / f"{contract_name}.instructions.md").write_text(
+            f'---\ndescription: "Approval, handoff and completion-report rules for the {title} pack. Always on; the agents, skills and prompts in this pack refer to it."\napplyTo: "**"\n---\n'
+            f"# {title.capitalize()} contract\n\nThis instruction is installed with the pack so that every agent, skill and prompt can rely on it. "
+            f"It replaces references to pack documents that are not installed.\n\n" +
+            ("\n\n".join(sections) if sections else "Work read-only by default. Ask for authority before consequential actions. Report exact checks run, results, and what was not verified.") + "\n",
+            encoding="utf-8")
+        log.append(f"contract instruction synthesized ({contract_name}; folded: {', '.join(folded) or 'report-contract only'})")
+
+    # installed content: references to folded docs become the contract instruction; other docs and templates
+    # referenced by a skill are copied into that skill so the reference resolves after install
+    for path in sorted((dest / ".apm").rglob("*.md")):
+        text = path.read_text(encoding="utf-8")
+        original = text
+        for doc_name in folded:
+            text = re.sub(r"`?docs/" + re.escape(doc_name) + r"`?", f"the installed `{contract_name}` instruction", text)
+        skill_dir = path.parent if path.parent.parent.name == "skills" else (path.parent.parent if path.parent.parent.parent.name == "skills" else None)
+        if skill_dir is not None:
+            for m in re.finditer(r"`?(docs|templates)/([\w.-]+\.(?:md|py|json|yml))`?", text):
+                source = dest / m.group(1) / m.group(2)
+                if source.is_file():
+                    shutil.copy(source, skill_dir / m.group(2))
+                    text = text.replace(m.group(0), f"`{m.group(2)}`")
+                    log.append(f"{path.relative_to(dest).as_posix()}: {m.group(1)}/{m.group(2)} copied into the skill")
+        if text != original:
+            path.write_text(text, encoding="utf-8")
+            log.append(f"rewrote references in {path.relative_to(dest).as_posix()}")
+
+    # pack docs: known phrases from the old layout
+    phrase_map = [
+        (r"four vendor packages", "vendor packages generated at build time"),
+        (r"four vendor targets", "vendor files generated at install time"),
+        (r"generated targets", "generated vendor files"),
+        (r"[Tt]arget `INSTALL\.md` files", "generated vendor files"),
+        (r"`?dist/targets/[^`\s]*`?", "`dist/`"),
+        (r"[Vv]endor directories under `?[^`\s]*targets/`? are generated compatibility outputs and must not[^.]*\.", "Vendor files are generated from `.apm/` at install time and are never edited by hand."),
+    ]
+    for rel in ["README.md", "DESCRIPTION.md"] + [p.relative_to(dest).as_posix() for p in list((dest / "docs").glob("*.md")) + list((dest / "compatibility").glob("*.yml"))]:
+        path = dest / rel
+        if not path.is_file() or path.name == "DESIGN_DECISIONS.md":
+            continue
+        text = path.read_text(encoding="utf-8")
+        original = text
+        for pattern, repl in phrase_map:
+            text = re.sub(pattern, repl, text)
+        kept_lines = []
+        for line in text.splitlines():
+            if re.search(r"(?<![\w-])targets/", line):
+                kept_lines.append("Vendor files are generated from `.apm/` by `apm install` or the Code Workflow installer; nothing is copied by hand.")
+                log.append(f"{rel}: replaced a line that described hand-built targets")
+            else:
+                kept_lines.append(line)
+        text = "\n".join(kept_lines) + ("\n" if text.endswith("\n") else "")
+        if text != original:
+            path.write_text(text, encoding="utf-8")
+            log.append(f"{rel}: old-layout phrases replaced")
+
+    # DESCRIPTION.md and LICENSE when missing
+    if not (dest / "DESCRIPTION.md").is_file():
+        readme = (dest / "README.md").read_text(encoding="utf-8") if (dest / "README.md").is_file() else ""
+        paras = [p.strip() for p in re.split(r"\n\s*\n", re.sub(r"^#.*$", "", readme, flags=re.M)) if len(p.strip()) > 60]
+        (dest / "DESCRIPTION.md").write_text(f"# {name.replace('-', ' ').title()}\n\n" + ("\n\n".join(paras[:2]) if paras else old.get("description", name)) + "\n", encoding="utf-8")
+        log.append("DESCRIPTION.md synthesized from README (review it)")
+    if not (dest / "LICENSE").is_file():
+        (dest / "LICENSE").write_text(f"MIT License\n\nCopyright (c) 2026 {old.get('author', author)}\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n", encoding="utf-8")
+        log.append("LICENSE (MIT) added")
 
     # hooks
     hooks = dest / "hooks"
@@ -184,6 +308,8 @@ def restructure(src: Path, dest: Path, prompt: Path, repository: str, author: st
         log.append("copilot-instructions.md -> examples/repository/")
     shutil.copy(prompt, dest / "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md")
     log.append("authoring prompt replaced with the current master prompt")
+    subprocess.run([sys.executable, "-I", str(HERE / "skill_coverage.py"), str(dest)], check=True, capture_output=True)
+    log.append("tests/skill-coverage.yml generated from the skills")
     return log
 
 
@@ -194,11 +320,14 @@ def main() -> int:
     parser.add_argument("--prompt", required=True, help="current master prompt file")
     parser.add_argument("--repository", default="https://github.com/saulpatinojr/Proj-Agent_Packs")
     parser.add_argument("--author", default="saulpatinojr")
+    parser.add_argument("--primary", help="agent name to mark user-invocable; every other agent becomes a hidden specialist")
+    parser.add_argument("--drop-agent", action="append", default=[], help="remove this leaked agent (repeatable)")
     args = parser.parse_args()
-    log = restructure(Path(args.source).resolve(), Path(args.dest).resolve(), Path(args.prompt).resolve(), args.repository, args.author)
+    log = restructure(Path(args.source).resolve(), Path(args.dest).resolve(), Path(args.prompt).resolve(), args.repository, args.author,
+                      args.primary, tuple(args.drop_agent))
     print("\n".join(log))
     print("\n== validator (content failures below need a person or an AI reviewer) ==")
-    proc = subprocess.run([sys.executable, "-I", str(HERE / "validate_pack.py"), args.dest, "--no-report"], text=True)
+    proc = subprocess.run([sys.executable, str(HERE / "validate_pack.py"), args.dest, "--no-report"], text=True)  # not -I: PyYAML lives in user site
     return proc.returncode
 
 

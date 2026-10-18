@@ -1,0 +1,12 @@
+cases:
+  - input: "Write a beginner guide to deploy the service"
+    skills: [diataxis-content-design, tutorials-and-how-to-guides, docs-security-privacy-and-redaction]
+  - input: "Record why the team chose private endpoints"
+    skills: [adr-and-decision-records, explanation-and-architecture-docs]
+  - input: "Document this API and its error codes"
+    skills: [technical-reference-and-api-docs, documentation-validation-and-link-checking]
+  - input: "Create a runbook from this incident"
+    skills: [runbooks-and-operational-docs, research-synthesis-and-source-traceability]
+  - input: "Publish the completed article to Notion"
+    skills: [docs-as-code-and-publishing, knowledge-base-and-taxonomy]
+    gate: explicit_external_authorization

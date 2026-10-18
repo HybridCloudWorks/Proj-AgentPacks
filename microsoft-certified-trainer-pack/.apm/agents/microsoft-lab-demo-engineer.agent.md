@@ -1,7 +1,6 @@
 ---
 name: microsoft-lab-demo-engineer
 description: Training lab and live demonstration engineer for Microsoft 365, Copilot, Copilot Studio, Office, Azure handoffs, and reproducible learner environments.
-tools: [read, search, edit, execute, web, todo, playwright/*]
 user-invocable: false
 ---
 

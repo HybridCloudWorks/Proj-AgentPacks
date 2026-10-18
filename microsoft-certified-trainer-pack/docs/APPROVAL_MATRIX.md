@@ -3,7 +3,7 @@
 | Action | Default |
 |---|---|
 | Read supplied files and official docs | Allowed |
-| Create or edit local drafts, notes, reports, and generated targets | Allowed within workspace |
+| Create or edit local drafts, notes, reports, and generated vendor files | Allowed within workspace |
 | Run local validation and inspect archives | Allowed |
 | Use live learner or organizational data | Ask first; synthetic data preferred |
 | Modify GitHub repository, workflow, branch, issue, or PR | Ask first |
