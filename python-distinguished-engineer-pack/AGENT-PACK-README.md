@@ -1,15 +1,15 @@
-# python-distinguished-engineer 2.1.0: artifact catalog
+# python-distinguished-engineer 2.2.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
 | ARTIFACT NAME | PURPOSE | LOCATION |
 |---|---|---|
-| agent-evaluation-engineer.agent.md | Canonical agent: Design and run scoped agent outcome/process evaluations, safety cases, rubrics and human-review gates. | .apm/agents/agent-evaluation-engineer.agent.md |
+| agent-evaluation-engineer.agent.md | Canonical agent: Evaluation specialist for agentic systems written in Python or TypeScript; designs and runs scoped outcome and process evaluations, safety cases, rubrics, cost checks and human-review gates. | .apm/agents/agent-evaluation-engineer.agent.md |
 | python-distinguished-engineer.agent.md | Canonical agent: Hands-on Distinguished Engineer for enterprise Python design, implementation, repository discovery and evidence-based delivery. | .apm/agents/python-distinguished-engineer.agent.md |
 | python-performance-engineer.agent.md | Canonical agent: Measure Python and agent performance/cost bottlenecks with representative before-and-after evidence. | .apm/agents/python-performance-engineer.agent.md |
 | python-security-reviewer.agent.md | Canonical agent: Inspect Python and agent trust boundaries, identity, secrets, dependency integrity and privacy; return located security findings. | .apm/agents/python-security-reviewer.agent.md |
 | python-test-engineer.agent.md | Canonical agent: Implement focused Python unit, contract, integration, browser and regression tests using repository conventions. | .apm/agents/python-test-engineer.agent.md |
-| agentic-security.instructions.md | Canonical instruction: Security boundaries for Python agents, MCP tools and AI workflows: authentication, authorization, approvals, tenant isolation, limits and redaction. | .apm/instructions/agentic-security.instructions.md |
+| agentic-security.instructions.md | Canonical instruction: Security boundaries for agents, MCP tools and AI workflows in Python and TypeScript: untrusted content, authorization outside the model, approvals, tenant isolation, limits, redaction and each language's dangerous APIs. | .apm/instructions/agentic-security.instructions.md |
 | python-engineering-contract.instructions.md | Canonical instruction: Approval levels, specialist handoff rules and the completion report format for the Python Distinguished Engineer pack. Always on; the agents and prompts in this pack refer to it. | .apm/instructions/python-engineering-contract.instructions.md |
 | python-packaging.instructions.md | Canonical instruction: Python packaging and dependency changes: build backend, requires-python, lockfiles, package identity and transitive compatibility. | .apm/instructions/python-packaging.instructions.md |
 | python-security.instructions.md | Canonical instruction: Security review of Python code, containers and CI workflows: identity, authorization, untrusted input and output, secrets, deserialization and dependencies. | .apm/instructions/python-security.instructions.md |
@@ -19,19 +19,25 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | build-python-api.prompt.md | Canonical prompt: Build a Python API feature | .apm/prompts/build-python-api.prompt.md |
 | debug-python-issue.prompt.md | Canonical prompt: Diagnose a Python defect or bottleneck | .apm/prompts/debug-python-issue.prompt.md |
 | design-change.prompt.md | Canonical prompt: Design a Python change | .apm/prompts/design-change.prompt.md |
-| evaluate-agent.prompt.md | Canonical prompt: Evaluate an agent workflow | .apm/prompts/evaluate-agent.prompt.md |
+| evaluate-agent.prompt.md | Canonical prompt: Evaluate an agent workflow written in Python or TypeScript: scenarios, deterministic and judged checks, budgets, cost and a release recommendation | .apm/prompts/evaluate-agent.prompt.md |
 | implement-feature.prompt.md | Canonical prompt: Implement a Python feature | .apm/prompts/implement-feature.prompt.md |
 | investigate-repository.prompt.md | Canonical prompt: Investigate an unfamiliar Python repository | .apm/prompts/investigate-repository.prompt.md |
 | modernize-python-code.prompt.md | Canonical prompt: Modernize Python safely | .apm/prompts/modernize-python-code.prompt.md |
 | review-pull-request.prompt.md | Canonical prompt: Review a Python change | .apm/prompts/review-pull-request.prompt.md |
-| validate-web-flow.prompt.md | Canonical prompt: Validate a Python web journey | .apm/prompts/validate-web-flow.prompt.md |
-| SKILL.md | Canonical skill: Evaluate agent outcomes and tool-use process with datasets, deterministic checks, rubrics and human review. Use when agent behavior, release gates, prompt/tool changes or reliability/safety evaluation is requested. | .apm/skills/agent-evaluation/SKILL.md |
+| validate-web-flow.prompt.md | Canonical prompt: Validate a web journey with Playwright in Python or TypeScript, with accessible locators, web-first assertions, isolated authentication and replayable evidence | .apm/prompts/validate-web-flow.prompt.md |
+| python.md | Canonical skill | .apm/skills/agent-evaluation/references/python.md |
+| typescript.md | Canonical skill | .apm/skills/agent-evaluation/references/typescript.md |
+| SKILL.md | Canonical skill: Evaluate the outcomes and tool-use process of agentic systems written in Python or TypeScript, with scenario datasets, deterministic checks, rubrics, model judges and human review. Use when agent behavior, a release gate, a prompt, tool or model change, or reliability and safety evaluation is requested. | .apm/skills/agent-evaluation/SKILL.md |
 | SKILL.md | Canonical skill: Instrument Python services and agent runs with useful metrics, traces, provenance and redaction. Use when operational diagnostics, service telemetry, agent tracing or run-cost visibility changes. | .apm/skills/agent-observability/SKILL.md |
-| SKILL.md | Canonical skill: Design Python tool-using workflows, state, memory, budgets and optional specialist handoffs. Use when a Python agent application or multi-step tool workflow needs design or change. | .apm/skills/agentic-workflow-design/SKILL.md |
+| python.md | Canonical skill | .apm/skills/agentic-workflow-design/references/python.md |
+| typescript.md | Canonical skill | .apm/skills/agentic-workflow-design/references/typescript.md |
+| SKILL.md | Canonical skill: Design bounded, auditable agent applications and multi-step tool workflows in Python or TypeScript: state, tools, memory, budgets, cancellation and optional specialist handoffs, using autonomy only where it adds value. Use when an agent application or tool-calling workflow needs design or change in either language. | .apm/skills/agentic-workflow-design/SKILL.md |
 | adr-template.md | Canonical skill | .apm/skills/architecture-decision-records/adr-template.md |
 | SKILL.md | Canonical skill: Record significant Python, API, identity, persistence, cloud and agent architecture choices with alternatives. Use when a change affects durable public contracts, runtime minimums, core tooling, shared coupling, deployment, cost or difficult-to-reverse architecture. | .apm/skills/architecture-decision-records/SKILL.md |
 | SKILL.md | Canonical skill: Implement and review Python MCP servers/clients with protocol, transport, schema, identity and tool boundaries. Use when python MCP resource, prompt, tool, transport, protocol test or supply-chain review is requested. | .apm/skills/mcp-python-engineering/SKILL.md |
-| SKILL.md | Canonical skill: Validate Python web journeys using existing Playwright/browser tooling and observable user outcomes. Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification. | .apm/skills/playwright-validation/SKILL.md |
+| python.md | Canonical skill | .apm/skills/playwright-validation/references/python.md |
+| typescript.md | Canonical skill | .apm/skills/playwright-validation/references/typescript.md |
+| SKILL.md | Canonical skill: Validate web journeys with Playwright in Python or TypeScript, using accessible locators, web-first assertions, isolated authentication and diagnostic traces, and prove observable user outcomes. Use when a web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification. | .apm/skills/playwright-validation/SKILL.md |
 | SKILL.md | Canonical skill: Review Python and agent changes with located evidence, compatibility and operational readiness. Use when pR, branch, staged diff or requested pre-merge review is in scope. | .apm/skills/pull-request-review/SKILL.md |
 | SKILL.md | Canonical skill: Engineer Python REST, webhook, event, streaming and library contracts with validation and reliable failure behavior. Use when a Python endpoint, event consumer or public integration contract is created or changed. | .apm/skills/python-api-engineering/SKILL.md |
 | SKILL.md | Canonical skill: Build and diagnose Python async workers and services with bounded concurrency, cancellation and deterministic cleanup. Use when async I/O, worker lifecycle, task leaks, throughput, timeouts or concurrent shared state is affected. | .apm/skills/python-async-engineering/SKILL.md |
@@ -42,7 +48,9 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | SKILL.md | Canonical skill: Maintain Python build metadata, dependency resolution, lockfiles, distributions and supply-chain compatibility. Use when dependencies, packaging, distribution, entry points, runtime versions or reproducibility change. | .apm/skills/python-packaging/SKILL.md |
 | SKILL.md | Canonical skill: Measure Python service, worker, data and agent latency, throughput, memory and cost bottlenecks. Use when a measurable performance issue or explicit performance/cost objective exists. | .apm/skills/python-performance-analysis/SKILL.md |
 | SKILL.md | Canonical skill: Design precise Python interfaces and resolve static typing errors while keeping runtime validation explicit. Use when public API typing, model boundaries, checker errors, stub quality, or modernization is in scope. | .apm/skills/python-static-typing/SKILL.md |
-| SKILL.md | Canonical skill: Assess prompt injection, tool abuse, memory poisoning, isolation, privacy and responsible AI in Python agents. Use when agent, retrieval, browser, model output, MCP or durable-memory boundaries are in scope. | .apm/skills/secure-agent-engineering/SKILL.md |
+| python.md | Canonical skill | .apm/skills/secure-agent-engineering/references/python.md |
+| typescript.md | Canonical skill | .apm/skills/secure-agent-engineering/references/typescript.md |
+| SKILL.md | Canonical skill: Assess and harden agentic applications written in Python or TypeScript: prompt injection, tool misuse, memory poisoning, tenant isolation, unsafe code execution, supply chain, privacy and responsible AI, plus each language's own dangerous APIs. Use when agent, retrieval, browser, model output, MCP, dependency or durable-memory boundaries are in scope. | .apm/skills/secure-agent-engineering/SKILL.md |
 | SKILL.md | Canonical skill: Assess and repair Python security boundaries, identity, secrets, data handling and supply chain. Use when security review or a Python change affects authentication, input/output, execution, storage or dependencies. | .apm/skills/secure-python-engineering/SKILL.md |
 | apm.yml | APM manifest: name, version, targets. | apm.yml |
 | capability-map.yml | Vendor compatibility metadata | compatibility/capability-map.yml |
@@ -97,10 +105,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 
 ## Build outputs (dist/, not committed)
 
-- copilot-python-distinguished-engineer.zip: 40 files generated by `apm install --target copilot`
-- claude-python-distinguished-engineer.zip: 40 files generated by `apm install --target claude`
-- codex-python-distinguished-engineer.zip: 24 files generated by `apm install --target codex`
-- kiro-python-distinguished-engineer.zip: 30 files generated by `apm install --target kiro`
-- gemini-python-distinguished-engineer.zip: 29 files generated by `apm install --target gemini`
-- agent-skills-python-distinguished-engineer.zip: 19 files generated by `apm install --target agent-skills`
+- copilot-python-distinguished-engineer.zip: 48 files generated by `apm install --target copilot`
+- claude-python-distinguished-engineer.zip: 48 files generated by `apm install --target claude`
+- codex-python-distinguished-engineer.zip: 32 files generated by `apm install --target codex`
+- kiro-python-distinguished-engineer.zip: 38 files generated by `apm install --target kiro`
+- gemini-python-distinguished-engineer.zip: 37 files generated by `apm install --target gemini`
+- agent-skills-python-distinguished-engineer.zip: 27 files generated by `apm install --target agent-skills`
 - python-distinguished-engineer-canonical.zip, python-distinguished-engineer-prompt.zip, python-distinguished-engineer-validation.zip, python-distinguished-engineer-skills.zip, python-distinguished-engineer-full-pack.zip, SHA256SUMS.txt

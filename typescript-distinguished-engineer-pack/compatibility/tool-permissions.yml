@@ -5,7 +5,7 @@
 version: 1
 agents:
   agent-evaluation-engineer:
-    intent: [edit, read, shell, web]
+    intent: [edit, read, shell]
   typescript-distinguished-engineer:
     intent: [edit, mcp, read, shell, web]
   typescript-security-reviewer:

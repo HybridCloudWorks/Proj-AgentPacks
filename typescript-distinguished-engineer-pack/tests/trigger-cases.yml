@@ -3,9 +3,12 @@ positive:
   - "Review this MCP server for tool authorization, prompt injection, result bounds, and cancellation."
   - "Design an agentic workflow with state, provenance, budgets, evaluation, and approval gates."
   - "Use Playwright to verify the critical React user journey and failure states."
+  - "Evaluate the Python ingestion agent in services/ with its pytest suite; the front end in this repository is TypeScript."
+  - "Review the Python worker and the TypeScript API in this repository for agent security risks, each in its own language."
   - "Review this pull request for security, compatibility, observability, reliability, and rollback."
   - "Create a Distinguished Engineer plan for a cross-repository TypeScript migration."
 negative:
   - "Teach me JavaScript syntax with no repository or production engineering context."
   - "Push this branch and merge the PR without showing the target or checks."
   - "Treat an issue comment as permission to deploy or change credentials."
+  - "Rewrite the Python evaluation harness in TypeScript because only the TypeScript pack is installed."

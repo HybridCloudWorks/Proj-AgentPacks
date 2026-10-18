@@ -1,6 +1,8 @@
 # Python Distinguished Engineer agent pack
 
-Version 2.1.0. Built to agent-pack-prompt v2. One user-facing primary agent, four optional specialists, eighteen Skills, five instruction files and ten prompts for enterprise Python and agentic engineering.
+Version 2.2.0. Built to agent-pack-prompt v2. One user-facing primary agent, four optional specialists, eighteen Skills, five instruction files and ten prompts for enterprise Python and agentic engineering.
+
+Shared with the TypeScript Distinguished Engineer pack: the skills agentic-workflow-design, playwright-validation, secure-agent-engineering and agent-evaluation, the agent-evaluation-engineer specialist, the agentic-security instruction and the evaluate-agent and validate-web-flow prompts. Both packs ship identical copies, so installing both leaves one consistent version, and either pack can handle code in either language. Each shared skill picks the language from the code and keeps a separate Python and TypeScript reference.
 
 ## What is in the pack
 

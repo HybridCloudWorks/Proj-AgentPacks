@@ -2,6 +2,8 @@
 
 This pack creates a Distinguished Engineer for enterprise TypeScript and JavaScript delivery. It is designed for an existing repository: inspect first, preserve local conventions, make the smallest coherent change, validate it, and report evidence honestly.
 
+Shared with the Python Distinguished Engineer pack: the skills agentic-workflow-design, playwright-validation, secure-agent-engineering and agent-evaluation, the agent-evaluation-engineer specialist, the agentic-security instruction and the evaluate-agent and validate-web-flow prompts. Both packs ship identical copies, so installing both leaves one consistent version, and either pack can handle code in either language. Each shared skill picks the language from the code and keeps a separate TypeScript and Python reference.
+
 ## Downloads
 
 After `python tooling/build_pack.py`, use:

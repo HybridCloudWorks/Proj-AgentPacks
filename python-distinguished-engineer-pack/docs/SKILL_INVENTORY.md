@@ -12,12 +12,12 @@
 | python-cli-automation | CLI command, background automation, file processing or subprocess integration is requested. | implement-feature.prompt.md |
 | architecture-decision-records | A change affects durable public contracts, runtime minimums, core tooling, shared coupling, deployment, cost or difficult-to-reverse architecture. | design-change.prompt.md |
 | mcp-python-engineering | Python MCP resource, prompt, tool, transport, protocol test or supply-chain review is requested. | build-mcp-server.prompt.md |
-| agentic-workflow-design | A Python agent application or multi-step tool workflow needs design or change. | evaluate-agent.prompt.md |
-| playwright-validation | A web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification. | validate-web-flow.prompt.md |
+| agentic-workflow-design | An agent application or tool-calling workflow needs design or change in either language. Shared; Python and TypeScript references. | evaluate-agent.prompt.md |
+| playwright-validation | A web flow, accessibility behavior, browser regression or UI-to-backend integration needs verification. Shared; Python and TypeScript references. | validate-web-flow.prompt.md |
 | secure-python-engineering | Security review or a Python change affects authentication, input/output, execution, storage or dependencies. | review-pull-request.prompt.md |
-| secure-agent-engineering | Agent, retrieval, browser, model output, MCP or durable-memory boundaries are in scope. | evaluate-agent.prompt.md |
+| secure-agent-engineering | Agent, retrieval, browser, model output, MCP, dependency or durable-memory boundaries are in scope. Shared; Python and TypeScript references. | evaluate-agent.prompt.md |
 | agent-observability | Operational diagnostics, service telemetry, agent tracing or run-cost visibility changes. | debug-python-issue.prompt.md |
-| agent-evaluation | Agent behavior, release gates, prompt/tool changes or reliability/safety evaluation is requested. | evaluate-agent.prompt.md |
+| agent-evaluation | Agent behavior, a release gate, a prompt, tool or model change, or reliability and safety evaluation is requested. Shared; Python and TypeScript references. | evaluate-agent.prompt.md |
 | python-performance-analysis | A measurable performance issue or explicit performance/cost objective exists. | debug-python-issue.prompt.md |
 | pull-request-review | PR, branch, staged diff or requested pre-merge review is in scope. | review-pull-request.prompt.md |
 
