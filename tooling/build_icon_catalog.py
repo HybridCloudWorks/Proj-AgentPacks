@@ -36,11 +36,15 @@ LISTS = [("aws4", "current"), ("aws4", "retired"), ("aws4", "legacy"), ("azure2"
 
 
 def get(url: str) -> bytes:
+    if not url.startswith(("https://api.github.com/", "https://raw.githubusercontent.com/")):
+        raise ValueError(f"only GitHub https URLs are fetched, not {url}")
     headers = {"User-Agent": "proj-agent-packs-icon-catalog", "Accept": "application/vnd.github+json"}
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     if token and url.startswith("https://api.github.com/"):
         headers["Authorization"] = f"Bearer {token}"
-    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=120) as response:
+    request = urllib.request.Request(url, headers=headers)  # noqa: S310
+    # Safe: only GitHub https URLs reach this point.
+    with urllib.request.urlopen(request, timeout=120) as response:  # noqa: S310  # nosec B310
         return response.read()
 
 
@@ -56,7 +60,7 @@ def aws_names(js: str) -> set[str]:
     names = set(re.findall(r"\bgn \+ '\.([a-z0-9_]+)", js))
     names |= set(re.findall(r"mxgraph\.aws4\.([a-z0-9_]+)", js))
     if prefix_vars:
-        names |= set(re.findall(r"\b(?:%s) \+ '([A-Za-z0-9_]+)[;']" % "|".join(sorted(prefix_vars)), js))
+        names |= set(re.findall(r"\b(?:" + "|".join(sorted(prefix_vars)) + r") \+ '([A-Za-z0-9_]+)[;']", js))
     names |= set(re.findall(r"\b(?:svc|res|res0)\('[^']*'\) \+ '([A-Za-z0-9_]+)[;']", js))
     names |= set(re.findall(r"\barvr \+ '([A-Za-z0-9_]+)[;']", js))
     return names

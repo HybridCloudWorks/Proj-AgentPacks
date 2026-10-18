@@ -258,6 +258,13 @@ class CheckDrawioTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.run_check('<!DOCTYPE x [<!ENTITY a "b">]>' + drawio_page(""))
 
+    def test_doctype_inside_a_compressed_page_is_refused(self):
+        model = '<!DOCTYPE m [<!ENTITY a "b">]><mxGraphModel><root><mxCell id="0"/></root></mxGraphModel>'
+        deflate = zlib.compressobj(9, zlib.DEFLATED, -15)
+        data = deflate.compress(quote(model).encode()) + deflate.flush()
+        with self.assertRaises(ValueError):
+            self.run_check(f'<mxfile><diagram name="Z">{base64.b64encode(data).decode()}</diagram></mxfile>')
+
     def test_event_handler_in_label_is_an_error(self):
         report = self.run_check(drawio_page(drawio_vertex("v", "rounded=1;html=1;", "&lt;img src=x onerror=alert(1)&gt;")))
         self.assertTrue(any("event-handler" in e["message"] for e in report["errors"]))

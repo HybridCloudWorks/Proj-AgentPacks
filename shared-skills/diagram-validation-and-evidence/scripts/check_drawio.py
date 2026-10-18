@@ -24,14 +24,24 @@ import base64
 import json
 import re
 import sys
-import xml.etree.ElementTree as ET
+# Only parse_xml below parses, and it refuses DOCTYPE and ENTITY declarations first.
+import xml.etree.ElementTree as ET  # nosec B405
 import zlib
 from pathlib import Path
 from urllib.parse import unquote
 
 HERE = Path(__file__).resolve().parent
 ACTIVE_CONTENT = re.compile(r"(?i)<\s*script|javascript:|<[^>]*\son[a-z]+\s*=")
-AWS_CUSTOM = {"resourceIcon", "productIcon", "group", "groupCenter"}
+DECLARATIONS = re.compile(r"(?i)<!DOCTYPE|<!ENTITY")
+
+
+def parse_xml(text: str) -> ET.Element:
+    """Parse XML that may come from anyone. Entity-expansion attacks need a DOCTYPE or ENTITY declaration, which is
+    refused here, and ElementTree never fetches external resources, so the standard library parser is safe."""
+    if DECLARATIONS.search(text):
+        raise ValueError("the content declares a DOCTYPE or ENTITY; refusing to parse it")
+    # Safe: declarations were refused above.
+    return ET.fromstring(text)  # noqa: S314  # nosec B314
 
 
 def parse_style(style: str) -> dict[str, str]:
@@ -109,8 +119,11 @@ def decode_page(diagram: ET.Element) -> tuple[ET.Element | None, bool]:
         return None, False
     try:
         raw = zlib.decompress(base64.b64decode(text), -15).decode("utf-8")
-        return ET.fromstring(unquote(raw)), True
-    except (ValueError, zlib.error, ET.ParseError, UnicodeDecodeError):
+    except (ValueError, zlib.error, UnicodeDecodeError):
+        return None, True
+    try:
+        return parse_xml(unquote(raw)), True
+    except ET.ParseError:
         return None, True
 
 
@@ -216,10 +229,7 @@ def check_page(name: str, model: ET.Element, catalog: dict, strict: bool, report
 def check(path: Path, catalog: dict, strict: bool = False) -> dict:
     report: dict = {"file": str(path), "catalog": {"drawio_version": catalog.get("drawio_version"), "built": catalog.get("built")},
                     "pages": [], "errors": [], "warnings": [], "icons": [], "counts": {"vertices": 0, "edges": 0}}
-    text = path.read_text(encoding="utf-8")
-    if re.search(r"<!DOCTYPE|<!ENTITY", text, re.I):
-        raise ValueError("the file declares a DOCTYPE or ENTITY; refusing to parse it")
-    root = ET.fromstring(text)
+    root = parse_xml(path.read_text(encoding="utf-8"))
     if root.tag == "mxGraphModel":
         report["warnings"].append({"page": "(bare model)", "cell": None, "message": "bare mxGraphModel; wrap it in mxfile and diagram"})
         pages = [("(bare model)", root, False)]

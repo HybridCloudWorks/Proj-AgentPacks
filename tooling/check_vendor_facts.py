@@ -28,9 +28,12 @@ def normalize(text: str) -> str:
 
 
 def fetch(url: str) -> str:
-    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; agent-packs-facts/1.0)",
+    if not url.startswith("https://"):
+        raise ValueError(f"only https URLs are fetched, not {url}")
+    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; agent-packs-facts/1.0)",  # noqa: S310
                                                    "Accept": "text/html,text/markdown,text/plain;q=0.9,*/*;q=0.8"})
-    with urllib.request.urlopen(request, timeout=60) as response:
+    # Safe: only https URLs reach this point.
+    with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310  # nosec B310
         return response.read().decode(response.headers.get_content_charset() or "utf-8", errors="replace")
 
 
@@ -44,7 +47,7 @@ def main() -> int:
     for url in sorted({f["url"] for f in facts}):
         try:
             pages[url] = fetch(url)
-        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError) as exc:
             pages[url] = exc
     problems = []
     for fact in facts:
