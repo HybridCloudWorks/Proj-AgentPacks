@@ -16,29 +16,33 @@ Code Workflow installs packs into the user profile so they work in every reposit
 
 ## Packs
 
-Status is the shared validator's result. Fourteen packs converted from the earlier prompt never had worked examples, templates or prompts; they keep their agents and skills but do not meet the standard until those are authored.
+Status is the shared validator's result with an APM install check for every target, run on 2026-10-18. Every pack meets the standard except codex-agentic-orchestrator-pack, a Codex-only seed that step 2 rebuilds as the multi-vendor orchestrator.
 
 | Pack | Version | Agents | Skills | Status | Notes |
 |---|---|---|---|---|---|
-| ansible-expert-engineer-pack | 1.1.0 | 1 | 10 | Incomplete: no examples, templates, prompts |  |
-| apple-code-reviewer-pack | 1.1.0 | 1 | 6 | Incomplete: no examples, templates, prompts |  |
-| aws-cloud-architect-pack | 1.3.0 | 1 | 17 | PASS | Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| aws-expert-designer-pack | 1.3.0 | 1 | 8 | PASS | Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| azure-cloud-architect-pack | 1.3.0 | 1 | 18 | PASS | Leaked copy of the AWS agent removed. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| azure-expert-designer-pack | 1.3.0 | 1 | 8 | PASS | Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| cloud-documentation-archivist-pack | 1.1.0 | 1 | 18 | Incomplete: no examples, prompts |  |
-| cloud-prepress-reviewer-pack | 1.1.0 | 1 | 15 | Incomplete: no examples, templates, prompts | Leaked copy of the AWS agent removed. |
+| ansible-expert-engineer-pack | 1.2.0 | 1 | 10 | PASS | Examples, templates and prompts gap-filled. |
+| apple-code-reviewer-pack | 1.2.0 | 1 | 6 | PASS | Examples, templates and prompts gap-filled. |
+| aws-cloud-architect-pack | 1.3.0 | 1 | 17 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| aws-expert-designer-pack | 1.3.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| azure-cloud-architect-pack | 1.3.0 | 1 | 18 | PASS | Leaked copy of the AWS agent removed. Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| azure-expert-designer-pack | 1.3.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| cloud-documentation-archivist-pack | 1.2.0 | 1 | 18 | PASS | Examples, templates and prompts gap-filled. |
+| cloud-prepress-reviewer-pack | 1.2.0 | 1 | 15 | PASS | Leaked copy of the AWS agent removed. Examples, templates and prompts gap-filled. |
+| cloudflare-subject-matter-expert-pack | 1.0.0 | 3 | 11 | PASS | Generated from the CloudFlare skill collection. |
 | codex-agentic-orchestrator-pack | 1.1.0 | 1 | 6 | Incomplete: no examples, templates, prompts | Codex-only seed; to be rebuilt as the multi-vendor orchestrator. |
-| github-expert-engineer-pack | 1.1.0 | 1 | 18 | Incomplete: no examples, templates, prompts |  |
-| google-cloud-architect-pack | 1.1.0 | 3 | 20 | PASS | Generated. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
-| hypervelocity-engineer-pack | 1.1.0 | 1 | 9 | Incomplete: no examples, templates, prompts |  |
-| infrastructure-pr-reviewer-pack | 1.1.0 | 1 | 8 | Incomplete: no examples, templates, prompts |  |
-| microsoft-certified-trainer-pack | 1.1.0 | 5 | 18 | PASS |  |
-| python-distinguished-engineer-pack | 2.1.0 | 5 | 18 | PASS |  |
-| terraform-expert-engineer-pack | 1.1.0 | 1 | 9 | Incomplete: no examples, templates, prompts |  |
-| typescript-distinguished-engineer-pack | 1.1.0 | 4 | 20 | Incomplete: no examples | Primary set explicitly; review verdicts defined. |
+| docker-senior-engineer-pack | 1.0.0 | 3 | 6 | PASS | Generated from the Docker skill collection. |
+| finops-professional-practitioner-pack | 1.0.0 | 3 | 8 | PASS | Generated from the FinOps skill collection. |
+| github-expert-engineer-pack | 1.2.0 | 1 | 18 | PASS | Examples, templates and prompts gap-filled. |
+| google-cloud-architect-pack | 1.1.0 | 3 | 20 | PASS | Generated from the Google Cloud skill collection. Ships the shared draw.io skills (AWS, Azure and Google Cloud diagrams). |
+| hypervelocity-engineer-pack | 1.2.0 | 1 | 9 | PASS | Examples, templates and prompts gap-filled. |
+| infrastructure-pr-reviewer-pack | 1.2.0 | 1 | 8 | PASS | Examples, templates and prompts gap-filled. |
+| microsoft-certified-trainer-pack | 1.1.0 | 5 | 18 | PASS | |
+| notion-subject-matter-expert-pack | 1.0.0 | 2 | 7 | PASS | Generated from the Notion skill collection. |
+| python-distinguished-engineer-pack | 2.1.0 | 5 | 18 | PASS | |
+| terraform-expert-engineer-pack | 1.2.0 | 1 | 9 | PASS | Examples, templates and prompts gap-filled. |
+| typescript-distinguished-engineer-pack | 1.2.0 | 4 | 20 | PASS | Primary set explicitly; review verdicts defined. Examples, templates and prompts gap-filled. |
 
-Not yet packs: the Google Cloud, CloudFlare, FinOps, Notion, Cloud Cybersecurity and Docker folders in the source material are third-party skill collections. Notion is under review as a generated pack (pull request #1); CloudFlare is being generated.
+Five packs were generated from third-party skill collections: Notion, CloudFlare, Docker, Google Cloud and FinOps. The Cloud Cybersecurity collection is skipped for now.
 
 ## Automation (GitHub Actions)
 
