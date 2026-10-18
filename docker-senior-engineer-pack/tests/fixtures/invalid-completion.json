@@ -1,0 +1,37 @@
+{
+  "outcome": "Synthetic fixture: claims verified completion while a criterion and a platform remain unverified.",
+  "status": "COMPLETE_VERIFIED",
+  "acceptance_criteria": [
+    {
+      "id": "builds-for-arm64",
+      "status": "unverified",
+      "evidence": "No arm64 build was run.",
+      "evidence_level": "static"
+    }
+  ],
+  "files_changed": [
+    "Dockerfile"
+  ],
+  "decisions": "Synthetic.",
+  "image_impact": "Synthetic.",
+  "runtime_contract_impact": "Synthetic.",
+  "security_review": "Synthetic.",
+  "supply_chain_impact": "Synthetic.",
+  "platform_compatibility": "Synthetic.",
+  "operational_impact": "Synthetic.",
+  "checks": [
+    {
+      "command": "docker build -t fixture-service:task .",
+      "exit_code": 0,
+      "status": "passed",
+      "environment": "Synthetic: local engine, linux/amd64.",
+      "evidence": "Illustrative fixture; not a real command result."
+    }
+  ],
+  "unverified": [
+    "linux/arm64 build"
+  ],
+  "remaining_risks": [],
+  "rollback": "Synthetic.",
+  "followups": "Synthetic."
+}

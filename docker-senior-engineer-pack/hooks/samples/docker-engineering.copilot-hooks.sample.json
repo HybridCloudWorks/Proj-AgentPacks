@@ -1,0 +1,24 @@
+{
+  "_comment": "Sample only, not installed by APM. Replace <PACK_HOME> with the installed pack path; the Code Workflow installer does this.",
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "python3 -I -B <PACK_HOME>/tooling/hook_runner.py sessionStart",
+        "powershell": "python -I -B <PACK_HOME>/tooling/hook_runner.py sessionStart",
+        "cwd": ".",
+        "timeoutSec": 30
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "python3 -I -B <PACK_HOME>/tooling/hook_runner.py agentStop",
+        "powershell": "python -I -B <PACK_HOME>/tooling/hook_runner.py agentStop",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}
