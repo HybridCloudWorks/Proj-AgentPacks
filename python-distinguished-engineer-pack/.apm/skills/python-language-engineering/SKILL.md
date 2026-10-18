@@ -32,4 +32,4 @@ Unknown minimum interpreter, changed public contract, import side effects, resou
 
 ## Workflow connection
 
-Within the complete pack, the optional `implement-feature.prompt.md` recipe connects this Skill to the primary workflow. This Skill is self-contained when installed individually; no external prompt or specialist is required. Consult shared instruction, handoff and completion contracts when the full pack is available.
+Within the complete pack, the optional `implement-feature.prompt.md` recipe connects this Skill to the primary workflow. This Skill is self-contained when installed individually; no external prompt or specialist is required. With the full pack installed, the `python-engineering-contract` instruction supplies the approval, handoff and completion rules.

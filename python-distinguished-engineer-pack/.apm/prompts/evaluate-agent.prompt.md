@@ -15,4 +15,4 @@ Define task distribution, fixture provenance, tool/safety policy, outcome/proces
 
 ## Expected output
 
-Versioned dataset, deterministic/model/human scoring, failures, budget evidence, draft thresholds and release recommendation. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Versioned dataset, deterministic/model/human scoring, failures, budget evidence, draft thresholds and release recommendation. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

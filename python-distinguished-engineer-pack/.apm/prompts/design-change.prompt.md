@@ -15,4 +15,4 @@ Frame goal, scope/non-goals, proposed criteria, assumptions and dependencies. Co
 
 ## Expected output
 
-Design/ADR, interface/data impact, risk/approval classification, implementation/test plan and rollout/recovery. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Design/ADR, interface/data impact, risk/approval classification, implementation/test plan and rollout/recovery. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

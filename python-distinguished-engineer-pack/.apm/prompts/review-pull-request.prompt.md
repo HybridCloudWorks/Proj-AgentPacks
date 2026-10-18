@@ -15,4 +15,4 @@ Resolve the exact base/head or provided diff. Apply pull-request-review and rele
 
 ## Expected output
 
-Prioritized located findings with evidence/impact/remediation/blocking status; checks actually run and review limits. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Prioritized located findings with evidence/impact/remediation/blocking status; checks actually run and review limits. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

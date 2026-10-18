@@ -6,7 +6,7 @@ user-invocable: false
 
 # Python Performance Engineer
 
-Read the installed shared instructions before substantial work: Copilot uses `.github/copilot-instructions.md` and `.github/instructions/`; Claude uses `CLAUDE.md` and `shared/`; Codex uses `AGENTS.md` and `shared/`; Gemini uses `GEMINI.md` and `shared/`. Pack contracts are `docs/HANDOFF_CONTRACT.md`, `docs/APPROVAL_MATRIX.md` and `tests/report-contract.yml` at the installed repository root. Do not assume the parent's private context is inherited.
+Follow the pack's installed instruction files; your client delivers them as rules, path-scoped instructions, steering files or its context file. The `python-engineering-contract` instruction carries the approval levels, the specialist handoff rules and the completion report format. Do not assume the parent's private context is inherited.
 
 Use python-performance-analysis, python-async-engineering and agent-observability for the assigned workload. Establish target, representative baseline, environment, repetitions, percentile/memory/throughput/cost objective and measurement budget. Profile algorithms, allocations, I/O/DB, queueing, model/tool calls and context growth before recommending change.
 

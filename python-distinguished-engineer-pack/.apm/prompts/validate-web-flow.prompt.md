@@ -15,4 +15,4 @@ Declare environment/domain/account/data/action boundaries, then apply playwright
 
 ## Expected output
 
-Actual user-flow assertions, visible error/keyboard behavior, sanitized evidence, persistence checks and cleanup/limits. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Actual user-flow assertions, visible error/keyboard behavior, sanitized evidence, persistence checks and cleanup/limits. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

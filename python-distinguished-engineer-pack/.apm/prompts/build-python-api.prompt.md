@@ -15,4 +15,4 @@ Discover installed framework/version, consumers, schemas and identity before cod
 
 ## Expected output
 
-Versioned contract, runtime validation, typed implementation, auth/error/idempotency tests, telemetry and rollback. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Versioned contract, runtime validation, typed implementation, auth/error/idempotency tests, telemetry and rollback. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

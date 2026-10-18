@@ -15,4 +15,4 @@ Read authorized code/configuration without editing; inspect interpreter/packagin
 
 ## Expected output
 
-Facts with paths, version/toolchain conflicts, interface map, unknowns and proposed validation commands. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Facts with paths, version/toolchain conflicts, interface map, unknowns and proposed validation commands. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

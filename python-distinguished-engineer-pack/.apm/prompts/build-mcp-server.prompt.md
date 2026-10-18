@@ -15,4 +15,4 @@ Discover pinned SDK/protocol/transport, classify resources/prompts/tools, and ap
 
 ## Expected output
 
-Tool schema/effects/authz/approval contract, implementation, protocol/negative tests, redaction, eval and rollback. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Tool schema/effects/authz/approval contract, implementation, protocol/negative tests, redaction, eval and rollback. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

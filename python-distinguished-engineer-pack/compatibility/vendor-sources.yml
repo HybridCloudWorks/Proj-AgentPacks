@@ -53,7 +53,7 @@
     },
     {
       "id": "copilot-instructions",
-      "url": "https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions",
+      "url": "https://docs.github.com/en/copilot/reference/custom-instructions-support",
       "application": "Path-scoped applyTo frontmatter."
     },
     {

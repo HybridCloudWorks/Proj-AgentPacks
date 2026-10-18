@@ -13,4 +13,4 @@
 | validate-web-flow.prompt.md | Actual user-flow assertions, visible error/keyboard behavior, sanitized evidence, persistence checks and cleanup/limits. |
 | evaluate-agent.prompt.md | Versioned dataset, deterministic/model/human scoring, failures, budget evidence, draft thresholds and release recommendation. |
 
-Copilot prompt files are available only on supporting surfaces. Other targets ship these as shared task recipes; their extensions do not imply native slash-command support.
+APM installs these as Copilot prompt files, Claude commands (the `agent` key is dropped) and Gemini commands. Codex and Kiro receive no prompts; their users invoke the primary agent directly.

@@ -90,7 +90,8 @@ def structural(rep: Report) -> dict[str, object]:
         rep.add("structural", f"required artifact {rel}", (ROOT / rel).exists())
     for rel in STALE:
         rep.add("structural", f"no stale folder {rel}/", not (ROOT / rel).exists())
-    rep.add("structural", "no __pycache__ or .pyc", not any(ROOT.rglob("__pycache__")) and not any(ROOT.rglob("*.pyc")))
+    cache = [p for p in list(ROOT.rglob("__pycache__")) + list(ROOT.rglob("*.pyc")) if p.parts[len(ROOT.parts)] not in ("tests", "tooling")]
+    rep.add("structural", "no __pycache__ or .pyc outside tests/ and tooling/ (those are git-ignored dev residue)", not cache, ", ".join(str(p.relative_to(ROOT)) for p in cache[:3]))
     rep.add("structural", "no archives at pack root", not any(ROOT.glob("*.zip")))
     rep.add("structural", "no native hook JSON for APM to deploy",
             not any((ROOT / "hooks").glob("*.json")) and not (ROOT / ".apm" / "hooks").exists(),
@@ -148,6 +149,42 @@ def structural(rep: Report) -> dict[str, object]:
     rep.add("structural", "authoring prompt is version 2", "Prompt version 2" in prompt_text)
     return {"manifest": manifest, "agents": names, "skills": [s.name for s in skills],
             "prompts": len(prompts), "instructions": len(instructions)}
+
+
+INSTALLED_FORBIDDEN = [
+    (r"`shared/|\bshared/(hooks|tooling|examples|instructions|prompts|templates|docs)\b", "shared/ folder does not exist after install"),
+    (r"installed repository root", "assumes a repository-root install"),
+    (r"targets/", "hand-built targets are gone"),
+    (r"\bCLAUDE\.md\b|\bAGENTS\.md\b|\bGEMINI\.md\b|copilot-instructions\.md", "repository context file is not installed by the pack"),
+    (r"\.github/hooks", "repository hook path"),
+    (r"\bINSTALL\.md\b", "removed file"),
+    (r"\bdocs/[A-Za-z_]+\.md", "pack docs are not installed"),
+    (r"\btests/[\w.-]+\.(yml|yaml|md|json)", "pack tests are not installed"),
+    (r"\btemplates/[\w.-]+\.(md|py)", "pack templates are not installed"),
+]
+PACK_DOC_FORBIDDEN = [
+    (r"targets/", "hand-built targets are gone"),
+    (r"`shared/|\bshared/(hooks|tooling|examples|instructions|prompts|templates|docs)\b", "shared/ folder does not exist"),
+    (r"four vendor|generated targets|28-section", "describes the old layout"),
+    (r"\bINSTALL\.md\b", "removed file"),
+    (r"(?<![.\w/`])(instructions|prompts)/(?=[\w.-]+\.(md|yml))", "instructions and prompts live under .apm/"),
+]
+
+
+def content_scan(rep: Report) -> None:
+    """Installed content may reference only what is installed with it; pack docs may not describe the old layout."""
+    for path in sorted((ROOT / ".apm").rglob("*.md")):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        hits = [f"{reason}: {m.group(0)}" for pattern, reason in INSTALLED_FORBIDDEN for m in [re.search(pattern, text)] if m]
+        rep.add("structural", f"installed content {path.relative_to(ROOT).as_posix()}: references only installed things", not hits, "; ".join(hits))
+    docs = [ROOT / "README.md", ROOT / "DESCRIPTION.md", ROOT / "hooks" / "README.md"]
+    docs += sorted((ROOT / "docs").glob("*.md")) + sorted((ROOT / "compatibility").glob("*.yml"))
+    for path in docs:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if path.name == "DESIGN_DECISIONS.md":
+            continue  # a decision log may describe the layouts it replaced
+        hits = [f"{reason}: {m.group(0)}" for pattern, reason in PACK_DOC_FORBIDDEN for m in [re.search(pattern, text)] if m]
+        rep.add("structural", f"pack doc {path.relative_to(ROOT).as_posix()}: describes the current layout", not hits, "; ".join(hits))
 
 
 def executable(rep: Report, info: dict[str, object], install_check: bool) -> None:
@@ -229,6 +266,7 @@ def main() -> int:
     args = parser.parse_args()
     rep = Report()
     info = structural(rep)
+    content_scan(rep)
     executable(rep, info, args.install_check)
     if not args.no_report:
         (ROOT / "VALIDATION_REPORT.md").write_text(render(rep, info), encoding="utf-8")

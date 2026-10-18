@@ -1,5 +1,7 @@
 # Design decisions
 
+## Original decisions (version 2.0.0)
+
 1. Recreate Python Distinguished Engineer from its user specification and later primary/specialist clarification. The existing trainer pack is an independent artifact; none of its curriculum or persona content is imported.
 2. Keep the established canonical .apm source, uppercase DESCRIPTION/VALIDATION_REPORT, authoring prompt, compatibility/docs/tests/tooling/hooks, instructions/prompts/examples/templates, vendor targets and archive families. Copilot retains the exact five-agent/eighteen-Skill/five-instruction/ten-prompt/six-example map.
 3. One user-facing primary owns all workflows. Specialists remain optional and in the same agents directory. Copilot uses user-invocable false for specialists and agent delegation on primary; other hosts use documented role/config capabilities without a false universal picker promise.

@@ -1,6 +1,6 @@
 # Governance, maintenance and versioning
 
-Pack version 2.0.0 is a fresh Python rebuild under the established framework. Keep the canonical .apm agents/Skills and root shared artifacts authoritative; generated targets are replaced only by tooling/build_pack.py. Change source first, update capability/trigger/report tests, run the relevant local checks, rebuild and validate embedded reports.
+Pack version 2.1.0 follows agent-pack-prompt v2.2. The canonical `.apm/` source is authoritative; vendor files are generated at install time by APM or by the Code Workflow installer and are never edited by hand. Change source first, update capability, trigger and report tests, run `tooling/validate_pack.py --install-check`, then `tooling/build_pack.py` for release archives.
 
 Use semantic versioning: major for incompatible instruction/tool/contract changes; minor for compatible capabilities; patch for corrections. Track exact commit/tag plus prompt/tool/model/SDK versions in consumers. Do not pin an unrequested model in generated profiles. Review official vendor schemas when upgrading clients and verify discovery with installed CLI/IDE; surface support can differ.
 
@@ -8,7 +8,7 @@ Owners approve significant architecture/security/data/permission/release decisio
 
 ## Known limits and unresolved operational inputs
 
-Target repository/tool versions, framework, acceptance thresholds, production identities, data classifications, paid evaluation budgets and deployment authority must be discovered for each task. Live four-vendor discovery, browser sessions, SDK protocol initialization, cloud integration and paid model quality are not established by this pack's local tests. Current subagent metadata cannot guarantee independence or access isolation across every client. APM CLI compilation is untested; descriptive source paths are provided.
+Target repository/tool versions, framework, acceptance thresholds, production identities, data classifications, paid evaluation budgets and deployment authority must be discovered for each task. Live discovery in Claude Code, Codex, Copilot, Kiro and Gemini CLI, browser sessions, SDK protocol initialization, cloud integration and paid model quality are not established by local tests. Subagent metadata cannot guarantee independence or access isolation across every client. APM 0.33.0 validation and a project-scope install for all six targets were executed on 2026-10-18; user-scope installs were not.
 
 ## Genuine not-applicable artifacts
 

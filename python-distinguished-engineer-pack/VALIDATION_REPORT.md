@@ -5,11 +5,11 @@ Standard: agent-pack-prompt v2
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 120  Passed: 120  Failed: 0  Skipped: 0
+Checks: 178  Passed: 178  Failed: 0  Skipped: 0
 
 ## Scope
 
-5 agents, 18 skills, 5 instruction files, 10 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
+5 agents, 18 skills, 6 instruction files, 10 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
 
 ## Failed checks
 
@@ -50,7 +50,7 @@ Checks: 120  Passed: 120  Failed: 0  Skipped: 0
 | structural | no stale folder openai-codex/ | pass |  |
 | structural | no stale folder instructions/ | pass |  |
 | structural | no stale folder prompts/ | pass |  |
-| structural | no __pycache__ or .pyc | pass |  |
+| structural | no __pycache__ or .pyc outside tests/ and tooling/ (those are git-ignored dev residue) | pass |  |
 | structural | no archives at pack root | pass |  |
 | structural | no native hook JSON for APM to deploy | pass | native hooks would carry repository-relative commands; hooks ship as helper scripts and samples |
 | structural | apm.yml uses only APM-defined fields | pass |  |
@@ -123,6 +123,7 @@ Checks: 120  Passed: 120  Failed: 0  Skipped: 0
 | structural | skill secure-python-engineering: SKILL.md with name equal to folder | pass |  |
 | structural | skill secure-python-engineering: description within 1024 characters | pass |  |
 | structural | instruction agentic-security.instructions.md: description and applyTo | pass |  |
+| structural | instruction python-engineering-contract.instructions.md: description and applyTo | pass |  |
 | structural | instruction python-packaging.instructions.md: description and applyTo | pass |  |
 | structural | instruction python-security.instructions.md: description and applyTo | pass |  |
 | structural | instruction python-tests.instructions.md: description and applyTo | pass |  |
@@ -138,6 +139,63 @@ Checks: 120  Passed: 120  Failed: 0  Skipped: 0
 | structural | prompt review-pull-request.prompt.md: description | pass |  |
 | structural | prompt validate-web-flow.prompt.md: description | pass |  |
 | structural | authoring prompt is version 2 | pass |  |
+| structural | installed content .apm/agents/agent-evaluation-engineer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/python-distinguished-engineer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/python-performance-engineer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/python-security-reviewer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/agents/python-test-engineer.agent.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/agentic-security.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/python-engineering-contract.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/python-packaging.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/python-security.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/python-tests.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/instructions/python.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/build-mcp-server.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/build-python-api.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/debug-python-issue.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/design-change.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/evaluate-agent.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/implement-feature.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/investigate-repository.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/modernize-python-code.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/review-pull-request.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/validate-web-flow.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agent-evaluation/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agent-observability/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/agentic-workflow-design/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/architecture-decision-records/adr-template.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/architecture-decision-records/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/mcp-python-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/playwright-validation/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/pull-request-review/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-api-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-async-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-cli-automation/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-data-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-database-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-language-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-packaging/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-performance-analysis/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/python-static-typing/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/secure-agent-engineering/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/secure-python-engineering/SKILL.md: references only installed things | pass |  |
+| structural | pack doc README.md: describes the current layout | pass |  |
+| structural | pack doc DESCRIPTION.md: describes the current layout | pass |  |
+| structural | pack doc hooks/README.md: describes the current layout | pass |  |
+| structural | pack doc docs/AGENT_INVENTORY.md: describes the current layout | pass |  |
+| structural | pack doc docs/APPROVAL_MATRIX.md: describes the current layout | pass |  |
+| structural | pack doc docs/HANDOFF_CONTRACT.md: describes the current layout | pass |  |
+| structural | pack doc docs/INTEGRATION_CONTRACT.md: describes the current layout | pass |  |
+| structural | pack doc docs/MAINTENANCE.md: describes the current layout | pass |  |
+| structural | pack doc docs/PROMPT_INVENTORY.md: describes the current layout | pass |  |
+| structural | pack doc docs/SKILL_INVENTORY.md: describes the current layout | pass |  |
+| structural | pack doc docs/SOURCE_TRACEABILITY.md: describes the current layout | pass |  |
+| structural | pack doc docs/TOOL_PERMISSION_MATRIX.md: describes the current layout | pass |  |
+| structural | pack doc compatibility/capability-map.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/compatibility-matrix.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/optional-skills.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/tool-permissions.yml: describes the current layout | pass |  |
+| structural | pack doc compatibility/vendor-sources.yml: describes the current layout | pass |  |
 | executable | pack unit tests (python -m unittest discover -s tests) | pass | OK |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |
@@ -146,4 +204,4 @@ Checks: 120  Passed: 120  Failed: 0  Skipped: 0
 | executable | codex: 5 agents generated | pass | found 5 |
 | executable | kiro: 5 agents generated | pass | found 5 |
 | executable | no hook files generated | pass |  |
-| executable | claude: instructions generated as rules | pass | found 5 |
+| executable | claude: instructions generated as rules | pass | found 6 |

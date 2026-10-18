@@ -15,4 +15,4 @@ Investigate, frame criteria and implement the smallest coherent change with rele
 
 ## Expected output
 
-Scoped diff, criterion status, commands/results, compatibility/dependency/migration/operations impact and completion report. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Scoped diff, criterion status, commands/results, compatibility/dependency/migration/operations impact and completion report. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

@@ -15,4 +15,4 @@ Inspect supported runtimes, dependencies, public contracts and existing tooling.
 
 ## Expected output
 
-Incremental compatible plan/patch, version and dependency migration impact, tests and reversal strategy. State failures and unavailable checks honestly. Follow the installed approval and completion contract; existing authorization persists only within its scope.
+Incremental compatible plan/patch, version and dependency migration impact, tests and reversal strategy. State failures and unavailable checks honestly. Follow the `python-engineering-contract` instruction; existing authorization persists only within its scope.

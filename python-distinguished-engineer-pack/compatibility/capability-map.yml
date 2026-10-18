@@ -1,6 +1,6 @@
 {
   "name": "python-distinguished-engineer",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "primary": "python-distinguished-engineer",
   "agents": [
     {
@@ -29,7 +29,14 @@
         "write_file",
         "replace",
         "run_shell_command"
-      ]
+      ],
+      "kiro_tools": [
+        "read",
+        "shell",
+        "subagent",
+        "write"
+      ],
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the vendor translations an installer applies. The canonical agent file declares no tools."
     },
     {
       "name": "python-security-reviewer",
@@ -47,7 +54,11 @@
       "gemini_tools": [
         "read_file",
         "grep_search"
-      ]
+      ],
+      "kiro_tools": [
+        "read"
+      ],
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the vendor translations an installer applies. The canonical agent file declares no tools."
     },
     {
       "name": "python-test-engineer",
@@ -73,7 +84,13 @@
         "write_file",
         "replace",
         "run_shell_command"
-      ]
+      ],
+      "kiro_tools": [
+        "read",
+        "shell",
+        "write"
+      ],
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the vendor translations an installer applies. The canonical agent file declares no tools."
     },
     {
       "name": "python-performance-engineer",
@@ -94,7 +111,12 @@
         "read_file",
         "grep_search",
         "run_shell_command"
-      ]
+      ],
+      "kiro_tools": [
+        "read",
+        "shell"
+      ],
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the vendor translations an installer applies. The canonical agent file declares no tools."
     },
     {
       "name": "agent-evaluation-engineer",
@@ -120,7 +142,13 @@
         "write_file",
         "replace",
         "run_shell_command"
-      ]
+      ],
+      "kiro_tools": [
+        "read",
+        "shell",
+        "write"
+      ],
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the vendor translations an installer applies. The canonical agent file declares no tools."
     }
   ],
   "skills": [
@@ -324,11 +352,12 @@
     }
   ],
   "instructions": [
-    "python.instructions.md",
-    "python-tests.instructions.md",
-    "python-security.instructions.md",
+    "agentic-security.instructions.md",
+    "python-engineering-contract.instructions.md",
     "python-packaging.instructions.md",
-    "agentic-security.instructions.md"
+    "python-security.instructions.md",
+    "python-tests.instructions.md",
+    "python.instructions.md"
   ],
   "prompts": [
     "investigate-repository.prompt.md",
@@ -354,7 +383,6 @@
     "DESCRIPTION.md",
     "README.md",
     "AGENT-PACK-README.md",
-    "copilot-instructions.md",
     "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md",
     "LICENSE",
     "apm.yml",
@@ -366,8 +394,6 @@
     "docs",
     "examples",
     "hooks",
-    "instructions",
-    "prompts",
     "templates",
     "tests",
     "tooling"
