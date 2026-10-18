@@ -239,8 +239,18 @@ def check(ws: Path) -> dict:
     report["skill_coverage_current"] = proc.returncode == 0
 
     hard, exemplar_skills = identity_terms(ws / "exemplar")
+    scan: set[str] | None = None
+    if meta.get("mode") == "fill":
+        # A fill may not leak the exemplar into what it writes, but the pack's own established names are not leakage
+        # (two packs can legitimately share an agent name; that is an install collision, reported separately).
+        hard -= {p.name[: -len(".agent.md")] for p in (pack / ".apm" / "agents").glob("*.agent.md")}
+        base, now_hashes = meta.get("baseline", {}), file_hashes(pack)
+        scan = {rel for rel, digest in now_hashes.items() if base.get(rel) != digest}
     leaks: dict[str, list[str]] = {}
     for path in pack.rglob("*"):
+        rel_path = path.relative_to(pack).as_posix()
+        if scan is not None and rel_path not in scan:
+            continue
         if path.is_file() and path.name != "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md" and path.suffix in (".md", ".yml", ".yaml", ".json", ".py", ".toml"):
             text = path.read_text(encoding="utf-8", errors="replace")
             hits = sorted(t for t in hard if re.search(rf"(?<![\w-]){re.escape(t)}(?![\w-])", text))
