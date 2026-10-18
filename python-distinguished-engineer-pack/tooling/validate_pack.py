@@ -187,6 +187,54 @@ def content_scan(rep: Report) -> None:
         rep.add("structural", f"pack doc {path.relative_to(ROOT).as_posix()}: describes the current layout", not hits, "; ".join(hits))
 
 
+def consistency(rep: Report, info: dict[str, object]) -> None:
+    """tests/*.yml and the contract instruction must agree with the real agents, skills and prompts."""
+    import json
+    skills = set(info["skills"])  # type: ignore[arg-type]
+    agents = set(info["agents"])  # type: ignore[arg-type]
+    prompts = {p.name for p in (ROOT / ".apm" / "prompts").glob("*.prompt.md")}
+
+    def load(rel: str):
+        path = ROOT / rel
+        if not path.is_file():
+            rep.add("structural", f"{rel} present", False)
+            return None
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            rep.add("structural", f"{rel} is valid JSON", False, str(exc))
+            return None
+
+    cov = load("tests/capability-coverage.yml")
+    if cov:
+        reqs = cov.get("requirements", [])
+        rep.add("structural", "capability-coverage.yml names every skill exactly once",
+                sorted(r.get("skill") for r in reqs) == sorted(skills), f"{len(reqs)} requirements for {len(skills)} skills")
+        bad = sorted({r.get("prompt") for r in reqs if r.get("prompt")} - prompts)
+        rep.add("structural", "capability-coverage.yml prompts exist", not bad, ", ".join(bad))
+        bad = sorted({r.get("agent") for r in reqs if r.get("agent")} - agents)
+        rep.add("structural", "capability-coverage.yml agents exist", not bad, ", ".join(bad))
+    trig = load("tests/trigger-cases.yml")
+    if trig:
+        cases = trig.get("cases", [])
+        covered = {s for c in cases for s in (c.get("skills") or [])}
+        missing = sorted(skills - covered)
+        rep.add("structural", "trigger-cases.yml covers every skill", not missing, ", ".join(missing))
+        unknown = sorted(covered - skills)
+        rep.add("structural", "trigger-cases.yml names only real skills", not unknown, ", ".join(unknown))
+        bad = sorted({c.get("prompt") for c in cases if c.get("prompt")} - prompts)
+        rep.add("structural", "trigger-cases.yml prompts exist", not bad, ", ".join(bad))
+    rc = load("tests/report-contract.yml")
+    contract = next(iter((ROOT / ".apm" / "instructions").glob("*contract*.instructions.md")), None)
+    rep.add("structural", "an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md)", contract is not None)
+    if rc and contract:
+        text = contract.read_text(encoding="utf-8").lower().replace("-", "").replace("_", "").replace(" ", "")
+        missing = [f for f in rc.get("required_fields", []) + rc.get("statuses", []) + rc.get("severity", [])
+                   if f.lower().replace("_", "").replace("-", "") not in text]
+        rep.add("structural", "contract instruction states every report field, status and severity from report-contract.yml", not missing, ", ".join(missing))
+        rep.add("structural", "contract instruction states the fallback sentence", rc.get("fallback", "") in contract.read_text(encoding="utf-8"))
+
+
 def executable(rep: Report, info: dict[str, object], install_check: bool) -> None:
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
     proc = subprocess.run([sys.executable, "-I", "-B", "-m", "unittest", "discover", "-s", "tests"],
@@ -267,6 +315,7 @@ def main() -> int:
     rep = Report()
     info = structural(rep)
     content_scan(rep)
+    consistency(rep, info)
     executable(rep, info, args.install_check)
     if not args.no_report:
         (ROOT / "VALIDATION_REPORT.md").write_text(render(rep, info), encoding="utf-8")

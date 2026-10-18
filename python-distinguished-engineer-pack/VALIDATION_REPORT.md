@@ -5,7 +5,7 @@ Standard: agent-pack-prompt v2
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 178  Passed: 178  Failed: 0  Skipped: 0
+Checks: 187  Passed: 187  Failed: 0  Skipped: 0
 
 ## Scope
 
@@ -196,6 +196,15 @@ Checks: 178  Passed: 178  Failed: 0  Skipped: 0
 | structural | pack doc compatibility/optional-skills.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/tool-permissions.yml: describes the current layout | pass |  |
 | structural | pack doc compatibility/vendor-sources.yml: describes the current layout | pass |  |
+| structural | capability-coverage.yml names every skill exactly once | pass | 18 requirements for 18 skills |
+| structural | capability-coverage.yml prompts exist | pass |  |
+| structural | capability-coverage.yml agents exist | pass |  |
+| structural | trigger-cases.yml covers every skill | pass |  |
+| structural | trigger-cases.yml names only real skills | pass |  |
+| structural | trigger-cases.yml prompts exist | pass |  |
+| structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
+| structural | contract instruction states every report field, status and severity from report-contract.yml | pass |  |
+| structural | contract instruction states the fallback sentence | pass |  |
 | executable | pack unit tests (python -m unittest discover -s tests) | pass | OK |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |
