@@ -34,8 +34,8 @@ Canonical agents declare no `tools`; see `docs/TOOL_PERMISSION_MATRIX.md` and `c
 ## Build and validate
 
 ```bash
-python tooling/validate_pack.py --install-check   # writes VALIDATION_REPORT.md
-python tooling/build_pack.py                      # writes dist/ and AGENT-PACK-README.md
+python ../tooling/validate_pack.py . --install-check   # shared validator; writes VALIDATION_REPORT.md
+python ../tooling/build_pack.py .                      # shared builder; writes dist/ and AGENT-PACK-README.md
 ```
 
 `dist/` is a build output and is not committed.

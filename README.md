@@ -24,4 +24,12 @@ Code Workflow installs packs into the user profile so they work in every reposit
 
 ## Working on packs
 
-Edit in a normal git clone, not in a synced folder. Run `python tooling/validate_pack.py` inside a pack before committing, and `python tooling/build_pack.py` to produce archives under `dist/` when releasing. `dist/` is ignored by git.
+Edit in a normal git clone, not in a synced folder. Shared tooling lives in `tooling/` at the repository root; packs carry only their own helper scripts.
+
+```bash
+python tooling/validate_pack.py <pack> --install-check   # writes <pack>/VALIDATION_REPORT.md
+python tooling/build_pack.py <pack>                      # writes <pack>/dist/ and the catalog
+python tooling/restructure_pack.py <v1 folder or zip> <new folder> --prompt <master prompt>
+```
+
+`restructure_pack.py` converts a prompt-v1 pack to the current layout deterministically and then prints the content checks a person must resolve by hand. `dist/` is ignored by git.

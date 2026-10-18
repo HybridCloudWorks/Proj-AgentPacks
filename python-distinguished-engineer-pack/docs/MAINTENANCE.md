@@ -1,6 +1,6 @@
 # Governance, maintenance and versioning
 
-Pack version 2.1.0 follows agent-pack-prompt v2.2. The canonical `.apm/` source is authoritative; vendor files are generated at install time by APM or by the Code Workflow installer and are never edited by hand. Change source first, update capability, trigger and report tests, run `tooling/validate_pack.py --install-check`, then `tooling/build_pack.py` for release archives.
+Pack version 2.1.0 follows agent-pack-prompt v2.2. The canonical `.apm/` source is authoritative; vendor files are generated at install time by APM or by the Code Workflow installer and are never edited by hand. Change source first, update capability, trigger and report tests, run the repository's shared `tooling/validate_pack.py <pack> --install-check`, then `tooling/build_pack.py <pack>` for release archives.
 
 Use semantic versioning: major for incompatible instruction/tool/contract changes; minor for compatible capabilities; patch for corrections. Track exact commit/tag plus prompt/tool/model/SDK versions in consumers. Do not pin an unrequested model in generated profiles. Review official vendor schemas when upgrading clients and verify discovery with installed CLI/IDE; surface support can differ.
 

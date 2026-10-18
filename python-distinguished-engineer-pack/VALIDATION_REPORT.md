@@ -1,11 +1,11 @@
 # VALIDATION_REPORT
 
 Pack: python-distinguished-engineer 2.1.0
-Standard: agent-pack-prompt v2
+Standard: agent-pack-prompt v2.2
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 187  Passed: 187  Failed: 0  Skipped: 0
+Checks: 190  Passed: 190  Failed: 0  Skipped: 0
 
 ## Scope
 
@@ -19,8 +19,8 @@ Checks: 187  Passed: 187  Failed: 0  Skipped: 0
 
 - Agents appear and run in the VS Code agent pane for Claude Code, Codex, and GitHub Copilot.
 - A user-profile install (Code Workflow installer, or `apm install -g`) behaves identically on Windows and macOS.
-- Kiro and Gemini CLI behaviour on a live install; neither client was available on the validating machine.
-- Model behaviour of the five agents when actually invoked; tests cover helper code and contracts only.
+- Kiro and Antigravity IDE behaviour, and Gemini CLI behaviour, on a live install.
+- Model behaviour of the agents when actually invoked; tests cover helper code and contracts only.
 - Hook behaviour: hooks ship as helper scripts and samples; no native hook was installed or exercised.
 
 ## Check inventory
@@ -38,7 +38,6 @@ Checks: 187  Passed: 187  Failed: 0  Skipped: 0
 | structural | required artifact templates | pass |  |
 | structural | required artifact hooks/README.md | pass |  |
 | structural | required artifact tests | pass |  |
-| structural | required artifact tooling | pass |  |
 | structural | required artifact .apm/agents | pass |  |
 | structural | required artifact .apm/skills | pass |  |
 | structural | required artifact .apm/instructions | pass |  |
@@ -50,12 +49,15 @@ Checks: 187  Passed: 187  Failed: 0  Skipped: 0
 | structural | no stale folder openai-codex/ | pass |  |
 | structural | no stale folder instructions/ | pass |  |
 | structural | no stale folder prompts/ | pass |  |
-| structural | no __pycache__ or .pyc outside tests/ and tooling/ (those are git-ignored dev residue) | pass |  |
+| structural | no __pycache__ or .pyc outside tests/ and tooling/ | pass |  |
 | structural | no archives at pack root | pass |  |
 | structural | no native hook JSON for APM to deploy | pass | native hooks would carry repository-relative commands; hooks ship as helper scripts and samples |
+| structural | no per-pack copy of tooling/validate_pack.py (shared tooling lives at the repository root) | pass |  |
+| structural | no per-pack copy of tooling/build_pack.py (shared tooling lives at the repository root) | pass |  |
 | structural | apm.yml uses only APM-defined fields | pass |  |
 | structural | apm.yml has name and version | pass |  |
 | structural | apm.yml version is semantic | pass |  |
+| structural | apm.yml name equals the pack folder name without -pack | pass | python-distinguished-engineer vs python-distinguished-engineer-pack |
 | structural | apm.yml targets are valid APM targets | pass | targets: ['copilot', 'claude', 'codex', 'kiro', 'gemini', 'agent-skills'] |
 | structural | at least one agent | pass |  |
 | structural | agent agent-evaluation-engineer: name and description present | pass |  |
@@ -138,7 +140,7 @@ Checks: 187  Passed: 187  Failed: 0  Skipped: 0
 | structural | prompt modernize-python-code.prompt.md: description | pass |  |
 | structural | prompt review-pull-request.prompt.md: description | pass |  |
 | structural | prompt validate-web-flow.prompt.md: description | pass |  |
-| structural | authoring prompt is version 2 | pass |  |
+| structural | authoring prompt is version 2.2 or later | pass |  |
 | structural | installed content .apm/agents/agent-evaluation-engineer.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/agents/python-distinguished-engineer.agent.md: references only installed things | pass |  |
 | structural | installed content .apm/agents/python-performance-engineer.agent.md: references only installed things | pass |  |
@@ -214,3 +216,4 @@ Checks: 187  Passed: 187  Failed: 0  Skipped: 0
 | executable | kiro: 5 agents generated | pass | found 5 |
 | executable | no hook files generated | pass |  |
 | executable | claude: instructions generated as rules | pass | found 6 |
+| executable | generated vendor files reference only installed things | pass |  |

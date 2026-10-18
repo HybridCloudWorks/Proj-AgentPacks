@@ -88,12 +88,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
 | test_behavior.py | Local test or recorded evidence | tests/test_behavior.py |
 | trigger-cases.yml | Local test or recorded evidence | tests/trigger-cases.yml |
-| build_pack.py | Build, validation, or hook runner code | tooling/build_pack.py |
-| completion_contract.py | Build, validation, or hook runner code | tooling/completion_contract.py |
-| hook_runner.py | Build, validation, or hook runner code | tooling/hook_runner.py |
-| requirements.txt | Build, validation, or hook runner code | tooling/requirements.txt |
-| validate_pack.py | Build, validation, or hook runner code | tooling/validate_pack.py |
-| validate_python_pack.py | Build, validation, or hook runner code | tooling/validate_python_pack.py |
+| completion_contract.py | Pack-specific helper code | tooling/completion_contract.py |
+| hook_runner.py | Pack-specific helper code | tooling/hook_runner.py |
+| requirements.txt | Pack-specific helper code | tooling/requirements.txt |
+| validate_python_pack.py | Pack-specific helper code | tooling/validate_python_pack.py |
 | VALIDATION_REPORT.md | Executed checks and what remains unverified. | VALIDATION_REPORT.md |
 
 ## Build outputs (dist/, not committed)

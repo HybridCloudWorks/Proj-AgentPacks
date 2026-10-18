@@ -1,6 +1,6 @@
 # MASTER PROMPT — CREATE AN AGENT PACK FROM A ROLE
 
-Prompt version 2 (2026-10-18). Vendor facts this prompt relies on are in `client-locations.md` in the same folder; read it before generating.
+Prompt version 2.2 (2026-10-18). Vendor facts this prompt relies on are in `client-locations.md` in the same folder; read it before generating.
 
 ROLE: [Enter the role here]
 
@@ -31,8 +31,7 @@ The pack is an APM package. The canonical source is the `.apm/` folder, and ever
 - `.apm/agents/*.agent.md` (canonical agents)
 - `.apm/skills/<name>/SKILL.md` (canonical Skills; folder name equals `name`)
 - `.apm/instructions/*.instructions.md` with `description` and `applyTo` frontmatter
-- `.apm/prompts/*.prompt.md`
-- `.apm/hooks/*.json`
+- `.apm/prompts/*.prompt.md` (the `agent` field is honoured by Copilot and dropped by Claude, which supports only description, input, allowed-tools, model, argument-hint)
 - DESCRIPTION.md
 - README.md
 - AGENT-PACK-README.md: the artifact catalog. List every file with its purpose. Do not embed file contents.
@@ -43,7 +42,7 @@ The pack is an APM package. The canonical source is the `.apm/` folder, and ever
 - compatibility/
 - examples/
 - templates/
-- hooks/ for portable helper scripts only; native hook definitions live in `.apm/hooks/`
+- hooks/ for helper scripts and reviewed samples only. Do not ship native hook definitions: APM copies hook commands verbatim and never deploys the scripts they call, so any command path would break after install. Hook wiring belongs to the installer.
 - tests/
 - tooling/, including a build script that produces the distribution archives
 
@@ -95,10 +94,12 @@ The pack must work when installed once into the user profile and used from every
 - Nothing may depend on files at a repository root. No `shared/` folders, and no repo-level `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, or `copilot-instructions.md` as a prerequisite. Repository-level instructions are an optional extra for GitHub Copilot code review, generated from `.apm/instructions`.
 - Hook commands reference scripts by a path the installer supplies, never a repository-relative path such as `.github/hooks/scripts/...`.
 - Instructions that must apply everywhere go in `.apm/instructions/` so they generate into `~/.claude/rules`, `~/.copilot/instructions`, `~/.kiro/steering`, and the Codex and Gemini context files.
+- Installed content (agents, skills, instructions, prompts) may reference only what is installed with it. Never point the model at `docs/`, `tests/`, `templates/`, `shared/`, `INSTALL.md`, or a repository context file. Any contract the model must follow, such as approval levels, handoff rules, or the completion report format, is itself an always-on instruction in `.apm/instructions/` with `applyTo: "**"`. Pack docs are for humans and must describe the current layout.
 
 Verify current official vendor Agent/Skill specifications before generating. Use the field names and tool identifiers recorded in `client-locations.md`:
 
-- Claude Code: `name` and `description` are required. `tools` is a comma-separated string or YAML list of real tool names. Preload Skills with the `skills` field, not `tools: Skill`.
+- Do not set `tools` on canonical agents. APM copies the field verbatim to Claude Code and Copilot, drops it for Codex, and refuses the agent for Kiro unless every value is a Kiro tag, so no one value is valid everywhere. Declare each agent's intended permissions in `compatibility/tool-permissions.yml` (intents: read, edit, shell, web, delegate); the Code Workflow installer translates them per vendor.
+- Claude Code: `name` and `description` are required. Preload Skills with the `skills` field.
 - Copilot: `description` is required. `tools` uses the documented aliases (execute, read, edit, search, agent, web, todo) or specific tool names; unknown names are ignored silently, so never rely on them. Set `include-custom-instructions: true` when a subagent must read repository instructions.
 - Codex: `name`, `description`, and `developer_instructions` are required. There is no tools field. Do not set `sandbox_mode`, `approval_policy`, `model_provider`, or `mcp_servers` in an agent file.
 - Kiro: agents are Markdown with frontmatter; steering files carry an `inclusion` mode; hooks use the `v1` JSON schema.
@@ -152,6 +153,7 @@ Verify:
 - `apm compile --validate` passes, and `apm install --dry-run` for every declared target reports what it would deploy
 - Content is specific to the requested role
 - Skills, prompts, agents, hooks, and contracts reference existing files
+- Installed content references only installed content, and pack docs do not describe a previous layout (automated scan)
 - Vendor packages produced by the build contain their required dependencies
 - Tool permissions match responsibilities, and no agent contradicts itself
 - Metadata conforms to current vendor specifications in `client-locations.md`
@@ -197,6 +199,20 @@ SAME FRAMEWORK. SAME COMPLETENESS STANDARD. FRESH ROLE-SPECIFIC CONTENT.
 ---
 
 ## Change log
+
+### Version 2.2 (2026-10-18)
+
+Found by auditing the restructured Python Distinguished Engineer pack: moving folders is not enough. Every agent still told the model to read `CLAUDE.md`, `shared/` and `docs/` at a repository root that no longer exists.
+
+- Section 5: installed content may reference only installed content; contracts become always-on instruction files.
+- Section 8: automated reference scan over `.apm/` and pack docs.
+
+### Version 2.1 (2026-10-18)
+
+Proven by restructuring the Python Distinguished Engineer pack and installing it with APM 0.33.0 into a scratch project for all six targets.
+
+- Section 2: no native hook definitions in a pack (APM deploys commands verbatim without their scripts); prompt `agent` field behaviour noted.
+- Section 5: canonical agents carry no `tools`; permissions declared in `compatibility/tool-permissions.yml`.
 
 ### Version 2 (2026-10-18)
 
