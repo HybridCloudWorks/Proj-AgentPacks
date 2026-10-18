@@ -11,11 +11,51 @@ Portable Agent/Skill package for the full AWS cloud-architecture lifecycle. This
 
 The generated distribution also includes vendor packages generated at build time and one validated `skill.zip` archive for every Skill, collected in `aws-cloud-architect-skills.zip`.
 
+## Workflow prompts
+
+There is one prompt per primary workflow in `.apm/prompts/`. Each targets the `aws-cloud-architect` agent and follows the always-on `aws-cloud-architect-contract` instruction.
+
+| Prompt | Use it to |
+|---|---|
+| `design-aws-workload.prompt.md` | Design a production workload and hand it off |
+| `design-landing-zone.prompt.md` | Design multi-account foundations with Control Tower |
+| `design-hybrid-network.prompt.md` | Choose and design VPC, hybrid and edge connectivity |
+| `plan-migration-and-dr.prompt.md` | Plan migration waves, cutover, rollback and DR from RTO and RPO |
+| `review-deployment-plan.prompt.md` | Review a CloudFormation, CDK or Terraform change before it is applied |
+| `review-well-architected.prompt.md` | Run a six-pillar review, with CAF perspectives if needed |
+| `review-aws-cost.prompt.md` | Find cost drivers and recommend measured optimizations |
+| `troubleshoot-aws-incident.prompt.md` | Investigate a production incident with read-only access |
+| `verify-aws-evidence.prompt.md` | Verify quotas, Region availability, pricing or behavior and record the evidence |
+| `create-architecture-diagram.prompt.md` | Draw an approved design in Draw.io and validate it |
+
+`docs/PROMPT_INVENTORY.md` lists the skills each prompt applies and how APM installs prompts on each host.
+
+## Examples and templates
+
+`examples/` holds worked walkthroughs. Each one ends with a completion report in the contract's twelve-section format:
+
+- `greenfield-workload-design.md`
+- `landing-zone-design.md`
+- `migration-and-dr-plan.md`
+- `deployment-review-blocked.md`: a production change that is refused and blocked
+- `incident-troubleshooting.md`
+- `architecture-diagram.md`: a diagram that is structurally valid but visually not verified
+
+`templates/` holds the documents the skills produce:
+
+- the handoff set `REQ.md`, `TOPOLOGY.json`, `CONSTRAINTS.json` and `ADR.md`
+- `completion-report.md`
+- `well-architected-review.md`
+
+Templates and examples are reference material for people. They are not installed with the agent; the contract instruction carries everything the model needs.
+
 ## Build and validate
+
+From the pack repository root:
 
 ```text
 python tooling/build_pack.py
-python tooling/validate_pack.py --write-report
+python tooling/validate_pack.py aws-cloud-architect-pack --install-check
 ```
 
 Validation is static and non-mutating. It does not prove a live AWS account, deployment, IAM authorization, service quota, regional availability, cost, security posture, or recovery result.
@@ -26,4 +66,4 @@ When the host supports it, prefer the official AWS Knowledge MCP Server for curr
 
 ## Optional hook
 
-`hooks/architecture-review.ps1` checks a proposed handoff directory for the required REQ, TOPOLOGY, CONSTRAINTS, and ADR artifacts. It is opt-in and non-mutating; it does not deploy or call AWS.
+`hooks/architecture-review.ps1` checks a proposed handoff directory for the required REQ, TOPOLOGY, CONSTRAINTS, and ADR artifacts (`REQ.md`, `TOPOLOGY.json`, `CONSTRAINTS.json`, `ADR.md`). It is opt-in and non-mutating; it does not deploy or call AWS.

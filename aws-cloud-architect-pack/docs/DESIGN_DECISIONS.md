@@ -23,3 +23,40 @@ Cross-AZ/cross-Region transfer, NAT, endpoints, managed-service trade-offs, back
 ## Visualization is integrated but not duplicated
 
 Architecture diagrams are a first-class output, but the detailed AWS Draw.io generation capability remains in the AWS Expert Designer pack. This pack provides routing, evidence, and handoff integration.
+
+## Gap fill 2026-10-18
+
+The pack shipped without `examples/`, `templates/` or `.apm/prompts/`. They were authored from the existing agent, its 17 skills and the `aws-cloud-architect-contract` instruction. No agent, skill or instruction file was changed, and neither was `apm.yml` or `compatibility/tool-permissions.yml`.
+
+### Decisions
+
+- **Ten prompts, one per primary workflow.** Seven match the existing trigger cases: greenfield workload, landing zone, hybrid network, migration and DR, deployment review, MCP evidence, diagram. The other three serve workflows the skills define but no trigger case covered: Well-Architected review (`aws-well-architected-and-frameworks`), cost review (`aws-cost-sustainability-and-finops`) and incident troubleshooting (`aws-operations-observability-and-troubleshooting`). No standalone handoff prompt was written, because every design prompt ends in the `aws-architecture-handoff-and-adr` handoff.
+- **Prompts reference only installed content.** They name skills and the contract instruction. They never point to `templates/`, `docs/` or `tests/`, so they describe the handoff artifacts inline instead of linking to the templates. Frontmatter is limited to `description` and `agent`. APM drops `agent` for Claude Code commands.
+- **Handoff template file names follow the hook.** The skill names the artifacts REQ, TOPOLOGY, CONSTRAINTS and ADR, and `hooks/architecture-review.ps1` checks for `REQ.md`, `TOPOLOGY.json`, `CONSTRAINTS.json` and `ADR.md`. The templates use those exact names and formats, so a handoff built from them passes the hook.
+- **The skill's handoff extras live inside the four artifacts.** `aws-architecture-handoff-and-adr` also asks for implementation implications, verification criteria, telemetry, rollback, ownership, open questions and a "not proven" section. These went into the four files rather than a fifth one the hook does not know about:
+  - verification criteria, ownership, open questions and "not proven" in REQ
+  - recovery and rollback in CONSTRAINTS
+  - implementation, operations and rollback consequences in each ADR
+- **Six templates.** The four handoff files, the contract's completion report, and the Well-Architected review record whose per-pillar fields the skill defines. The evidence record from `aws-docs-mcp-and-evidence` is a table inside the completion report, not a separate template.
+- **Six examples, each ending in the contract's twelve sections.** Section names are used verbatim as headings, together with the contract's six evidence labels.
+  - `deployment-review-blocked.md` shows a **blocked** outcome: a bundled request to deploy, edit an SCP and delete a stack, which covers the `unsafe-mutation` trigger case.
+  - `architecture-diagram.md` shows an **unverified** outcome: structurally validated, but no renderer was available.
+  - `incident-troubleshooting.md` separates a live-verified mitigation from a root cause that is inferred.
+- **Example continuity.** Three examples share the fictional Larkspur tracking platform: design, then incident, then diagram. This shows TOPOLOGY ids carrying through to diagram cell IDs, and an ADR superseding an unrecorded change.
+- **Test metadata.** `tests/trigger-cases.yml` gains a `prompt_file` key, because `prompt` already holds the user utterance, and three cases for the new workflows. `tests/capability-coverage.yml` gains a `prompt_map` from each required capability to its prompts. The existing `skill_map` was left as it was.
+- **Inventories.** `docs/PROMPT_INVENTORY.md` was created. `docs/SKILL_INVENTORY.md` did not exist; the brief lists it as updatable, so it was created to map each skill to its prompts, examples and templates.
+- **README.** Added the prompt, example and template sections. The validate command was corrected to the shared validator's real usage (`validate_pack.py <pack-folder>`); the old `--write-report` flag does not exist.
+
+### Assumptions
+
+- The primary workflows are the ones the agent profile lists (foundations, workload design, deployment, operations, migration, security, resilience, cost, evidence, handoff, visualization). Security has no separate prompt; it runs inside the landing-zone, workload, deployment-review and Well-Architected prompts.
+- Every company, account, CIDR, figure and timestamp in the examples is fictional. The evidence-table results for AWS behavior describe well-documented service behavior. Each example still labels them with a retrieval date and treats account-applied values as not-verified.
+- The examples assume the AWS Knowledge MCP Server was available in some sessions and not in others, to show both paths. Neither was exercised while authoring.
+- The examples quote two documented AWS limits: the NAT gateway connections per unique destination, and the CDK default removal policy for database clusters. Both come from the author's knowledge of AWS documentation, because the brief forbade browsing. They must be rechecked when the examples are next revised.
+
+### Gaps
+
+- No `AGENT-PACK-README.md` artifact catalog exists, and creating one was outside the files this fill may change.
+- No `VALIDATION_REPORT.md` was written, because the validator ran with `--no-report` as the brief directs.
+- The README build command (`python tooling/build_pack.py`) is unchanged. Its arguments could not be checked, because the shared build script is not in this workspace.
+- Prompt and example behavior is not model-evaluated. The trigger cases are metadata and have not been run as a behavioral suite.
