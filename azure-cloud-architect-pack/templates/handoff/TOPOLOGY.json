@@ -1,0 +1,73 @@
+{
+  "_template": "Typed topology for one handoff. Every value below is an example to replace. Keep IDs stable across revisions: REQ.md, CONSTRAINTS.json, ADR.md and any diagram refer to them. Every element carries an evidence label (observed, inferred, designed, structurally-validated, live-verified, not-verified) and, where a fact is drift-prone, the evidence register IDs it rests on. Delete a section only when it does not apply, and say why in REQ.md.",
+  "schema_version": "1.0",
+  "handoff_id": "HO-WORKLOAD-01",
+  "workload": "workload-name",
+  "revision": 1,
+  "tenant": {
+    "id": "TEN-01",
+    "name": "Contoso Entra tenant",
+    "label": "observed"
+  },
+  "management_groups": [
+    {"id": "MG-ROOT", "name": "mg-contoso", "parent": null, "purpose": "intermediate root", "label": "observed"},
+    {"id": "MG-ONLINE", "name": "mg-landingzones-online", "parent": "MG-ROOT", "purpose": "public-facing application landing zones", "label": "observed"}
+  ],
+  "subscriptions": [
+    {"id": "SUB-PROD", "name": "sub-workload-prod", "management_group": "MG-ONLINE", "purpose": "application landing zone, production", "owner": "workload team", "label": "designed"}
+  ],
+  "resource_groups": [
+    {"id": "RG-APP", "name": "rg-workload-app-prod-weu", "subscription": "SUB-PROD", "region": "REG-PRI", "lifecycle": "released with the application", "label": "designed"},
+    {"id": "RG-DATA", "name": "rg-workload-data-prod-weu", "subscription": "SUB-PROD", "region": "REG-PRI", "lifecycle": "outlives application releases", "label": "designed"}
+  ],
+  "regions": [
+    {"id": "REG-PRI", "name": "westeurope", "role": "primary", "zones": [1, 2, 3], "label": "designed"},
+    {"id": "REG-DR", "name": "northeurope", "role": "recovery", "zones": [], "label": "designed"}
+  ],
+  "networks": [
+    {
+      "id": "VNET-SPOKE",
+      "name": "vnet-workload-prod-weu",
+      "subscription": "SUB-PROD",
+      "region": "REG-PRI",
+      "address_space": ["10.42.0.0/22"],
+      "peered_to": ["VNET-HUB"],
+      "subnets": [
+        {"id": "SNET-APP", "name": "snet-app", "prefix": "10.42.0.0/23", "route_table": "egress via hub firewall", "nsg": true},
+        {"id": "SNET-PE", "name": "snet-pe", "prefix": "10.42.2.0/26", "route_table": null, "nsg": true}
+      ],
+      "label": "designed",
+      "evidence": []
+    }
+  ],
+  "identities": [
+    {"id": "ID-APP", "type": "user-assigned managed identity", "used_by": ["SVC-APP"], "grants": ["data-plane read/write on SVC-DB"], "label": "designed"},
+    {"id": "ID-DEPLOY", "type": "workload identity federation", "issuer": "https://token.actions.githubusercontent.com", "subject": "repo:org/repo:environment:prod", "scopes": ["RG-APP", "RG-DATA"], "label": "designed"}
+  ],
+  "services": [
+    {"id": "SVC-APP", "type": "Microsoft.App/managedEnvironments", "resource_group": "RG-APP", "region": "REG-PRI", "network": "SNET-APP", "zone_redundant": true, "public_access": false, "label": "designed", "evidence": ["E-01"]}
+  ],
+  "data_stores": [
+    {"id": "SVC-DB", "type": "Microsoft.Sql/servers/databases", "resource_group": "RG-DATA", "region": "REG-PRI", "classification": "Confidential", "zone_redundant": true, "public_access": false, "replication": "failover group to REG-DR", "backup": "service-managed, retention per CONSTRAINTS", "label": "designed", "evidence": []}
+  ],
+  "private_endpoints": [
+    {"id": "PE-DB", "target": "SVC-DB", "subnet": "SNET-PE", "dns_zone": "privatelink.database.windows.net", "dns_owner": "platform", "label": "designed"}
+  ],
+  "external_actors": [
+    {"id": "EXT-USERS", "name": "customers on the internet", "label": "observed"}
+  ],
+  "trust_boundaries": [
+    {"id": "TB-INTERNET", "between": ["EXT-USERS", "SVC-APP"], "control": "edge WAF, TLS", "label": "designed"},
+    {"id": "TB-DATA", "between": ["SNET-APP", "SNET-PE"], "control": "NSG, private endpoint, Entra authentication", "label": "designed"}
+  ],
+  "flows": [
+    {"id": "FLOW-01", "from": "EXT-USERS", "to": "SVC-APP", "protocol": "HTTPS", "port": 443, "direction": "inbound", "crosses": ["TB-INTERNET"], "label": "designed"},
+    {"id": "FLOW-02", "from": "SVC-APP", "to": "PE-DB", "protocol": "TDS", "port": 1433, "direction": "outbound", "crosses": ["TB-DATA"], "identity": "ID-APP", "label": "designed"}
+  ],
+  "dependencies": [
+    {"id": "DEP-01", "on": "platform private DNS registration", "owner": "platform team", "blocks": ["PE-DB"], "label": "inferred"}
+  ],
+  "recovery_paths": [
+    {"id": "REC-01", "protects": ["SVC-DB"], "mechanism": "failover group", "from": "REG-PRI", "to": "REG-DR", "rto": "unknown until drill", "rpo": "unknown until drill", "tested": false, "label": "designed"}
+  ]
+}
