@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "required_fields": [
+    "outcome",
+    "acceptance_criteria",
+    "notion_changes",
+    "placement_and_links",
+    "sources",
+    "decisions",
+    "permissions_and_sharing_impact",
+    "schema_impact",
+    "data_sensitivity",
+    "notifications_and_automations",
+    "checks",
+    "independent_review",
+    "unverified",
+    "remaining_risks",
+    "rollback",
+    "followups"
+  ],
+  "statuses": [
+    "COMPLETE_VERIFIED",
+    "PREPARED_NOT_VERIFIED",
+    "ANALYSIS_ONLY",
+    "CHANGES_REQUIRED",
+    "BLOCKED_ON_HUMAN_DECISION"
+  ],
+  "criterion_statuses": [
+    "passed",
+    "failed",
+    "unverified"
+  ],
+  "check_fields": [
+    "check",
+    "method",
+    "status",
+    "evidence"
+  ],
+  "check_methods": [
+    "fetch",
+    "command",
+    "manual"
+  ],
+  "change_fields": [
+    "action",
+    "target",
+    "location",
+    "url"
+  ],
+  "change_actions": [
+    "created",
+    "updated",
+    "appended",
+    "moved",
+    "archived",
+    "schema_changed"
+  ],
+  "fallback": "The Notion work is prepared, but it is not verified in the workspace.",
+  "finding_fields": [
+    "severity",
+    "location",
+    "evidence",
+    "impact",
+    "recommended_change",
+    "blocking"
+  ],
+  "severity": [
+    "Blocker",
+    "High",
+    "Medium",
+    "Low",
+    "Suggestion",
+    "Question"
+  ],
+  "approval_levels": [
+    "Level 0",
+    "Level 1",
+    "Level 2"
+  ]
+}

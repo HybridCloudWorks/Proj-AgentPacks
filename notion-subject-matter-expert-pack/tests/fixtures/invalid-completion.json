@@ -1,0 +1,42 @@
+{
+  "outcome": "Synthetic fixture: claims completion although the write was never confirmed.",
+  "acceptance_criteria": [
+    {
+      "id": "tasks-created",
+      "status": "unverified",
+      "evidence": "Create call returned, but the tasks were not fetched."
+    }
+  ],
+  "notion_changes": [
+    {
+      "action": "created",
+      "target": "Implement offline queue",
+      "location": "Engineering tasks (synthetic)",
+      "url": ""
+    }
+  ],
+  "placement_and_links": "Synthetic.",
+  "sources": [],
+  "decisions": "Synthetic.",
+  "permissions_and_sharing_impact": "Synthetic.",
+  "schema_impact": "None.",
+  "data_sensitivity": "Internal.",
+  "notifications_and_automations": "Unknown.",
+  "checks": [
+    {
+      "check": "Draft check",
+      "method": "command",
+      "exit_code": 0,
+      "status": "passed",
+      "evidence": "Synthetic."
+    }
+  ],
+  "independent_review": "None.",
+  "unverified": [
+    "Created tasks were not fetched."
+  ],
+  "remaining_risks": [],
+  "rollback": "Synthetic.",
+  "followups": [],
+  "status": "COMPLETE_VERIFIED"
+}

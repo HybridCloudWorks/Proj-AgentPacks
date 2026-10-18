@@ -1,0 +1,13 @@
+{
+  "selection": "Load only the skills a task needs. All seven ship with the pack; none is preloaded.",
+  "standalone": "Each skill states its own approval rules and verification steps so that it works when installed without the agents or the contract instruction.",
+  "optional_specialists": [
+    "notion-governance-reviewer"
+  ],
+  "external_tools": "No Notion MCP server, integration token, web tool or paid service is installed or configured by the pack. Notion tools exist only when the user connects a server in the host.",
+  "common_combinations": [
+    "notion-meeting-materials with notion-research-synthesis for pre-read background",
+    "notion-spec-to-tasks with notion-database-design when the task database is missing a property",
+    "notion-workspace-architecture with notion-database-design for audits and reorganizations"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "generated_from": ".apm/skills/*/SKILL.md",
+  "skills": {
+    "notion-api-integration": {
+      "description": "Build, review and troubleshoot code and connections that use the Notion API or a Notion MCP server - integration types and capabilities, sharing pages with an integration, pinned API versions and data sources, pagination, rate limits, payload limits, webhooks, sync jobs and safe token handling. Use when a user wants to connect an agent or tool to Notion, automate Notion from a script, sync Notion with another system, or debug Notion API errors such as 401, 403, 404, 409, 429 or validation failures.",
+      "activation": "Use when a user wants to connect an agent or tool to Notion, automate Notion from a script, sync Notion with another system, or debug Notion API errors such as 401, 403, 404, 409, 429 or validation failures.",
+      "source": ".apm/skills/notion-api-integration/SKILL.md"
+    },
+    "notion-database-design": {
+      "description": "Design and change Notion databases - data sources, property types, relations and rollups, formulas, status workflows, views and filters, templates, buttons, forms and automations - and assess what a schema change breaks before it is made. Use when a user wants a new database or tracker, asks how to model information in Notion, needs a formula, relation, rollup or view, or wants to rename, retype, merge or delete properties in an existing database.",
+      "activation": "Use when a user wants a new database or tracker, asks how to model information in Notion, needs a formula, relation, rollup or view, or wants to rename, retype, merge or delete properties in an existing database.",
+      "source": ".apm/skills/notion-database-design/SKILL.md"
+    },
+    "notion-knowledge-curation": {
+      "description": "Capture conversations, decisions, procedures, answers and lessons as durable Notion pages - choose the page type and destination, update existing pages instead of duplicating them, set database properties exactly, and link new pages into hubs so people can find them. Use when a user asks to save, document, write up or record something in Notion, turn a discussion into a wiki page, FAQ, how-to or decision record, or bring existing documentation up to date.",
+      "activation": "Use when a user asks to save, document, write up or record something in Notion, turn a discussion into a wiki page, FAQ, how-to or decision record, or bring existing documentation up to date.",
+      "source": ".apm/skills/notion-knowledge-curation/SKILL.md"
+    },
+    "notion-meeting-materials": {
+      "description": "Prepare and follow up meetings in Notion - gather project context from the workspace, write an internal pre-read and a participant-facing agenda that keeps internal material out of external hands, and record decisions and action items afterwards. Use when a user asks to prep for, plan or run a meeting, build an agenda or pre-read, set up a recurring meeting page, or capture meeting notes, decisions and follow-ups in Notion.",
+      "activation": "Use when a user asks to prep for, plan or run a meeting, build an agenda or pre-read, set up a recurring meeting page, or capture meeting notes, decisions and follow-ups in Notion.",
+      "source": ".apm/skills/notion-meeting-materials/SKILL.md"
+    },
+    "notion-research-synthesis": {
+      "description": "Research a question across a Notion workspace and the sources connected to it, judge which pages are current and authoritative, reconcile conflicts, and write a cited brief, summary, comparison or full report as a Notion page or database entry. Use when a user asks what the workspace says about a topic, wants findings gathered from many pages, or needs a research document, comparison, competitive or technical analysis, or status synthesis with sources.",
+      "activation": "Use when a user asks what the workspace says about a topic, wants findings gathered from many pages, or needs a research document, comparison, competitive or technical analysis, or status synthesis with sources.",
+      "source": ".apm/skills/notion-research-synthesis/SKILL.md"
+    },
+    "notion-spec-to-tasks": {
+      "description": "Turn a product or technical specification in Notion into an implementation plan, right-sized tasks in the team's task database with testable acceptance criteria and dependencies, and progress updates that keep spec, plan and tasks linked as work and the spec change. Use when a user asks to break down a spec, PRD or design document into tasks, create an implementation plan, track progress against a spec, or update tasks after a spec changes.",
+      "activation": "Use when a user asks to break down a spec, PRD or design document into tasks, create an implementation plan, track progress against a spec, or update tasks after a spec changes.",
+      "source": ".apm/skills/notion-spec-to-tasks/SKILL.md"
+    },
+    "notion-workspace-architecture": {
+      "description": "Design, restructure and audit how a Notion workspace is organized and governed - teamspaces, page hierarchy, wikis and hub pages, naming and tagging, sharing and permission models, content lifecycle, migrations and workspace health. Use when a user asks where content should live, how to organize or reorganize a workspace or teamspace, who can see what, how to consolidate or migrate pages into Notion, or why content is hard to find, stale, duplicated or over-shared.",
+      "activation": "Use when a user asks where content should live, how to organize or reorganize a workspace or teamspace, who can see what, how to consolidate or migrate pages into Notion, or why content is hard to find, stale, duplicated or over-shared.",
+      "source": ".apm/skills/notion-workspace-architecture/SKILL.md"
+    }
+  }
+}

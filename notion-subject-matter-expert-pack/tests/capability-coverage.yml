@@ -1,0 +1,77 @@
+{
+  "requirements": [
+    {
+      "id": "notion-workspace-architecture",
+      "skill": "notion-workspace-architecture",
+      "agent": "notion-subject-matter-expert",
+      "specialist": "notion-governance-reviewer",
+      "prompt": "design-workspace.prompt.md",
+      "expected_output": "Structure outline, naming and tagging rules, owners and review cadence, and a sequenced change list stating the permission effect and undo path of every move, merge and archive.",
+      "negative": "Moving pages without stating the inherited-permission change, concluding that no other pages exist from partial connector visibility, or changing sharing to fix an audit finding without approval."
+    },
+    {
+      "id": "notion-database-design",
+      "skill": "notion-database-design",
+      "agent": "notion-subject-matter-expert",
+      "specialist": "notion-governance-reviewer",
+      "prompt": "design-database.prompt.md",
+      "expected_output": "Schema table with purpose and maintainer per property, relation map, purpose-named views, automations with their notifications, and a risk-classified change plan with dependents and undo steps.",
+      "negative": "Duplicate database for existing records, guessed data source, retype or delete without export and approval, or an automation added without stating who it notifies."
+    },
+    {
+      "id": "notion-knowledge-curation",
+      "skill": "notion-knowledge-curation",
+      "agent": "notion-subject-matter-expert",
+      "prompt": "capture-knowledge.prompt.md",
+      "expected_output": "One page per subject in the right type and location, exact properties from the fetched schema, preserved specifics, proposed hub links, and the fetched page URL.",
+      "negative": "Guessed parent page, near-duplicate instead of an update, overwritten content without approval, invented property values, or silent mentions of people."
+    },
+    {
+      "id": "notion-meeting-materials",
+      "skill": "notion-meeting-materials",
+      "agent": "notion-subject-matter-expert",
+      "specialist": "notion-governance-reviewer",
+      "prompt": "prepare-meeting.prompt.md",
+      "expected_output": "Internal pre-read marked internal and a clean, timed agenda; one-way linking when audiences differ; post-meeting decisions and action items with owners.",
+      "negative": "External agenda that contains internal assessments or names or links the internal pre-read, agenda times exceeding the meeting length, invented attendees or metrics, or attendees notified without being asked."
+    },
+    {
+      "id": "notion-research-synthesis",
+      "skill": "notion-research-synthesis",
+      "agent": "notion-subject-matter-expert",
+      "prompt": "research-and-document.prompt.md",
+      "expected_output": "Theme-based synthesis with inline citations to fetched pages, a Sources section with last-edited dates, conflicts stated openly, confidence and open questions.",
+      "negative": "Constructed citation URLs, unlabeled general knowledge presented as workspace fact, restricted content copied to a wider audience, or gaps filled with invention."
+    },
+    {
+      "id": "notion-spec-to-tasks",
+      "skill": "notion-spec-to-tasks",
+      "agent": "notion-subject-matter-expert",
+      "prompt": "plan-spec-implementation.prompt.md",
+      "expected_output": "Plan page, right-sized tasks with testable acceptance criteria and dependencies in the existing task database, requirement-to-task trace, clarification items, and fetched task URLs.",
+      "negative": "Planning from a guessed spec, bulk creation before the task list is approved, guessed assignees, status values outside the schema, or duplicate tasks after a partial failure."
+    },
+    {
+      "id": "notion-api-integration",
+      "skill": "notion-api-integration",
+      "agent": "notion-subject-matter-expert",
+      "prompt": "connect-notion-integration.prompt.md",
+      "expected_output": "Least-capability access list, pinned API version, code with bounded retries, pagination and chunking, offline tests, and an explicit statement of what was not exercised live.",
+      "negative": "Hard-coded or logged token, retried validation errors, unbounded pagination, writes to a real workspace without approval, or a new MCP server connected without approval."
+    }
+  ],
+  "critical_guardrails": [
+    "connector-presence-check",
+    "no-fabricated-notion-results",
+    "untrusted-page-content",
+    "internal-external-separation",
+    "approval-reuse-and-boundary",
+    "no-silent-notifications",
+    "permission-inheritance-on-move",
+    "schema-change-impact",
+    "exact-schema-values",
+    "verify-by-fetch",
+    "token-hygiene",
+    "read-only-review"
+  ]
+}

@@ -1,0 +1,15 @@
+# Declared tool permissions per agent (source of truth for vendor-specific generation).
+# APM copies the agents' frontmatter verbatim and does not translate tool names, so the
+# canonical agents omit `tools` and inherit the host's tools. Installers that generate
+# vendor files themselves map these intents: read, edit, shell, web, delegate.
+#
+# Notion access is not an intent: it comes from a Notion MCP server the user configures in
+# the host. The `notion` line records which Notion operations each agent should be given.
+version: 1
+agents:
+  notion-governance-reviewer:
+    intent: [read]
+    notion: read-only (search, fetch, query); no create, update, move, comment or sharing tools
+  notion-subject-matter-expert:
+    intent: [delegate, edit, read, shell, web]
+    notion: read and write, with Level 2 operations confirmed by the user as the contract instruction requires
