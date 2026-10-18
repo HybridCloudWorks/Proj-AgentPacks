@@ -1,11 +1,11 @@
 # VALIDATION_REPORT
 
-Pack: aws-cloud-architect 1.2.0
+Pack: aws-cloud-architect 1.3.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 147  Passed: 146  Failed: 0  Skipped: 1
+Checks: 150  Passed: 149  Failed: 0  Skipped: 1
 
 ## Scope
 
@@ -142,9 +142,12 @@ Checks: 147  Passed: 146  Failed: 0  Skipped: 1
 | structural | installed content .apm/skills/aws-well-architected-and-frameworks/references/framework-routing.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/aws-well-architected-and-frameworks/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/aws-workload-and-service-selection/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/diagram-validation-and-evidence/references/provider-checks.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/diagram-validation-and-evidence/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-core-generation/references/providers.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-core-generation/references/upstream-routing.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-core-generation/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-render-export-and-review/references/export-cli.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-render-export-and-review/SKILL.md: references only installed things | pass |  |
 | structural | pack doc README.md: describes the current layout | pass |  |
 | structural | pack doc DESCRIPTION.md: describes the current layout | pass |  |

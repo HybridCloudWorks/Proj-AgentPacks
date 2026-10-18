@@ -17,6 +17,10 @@
     {"id": "codex", "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents", "application": "Custom-agent TOML: name, description, developer_instructions; parent sandbox inheritance."},
     {"id": "kiro", "url": "https://kiro.dev/docs/custom-agents/", "application": "Agent files, steering and the capability tags APM requires for tools."},
     {"id": "gemini", "url": "https://geminicli.com/docs/core/subagents/", "application": "Agent fields; Gemini receives skills, commands and context from APM."},
-    {"id": "apm", "url": "https://microsoft.github.io/apm/reference/targets-matrix/", "application": "What apm install generates for each target."}
+    {"id": "apm", "url": "https://microsoft.github.io/apm/reference/targets-matrix/", "application": "What apm install generates for each target."},
+    {"id": "drawio-source", "url": "https://github.com/jgraph/drawio", "application": "draw.io palette sources from which the diagram checker's icon catalog is generated (Apache-2.0); names are used as facts."},
+    {"id": "gcp-icons", "url": "https://cloud.google.com/icons", "application": "Google Cloud core product and category icons, and the 2025 icon system."},
+    {"id": "aws-icons", "url": "https://aws.amazon.com/architecture/icons/", "application": "AWS Architecture Icons release cadence and legacy-library warning."},
+    {"id": "azure-icons", "url": "https://learn.microsoft.com/azure/architecture/icons/", "application": "Azure icon set version and usage rules."}
   ]
 }

@@ -60,3 +60,11 @@ The pack shipped without `examples/`, `templates/` or `.apm/prompts/`. They were
 - No `VALIDATION_REPORT.md` was written, because the validator ran with `--no-report` as the brief directs.
 - The README build command (`python tooling/build_pack.py`) is unchanged. Its arguments could not be checked, because the shared build script is not in this workspace.
 - Prompt and example behavior is not model-evaluated. The trigger cases are metadata and have not been run as a behavioral suite.
+
+## Version 1.3.0: shared diagram skills (2026-10-18)
+
+- drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence are now shared skills. The AWS and Azure packs had shipped two different versions of drawio-core-generation and diagram-validation-and-evidence under the same names, so whichever pack was installed last silently replaced the other's. One canonical copy now ships byte-identical in the AWS and Azure architect and designer packs and the Google Cloud architect pack, and CI fails if a copy drifts.
+- The skills cover AWS, Azure and Google Cloud alone or in one diagram: each provider's current draw.io library ("AWS <year>", "Azure", "Google Cloud Platform 2026"), the legacy libraries to avoid, and each provider's network scope rules. The facts were verified on 2026-10-18 against draw.io 32.5.5 source and the providers' official icon and network pages.
+- The skills now follow the master prompt's ten-part skill structure, which the previous versions did not.
+- diagram-validation-and-evidence gained a standard-library checker with an icon catalog generated from draw.io's source. It validates IDs per page and reports every AWS, Azure and Google Cloud icon as current, legacy, retired or unknown.
+- This pack's provider-specific skills keep setting house style. The shared skills decide which library is current and how boundaries nest.

@@ -11,5 +11,6 @@
 | plan-migration.prompt.md | gcp-migration-planning, gcp-landing-zone, gcp-architecture-decisions, gcp-reliability-dr | Assessment, approaches, service mapping, waves, transfer and cutover plan, rollback, cost and decision records. |
 | plan-resilience.prompt.md | gcp-reliability-dr, gcp-observability-operations | SLO table, failure modes, DR pattern per tier with RTO and RPO evidence, backup plan, alerting design and tests. |
 | optimize-cost.prompt.md | gcp-cost-sustainability, gcp-estate-discovery | Cost drivers, ranked savings with confidence and risk, carbon considerations, governance actions and measurement plan. |
+| create-architecture-diagram.prompt.md | drawio-core-generation, drawio-render-export-and-review, diagram-validation-and-evidence | Editable .drawio source with current Google Cloud icons, exports when a renderer is available, a validation report and a completion report. |
 
 With APM, Copilot gets these as prompt files, Gemini CLI as commands, and Claude Code as commands without the `agent` key, which APM removes and warns about. Codex and Kiro get no prompts, so their users start the primary agent and describe the task. No skill depends on a prompt.

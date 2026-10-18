@@ -1,5 +1,5 @@
 {
-  "selection": "Load only the skills the task needs. All seventeen are shipped; none is preloaded into an agent.",
+  "selection": "Load only the skills the task needs. All twenty are shipped; none is preloaded into an agent.",
   "standalone": "Every skill carries its own approval guardrail for use without the contract instruction, and its helper scripts live inside its own folder.",
   "optional_specialists": [
     "gcp-security-reviewer",

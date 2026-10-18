@@ -28,6 +28,7 @@ Skip a phase only when the user says it is already done or approved.
 - Pillars: gcp-reliability-dr, gcp-cost-sustainability, gcp-observability-operations.
 - Workload platforms: gcp-gke-platform, gcp-serverless-apps, gcp-data-analytics, gcp-ai-agent-architecture.
 - Change and evidence: gcp-migration-planning, gcp-iac-validation, gcp-well-architected-review, gcp-estate-discovery.
+- Diagrams: drawio-core-generation, then drawio-render-export-and-review, then diagram-validation-and-evidence. They carry the current Google Cloud, AWS and Azure icon libraries and each provider's boundary rules, so a diagram that also shows another provider or on-premises systems stays correct.
 
 Load only the skills the task needs. When a recommendation depends on a quota, price, limit, region or feature status, verify it in current documentation and say when you could not.
 

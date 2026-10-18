@@ -49,3 +49,9 @@ Checked as citations on 2026-10-18 without browsing, as instructed; use current 
 - Vendor agent and APM documentation as recorded in the repository's client-locations file.
 
 No private repository, cloud identity, tenant policy or credential was used or assumed.
+
+## Shared diagram skills (1.1.0)
+
+- drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence come from the repository's canonical shared copy, which merged the AWS and Azure designer packs' versions of these skills and added Google Cloud.
+- Provider facts were verified on 2026-10-18 against draw.io 32.5.5 source (https://github.com/jgraph/drawio, Apache-2.0), the AWS, Azure and Google Cloud official icon pages, Google's product icon guide (updated May 2026), and each provider's network documentation. The export options were verified against draw.io Desktop 32.5.5 source and an export run with draw.io Desktop 32.4.1.
+- The icon catalog lists draw.io palette names as facts; no draw.io code or icon artwork is copied.

@@ -1,15 +1,15 @@
 # VALIDATION_REPORT
 
-Pack: google-cloud-architect 1.0.0
+Pack: google-cloud-architect 1.1.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 168  Passed: 168  Failed: 0  Skipped: 0
+Checks: 183  Passed: 183  Failed: 0  Skipped: 0
 
 ## Scope
 
-3 agents, 17 skills, 3 instruction files, 9 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
+3 agents, 20 skills, 3 instruction files, 10 prompts; targets copilot, claude, codex, kiro, gemini, agent-skills.
 
 ## Failed checks
 
@@ -78,6 +78,12 @@ Checks: 168  Passed: 168  Failed: 0  Skipped: 0
 | structural | exactly one user-invocable primary agent | pass | user-invocable agents: 1 |
 | structural | tool-permissions.yml covers every agent | pass | missing: [] |
 | structural | at least one skill | pass |  |
+| structural | skill diagram-validation-and-evidence: SKILL.md with name equal to folder | pass |  |
+| structural | skill diagram-validation-and-evidence: description within 1024 characters | pass |  |
+| structural | skill drawio-core-generation: SKILL.md with name equal to folder | pass |  |
+| structural | skill drawio-core-generation: description within 1024 characters | pass |  |
+| structural | skill drawio-render-export-and-review: SKILL.md with name equal to folder | pass |  |
+| structural | skill drawio-render-export-and-review: description within 1024 characters | pass |  |
 | structural | skill gcp-ai-agent-architecture: SKILL.md with name equal to folder | pass |  |
 | structural | skill gcp-ai-agent-architecture: description within 1024 characters | pass |  |
 | structural | skill gcp-architecture-decisions: SKILL.md with name equal to folder | pass |  |
@@ -115,6 +121,7 @@ Checks: 168  Passed: 168  Failed: 0  Skipped: 0
 | structural | instruction gcp-cli-scripts.instructions.md: description and applyTo | pass |  |
 | structural | instruction gcp-terraform.instructions.md: description and applyTo | pass |  |
 | structural | instruction google-cloud-architect-contract.instructions.md: description and applyTo | pass |  |
+| structural | prompt create-architecture-diagram.prompt.md: description | pass |  |
 | structural | prompt design-landing-zone.prompt.md: description | pass |  |
 | structural | prompt design-network.prompt.md: description | pass |  |
 | structural | prompt design-solution.prompt.md: description | pass |  |
@@ -131,6 +138,7 @@ Checks: 168  Passed: 168  Failed: 0  Skipped: 0
 | structural | installed content .apm/instructions/gcp-cli-scripts.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/gcp-terraform.instructions.md: references only installed things | pass |  |
 | structural | installed content .apm/instructions/google-cloud-architect-contract.instructions.md: references only installed things | pass |  |
+| structural | installed content .apm/prompts/create-architecture-diagram.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-landing-zone.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-network.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/design-solution.prompt.md: references only installed things | pass |  |
@@ -140,6 +148,13 @@ Checks: 168  Passed: 168  Failed: 0  Skipped: 0
 | structural | installed content .apm/prompts/record-decision.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/review-architecture.prompt.md: references only installed things | pass |  |
 | structural | installed content .apm/prompts/validate-iac.prompt.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/diagram-validation-and-evidence/references/provider-checks.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/diagram-validation-and-evidence/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-core-generation/references/providers.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-core-generation/references/upstream-routing.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-core-generation/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-render-export-and-review/references/export-cli.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-render-export-and-review/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/gcp-ai-agent-architecture/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/gcp-architecture-decisions/decision-record-template.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/gcp-architecture-decisions/SKILL.md: references only installed things | pass |  |
@@ -179,7 +194,7 @@ Checks: 168  Passed: 168  Failed: 0  Skipped: 0
 | structural | tests/skill-coverage.yml lists exactly the shipped skills | pass | missing: [] extra: [] |
 | structural | tests/skill-coverage.yml has an activation statement for every skill | pass |  |
 | structural | tests/capability-coverage.yml prompt files exist | pass |  |
-| structural | tests/capability-coverage.yml names every skill exactly once | pass | 17 requirements for 17 skills |
+| structural | tests/capability-coverage.yml names every skill exactly once | pass | 20 requirements for 20 skills |
 | structural | tests/trigger-cases.yml prompt files exist | pass |  |
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |

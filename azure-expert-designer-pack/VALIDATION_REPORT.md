@@ -1,11 +1,11 @@
 # VALIDATION_REPORT
 
-Pack: azure-expert-designer 1.2.0
+Pack: azure-expert-designer 1.3.0
 Standard: agent-pack-prompt v2.3
 Validated: 2026-10-18
 Status: PASS
 
-Checks: 115  Passed: 114  Failed: 0  Skipped: 1
+Checks: 118  Passed: 117  Failed: 0  Skipped: 1
 
 ## Scope
 
@@ -108,10 +108,13 @@ Checks: 115  Passed: 114  Failed: 0  Skipped: 1
 | structural | installed content .apm/skills/azure-architecture-patterns/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/azure-icons-and-visual-language/references/azure-visual-rules.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/azure-icons-and-visual-language/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/diagram-validation-and-evidence/references/provider-checks.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/diagram-validation-and-evidence/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-core-generation/references/providers.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-core-generation/references/upstream-routing.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-core-generation/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-layout-and-composition/SKILL.md: references only installed things | pass |  |
+| structural | installed content .apm/skills/drawio-render-export-and-review/references/export-cli.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-render-export-and-review/SKILL.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-xml-authoring/references/xml-checklist.md: references only installed things | pass |  |
 | structural | installed content .apm/skills/drawio-xml-authoring/SKILL.md: references only installed things | pass |  |

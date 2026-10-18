@@ -1,24 +1,45 @@
 """Tests for the shared pack tooling. Run: python -m unittest discover -s tooling/tests -v"""
 from __future__ import annotations
 
+import base64
+import importlib.util
 import json
 import shutil
 import sys
 import tempfile
 import unittest
+import zlib
 from pathlib import Path
+from urllib.parse import quote
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "tooling"))
 
+import build_icon_catalog  # noqa: E402
 import check_collisions  # noqa: E402
 import ci_plan  # noqa: E402
 import generate_pack  # noqa: E402
 import restructure_pack  # noqa: E402
 import skill_coverage  # noqa: E402
+import sync_shared_skills  # noqa: E402
 import validate_pack  # noqa: E402
 
 EXEMPLAR = REPO / "python-distinguished-engineer-pack"
+CHECKER = REPO / "shared-skills" / "diagram-validation-and-evidence" / "scripts" / "check_drawio.py"
+_spec = importlib.util.spec_from_file_location("check_drawio", CHECKER)
+check_drawio = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(check_drawio)
+CATALOG = json.loads((CHECKER.parent / "icon_catalog.json").read_text(encoding="utf-8"))
+
+
+def drawio_page(cells: str, name: str = "P") -> str:
+    return (f'<mxfile><diagram name="{name}"><mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/>{cells}'
+            '</root></mxGraphModel></diagram></mxfile>')
+
+
+def drawio_vertex(cell_id: str, style: str, value: str = "x") -> str:
+    return (f'<mxCell id="{cell_id}" value="{value}" style="{style}" vertex="1" parent="1">'
+            '<mxGeometry width="50" height="50" as="geometry"/></mxCell>')
 
 
 def failed_checks(root: Path) -> list[str]:
@@ -142,6 +163,176 @@ class RepoToolsTests(unittest.TestCase):
             items = generate_pack.milestones(tmp)
             self.assertEqual(len(items), 20)
             self.assertEqual(sum(ok for _, ok in items), 0)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_identical_copies_are_shared_not_collisions(self):
+        tmp = Path(tempfile.mkdtemp(prefix="collisions-test-"))
+        try:
+            for pack, skills in (("a-pack", {"common": "same", "other": "one"}), ("b-pack", {"common": "same"}),
+                                 ("c-pack", {"other": "two"})):
+                (tmp / pack).mkdir()
+                (tmp / pack / "apm.yml").write_text("name: x\nversion: 1.0.0\n", encoding="utf-8")
+                for name, text in skills.items():
+                    (tmp / pack / ".apm" / "skills" / name).mkdir(parents=True)
+                    (tmp / pack / ".apm" / "skills" / name / "SKILL.md").write_text(text, encoding="utf-8")
+            self.assertEqual(check_collisions.collisions(tmp)["skills"], {"other": ["a-pack", "c-pack"]})
+            self.assertEqual(check_collisions.shared(tmp)["skills"], {"common": ["a-pack", "b-pack"]})
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
+class CheckDrawioTests(unittest.TestCase):
+    def run_check(self, xml: str, strict: bool = False) -> dict:
+        tmp = Path(tempfile.mkdtemp(prefix="drawio-test-"))
+        try:
+            path = tmp / "diagram.drawio"
+            path.write_text(xml, encoding="utf-8")
+            return check_drawio.check(path, CATALOG, strict)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    @staticmethod
+    def statuses(report: dict) -> dict[str, str]:
+        return {icon["cell"]: icon["status"] for icon in report["icons"]}
+
+    def test_current_icons_of_all_three_providers_pass(self):
+        report = self.run_check(drawio_page(
+            drawio_vertex("aws", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;")
+            + drawio_vertex("azure", "image;image=img/lib/azure2/databases/Azure_DocumentDB.svg;")
+            + drawio_vertex("gcp-core", "shape=mxgraph.gcp3.cloudrun;")
+            + drawio_vertex("gcp-category", "shape=mxgraph.gcp3.dataanalytics;")))
+        self.assertEqual(report["result"], "PASS")
+        self.assertEqual(set(self.statuses(report).values()), {"current"})
+        self.assertEqual(set(report["icon_summary"]), {"AWS", "Azure", "Google Cloud"})
+
+    def test_misspelled_names_are_errors(self):
+        report = self.run_check(drawio_page(
+            drawio_vertex("aws", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lamda;")
+            + drawio_vertex("azure", "image;image=img/lib/azure2/app_services/App_Service.svg;")
+            + drawio_vertex("gcp", "shape=mxgraph.gcp3.cloud_run;")))
+        self.assertEqual(set(self.statuses(report).values()), {"unknown"})
+        self.assertEqual(len(report["errors"]), 3)
+
+    def test_legacy_and_retired_icons_warn_and_fail_when_strict(self):
+        cells = (drawio_vertex("aws18", "shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ec2;")
+                 + drawio_vertex("retired", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.honeycode;")
+                 + drawio_vertex("old-azure", "shape=mxgraph.azure.sql_database;")
+                 + drawio_vertex("gcp2", "shape=mxgraph.gcp2.hexIcon;"))
+        report = self.run_check(drawio_page(cells))
+        self.assertEqual(self.statuses(report), {"aws18": "legacy", "retired": "retired", "old-azure": "legacy", "gcp2": "legacy"})
+        self.assertEqual(report["result"], "PASS")
+        self.assertEqual(self.run_check(drawio_page(cells), strict=True)["result"], "FAIL")
+
+    def test_broken_references_and_duplicate_ids_are_errors(self):
+        cells = (drawio_vertex("a", "rounded=1;") + drawio_vertex("a", "rounded=1;")
+                 + '<mxCell id="e" edge="1" parent="1" source="a" target="missing"><mxGeometry relative="1" as="geometry"/></mxCell>'
+                 + '<mxCell id="o" value="x" vertex="1" parent="nowhere"><mxGeometry width="5" height="5" as="geometry"/></mxCell>')
+        messages = " | ".join(e["message"] for e in self.run_check(drawio_page(cells))["errors"])
+        for expected in ("duplicate id", "edge target 'missing' does not exist", "parent 'nowhere' does not exist"):
+            self.assertIn(expected, messages)
+
+    def test_ids_are_unique_per_page_not_per_file(self):
+        one = drawio_page(drawio_vertex("v", "rounded=1;"), "One")
+        two = drawio_page(drawio_vertex("v", "rounded=1;"), "Two")
+        xml = one[: -len("</mxfile>")] + two[len("<mxfile>"):]
+        self.assertEqual(self.run_check(xml)["errors"], [])
+
+    def test_user_object_wrapper_is_read(self):
+        cell = ('<UserObject id="u" label="Cloud SQL"><mxCell style="shape=mxgraph.gcp3.cloudsql;" vertex="1" parent="1">'
+                '<mxGeometry width="50" height="50" as="geometry"/></mxCell></UserObject>')
+        report = self.run_check(drawio_page(cell))
+        self.assertEqual(report["result"], "PASS")
+        self.assertEqual(report["icons"][0]["label"], "Cloud SQL")
+
+    def test_compressed_page_is_decoded_and_reported(self):
+        model = ('<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/>'
+                 + drawio_vertex("g", "shape=mxgraph.gcp3.bigquery;") + '</root></mxGraphModel>')
+        deflate = zlib.compressobj(9, zlib.DEFLATED, -15)
+        data = deflate.compress(quote(model).encode()) + deflate.flush()
+        report = self.run_check(f'<mxfile><diagram name="Z">{base64.b64encode(data).decode()}</diagram></mxfile>')
+        self.assertTrue(any("compressed" in e["message"] for e in report["errors"]))
+        self.assertEqual(self.statuses(report), {"g": "current"})
+
+    def test_doctype_is_refused(self):
+        with self.assertRaises(ValueError):
+            self.run_check('<!DOCTYPE x [<!ENTITY a "b">]>' + drawio_page(""))
+
+    def test_doctype_inside_a_compressed_page_is_refused(self):
+        model = '<!DOCTYPE m [<!ENTITY a "b">]><mxGraphModel><root><mxCell id="0"/></root></mxGraphModel>'
+        deflate = zlib.compressobj(9, zlib.DEFLATED, -15)
+        data = deflate.compress(quote(model).encode()) + deflate.flush()
+        with self.assertRaises(ValueError):
+            self.run_check(f'<mxfile><diagram name="Z">{base64.b64encode(data).decode()}</diagram></mxfile>')
+
+    def test_event_handler_in_label_is_an_error(self):
+        report = self.run_check(drawio_page(drawio_vertex("v", "rounded=1;html=1;", "&lt;img src=x onerror=alert(1)&gt;")))
+        self.assertTrue(any("event-handler" in e["message"] for e in report["errors"]))
+
+
+class IconCatalogTests(unittest.TestCase):
+    def test_aws_parser_separates_current_retired_and_legacy(self):
+        aws4 = ("Sidebar.prototype.addAWS4ComputePalette = function(s, w, h, w2, gn, sb)\n{\n"
+                "    var n2 = 'sketch=0;' + mxConstants.STYLE_SHAPE + \"=mxgraph.aws4.\";\n"
+                "    this.createVertexTemplateEntry(n2 + 'resourceIcon;resIcon=' + gn + '.ec2;', 1, 1);\n"
+                "    this.createVertexTemplateEntry(n2 + 'instance2;', 1, 1);\n};\n"
+                "Sidebar.prototype.addAWS4RetiredPalette = function()\n{\n"
+                "    this.createVertexTemplateEntry(svc('#8C4FFF') + 'honeycode;', 1, 1);\n};\n")
+        aws4b = ("Sidebar.prototype.addAWS4bComputePalette = function()\n{\n"
+                 "    this.createVertexTemplateEntry(n + 'productIcon;prIcon=' + gn + '.ec2;', 1, 1);\n"
+                 "    this.createVertexTemplateEntry(n + 'productIcon;prIcon=' + gn + '.cloudwatch;', 1, 1);\n};\n")
+        parsed = build_icon_catalog.parse_aws(aws4, aws4b)
+        self.assertIn("ec2", parsed["current"])
+        self.assertIn("instance2", parsed["current"])
+        self.assertEqual(parsed["retired"], ["honeycode"])
+        self.assertIn("cloudwatch", parsed["legacy"])
+        self.assertNotIn("ec2", parsed["legacy"])
+
+    def test_azure_parser_maps_palette_categories(self):
+        js = ("Sidebar.prototype.addAzure2Palette = function()\n{\n"
+              "    this.addAzure2DatabasesPalette(gn, r, sb, s + 'databases/');\n};\n"
+              "Sidebar.prototype.addAzure2DatabasesPalette = function(gn, r, sb, s)\n{\n"
+              "    this.createVertexTemplateEntry(s + 'SQL_Database.svg;', 1, 1);\n};\n")
+        parsed = build_icon_catalog.parse_azure(js, ["databases/SQL_Database.svg", "databases/Old_Thing.svg", "databases/readme.txt"])
+        self.assertEqual(parsed, {"current": ["databases/SQL_Database.svg"], "legacy": ["databases/Old_Thing.svg"]})
+
+    def test_gcp3_parser_splits_core_and_categories(self):
+        js = ("Sidebar.prototype.addGCP3CategoriesPalette = function()\n{\n"
+              "    this.createVertexTemplateEntry(n + 'compute;fillColor=#9aa0a6', 1, 1);\n};\n"
+              "Sidebar.prototype.addGCP3CoreProductsPalette = function()\n{\n"
+              "    this.createVertexTemplateEntry(n + 'cloudrun;fillColor=#4285f4', 1, 1);\n};\n")
+        self.assertEqual(build_icon_catalog.parse_gcp3(js), {"core": ["cloudrun"], "categories": ["compute"]})
+
+    def test_committed_catalog_has_every_list(self):
+        self.assertTrue(CATALOG.get("drawio_version"))
+        for library, kind in build_icon_catalog.LISTS:
+            if (library, kind) != ("azure2", "legacy"):
+                self.assertTrue(CATALOG[library][kind], f"{library} {kind} is empty")
+
+
+class SharedSkillTests(unittest.TestCase):
+    def test_every_shared_skill_copy_is_identical(self):
+        self.assertEqual(sync_shared_skills.drift(REPO), [])
+
+    def test_sync_copies_and_drift_is_reported(self):
+        tmp = Path(tempfile.mkdtemp(prefix="shared-test-"))
+        try:
+            (tmp / "shared-skills" / "demo").mkdir(parents=True)
+            (tmp / "shared-skills" / "demo" / "SKILL.md").write_text(
+                "---\nname: demo\ndescription: Use when demonstrating.\n---\n# Demo\n", encoding="utf-8")
+            (tmp / "shared-skills" / "consumers.json").write_text(json.dumps({"skills": {"demo": ["a-pack", "b-pack"]}}), encoding="utf-8")
+            for pack in ("a-pack", "b-pack", "c-pack"):
+                (tmp / pack / ".apm" / "skills").mkdir(parents=True)
+                (tmp / pack / "tests").mkdir()
+                (tmp / pack / "apm.yml").write_text("name: x\nversion: 1.0.0\n", encoding="utf-8")
+            self.assertEqual(sync_shared_skills.sync(tmp), ["a-pack", "b-pack"])
+            self.assertEqual(sync_shared_skills.drift(tmp), [])
+            self.assertTrue((tmp / "a-pack" / "tests" / "skill-coverage.yml").is_file())
+            (tmp / "b-pack" / ".apm" / "skills" / "demo" / "SKILL.md").write_text("changed\n", encoding="utf-8")
+            shutil.copytree(tmp / "a-pack" / ".apm" / "skills" / "demo", tmp / "c-pack" / ".apm" / "skills" / "demo")
+            problems = " | ".join(sync_shared_skills.drift(tmp))
+            self.assertIn("b-pack/.apm/skills/demo differs", problems)
+            self.assertIn("c-pack ships a skill named demo but is not listed", problems)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 

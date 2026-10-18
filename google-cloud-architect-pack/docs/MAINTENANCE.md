@@ -1,6 +1,6 @@
 # Governance, maintenance and versioning
 
-Pack version 1.0.0 follows agent-pack-prompt version 2.3. Edit only the files under `.apm/`; the client-specific files are produced from them when APM or the Code Workflow installer runs, so a hand edit to a generated file is lost at the next install.
+Pack version 1.1.0 follows agent-pack-prompt version 2.3. Edit only the files under `.apm/`; the client-specific files are produced from them when APM or the Code Workflow installer runs, so a hand edit to a generated file is lost at the next install.
 
 ## Changing the pack
 
@@ -9,6 +9,10 @@ Pack version 1.0.0 follows agent-pack-prompt version 2.3. Edit only the files un
 3. Regenerate `tests/skill-coverage.yml` with the repository's shared `tooling/skill_coverage.py`.
 4. Run the repository's shared `tooling/validate_pack.py <pack> --install-check`, which also runs `tests/test_behavior.py`.
 5. Build release archives with the shared builder; archives are build outputs and are not committed.
+
+## Shared diagram skills
+
+The skills drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence are shared with the AWS and Azure packs. Do not edit them here: change the canonical copy in the repository's `shared-skills/` folder and run `tooling/sync_shared_skills.py`, which updates every pack that ships them. Their icon catalog is generated from draw.io's source by `tooling/build_icon_catalog.py`, and a weekly workflow reports when draw.io or a provider changes its icons.
 
 ## Versioning
 

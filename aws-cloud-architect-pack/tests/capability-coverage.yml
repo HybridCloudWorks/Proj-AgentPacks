@@ -14,6 +14,7 @@ required_capabilities:
   - cost_sustainability_and_finops
   - official_docs_and_mcp_evidence
   - drawio_visualization_routing
+  - multi_provider_drawio_icons_and_boundaries
 skill_map:
   aws-architecture-foundations: [structured_requirements_and_architecture_handoff]
   aws-well-architected-and-frameworks: [well_architected_six_pillars, caf_six_perspectives]
@@ -28,6 +29,9 @@ skill_map:
   aws-cost-sustainability-and-finops: [cost_sustainability_and_finops]
   aws-docs-mcp-and-evidence: [official_docs_and_mcp_evidence]
   aws-architecture-visualization: [drawio_visualization_routing]
+  drawio-core-generation: [drawio_visualization_routing, multi_provider_drawio_icons_and_boundaries]
+  drawio-render-export-and-review: [drawio_visualization_routing]
+  diagram-validation-and-evidence: [drawio_visualization_routing, multi_provider_drawio_icons_and_boundaries]
 # Installed workflow prompts (.apm/prompts/) that exercise each capability; the first entry is the primary one.
 prompt_map:
   structured_requirements_and_architecture_handoff: [design-aws-workload.prompt.md, design-landing-zone.prompt.md, plan-migration-and-dr.prompt.md]

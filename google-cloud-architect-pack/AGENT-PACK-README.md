@@ -1,4 +1,4 @@
-# google-cloud-architect 1.0.0: artifact catalog
+# google-cloud-architect 1.1.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -10,6 +10,7 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | gcp-cli-scripts.instructions.md | Canonical instruction: Safety rules for scripts and runbooks that call gcloud, bq, gcloud storage, gsutil or kubectl: explicit scope, validated syntax, previews and no hidden mutations. | .apm/instructions/gcp-cli-scripts.instructions.md |
 | gcp-terraform.instructions.md | Canonical instruction: Guardrails for Google Cloud Terraform and OpenTofu: identity, exposure, encryption, labels, deletion protection, provider pinning and plan-only validation. | .apm/instructions/gcp-terraform.instructions.md |
 | google-cloud-architect-contract.instructions.md | Canonical instruction: Approval levels, specialist handoff rules and the completion report format for the Google Cloud Architect pack. Always on; the agents, skills and prompts in this pack refer to it. | .apm/instructions/google-cloud-architect-contract.instructions.md |
+| create-architecture-diagram.prompt.md | Canonical prompt: Turn an approved Google Cloud architecture into an editable Draw.io diagram with current Google Cloud icons, validate it structurally, semantically and visually, and report what was proven | .apm/prompts/create-architecture-diagram.prompt.md |
 | design-landing-zone.prompt.md | Canonical prompt: Design a Google Cloud landing zone and identity foundation | .apm/prompts/design-landing-zone.prompt.md |
 | design-network.prompt.md | Canonical prompt: Design Google Cloud VPC, hybrid connectivity and load balancing | .apm/prompts/design-network.prompt.md |
 | design-solution.prompt.md | Canonical prompt: Design a Google Cloud solution from requirements | .apm/prompts/design-solution.prompt.md |
@@ -19,6 +20,15 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | record-decision.prompt.md | Canonical prompt: Choose between Google Cloud options and record the decision | .apm/prompts/record-decision.prompt.md |
 | review-architecture.prompt.md | Canonical prompt: Review a Google Cloud design or estate against the Well-Architected Framework | .apm/prompts/review-architecture.prompt.md |
 | validate-iac.prompt.md | Canonical prompt: Validate Google Cloud infrastructure code with static checks and a plan | .apm/prompts/validate-iac.prompt.md |
+| provider-checks.md | Canonical skill | .apm/skills/diagram-validation-and-evidence/references/provider-checks.md |
+| check_drawio.py | Canonical skill | .apm/skills/diagram-validation-and-evidence/scripts/check_drawio.py |
+| icon_catalog.json | Canonical skill | .apm/skills/diagram-validation-and-evidence/scripts/icon_catalog.json |
+| SKILL.md | Canonical skill: Validate Draw.io diagrams for AWS, Azure, Google Cloud, or several providers together: structure, icon currency against draw.io's current libraries, boundary semantics, and source evidence, then report static, rendered, live and unresolved results without overstating what was proven. Use when reviewing, auditing or regression-checking a diagram, or before any claim that a diagram is correct. | .apm/skills/diagram-validation-and-evidence/SKILL.md |
+| providers.md | Canonical skill | .apm/skills/drawio-core-generation/references/providers.md |
+| upstream-routing.md | Canonical skill | .apm/skills/drawio-core-generation/references/upstream-routing.md |
+| SKILL.md | Canonical skill: Create and edit native, editable Draw.io diagrams for AWS, Azure, Google Cloud, or several providers in one diagram: choose the generation path, take each provider's current icon library, and nest boundaries the way each provider scopes its networks. Use when creating or substantially editing a diagram file, choosing provider icons, or drawing account, subscription, project, region, zone, network or subnet boundaries. | .apm/skills/drawio-core-generation/SKILL.md |
+| export-cli.md | Canonical skill | .apm/skills/drawio-render-export-and-review/references/export-cli.md |
+| SKILL.md | Canonical skill: Export Draw.io diagrams through the installed Draw.io Desktop command line and review the rendered output for AWS, Azure, Google Cloud, or mixed diagrams: icons that failed to draw, labels, edges, boundaries and legibility. Use when exporting a diagram to PNG, SVG, PDF or JPG, inspecting a render, or troubleshooting an output that does not look right. | .apm/skills/drawio-render-export-and-review/SKILL.md |
 | SKILL.md | Canonical skill: Design generative AI and agent systems on Google Cloud - single or multi-agent patterns, model choice and endpoints on Gemini Enterprise Agent Platform, agent runtimes, memory and sessions, retrieval with RAG Engine, vector databases or search, tools and MCP servers, Model Armor and agent gateways, evaluation, quotas and monitoring. Use when designing, reviewing or productionizing an AI agent, RAG application, model-serving platform or AI-enabled workflow on Google Cloud. | .apm/skills/gcp-ai-agent-architecture/SKILL.md |
 | decision-record-template.md | Canonical skill | .apm/skills/gcp-architecture-decisions/decision-record-template.md |
 | SKILL.md | Canonical skill: Select Google Cloud services for each component with decision guides for compute, databases, storage, messaging, orchestration, load balancing, connectivity and private access, and record significant choices as decision records. Use when comparing Google Cloud options, mapping components to products, or documenting a Day-0 or hard-to-reverse architecture decision. | .apm/skills/gcp-architecture-decisions/SKILL.md |
@@ -95,10 +105,10 @@ Every file in this pack, with its purpose and location. Contents are in the file
 
 ## Build outputs (dist/, not committed)
 
-- copilot-google-cloud-architect.zip: 38 files generated by `apm install --target copilot`
-- claude-google-cloud-architect.zip: 38 files generated by `apm install --target claude`
-- codex-google-cloud-architect.zip: 26 files generated by `apm install --target codex`
-- kiro-google-cloud-architect.zip: 29 files generated by `apm install --target kiro`
-- gemini-google-cloud-architect.zip: 32 files generated by `apm install --target gemini`
-- agent-skills-google-cloud-architect.zip: 23 files generated by `apm install --target agent-skills`
+- copilot-google-cloud-architect.zip: 48 files generated by `apm install --target copilot`
+- claude-google-cloud-architect.zip: 48 files generated by `apm install --target claude`
+- codex-google-cloud-architect.zip: 35 files generated by `apm install --target codex`
+- kiro-google-cloud-architect.zip: 38 files generated by `apm install --target kiro`
+- gemini-google-cloud-architect.zip: 42 files generated by `apm install --target gemini`
+- agent-skills-google-cloud-architect.zip: 32 files generated by `apm install --target agent-skills`
 - google-cloud-architect-canonical.zip, google-cloud-architect-prompt.zip, google-cloud-architect-validation.zip, google-cloud-architect-skills.zip, google-cloud-architect-full-pack.zip, SHA256SUMS.txt

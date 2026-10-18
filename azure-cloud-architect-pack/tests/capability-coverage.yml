@@ -14,6 +14,7 @@ required_capabilities:
   - cost_sustainability_and_finops
   - official_docs_and_mcp_evidence
   - drawio_visualization_routing
+  - multi_provider_drawio_icons_and_boundaries
 skill_map:
   azure-architecture-foundations: [structured_requirements_and_architecture_handoff]
   azure-well-architected-and-frameworks: [well_architected_five_pillars]
@@ -29,6 +30,9 @@ skill_map:
   azure-cost-sustainability-and-finops: [cost_sustainability_and_finops]
   azure-docs-mcp-and-evidence: [official_docs_and_mcp_evidence]
   azure-architecture-visualization: [drawio_visualization_routing]
+  drawio-core-generation: [drawio_visualization_routing, multi_provider_drawio_icons_and_boundaries]
+  drawio-render-export-and-review: [drawio_visualization_routing]
+  diagram-validation-and-evidence: [drawio_visualization_routing, multi_provider_drawio_icons_and_boundaries]
 # Workflow prompts in .apm/prompts and the capabilities each one exercises.
 prompt_map:
   design-azure-workload.prompt.md: [structured_requirements_and_architecture_handoff, workload_service_selection, data_application_and_integration_patterns, well_architected_five_pillars, official_docs_and_mcp_evidence]

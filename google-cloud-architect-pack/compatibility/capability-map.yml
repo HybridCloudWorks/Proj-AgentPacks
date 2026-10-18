@@ -1,6 +1,6 @@
 {
   "name": "google-cloud-architect",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "primary": "google-cloud-architect",
   "agents": [
     {
@@ -51,7 +51,10 @@
     {"name": "gcp-migration-planning", "trigger": "Workloads move to or within Google Cloud.", "output": "Assessment, waves, transfer and cutover plan with rollback.", "prompt": "plan-migration"},
     {"name": "gcp-iac-validation", "trigger": "Google Cloud Terraform is written, reviewed or planned.", "output": "Located findings and a risk-ranked plan summary.", "prompt": "validate-iac"},
     {"name": "gcp-well-architected-review", "trigger": "A design, estate or change is assessed against the six pillars.", "output": "Evidence-based findings, pillar summaries and roadmap.", "prompt": "review-architecture"},
-    {"name": "gcp-estate-discovery", "trigger": "Facts are needed from a live Google Cloud environment.", "output": "Cited inventory, permission gaps and proposed Level 2 commands.", "prompt": "review-architecture"}
+    {"name": "gcp-estate-discovery", "trigger": "Facts are needed from a live Google Cloud environment.", "output": "Cited inventory, permission gaps and proposed Level 2 commands.", "prompt": "review-architecture"},
+    {"name": "drawio-core-generation", "trigger": "An editable Draw.io diagram is created or substantially edited, for Google Cloud alone or with other providers.", "output": "Uncompressed .drawio file with current provider icons and correct boundary nesting.", "prompt": "create-architecture-diagram"},
+    {"name": "drawio-render-export-and-review", "trigger": "A diagram is exported or its render is reviewed.", "output": "Exports at explicit paths and render findings.", "prompt": "create-architecture-diagram"},
+    {"name": "diagram-validation-and-evidence", "trigger": "A diagram is reviewed, audited or claimed to be correct.", "output": "Validation report with structural, icon, semantic and visual results and evidence labels.", "prompt": "create-architecture-diagram"}
   ],
   "instructions": [
     "google-cloud-architect-contract.instructions.md",
@@ -67,13 +70,15 @@
     "validate-iac.prompt.md",
     "plan-migration.prompt.md",
     "plan-resilience.prompt.md",
-    "optimize-cost.prompt.md"
+    "optimize-cost.prompt.md",
+    "create-architecture-diagram.prompt.md"
   ],
   "skill_scripts": [
     "gcp-estate-discovery/scripts/command_guard.py",
     "gcp-network-design/scripts/ip_plan.py",
     "gcp-reliability-dr/scripts/availability.py",
-    "gcp-iac-validation/scripts/plan_summary.py"
+    "gcp-iac-validation/scripts/plan_summary.py",
+    "diagram-validation-and-evidence/scripts/check_drawio.py"
   ],
   "source_dirs": [".apm", "compatibility", "docs", "examples", "hooks", "templates", "tests", "tooling"]
 }

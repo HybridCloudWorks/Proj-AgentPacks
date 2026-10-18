@@ -39,12 +39,12 @@ The reference material contains instructions written for AI agents. They were tr
 
 ## Packaging decisions
 
-22. Every skill name starts with `gcp-` so that a user-scope install cannot overwrite same-named skills from other packs (several packs in this repository ship generic names such as architecture-decision-records).
+22. Every skill name the generator wrote starts with `gcp-` so that a user-scope install cannot overwrite same-named skills from other packs (several packs in this repository ship generic names such as architecture-decision-records). Version 1.1.0 adds three shared skills without the prefix; see decisions 32 to 35.
 23. Helper scripts live inside the skill that uses them (`scripts/` under gcp-estate-discovery, gcp-network-design, gcp-reliability-dr and gcp-iac-validation), because installed content may reference only installed content and skills must work when installed alone. They use only the Python standard library and never call a cloud API.
 24. `tooling/completion_contract.py` validates completion reports for humans and CI; it reads nothing from installed locations.
 25. Hooks ship as manual helper scripts and one reviewed Copilot-format sample. Payload field names and exit-code handling for hooks are not in the repository's verified vendor facts, so the classifier prints a neutral verdict and the sample is labelled unverified.
 26. Three instruction files: the always-on contract, Terraform guardrails scoped to Terraform files, and CLI-script guardrails scoped to shell and PowerShell scripts.
-27. Nine prompts cover the role's recurring requests; each skill also works without its prompt.
+27. Nine prompts covered the role's recurring requests in 1.0.0, and 1.1.0 adds a tenth for diagrams; each skill also works without its prompt.
 28. Tests and coverage files use JSON syntax inside `.yml` files, which is valid YAML and parses without PyYAML.
 29. Per the build refinements, the pack contains no `AGENT-PACK-README.md`, `VALIDATION_REPORT.md`, `dist/`, archives, or copies of the shared validator and builder; the engine produces those.
 
@@ -52,3 +52,10 @@ The reference material contains instructions written for AI agents. They were tr
 
 30. Live client behaviour (agent discovery, delegation, hook execution) and model behaviour when invoked are not established by this build; the trigger and negative cases are a behavioural suite for real hosts.
 31. Google Cloud facts were taken from the supplied reference material and the model's knowledge without browsing, as instructed; product names, SLAs, quotas and command flags must be verified at task time, which the skills require.
+
+## Version 1.1.0: shared diagram skills (2026-10-18)
+
+32. The pack ships the shared skills drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence, byte-identical to the copies in the AWS and Azure architect and designer packs. Identical copies overwrite each other harmlessly on a user-scope install; different copies under one name would not, which is why the AWS and Azure versions were merged into one.
+33. The skills cover AWS, Azure and Google Cloud alone or in one diagram. Google Cloud uses draw.io's "Google Cloud Platform 2026" library, which follows Google's 2025 icon system of core product icons and category icons; Google says the legacy console icons should not be used as of 2026.
+34. Boundary rules follow each provider's documented scope: a Google Cloud VPC network is global and its subnets regional, an Azure VNet is regional and its subnets span zones, and an AWS subnet sits in one Availability Zone.
+35. diagram-validation-and-evidence carries a standard-library checker and an icon catalog generated from draw.io 32.5.5 source, so icon names are checked against what draw.io actually offers instead of the model's memory. The new create-architecture-diagram prompt runs the three skills in order.

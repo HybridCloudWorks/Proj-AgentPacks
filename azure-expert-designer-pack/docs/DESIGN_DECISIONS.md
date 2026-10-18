@@ -92,3 +92,12 @@ The render Skill names `C:\Program Files\draw.io\draw.io.exe` and "the user inst
 
 - `audit-diagram-against-source.prompt.md` has no dedicated worked example. The read-only review example shows the same approval and evidence pattern.
 - No model-behavior evaluation of the new prompts was run. The trigger cases describe expected routing, but they are not executed against a live client.
+
+## Version 1.3.0: shared diagram skills (2026-10-18)
+
+- drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence are now shared skills. The AWS and Azure packs had shipped two different versions of drawio-core-generation and diagram-validation-and-evidence under the same names, so whichever pack was installed last silently replaced the other's. One canonical copy now ships byte-identical in the AWS and Azure architect and designer packs and the Google Cloud architect pack, and CI fails if a copy drifts.
+- The skills cover AWS, Azure and Google Cloud alone or in one diagram: each provider's current draw.io library ("AWS <year>", "Azure", "Google Cloud Platform 2026"), the legacy libraries to avoid, and each provider's network scope rules. The facts were verified on 2026-10-18 against draw.io 32.5.5 source and the providers' official icon and network pages.
+- The skills now follow the master prompt's ten-part skill structure, which the previous versions did not.
+- diagram-validation-and-evidence gained a standard-library checker with an icon catalog generated from draw.io's source. It validates IDs per page and reports every AWS, Azure and Google Cloud icon as current, legacy, retired or unknown.
+- This pack's provider-specific skills keep setting house style. The shared skills decide which library is current and how boundaries nest.
+- `tests/fixtures/minimal.drawio` used `img/lib/azure2/app_services/App_Service.svg`, which draw.io does not have, so the icon drew without its symbol. The new checker caught it, and the fixture now uses `app_services/App_Services.svg`.
