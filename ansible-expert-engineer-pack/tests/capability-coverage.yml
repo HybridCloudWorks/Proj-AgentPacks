@@ -1,23 +1,57 @@
-agent: ansible-expert-engineer
-required:
-  - author_playbooks_roles
-  - convert_imperative_automation
-  - debug_runtime_failures
-  - validate_content
-  - protect_secrets
-  - manage_collection_dependencies
-  - bootstrap_interactively
-  - control_rollouts
-  - engineer_reusable_content
-  - design_inventory_variables
-owners:
-  author_playbooks_roles: ansible-playbook-development
-  convert_imperative_automation: ansible-convert-imperative-automation
-  debug_runtime_failures: ansible-debug-runtime-failures
-  validate_content: ansible-validate-content
-  protect_secrets: ansible-vault-secrets
-  manage_collection_dependencies: ansible-collections-supply-chain
-  bootstrap_interactively: ansible-bootstrap-interactive
-  control_rollouts: ansible-execution-control
-  engineer_reusable_content: ansible-role-collection-engineering
-  design_inventory_variables: ansible-inventory-and-variable-design
+{
+  "agent": "ansible-expert-engineer",
+  "required": [
+    "author_playbooks_roles",
+    "convert_imperative_automation",
+    "debug_runtime_failures",
+    "validate_content",
+    "protect_secrets",
+    "manage_collection_dependencies",
+    "bootstrap_interactively",
+    "control_rollouts",
+    "engineer_reusable_content",
+    "design_inventory_variables"
+  ],
+  "owners": {
+    "author_playbooks_roles": "ansible-playbook-development",
+    "convert_imperative_automation": "ansible-convert-imperative-automation",
+    "debug_runtime_failures": "ansible-debug-runtime-failures",
+    "validate_content": "ansible-validate-content",
+    "protect_secrets": "ansible-vault-secrets",
+    "manage_collection_dependencies": "ansible-collections-supply-chain",
+    "bootstrap_interactively": "ansible-bootstrap-interactive",
+    "control_rollouts": "ansible-execution-control",
+    "engineer_reusable_content": "ansible-role-collection-engineering",
+    "design_inventory_variables": "ansible-inventory-and-variable-design"
+  },
+  "prompts": {
+    "author_playbooks_roles": "author-playbook-or-role.prompt.md",
+    "convert_imperative_automation": "convert-imperative-automation.prompt.md",
+    "debug_runtime_failures": "debug-ansible-failure.prompt.md",
+    "validate_content": "validate-ansible-content.prompt.md",
+    "protect_secrets": "secure-ansible-secrets.prompt.md",
+    "manage_collection_dependencies": "manage-collection-dependencies.prompt.md",
+    "bootstrap_interactively": "bootstrap-ansible-project.prompt.md",
+    "control_rollouts": "plan-rolling-change.prompt.md",
+    "engineer_reusable_content": "engineer-role-or-collection.prompt.md",
+    "design_inventory_variables": "design-inventory-and-variables.prompt.md"
+  },
+  "examples": {
+    "author_playbooks_roles": ["examples/convert-shell-bootstrap.md", "examples/role-with-molecule-skipped.md"],
+    "convert_imperative_automation": ["examples/convert-shell-bootstrap.md"],
+    "debug_runtime_failures": ["examples/debug-conditional-after-upgrade.md", "examples/bootstrap-lab-estate.md"],
+    "validate_content": ["examples/convert-shell-bootstrap.md", "examples/debug-conditional-after-upgrade.md", "examples/plan-rolling-release.md", "examples/secrets-migration-blocked.md", "examples/role-with-molecule-skipped.md", "examples/bootstrap-lab-estate.md"],
+    "protect_secrets": ["examples/secrets-migration-blocked.md"],
+    "manage_collection_dependencies": ["examples/convert-shell-bootstrap.md"],
+    "bootstrap_interactively": ["examples/bootstrap-lab-estate.md"],
+    "control_rollouts": ["examples/plan-rolling-release.md"],
+    "engineer_reusable_content": ["examples/role-with-molecule-skipped.md"],
+    "design_inventory_variables": ["examples/debug-conditional-after-upgrade.md", "examples/plan-rolling-release.md"]
+  },
+  "failure_outcomes": {
+    "blocked": "examples/secrets-migration-blocked.md",
+    "skipped_tests": "examples/role-with-molecule-skipped.md",
+    "partial_dry_run": "examples/convert-shell-bootstrap.md",
+    "production_not_run": "examples/plan-rolling-release.md"
+  }
+}
