@@ -1,0 +1,177 @@
+{
+  "name": "finops-professional-practitioner",
+  "version": "1.0.0",
+  "primary": "finops-professional-practitioner",
+  "agents": [
+    {
+      "name": "finops-professional-practitioner",
+      "description": "FinOps practitioner for cloud and SaaS cost visibility, allocation, anomalies, forecasting, unit economics, usage and rate optimization, and practice governance, grounded in FOCUS billing data and evidence-labelled reporting.",
+      "tools": ["read", "search", "edit", "execute", "agent", "web"],
+      "user_invocable": true,
+      "claude_tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash", "Agent", "WebFetch", "WebSearch"],
+      "gemini_tools": ["read_file", "grep_search", "glob", "write_file", "replace", "run_shell_command"],
+      "kiro_tools": ["read", "write", "shell", "web", "subagent"],
+      "note": "tools lists the declared intent as Copilot aliases; claude_tools, gemini_tools and kiro_tools are the translations an installer applies. Gemini CLI receives no agents from APM, so its list applies only to an installer that writes Gemini agents itself. The canonical agent file declares no tools."
+    },
+    {
+      "name": "finops-data-analyst",
+      "description": "Run scoped, read-only queries and data-health checks over assigned billing data (FOCUS or provider-native) and return aggregated results with the exact queries, filters, row counts and caveats.",
+      "tools": ["read", "search", "execute"],
+      "user_invocable": false,
+      "claude_tools": ["Read", "Grep", "Glob", "Bash"],
+      "gemini_tools": ["read_file", "grep_search", "glob", "run_shell_command"],
+      "kiro_tools": ["read", "shell"],
+      "note": "Shell access can write files; the no-edit rule is behavioural. Pair with read-only cloud credentials."
+    },
+    {
+      "name": "finops-evidence-reviewer",
+      "description": "Independently review cost figures, savings claims, forecasts, allocations and commitment recommendations against the evidence supplied, and return located findings without editing or querying.",
+      "tools": ["read", "search"],
+      "user_invocable": false,
+      "claude_tools": ["Read", "Grep", "Glob"],
+      "gemini_tools": ["read_file", "grep_search", "glob"],
+      "kiro_tools": ["read"],
+      "note": "No shell and no edit, so the read-only boundary is consistent with the tools granted."
+    }
+  ],
+  "skills": [
+    {
+      "name": "focus-billing-data-analysis",
+      "framework": "Understand Usage and Cost: Data Ingestion, Reporting and Analytics",
+      "trigger": "A question needs numbers from billing exports, a spend narrative, invoice reconciliation, FOCUS adoption or cross-provider comparison.",
+      "inputs": "Question, audience, period, data sources with schema and billing scope, access path and scan bound, invoice totals.",
+      "dependencies": "Read tools; optional shell with an existing query engine; focus-column-reference.md in the skill folder.",
+      "output": "Labelled figures, executed queries, data-health summary, reconciliation result, audience narrative.",
+      "failure": "Unknown schema, tools disagree, reconciliation gap, unbounded scan, no access, poor allocation coverage.",
+      "exclude": "No changes to exports or pipelines; no general-ledger entries.",
+      "prompt": "analyze-cloud-spend.prompt.md"
+    },
+    {
+      "name": "cost-allocation-and-chargeback",
+      "framework": "Understand Usage and Cost: Allocation; Manage the FinOps Practice: Invoicing and Chargeback",
+      "trigger": "Costs need owners, tag coverage is low or drifting, or a showback or chargeback model is designed, rolled out or disputed.",
+      "inputs": "Organization structure, hierarchy, tagged billing data, shared services and usage metrics, Finance requirements.",
+      "dependencies": "Billing queries; policy services drafted, not applied; allocation-methodology-template.md.",
+      "output": "Methodology, taxonomy and enforcement drafts, coverage report, showback draft, chargeback entry criteria.",
+      "failure": "Owner unknown, coverage below threshold, unmeasurable key, disputes, early chargeback pressure.",
+      "exclude": "No policy application, retagging or publication of charges without approval.",
+      "prompt": "design-allocation-model.prompt.md"
+    },
+    {
+      "name": "cost-anomaly-management",
+      "framework": "Understand Usage and Cost: Anomaly Management; Quantify Business Value: Budgeting (alerts)",
+      "trigger": "Unexpected spend change, a fired or noisy alert, detector or budget alert design, spend in an unexpected service or region.",
+      "inputs": "Movement or alert, daily history for the segment, change context, accountability structure, alert history.",
+      "dependencies": "Billing queries, provider monitoring metrics, provider anomaly features configured by their owners.",
+      "output": "Anomaly report, detector proposal with backtest, alert hygiene review.",
+      "failure": "Short history, volatile segment, unknown owner, suspected compromise, fast-accruing cost.",
+      "exclude": "No resource containment and no monitor changes without approval.",
+      "prompt": "investigate-cost-anomaly.prompt.md"
+    },
+    {
+      "name": "forecasting-and-unit-economics",
+      "framework": "Quantify Business Value: Planning and Estimating, Forecasting, Budgeting, Unit Economics, KPIs and Benchmarking",
+      "trigger": "A forecast, budget, variance explanation, workload or migration estimate, unit cost or KPI set is needed.",
+      "inputs": "Cost history by pricing category and charge frequency, business drivers, known events, designs and usage profiles.",
+      "dependencies": "Billing queries, allocation outputs, official pricing pages read on the date of use.",
+      "output": "Forecast with scenarios and backtest, budget proposal, P10 to P90 estimate, unit-cost model, KPI dictionary.",
+      "failure": "No history, no driver data, structural break, uncertain pricing, disputed unit.",
+      "exclude": "No invented business volumes; publication to Finance systems needs approval.",
+      "prompt": "build-cost-forecast.prompt.md"
+    },
+    {
+      "name": "workload-optimization",
+      "framework": "Optimize Usage and Cost: Workload Optimization, Architecting for Cloud, Cloud Sustainability",
+      "trigger": "Waste or savings hunt, architecture or change cost review, rightsizing or cleanup plan, realized-savings or carbon tracking.",
+      "inputs": "Resource-level billing data, utilization metrics covering peaks, ownership, constraints, designs and load scenarios.",
+      "dependencies": "Billing queries, provider monitoring and inventory, cluster cost data, provider carbon tools; waste-pattern-catalog.md.",
+      "output": "Optimization inventory, execution plans with rollback, realized-savings tracker, architecture review, carbon per unit.",
+      "failure": "Unknown owner, short metrics, commitment coupling, objective at risk, irreversible deletion.",
+      "exclude": "No changes to resources; the workload owner executes.",
+      "prompt": "find-optimization-opportunities.prompt.md"
+    },
+    {
+      "name": "rate-optimization",
+      "framework": "Optimize Usage and Cost: Rate Optimization, Licensing and SaaS",
+      "trigger": "Commitment purchase, renewal, exchange or review; private pricing preparation; license, SaaS or marketplace cost.",
+      "inputs": "Eligible usage, current portfolio, planned changes, Finance constraints, spend history, entitlements and active usage.",
+      "dependencies": "Billing queries, forecasts, provider documentation on the date of use; commitment-recommendation-template.md.",
+      "output": "Commitment recommendation, portfolio health report, private pricing brief, license and SaaS review.",
+      "failure": "Short or unstable usage, pending migration, disagreeing provider recommendation, unclear contract language, compliance questions.",
+      "exclude": "No purchases, exchanges, contract actions or vendor contact.",
+      "prompt": "plan-commitment-strategy.prompt.md"
+    },
+    {
+      "name": "finops-maturity-assessment",
+      "framework": "Manage the FinOps Practice: FinOps Assessment",
+      "trigger": "Where does the practice stand, what next, maturity scorecard, investment case.",
+      "inputs": "Spend profile, artifacts, people or written answers, sponsor and audience, previous assessment.",
+      "dependencies": "Read tools, billing metrics; capability-scorecard.md.",
+      "output": "Per-capability scorecard, gaps, quick wins, 90-day plan, 12-month roadmap.",
+      "failure": "No access to people, conflicting accounts, sponsor pressure, capability list in doubt.",
+      "exclude": "No individual ratings; distribution needs approval.",
+      "prompt": "assess-finops-maturity.prompt.md"
+    },
+    {
+      "name": "finops-practice-governance",
+      "framework": "Manage the FinOps Practice: Practice Operations, Policy and Governance, Tools and Services, Education and Enablement, Onboarding Workloads, Intersecting Disciplines",
+      "trigger": "Cadences, policies, exceptions, onboarding or migration gates, tool selection, enablement, adjacent-discipline alignment.",
+      "inputs": "Operating model, existing policies, workload details, capability gaps, personas, adjacent-team contacts.",
+      "dependencies": "Read tools and the other skills; policy-template.md.",
+      "output": "Cadence calendar and decision log, policies and exception register, onboarding checklist, tool evaluation, enablement plan, integration charters.",
+      "failure": "No sponsor, conflicts with security or procurement rules, policy bypass, tool request without a gap.",
+      "exclude": "No publication, enforcement, scheduling, communication or procurement without approval.",
+      "prompt": "draft-finops-policy.prompt.md"
+    }
+  ],
+  "instructions": [
+    "billing-data-files.instructions.md",
+    "finops-professional-practitioner-contract.instructions.md",
+    "focus-cost-queries.instructions.md"
+  ],
+  "prompts": [
+    "analyze-cloud-spend.prompt.md",
+    "reconcile-billing-data.prompt.md",
+    "investigate-cost-anomaly.prompt.md",
+    "design-allocation-model.prompt.md",
+    "build-cost-forecast.prompt.md",
+    "estimate-workload-cost.prompt.md",
+    "find-optimization-opportunities.prompt.md",
+    "plan-commitment-strategy.prompt.md",
+    "assess-finops-maturity.prompt.md",
+    "draft-finops-policy.prompt.md",
+    "review-savings-claim.prompt.md"
+  ],
+  "examples": [
+    "monthly-spend-narrative-workflow.md",
+    "masked-anomaly-investigation-workflow.md",
+    "showback-to-chargeback-workflow.md",
+    "commitment-portfolio-workflow.md",
+    "idle-resource-cleanup-workflow.md",
+    "maturity-assessment-workflow.md",
+    "savings-claim-review-workflow.md",
+    "final-completion-report.md"
+  ],
+  "root_files": [
+    "DESCRIPTION.md",
+    "README.md",
+    "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md",
+    "LICENSE",
+    "apm.yml"
+  ],
+  "build_outputs": [
+    "AGENT-PACK-README.md",
+    "VALIDATION_REPORT.md",
+    "dist"
+  ],
+  "source_dirs": [
+    ".apm",
+    "compatibility",
+    "docs",
+    "examples",
+    "hooks",
+    "templates",
+    "tests",
+    "tooling"
+  ]
+}
