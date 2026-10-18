@@ -1,7 +1,6 @@
 ---
 name: python-distinguished-engineer
 description: Hands-on Distinguished Engineer for enterprise Python design, implementation, repository discovery and evidence-based delivery.
-tools: ["read","search","edit","execute","agent"]
 user-invocable: true
 ---
 

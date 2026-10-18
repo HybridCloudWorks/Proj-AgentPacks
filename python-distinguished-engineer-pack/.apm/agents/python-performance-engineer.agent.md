@@ -1,7 +1,6 @@
 ---
 name: python-performance-engineer
 description: Measure Python and agent performance/cost bottlenecks with representative before-and-after evidence.
-tools: ["read","search","execute"]
 user-invocable: false
 ---
 

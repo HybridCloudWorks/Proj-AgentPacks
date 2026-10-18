@@ -1,7 +1,6 @@
 ---
 name: agent-evaluation-engineer
 description: Design and run scoped agent outcome/process evaluations, safety cases, rubrics and human-review gates.
-tools: ["read","search","edit","execute"]
 user-invocable: false
 ---
 

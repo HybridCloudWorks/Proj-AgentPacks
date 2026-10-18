@@ -1,7 +1,6 @@
 ---
 name: python-security-reviewer
 description: Inspect Python and agent trust boundaries, identity, secrets, dependency integrity and privacy; return located security findings.
-tools: ["read","search"]
 user-invocable: false
 ---
 

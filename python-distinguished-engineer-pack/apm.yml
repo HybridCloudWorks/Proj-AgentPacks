@@ -1,7 +1,14 @@
 name: python-distinguished-engineer
-version: 2.0.0
+version: 2.1.0
 description: Enterprise Python and agentic engineering with optional specialists and evidence-based delivery.
-source: .apm
-agents: .apm/agents
-skills: .apm/skills
+author: saulpatinojr
 license: MIT
+repository: https://github.com/saulpatinojr/Proj-Agent_Packs
+keywords: [python, agentic, mcp, security, testing, performance, evaluation]
+targets:
+  - copilot
+  - claude
+  - codex
+  - kiro
+  - gemini
+  - agent-skills

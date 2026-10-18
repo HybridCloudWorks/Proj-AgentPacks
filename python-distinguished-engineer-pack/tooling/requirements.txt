@@ -1,1 +1,1 @@
-PyYAML>=6.0.3,<7
+# No third-party dependencies. The pack tooling uses the Python standard library (3.11+).

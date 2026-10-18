@@ -20,3 +20,7 @@
 - Deployment/communication: absent from default profiles. Add only explicit scoped tools for a user-authorized workflow, with exact target, data, cost, result and recovery evidence.
 
 Copilot primary delegation uses the supported agent alias. Generic test/browser/mcp labels are not valid portable capability grants. Codex inherits parent session security; Claude/Gemini mappings are documented in compatibility metadata.
+
+## How permissions are declared (prompt v2)
+
+Canonical agents in `.apm/agents` carry no `tools` field. APM copies agent frontmatter verbatim to Claude Code and GitHub Copilot, drops it for Codex, and rejects anything outside Kiro's capability tags, so no single `tools` value is valid everywhere. Each agent's intended permissions are declared in `compatibility/tool-permissions.yml` as intents (read, edit, shell, web, delegate). APM-generated agents inherit the host's full tool set; the Code Workflow installer translates the intents into each vendor's tool names. Instructions remain behavioural guidance, not access control.

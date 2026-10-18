@@ -1,7 +1,6 @@
 ---
 name: python-test-engineer
 description: Implement focused Python unit, contract, integration, browser and regression tests using repository conventions.
-tools: ["read","search","edit","execute"]
 user-invocable: false
 ---
 

@@ -1,231 +1,243 @@
-"""Verify canonical contracts, generated targets, local evidence and archive contents."""
+#!/usr/bin/env python3
+"""Validate this pack against agent-pack-prompt v2 and write VALIDATION_REPORT.md.
+
+Checks are grouped by kind so the report never presents an unexecuted check as passed:
+  structural       files, manifest fields, frontmatter, naming, stale content
+  executable       the pack's own unit tests, `apm compile --validate`, optional `apm install`
+  not established  live client behaviour; always listed, never claimed
+
+Usage: python tooling/validate_pack.py [--install-check] [--no-report]
+Exit 0 when no check failed.
+"""
 from __future__ import annotations
 
 import argparse
-import ast
-import hashlib
-import json
-from pathlib import Path, PurePosixPath
+import datetime as dt
+import os
 import re
+import shutil
+import subprocess
 import sys
-import tomllib
-import zipfile
+import tempfile
+from pathlib import Path
 
-import yaml
-
-ROOT = Path(__file__).resolve().parent.parent
-VENDORS = {
-    "github-copilot": (".github/agents", ".github/skills", ".agent.md"),
-    "claude-code": (".claude/agents", ".claude/skills", ".md"),
-    "openai-codex": (".codex/agents", ".agents/skills", ".toml"),
-    "gemini-cli": (".gemini/agents", ".agents/skills", ".md"),
-}
-SKIP = {"__pycache__", ".git", ".pytest_cache"}
-BEHAVIOR_FILES = ("tests/test_behavior.py", "tooling/completion_contract.py", "tooling/hook_runner.py", "tooling/validate_python_pack.py", "templates/api_contract.py", "tests/fixtures/valid-completion.json", "tests/fixtures/invalid-completion.json")
-
-
-def digest(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+ROOT = Path(__file__).resolve().parents[1]
+APM_FIELDS = {"$schema", "name", "version", "description", "author", "license", "homepage", "repository",
+              "keywords", "target", "targets", "type", "scripts", "includes", "dependencies",
+              "devDependencies", "compilation", "policy", "registries", "marketplace"}
+APM_TARGETS = {"copilot", "claude", "codex", "gemini", "kiro", "cursor", "opencode", "windsurf",
+               "antigravity", "agent-skills", "grok-build", "hermes"}
+AGENT_DIRS = {"copilot": ".github/agents", "claude": ".claude/agents", "codex": ".codex/agents", "kiro": ".kiro/agents"}
+REQUIRED = ["apm.yml", "DESCRIPTION.md", "README.md", "LICENSE", "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md",
+            "docs", "compatibility", "examples", "templates", "hooks/README.md", "tests", "tooling",
+            ".apm/agents", ".apm/skills", ".apm/instructions", ".apm/prompts"]
+STALE = ["targets", "claude-code", "gemini-cli", "github-copilot", "openai-codex", "instructions", "prompts"]
+SLUG = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 
 
-def fm(path: Path) -> tuple[dict, str]:
-    text = path.read_text(encoding="utf-8")
-    parts = text.split("---", 2)
-    if len(parts) != 3 or parts[0].strip():
-        raise ValueError("Missing YAML frontmatter")
-    header = yaml.safe_load(parts[1])
-    if not isinstance(header, dict):
-        raise ValueError("Invalid frontmatter")
-    return header, parts[2]
+class Report:
+    def __init__(self) -> None:
+        self.rows: list[tuple[str, str, str, str]] = []  # kind, check, status, detail
+
+    def add(self, kind: str, check: str, ok: bool | None, detail: str = "") -> None:
+        status = "skipped" if ok is None else ("pass" if ok else "FAIL")
+        self.rows.append((kind, check, status, detail))
+
+    def failures(self) -> list[tuple[str, str, str, str]]:
+        return [r for r in self.rows if r[2] == "FAIL"]
 
 
-def paths(directory: Path) -> list[Path]:
-    return sorted(p for p in directory.rglob("*") if p.is_file() and not any(s in SKIP for s in p.parts))
+def frontmatter(path: Path) -> tuple[dict[str, str], str]:
+    text = path.read_text(encoding="utf-8", errors="replace")
+    m = re.match(r"\A---\r?\n(.*?)\r?\n---\r?\n(.*)\Z", text, re.DOTALL)
+    if not m:
+        return {}, text
+    fields: dict[str, str] = {}
+    for line in m.group(1).splitlines():
+        km = re.match(r"^([A-Za-z_][\w-]*):\s*(.*)$", line)
+        if km:
+            fields[km.group(1)] = km.group(2).strip().strip("\"'")
+    return fields, m.group(2)
 
 
-def audit(root: Path, archives: bool = True, check_report: bool = True) -> dict:
-    result: dict = {"checks": [], "failures": []}
-    def expect(ok: bool, label: str) -> None:
-        result["checks"].append(label)
-        if not ok:
-            result["failures"].append(label)
-    def load(path: Path):
-        try:
-            return yaml.safe_load(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError, yaml.YAMLError):
-            expect(False, "parse " + str(path.relative_to(root)))
-            return {}
-
-    manifest = load(root / "compatibility/capability-map.yml")
-    agents, skills = manifest.get("agents", []), manifest.get("skills", [])
-    expect(len(agents) == 5 and sum(a.get("user_invocable", False) for a in agents) == 1, "five agents and one user-facing primary")
-    expect(len(skills) == 18 and len({s["name"] for s in skills}) == 18, "eighteen unique canonical Skills")
-    expected_agents = {a["name"] + ".agent.md" for a in agents}
-    expect({p.name for p in (root / ".apm/agents").glob("*")} == expected_agents, "exact canonical agent inventory")
-    expect({p.name for p in (root / ".apm/skills").iterdir()} == {s["name"] for s in skills}, "exact canonical Skill directories without legacy seed content")
-    for source in manifest.get("root_files", []):
-        if source not in {"AGENT-PACK-README.md", "VALIDATION_REPORT.md"} or archives:
-            expect((root / source).is_file(), "root artifact " + source)
-    for group in manifest.get("source_dirs", []):
-        expect((root / group).is_dir() and bool(paths(root / group)), "artifact category " + group)
-    for file in paths(root):
-        relative = file.relative_to(root)
-        if "dist" in relative.parts or "targets" in relative.parts:
+def simple_yaml(path: Path) -> dict[str, object]:
+    """Enough YAML for apm.yml: scalars, inline lists, and block lists of scalars."""
+    data: dict[str, object] = {}
+    key: str | None = None
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.rstrip()
+        if not line or line.lstrip().startswith("#"):
             continue
-        expect(not file.is_symlink(), "no source symlink " + relative.as_posix())
-        if file.suffix in {".yml", ".yaml", ".json"}:
-            load(file)
-            expect(True, "structured source " + relative.as_posix())
-        if file.suffix == ".py":
-            try:
-                ast.parse(file.read_text(encoding="utf-8"))
-                expect(True, "Python syntax " + relative.as_posix())
-            except SyntaxError:
-                expect(False, "Python syntax " + relative.as_posix())
-    for agent in agents:
-        header, body = fm(root / ".apm/agents" / (agent["name"] + ".agent.md"))
-        expect(header.get("tools") == agent["tools"] and header.get("user-invocable") == agent["user_invocable"], "canonical invocation/tools " + agent["name"])
-        expect(len(body.splitlines()) <= 150, "thin profile " + agent["name"])
+        if re.match(r"^\s*-\s+", line) and key is not None:
+            data.setdefault(key, [])
+            if isinstance(data[key], list):
+                data[key].append(line.split("-", 1)[1].strip().strip("\"'"))
+            continue
+        m = re.match(r"^([A-Za-z_$][\w-]*):\s*(.*)$", line)
+        if m:
+            key, value = m.group(1), m.group(2).strip()
+            if value.startswith("[") and value.endswith("]"):
+                data[key] = [v.strip().strip("\"'") for v in value[1:-1].split(",") if v.strip()]
+            elif value:
+                data[key] = value.strip("\"'")
+            else:
+                data[key] = []
+    return data
+
+
+def structural(rep: Report) -> dict[str, object]:
+    for rel in REQUIRED:
+        rep.add("structural", f"required artifact {rel}", (ROOT / rel).exists())
+    for rel in STALE:
+        rep.add("structural", f"no stale folder {rel}/", not (ROOT / rel).exists())
+    rep.add("structural", "no __pycache__ or .pyc", not any(ROOT.rglob("__pycache__")) and not any(ROOT.rglob("*.pyc")))
+    rep.add("structural", "no archives at pack root", not any(ROOT.glob("*.zip")))
+    rep.add("structural", "no native hook JSON for APM to deploy",
+            not any((ROOT / "hooks").glob("*.json")) and not (ROOT / ".apm" / "hooks").exists(),
+            "native hooks would carry repository-relative commands; hooks ship as helper scripts and samples")
+
+    manifest = simple_yaml(ROOT / "apm.yml")
+    unknown = sorted(set(manifest) - APM_FIELDS)
+    rep.add("structural", "apm.yml uses only APM-defined fields", not unknown, f"unknown: {unknown}" if unknown else "")
+    rep.add("structural", "apm.yml has name and version", bool(manifest.get("name")) and bool(manifest.get("version")))
+    rep.add("structural", "apm.yml version is semantic", bool(re.match(r"^\d+\.\d+\.\d+", str(manifest.get("version", "")))))
+    targets = manifest.get("targets") or []
+    bad = sorted(set(targets) - APM_TARGETS) if isinstance(targets, list) else ["not a list"]
+    rep.add("structural", "apm.yml targets are valid APM targets", bool(targets) and not bad, f"targets: {targets}")
+
+    agents = sorted((ROOT / ".apm" / "agents").glob("*.agent.md"))
+    rep.add("structural", "at least one agent", bool(agents))
+    primaries = 0
+    names: list[str] = []
+    for path in agents:
+        fm, body = frontmatter(path)
+        name = fm.get("name", "")
+        names.append(name)
+        stem = path.name[: -len(".agent.md")]
+        rep.add("structural", f"agent {stem}: name and description present", bool(name) and bool(fm.get("description")))
+        rep.add("structural", f"agent {stem}: file name equals name", name == stem)
+        rep.add("structural", f"agent {stem}: no tools field (declared in compatibility/tool-permissions.yml)", "tools" not in fm)
+        rep.add("structural", f"agent {stem}: description within 1024 characters", len(fm.get("description", "")) <= 1024)
+        rep.add("structural", f"agent {stem}: body within 300 lines", len(body.splitlines()) <= 300)
+        if fm.get("user-invocable", "true").lower() != "false":
+            primaries += 1
+    rep.add("structural", "exactly one user-invocable primary agent", primaries == 1, f"user-invocable agents: {primaries}")
+
+    perm_path = ROOT / "compatibility" / "tool-permissions.yml"
+    if perm_path.is_file():
+        declared = set(re.findall(r"^  ([a-z0-9_-]+):\s*$", perm_path.read_text(encoding="utf-8"), re.M))
+        rep.add("structural", "tool-permissions.yml covers every agent", declared == set(names), f"missing: {sorted(set(names) - declared)}")
+    else:
+        rep.add("structural", "tool-permissions.yml present", False)
+
+    skills = sorted(p for p in (ROOT / ".apm" / "skills").iterdir() if p.is_dir())
+    rep.add("structural", "at least one skill", bool(skills))
     for skill in skills:
-        name = skill["name"]
-        file = root / ".apm/skills" / name / "SKILL.md"
-        header, body = fm(file)
-        expect(header.get("name") == name and bool(header.get("description")), "Skill discovery " + name)
-        expect(all(section in body for section in ("Activation and scope", "Inputs and dependencies", "Workflow", "Output and validation", "Failure and guardrails", "Workflow connection")), "operational Skill contract " + name)
-        expect((root / "prompts" / (skill["prompt"] + ".prompt.md")).is_file(), "Skill prompt reference " + name)
-        for text in ("microsoft-certified-trainer", "cloud-documentation-archivist", "aws-diagram-architect", "terraform-expert-engineer"):
-            expect(text not in body.lower(), "no unrelated persona " + name + " " + text)
-    for name in manifest.get("instructions", []):
-        header, body = fm(root / "instructions" / name)
-        expect(isinstance(header.get("applyTo"), str) and bool(body.strip()), "scoped instruction " + name)
-    for name in manifest.get("prompts", []):
-        header, body = fm(root / "prompts" / name)
-        expect(header.get("agent") == manifest["primary"] and "Expected output" in body, "prompt output/owner " + name)
-    for name in manifest.get("examples", []):
-        expect((root / "examples" / name).is_file(), "worked example " + name)
-    coverage = load(root / "tests/capability-coverage.yml")
-    expect({c["skill"] for c in coverage.get("requirements", [])} == {s["name"] for s in skills}, "capability ownership covers all Skills")
-    for item in coverage.get("requirements", []):
-        expect(item["agent"] in {a["name"] for a in agents} and item["prompt"] in manifest["prompts"], "coverage reference " + item["id"])
-    triggers = load(root / "tests/trigger-cases.yml")
-    expect({s for c in triggers.get("cases", []) for s in c["skills"]} == {s["name"] for s in skills}, "positive activation coverage")
-    expect(len(triggers.get("negative_cases", [])) >= 8, "negative guardrail activation cases")
-    for vendor, (agent_dir, skill_dir, extension) in VENDORS.items():
-        target = root / "targets" / vendor
-        expect({p.name for p in (target / agent_dir).glob("*")} == {a["name"] + extension for a in agents}, "vendor agent inventory " + vendor)
-        expect({p.name for p in (target / skill_dir).glob("*")} == {s["name"] for s in skills}, "vendor Skill inventory " + vendor)
-        for agent in agents:
-            path = target / agent_dir / (agent["name"] + extension)
-            try:
-                if vendor == "openai-codex":
-                    header = tomllib.loads(path.read_text(encoding="utf-8"))
-                    expect(not ({"approval_policy", "sandbox_mode"} & set(header)), "Codex parent permission inheritance " + agent["name"])
-                    expect(set(header) == {"name", "description", "developer_instructions"}, "Codex custom profile fields " + agent["name"])
-                else:
-                    header, _ = fm(path)
-                    expect(header.get("tools") == agent["tools"] if vendor == "github-copilot" else header.get("tools") == agent["claude_tools"] if vendor == "claude-code" else header.get("tools") == agent["gemini_tools"], "host tool mapping " + vendor + " " + agent["name"])
-                expect(header.get("name") == agent["name"] and bool(header.get("description")), "host frontmatter " + vendor + " " + agent["name"])
-            except (OSError, ValueError, yaml.YAMLError):
-                expect(False, "host parse " + vendor + " " + agent["name"])
-        for skill in skills:
-            source = root / ".apm/skills" / skill["name"]
-            for file in paths(source):
-                output = target / skill_dir / skill["name"] / file.relative_to(source)
-                expect(output.is_file() and output.read_bytes() == file.read_bytes(), "Skill byte parity " + vendor + " " + skill["name"] + "/" + file.name)
-        for contract in ("docs/HANDOFF_CONTRACT.md", "docs/APPROVAL_MATRIX.md", "tests/report-contract.yml", "templates/completion-report.md", "INSTALL.md"):
-            expect((target / contract).is_file(), "installed reference " + vendor + " " + contract)
-    copilot = root / "targets/github-copilot/.github"
-    for directory in ("instructions", "prompts", "examples"):
-        for file in paths(root / directory):
-            target = copilot / directory / file.relative_to(root / directory)
-            expect(target.is_file() and target.read_bytes() == file.read_bytes(), "Copilot shared parity " + directory + "/" + file.name)
-    hooks = load(copilot / "hooks/python-engineering.json")
-    expect(hooks.get("version") == 1 and set(hooks.get("hooks", {})) == {"sessionStart", "agentStop"}, "native hook lifecycle schema")
-    for event, definitions in hooks.get("hooks", {}).items():
-        for definition in definitions:
-            expect(definition.get("cwd") == "." and 0 < definition.get("timeoutSec", 0) <= 10, "bounded hook " + event)
-            expect(".github/hooks/scripts/hook_runner.py " + event in definition.get("bash", "") and ".github/hooks/scripts/hook_runner.py " + event in definition.get("powershell", ""), "cross-platform hook commands " + event)
-    for name in ("hook_runner.py", "completion_contract.py"):
-        target = copilot / "hooks/scripts" / name
-        expect(target.is_file() and target.read_bytes() == (root / "tooling" / name).read_bytes(), "hook dependency parity " + name)
-    behavior = load(root / "tests/behavior-results.json")
-    expect(behavior.get("exit_code") == 0 and behavior.get("test_count", 0) >= 19, "offline behavior suite executed successfully")
-    for name in BEHAVIOR_FILES:
-        expect(behavior.get("source_sha256", {}).get(name) == digest(root / name), "behavior evidence fresh " + name)
-    if archives:
-        dist = root / "dist"
-        expected = [manifest["name"] + suffix for suffix in ("-full-pack.zip", "-canonical.zip", "-prompt.zip", "-skills.zip", "-validation.zip")]
-        expected += [vendor + "-" + manifest["name"] + ".zip" for vendor in VENDORS]
-        expect({p.name for p in dist.glob("*.zip")} == set(expected), "exact archive family inventory")
-        for file in sorted(dist.rglob("*.zip")):
-            with zipfile.ZipFile(file) as archive:
-                names = archive.namelist()
-                expect(bool(names) and len(names) == len(set(names)) and archive.testzip() is None, "ZIP integrity " + file.relative_to(dist).as_posix())
-                expect(all(not n.startswith("/") and ".." not in PurePosixPath(n).parts and not re.match(r"^[A-Za-z]:", n) and "\\" not in n for n in names), "ZIP path safety " + file.relative_to(dist).as_posix())
-                expect(not any("__pycache__" in n or n.endswith(".pyc") for n in names), "ZIP excludes cache " + file.relative_to(dist).as_posix())
-                if file.name == "skill.zip":
-                    source = root / ".apm/skills" / file.parent.name
-                    expect("SKILL.md" in names and {p.relative_to(source).as_posix() for p in paths(source)} == set(names), "individual Skill contents " + file.parent.name)
-                    expect(all(archive.read(p.relative_to(source).as_posix()) == p.read_bytes() for p in paths(source)), "individual Skill bytes " + file.parent.name)
-                if file.name in {manifest["name"] + "-full-pack.zip", manifest["name"] + "-validation.zip"}:
-                    expect("VALIDATION_REPORT.md" in names and (not check_report or archive.read("VALIDATION_REPORT.md") == (root / "VALIDATION_REPORT.md").read_bytes()), "embedded report freshness " + file.name)
-                if file.name == manifest["name"] + "-full-pack.zip":
-                    for group in manifest["source_dirs"] + ["targets"]:
-                        expect(any(n.startswith(group + "/") for n in names), "full-pack category " + group)
-                expected_members = None
-                if file.name == manifest["name"] + "-full-pack.zip":
-                    full_sources = [root / name for name in manifest["root_files"]]
-                    for group in manifest["source_dirs"] + ["targets"]:
-                        full_sources.extend(paths(root / group))
-                    expected_members = {p.relative_to(root).as_posix(): p for p in full_sources}
-                elif file.name == manifest["name"] + "-canonical.zip":
-                    expected_members = {p.relative_to(root).as_posix(): p for p in paths(root / ".apm")}
-                elif file.name == manifest["name"] + "-prompt.zip":
-                    expected_members = {"PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md": root / "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md"}
-                elif file.name == manifest["name"] + "-skills.zip":
-                    expected_members = {p.relative_to(dist / "skills").as_posix(): p for p in (dist / "skills").rglob("skill.zip")}
-                elif file.name == manifest["name"] + "-validation.zip":
-                    validation_sources = [root / "VALIDATION_REPORT.md"]
-                    for group in ("tests", "tooling", "compatibility", "templates"):
-                        validation_sources.extend(paths(root / group))
-                    expected_members = {p.relative_to(root).as_posix(): p for p in validation_sources}
-                if expected_members is not None:
-                    comparable = {name: path for name, path in expected_members.items() if check_report or name not in {"VALIDATION_REPORT.md", "AGENT-PACK-README.md"}}
-                    expect(set(names) == set(expected_members) and all(archive.read(name) == path.read_bytes() for name, path in comparable.items()), "primary/bundle byte parity " + file.name)
-                for vendor in VENDORS:
-                    if file.name == vendor + "-" + manifest["name"] + ".zip":
-                        source = root / "targets" / vendor
-                        expect(set(names) == {p.relative_to(source).as_posix() for p in paths(source)} and all(archive.read(p.relative_to(source).as_posix()) == p.read_bytes() for p in paths(source)), "vendor archive parity " + vendor)
-        expect(len(list((dist / "skills").glob("*/skill.zip"))) == 18, "eighteen individual Skill archives")
-        sums = dist / "SHA256SUMS.txt"
-        expect(sums.is_file(), "archive checksum manifest")
-        if sums.is_file():
-            lines = [line.split("  ", 1) for line in sums.read_text().splitlines()]
-            expect(len(lines) == len(list(dist.rglob("*.zip"))) and all((dist / name).is_file() and digest(dist / name) == value for value, name in lines), "all archive SHA256 checksums match")
-        catalog = root / "AGENT-PACK-README.md"
-        text = catalog.read_text(encoding="utf-8") if catalog.is_file() else ""
-        expect(all(title in text for title in ("ARTIFACT NAME:", "PURPOSE:", "CONTENT:", "AGENT PACK VALIDATION SUMMARY", "## 28.")), "ordered full-content artifact catalog")
-    return result
+        fm, _ = frontmatter(skill / "SKILL.md") if (skill / "SKILL.md").is_file() else ({}, "")
+        rep.add("structural", f"skill {skill.name}: SKILL.md with name equal to folder", fm.get("name") == skill.name and bool(SLUG.match(skill.name)))
+        rep.add("structural", f"skill {skill.name}: description within 1024 characters", 0 < len(fm.get("description", "")) <= 1024)
+    instructions = sorted((ROOT / ".apm" / "instructions").glob("*.instructions.md"))
+    for path in instructions:
+        fm, _ = frontmatter(path)
+        rep.add("structural", f"instruction {path.name}: description and applyTo", bool(fm.get("description")) and bool(fm.get("applyTo")))
+    prompts = sorted((ROOT / ".apm" / "prompts").glob("*.prompt.md"))
+    for path in prompts:
+        fm, _ = frontmatter(path)
+        rep.add("structural", f"prompt {path.name}: description", bool(fm.get("description")))
+    prompt_text = (ROOT / "PORTABLE_AGENT_SKILL_PACK_AUTHORING_PROMPT.md").read_text(encoding="utf-8", errors="replace")
+    rep.add("structural", "authoring prompt is version 2", "Prompt version 2" in prompt_text)
+    return {"manifest": manifest, "agents": names, "skills": [s.name for s in skills],
+            "prompts": len(prompts), "instructions": len(instructions)}
 
 
-def render(result: dict) -> str:
-    status = "PASS" if not result["failures"] else "FAIL"
-    lines = ["# VALIDATION_REPORT", "", "Agent: Python Distinguished Engineer", "Pack version: 2.0.0", "Validation date: 2026-10-18", "Status: " + status, "", "Checks: " + str(len(result["checks"])), "Failures: " + str(len(result["failures"])), "", "## Verified scope", "", "Canonical five-profile/eighteen-Skill architecture; one Copilot user-facing primary; operational Skills/instructions/prompts/examples; host metadata, references and byte parity; bounded JSON hooks; recorded offline behavioral tests with source hashes; deterministic archive structure/path/integrity/parity/checksums and embedded report freshness.", "", "## Behavior evidence", "", "The build executes python -m unittest discover -s tests -p test_behavior.py -v. tests/behavior-results.json records the observed result and hashes. Tests cover runtime validation, replay conflict/idempotency, tenant/scope isolation, cancellation/deadlines, completion evidence, malformed/stale hook input, bounded retry, redaction and read-only syntax inventory. These are local helper/domain tests.", "", "## Not established", "", "Live discovery/invocation in four vendor clients, actual MCP SDK/protocol initialization, browser sessions, remote auth/role enforcement, cloud deployment, production performance, paid model evaluation quality, organizational release thresholds and APM CLI compilation remain unverified. Manual activation cases in tests/trigger-cases.yml are not reported as executed model behaviors. Role instructions do not create security isolation.", "", "## Failed checks", ""]
-    lines += ["- " + s for s in result["failures"]] or ["- None"]
-    lines += ["", "## Check inventory", ""] + ["- " + s for s in result["checks"]]
+def executable(rep: Report, info: dict[str, object], install_check: bool) -> None:
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+    proc = subprocess.run([sys.executable, "-I", "-B", "-m", "unittest", "discover", "-s", "tests"],
+                          cwd=ROOT, capture_output=True, text=True, env=env)
+    tail = (proc.stderr or proc.stdout).strip().splitlines()[-1:] or [""]
+    rep.add("executable", "pack unit tests (python -m unittest discover -s tests)", proc.returncode == 0, tail[0])
+
+    apm = shutil.which("apm")
+    if not apm:
+        rep.add("executable", "apm compile --validate", None, "apm CLI not on PATH")
+        rep.add("executable", "apm install into a scratch project", None, "apm CLI not on PATH")
+        return
+    proc = subprocess.run([apm, "compile", "--validate"], cwd=ROOT, capture_output=True, text=True)
+    rep.add("executable", "apm compile --validate", proc.returncode == 0,
+            next((l.strip() for l in proc.stdout.splitlines() if "primitives" in l), proc.stderr.strip()[-200:]))
+    if not install_check:
+        rep.add("executable", "apm install into a scratch project", None, "run with --install-check")
+        return
+    manifest = info["manifest"]
+    assert isinstance(manifest, dict)
+    targets = [t for t in manifest.get("targets", []) if t in APM_TARGETS]
+    agent_names = info["agents"]
+    assert isinstance(agent_names, list)
+    with tempfile.TemporaryDirectory(prefix="pack-install-") as tmp:
+        subprocess.run(["git", "init", "-q"], cwd=tmp, capture_output=True)
+        proc = subprocess.run([apm, "install", "--target", ",".join(targets), str(ROOT)], cwd=tmp, capture_output=True, text=True)
+        out = proc.stdout + proc.stderr
+        ok = proc.returncode == 0 and "installation failed" not in out.lower()
+        rep.add("executable", f"apm install --target {','.join(targets)} succeeds", ok, "" if ok else out.strip()[-300:])
+        generated = [p for p in Path(tmp).rglob("*") if p.is_file() and not ({"apm_modules", ".git"} & set(p.parts))]
+        for target, folder in AGENT_DIRS.items():
+            if target in targets:
+                count = len([p for p in generated if folder in p.as_posix()])
+                rep.add("executable", f"{target}: {len(agent_names)} agents generated", count == len(agent_names), f"found {count}")
+        hooks = [p for p in generated if "hooks" in p.parts or p.name in ("settings.json", "apm-hooks.json")]
+        rep.add("executable", "no hook files generated", not hooks, ", ".join(p.name for p in hooks[:5]))
+        rules = len([p for p in generated if ".claude/rules" in p.as_posix()])
+        rep.add("executable", "claude: instructions generated as rules", rules == info["instructions"], f"found {rules}")
+
+
+NOT_ESTABLISHED = [
+    "Agents appear and run in the VS Code agent pane for Claude Code, Codex, and GitHub Copilot.",
+    "A user-profile install (Code Workflow installer, or `apm install -g`) behaves identically on Windows and macOS.",
+    "Kiro and Gemini CLI behaviour on a live install; neither client was available on the validating machine.",
+    "Model behaviour of the five agents when actually invoked; tests cover helper code and contracts only.",
+    "Hook behaviour: hooks ship as helper scripts and samples; no native hook was installed or exercised.",
+]
+
+
+def render(rep: Report, info: dict[str, object]) -> str:
+    manifest = info["manifest"]
+    assert isinstance(manifest, dict)
+    fails = rep.failures()
+    passed = sum(r[2] == "pass" for r in rep.rows)
+    skipped = sum(r[2] == "skipped" for r in rep.rows)
+    lines = ["# VALIDATION_REPORT", "",
+             f"Pack: {manifest.get('name')} {manifest.get('version')}",
+             "Standard: agent-pack-prompt v2",
+             f"Validated: {dt.date.today().isoformat()}",
+             f"Status: {'PASS' if not fails else 'FAIL'}", "",
+             f"Checks: {len(rep.rows)}  Passed: {passed}  Failed: {len(fails)}  Skipped: {skipped}", "",
+             "## Scope", "",
+             f"{len(info['agents'])} agents, {len(info['skills'])} skills, {info['instructions']} instruction files, "  # type: ignore[arg-type]
+             f"{info['prompts']} prompts; targets {', '.join(manifest.get('targets', []))}.", "",
+             "## Failed checks", ""]
+    lines += [f"- {c}: {d}" for _, c, _, d in fails] or ["- None"]
+    lines += ["", "## Not established", ""] + [f"- {n}" for n in NOT_ESTABLISHED]
+    lines += ["", "## Check inventory", "", "| Kind | Check | Result | Detail |", "|---|---|---|---|"]
+    lines += [f"| {k} | {c} | {s} | {d.replace('|', '/')} |" for k, c, s, d in rep.rows]
     return "\n".join(lines) + "\n"
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--write-report", action="store_true", help="Write source report; rebuild archives afterwards before final delivery.")
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--install-check", action="store_true", help="also run apm install into a scratch project")
+    parser.add_argument("--no-report", action="store_true", help="do not write VALIDATION_REPORT.md")
     args = parser.parse_args()
-    result = audit(ROOT)
-    if args.write_report:
-        (ROOT / "VALIDATION_REPORT.md").write_text(render(result), encoding="utf-8")
-    print(("PASS" if not result["failures"] else "FAIL") + ": " + str(len(result["checks"])) + " checks, " + str(len(result["failures"])) + " failures")
-    print("\n".join(result["failures"]))
-    return int(bool(result["failures"]))
+    rep = Report()
+    info = structural(rep)
+    executable(rep, info, args.install_check)
+    if not args.no_report:
+        (ROOT / "VALIDATION_REPORT.md").write_text(render(rep, info), encoding="utf-8")
+    fails = rep.failures()
+    skipped = sum(r[2] == "skipped" for r in rep.rows)
+    print(f"{'PASS' if not fails else 'FAIL'}: {len(rep.rows)} checks, {len(fails)} failures, {skipped} skipped")
+    for _, check, _, detail in fails:
+        print(f"  FAIL {check}: {detail}")
+    return 0 if not fails else 1
 
 
 if __name__ == "__main__":
