@@ -1,0 +1,56 @@
+{
+  "_template": "Replace every <...> value, delete unused entries, and keep ids stable so diagrams and ADRs can reference them. Facts carry the label observed or inferred; recommendations carry designed. Never record secrets.",
+  "workload": "<workload name>",
+  "version": "<n>",
+  "date": "<YYYY-MM-DD>",
+  "partition": "aws | aws-us-gov | aws-cn",
+  "evidence_labels": ["observed", "inferred", "designed", "structurally-validated", "live-verified", "not-verified"],
+  "organization": {
+    "ous": [
+      {"id": "ou-<name>", "name": "<OU name>", "parent": "root | <ou id>", "purpose": "<why this boundary exists>", "evidence": "<label>"}
+    ],
+    "accounts": [
+      {"id": "acct-<name>", "name": "<account name>", "account_id": "<12-digit id, or 'to be vended'>", "ou": "<ou id>", "purpose": "management | log-archive | security | identity | network-hub | shared-services | workload", "environment": "<prod | nonprod | sandbox>", "owner": "<team>", "evidence": "<label>"}
+    ]
+  },
+  "regions": [
+    {"name": "<Region code>", "role": "primary | recovery | backup-copy | edge-only", "reason": "<residency, latency, recovery>", "evidence": "<label>"}
+  ],
+  "networks": [
+    {
+      "id": "vpc-<name>",
+      "account": "<account id>",
+      "region": "<Region code>",
+      "cidr": "<CIDR>",
+      "subnets": [
+        {"id": "sn-<name>", "az_id": "<AZ ID, not AZ name>", "cidr": "<CIDR>", "intent": "public | private | data | endpoint | transit", "route_table": "<route table id>", "evidence": "<label>"}
+      ],
+      "route_tables": [
+        {"id": "rt-<name>", "routes": [{"destination": "<CIDR or prefix list>", "target": "local | igw | nat-<id> | tgw-<id> | vpce-<id> | pcx-<id>"}], "evidence": "<label>"}
+      ],
+      "attachments": [
+        {"type": "transit-gateway | peering | site-to-site-vpn | direct-connect | privatelink", "peer": "<network or site>", "route_propagation": "<what is propagated or associated>", "evidence": "<label>"}
+      ],
+      "endpoints": [
+        {"service": "<AWS service>", "type": "gateway | interface", "subnets": ["<subnet id>"], "policy": "<summary>", "evidence": "<label>"}
+      ],
+      "egress": "<NAT per AZ, centralized egress, none>",
+      "evidence": "<label>"
+    }
+  ],
+  "identities": [
+    {"id": "id-<name>", "type": "workload-role | task-role | execution-role | permission-set | cross-account-role | break-glass", "account": "<account id>", "trusted_by": "<principal, service or IdP>", "purpose": "<what it is allowed to do, in one line>", "boundary": "<permission boundary or SCP that limits it>", "evidence": "<label>"}
+  ],
+  "services": [
+    {"id": "svc-<name>", "service": "<AWS service>", "resource": "<logical name>", "account": "<account id>", "region": "<Region code>", "placement": "<subnet ids, or 'Regional, outside any VPC'>", "configuration": {"<key>": "<value that matters to the handoff>"}, "identity": "<identity id>", "evidence": "<label>"}
+  ],
+  "dependencies": [
+    {"from": "<service id>", "to": "<service id or external system>", "type": "sync-call | async-event | data-store | dns | identity | network", "criticality": "hard | soft", "evidence": "<label>"}
+  ],
+  "data_flows": [
+    {"id": "flow-<name>", "from": "<service id>", "to": "<service id>", "data": "<data set>", "classification": "<classification>", "protocol": "<protocol and port>", "encryption": "<in transit>", "crosses": ["az", "region", "account", "internet", "hybrid"], "cost_bearing": true, "evidence": "<label>"}
+  ],
+  "failure_domains": [
+    {"domain": "process | az | region | account | dependency | identity | network | data | operator", "scope": "<what fails>", "impact": "<what the user sees>", "mitigation": "<design response>", "tested": "not-verified", "evidence": "<label>"}
+  ]
+}

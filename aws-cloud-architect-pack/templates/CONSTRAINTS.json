@@ -1,0 +1,68 @@
+{
+  "_template": "Replace every <...> value and delete unused entries. Each constraint is a guardrail the implementation must respect; record its source and label. A quota or price is evidence with a retrieval date, never an assumed constant.",
+  "workload": "<workload name>",
+  "version": "<n>",
+  "date": "<YYYY-MM-DD>",
+  "regions_and_partitions": {
+    "partition": "<aws | aws-us-gov | aws-cn>",
+    "allowed_regions": ["<Region code>"],
+    "reason": "<residency, latency, recovery, service availability>",
+    "enforced_by": "<SCP, policy, review>",
+    "evidence": "<label>"
+  },
+  "quotas": [
+    {"service": "<AWS service>", "quota": "<quota name>", "required_value": "<what the design needs>", "documented_default": "<value and source URL>", "applied_value": "<value from Service Quotas, or not checked>", "retrieved": "<YYYY-MM-DD>", "evidence": "not-verified"}
+  ],
+  "naming": {"pattern": "<pattern>", "examples": ["<example>"]},
+  "tags": {
+    "required": [
+      {"key": "<tag key>", "allowed_values": "<values or pattern>", "enforced_by": "<tag policy, SCP, pipeline check>"}
+    ]
+  },
+  "versions": [
+    {"component": "<engine, runtime, provider, CDK, CLI>", "constraint": "<version range>", "reason": "<support, compatibility>", "evidence": "<label>"}
+  ],
+  "encryption": {
+    "at_rest": "<requirement>",
+    "in_transit": "<requirement>",
+    "kms_keys": [
+      {"alias": "<alias>", "account": "<account id>", "owner": "<team>", "rotation": "<policy>", "used_by": ["<service id>"], "recovery_region_copy": "<yes, no, n/a>"}
+    ]
+  },
+  "network": {
+    "cidr_allocations": [{"range": "<CIDR>", "owner": "<team or IPAM pool>", "use": "<purpose>"}],
+    "ingress": "<allowed entry points>",
+    "egress": "<allowed exit paths and inspection>",
+    "private_connectivity": "<endpoints, PrivateLink, hybrid>",
+    "dns": "<resolution model>"
+  },
+  "iam": {
+    "human_access": "<federation through IAM Identity Center, permission sets>",
+    "workload_identity": "<roles, task roles, pod identity>",
+    "permission_boundaries": "<where they apply>",
+    "scps_in_effect": ["<SCP name and what it denies>"],
+    "prohibited": ["long-lived access keys", "shared root access", "AdministratorAccess as an application dependency", "secrets in source, user data, logs or plain parameters"]
+  },
+  "budget": {"amount": "<amount>", "currency": "<currency>", "time_window": "<monthly, annual>", "owner": "<budget owner>", "alerts": ["<threshold and recipient>"], "evidence": "<label>"},
+  "recovery": {
+    "rto": "<duration and failure scenario>",
+    "rpo": "<duration and failure scenario>",
+    "strategy": "backup-restore | pilot-light | warm-standby | hot-standby | active-active | service-native",
+    "backup_policy": "<frequency, retention, immutability, cross-account and cross-Region copies>",
+    "restore_authority": "<who can declare and approve a restore or failover>",
+    "rollback": "<how each change is reversed and what cannot be reversed>",
+    "tested": "not-verified"
+  },
+  "policy": {
+    "preventive": ["<SCP, permission boundary, resource policy>"],
+    "detective": ["<Config rule, Security Hub control, alarm>"],
+    "corrective": ["<automation and its trigger>"],
+    "exceptions": [{"control": "<control>", "reason": "<reason>", "owner": "<owner>", "expires": "<YYYY-MM-DD>"}]
+  },
+  "operational_guardrails": {
+    "change_windows": "<when production changes are allowed>",
+    "approval_gates": ["<gate and approver>"],
+    "stateful_resource_protection": ["<deletion policy, termination protection, logical-ID stability, state backups>"],
+    "prohibited_without_approval": ["deploy", "IAM or SCP change", "state mutation", "data migration", "account vending", "production change", "destructive action", "publication"]
+  }
+}
