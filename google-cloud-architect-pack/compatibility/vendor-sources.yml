@@ -1,0 +1,22 @@
+{
+  "verified_on": "2026-10-18",
+  "note": "Vendor facts come from the repository's client-locations.md, verified on this date; Google Cloud product facts come from the official documentation listed here and must be re-checked at task time.",
+  "sources": [
+    {"id": "gcp-architecture-center", "url": "https://docs.cloud.google.com/architecture", "application": "Reference architectures, deployment archetypes and decision guides."},
+    {"id": "gcp-well-architected", "url": "https://docs.cloud.google.com/architecture/framework", "application": "Six pillars and perspectives used by the review and pillar skills."},
+    {"id": "gcp-landing-zones", "url": "https://docs.cloud.google.com/architecture/landing-zones", "application": "Identity onboarding, hierarchy, network and security decisions."},
+    {"id": "gcp-security-foundations", "url": "https://docs.cloud.google.com/architecture/blueprints/security-foundations", "application": "Enterprise foundations blueprint, preventive and detective controls."},
+    {"id": "gcp-authentication", "url": "https://docs.cloud.google.com/docs/authentication", "application": "Human and workload authentication, ADC, impersonation."},
+    {"id": "gcp-gcloud-reference", "url": "https://cloud.google.com/sdk/gcloud/reference", "application": "Leaf command syntax; always confirmed with gcloud help at task time."},
+    {"id": "gcp-pricing-calculator", "url": "https://cloud.google.com/products/calculator", "application": "Cost estimates; prices are never hard-coded in the pack."},
+    {"id": "google-skills-reference", "url": "https://github.com/google/skills", "application": "Apache-2.0 reference material used as knowledge; see docs/SOURCE_TRACEABILITY.md."},
+    {"id": "copilot", "url": "https://docs.github.com/en/copilot/reference/custom-agents-configuration", "application": "Agent folder, user-invocable, include-custom-instructions and tool aliases."},
+    {"id": "copilot-instructions", "url": "https://docs.github.com/en/copilot/reference/custom-instructions-support", "application": "Path-scoped applyTo frontmatter; which files Copilot code review reads."},
+    {"id": "copilot-hooks", "url": "https://docs.github.com/en/copilot/reference/hooks-reference", "application": "Hook events for the reviewed sample; payload fields to be verified before wiring."},
+    {"id": "claude", "url": "https://code.claude.com/docs/en/sub-agents", "application": "Agent frontmatter; tools inherited because none is declared."},
+    {"id": "codex", "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents", "application": "Custom-agent TOML: name, description, developer_instructions; parent sandbox inheritance."},
+    {"id": "kiro", "url": "https://kiro.dev/docs/custom-agents/", "application": "Agent files, steering and the capability tags APM requires for tools."},
+    {"id": "gemini", "url": "https://geminicli.com/docs/core/subagents/", "application": "Agent fields; Gemini receives skills, commands and context from APM."},
+    {"id": "apm", "url": "https://microsoft.github.io/apm/reference/targets-matrix/", "application": "What apm install generates for each target."}
+  ]
+}

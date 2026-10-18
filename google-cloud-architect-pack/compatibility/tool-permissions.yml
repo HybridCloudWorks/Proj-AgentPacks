@@ -1,0 +1,14 @@
+# Intended permissions for each agent in this pack, written as intents (read, edit, shell, web, delegate).
+# The agent files themselves declare no tools: APM passes agent frontmatter through unchanged and no
+# single tool list is valid in every client. An installer that writes client files translates these
+# intents into each client's tool names (see capability-map.yml).
+# The estate inspector's shell is for read-only cloud CLI commands. A shell can still change things,
+# so its real limit is the read-only cloud identity it runs as and the host's approval settings.
+version: 1
+agents:
+  google-cloud-architect:
+    intent: [delegate, edit, read, shell, web]
+  gcp-estate-inspector:
+    intent: [read, shell]
+  gcp-security-reviewer:
+    intent: [read]

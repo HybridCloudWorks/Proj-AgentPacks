@@ -1,0 +1,59 @@
+{
+  "canonical": {
+    "manifest": "apm.yml",
+    "agents": ".apm/agents/*.agent.md",
+    "skills": ".apm/skills/<name>/SKILL.md, with helper scripts and templates inside each skill folder",
+    "instructions": ".apm/instructions/*.instructions.md",
+    "prompts": ".apm/prompts/*.prompt.md",
+    "generation": "Client files are produced from the canonical source when apm install or the Code Workflow installer runs; the repository holds none of them."
+  },
+  "targets": {
+    "copilot": {
+      "agents": ".github/agents/<name>.agent.md with the frontmatter passed through unchanged (user-invocable and include-custom-instructions are Copilot fields)",
+      "skills": ".agents/skills",
+      "instructions": ".github/instructions/*.instructions.md",
+      "prompts": ".github/prompts/*.prompt.md",
+      "user_scope": "apm install -g places instructions and prompts only; the Code Workflow installer places agents in ~/.copilot/agents",
+      "limits": "Copilot ignores tool names it does not know without any warning, which is one reason the agent files list no tools."
+    },
+    "claude": {
+      "agents": ".claude/agents/<name>.md with the frontmatter passed through unchanged",
+      "skills": ".claude/skills",
+      "instructions": ".claude/rules/<name>.md (applyTo becomes paths)",
+      "prompts": ".claude/commands/<name>.md (APM removes the agent key)",
+      "user_scope": "apm install -g covers everything",
+      "limits": "With no tools field, each agent gets every tool the session allows; the two Copilot-specific frontmatter keys mean nothing to Claude Code."
+    },
+    "codex": {
+      "agents": ".codex/agents/<name>.toml keeping only name, description and body",
+      "skills": ".agents/skills",
+      "instructions": "merged into AGENTS.md by apm compile",
+      "prompts": "none",
+      "user_scope": "agents, skills, hooks and MCP but no instructions, which is why each agent body repeats the approval levels and the fallback sentence",
+      "limits": "A Codex subagent runs with its parent session's sandbox and approval settings; what its profile says does not isolate it."
+    },
+    "kiro": {
+      "agents": ".kiro/agents/<name>.md keeping description, model and tools",
+      "skills": ".kiro/skills",
+      "instructions": ".kiro/steering/<name>.md",
+      "prompts": "none",
+      "user_scope": "the same files under ~/.kiro",
+      "limits": "APM refuses a Kiro agent whose tools include anything but Kiro capability tags; these agents declare no tools, so nothing is refused."
+    },
+    "gemini": {
+      "agents": "none; APM has no agents primitive for Gemini CLI",
+      "skills": ".agents/skills",
+      "instructions": "merged into GEMINI.md by apm compile",
+      "prompts": ".gemini/commands/<name>.toml",
+      "user_scope": "the same files under ~/.gemini",
+      "limits": "Without agents there are no specialists; users reach the workflow through the skills and commands."
+    },
+    "agent-skills": {
+      "skills": ".agents/skills",
+      "limits": "Only the skills arrive, so each one carries its own guardrails for use without the contract."
+    }
+  },
+  "hooks": "APM deploys no hooks from this pack. The hooks folder holds helpers to run by hand and one reviewed Copilot-format sample; the Code Workflow installer can register hooks pointing at its own copy of the pack.",
+  "fallback": "When a client cannot delegate, or a cloud CLI or MCP server is missing, the primary applies the same skills itself and says what it could not do.",
+  "validated": "The repository's shared validator checks structure, frontmatter and content references, runs apm compile --validate and installs into a scratch project for all six targets. Whether each live client discovers and runs the agents has not been established."
+}

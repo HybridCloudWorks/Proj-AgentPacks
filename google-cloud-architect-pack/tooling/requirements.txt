@@ -1,0 +1,1 @@
+# Nothing to install: completion_contract.py and the skills' helper scripts need only Python 3.10 or later.
