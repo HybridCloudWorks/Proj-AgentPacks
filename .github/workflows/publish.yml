@@ -42,8 +42,10 @@ jobs:
         with:
           app-id: ${{ vars.AGENTPACKS_PUBLISH_APP_ID }}
           private-key: ${{ secrets.AGENTPACKS_PUBLISH_APP_PRIVATE_KEY }}
+          # The organization installation is looked up by owner; it is installed on AgentPacks only,
+          # so the token reaches nothing else. (Looking the installation up by repository returned
+          # 404 after the permission update, while the installation itself was intact.)
           owner: hybridcloudworks
-          repositories: AgentPacks
           permission-contents: write
       - name: push main and release tags to the install location
         env:
