@@ -77,7 +77,7 @@ python tooling/restructure_pack.py <v1 folder or zip> <new folder> --prompt <mas
 
 ## Where to install from
 
-The catalog is installed from **`hybridcloudworks/AgentPacks`**, a mirror of this repository's `main` and release tags that the `publish` workflow pushes on every merge and tag (it needs the `AGENTPACKS_PUBLISH_TOKEN` secret, a fine-grained token with *Contents: write* on that repository only). This repository is where packs are written and reviewed; that one is the address in every install line:
+The catalog is installed from **`hybridcloudworks/AgentPacks`**, a mirror of this repository's `main` and release tags that the `publish` workflow pushes on every merge and tag. This repository is where packs are written and reviewed; that one is the address in every install line:
 
 ```bash
 apm install hybridcloudworks/AgentPacks                                  # the whole catalog, each pack at its release tag (root apm.yml)
@@ -86,3 +86,14 @@ apm install hybridcloudworks/AgentPacks/<pack>#<pack-name>-vX.Y.Z        # one p
 ```
 
 `apm.yml` at the root lists every pack at its current release tag; `python tooling/root_manifest.py` regenerates it and CI checks it is current.
+
+### Publishing authentication (one-time, repository owner)
+
+The `publish` workflow authenticates as a **GitHub App**, never a personal token: each run mints a one-hour installation token scoped to `hybridcloudworks/AgentPacks` alone ([`actions/create-github-app-token`](https://github.com/actions/create-github-app-token), pinned by commit).
+
+1. Under the owner's account: **Settings → Developer settings → GitHub Apps → New GitHub App**. Name `AgentPacks Publisher`; homepage this repository's URL; **Webhook: Active off**; *Repository permissions → Contents: Read and write*, nothing else; *Where can this app be installed: Any account* (the app is owned by the person but installed on the organization). Create it and note the **App ID** (a number).
+2. On the app's page: **Generate a private key** (a `.pem` download). Then **Install App → HybridCloudWorks → Only select repositories → AgentPacks**; do not install it on the personal account.
+3. In `saulpatinojr/Proj-Agent_Packs` → Settings → Secrets and variables → Actions: **variable** `AGENTPACKS_PUBLISH_APP_ID` = the App ID (a number); **secret** (not a variable) `AGENTPACKS_PUBLISH_APP_PRIVATE_KEY` = the full contents of the `.pem` file. From PowerShell, with the key in Downloads: `gh variable set AGENTPACKS_PUBLISH_APP_ID -R saulpatinojr/Proj-Agent_Packs -b <id>` and `gh secret set AGENTPACKS_PUBLISH_APP_PRIVATE_KEY -R saulpatinojr/Proj-Agent_Packs -b (Get-Content -Raw <path to the .pem>)`, then check `gh secret list` before deleting the local `.pem`.
+4. Actions → `publish` → **Run workflow** once; it mirrors `main` and every tag. From then on it runs on each merge to `main` and each release tag.
+
+The app has no access to this repository or to anything else in the organization, and the private key never leaves the repository secret.
