@@ -1,10 +1,10 @@
 name: publish
 
-# Mirrors main and every pack release tag to the APM install location, hybridcloudworks/AgentPacks.
+# Mirrors main and every pack release tag to the APM install location, hybridcloudworks/Proj-AgentPacks.
 # This repository is where packs are written and reviewed; that one is where they are installed from.
 #
 # Authentication is a GitHub App, not a personal token: the workflow mints a one-hour installation
-# token scoped to hybridcloudworks/AgentPacks alone. One-time setup (README, "Where to install from"):
+# token scoped to hybridcloudworks/Proj-AgentPacks alone. One-time setup (README, "Where to install from"):
 # the app's ID in the AGENTPACKS_PUBLISH_APP_ID variable and its private key in the
 # AGENTPACKS_PUBLISH_APP_PRIVATE_KEY secret of this repository.
 on:
@@ -36,7 +36,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: mint an installation token for hybridcloudworks/AgentPacks only
+      - name: mint an installation token for hybridcloudworks/Proj-AgentPacks only
         id: token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
@@ -53,6 +53,6 @@ jobs:
         env:
           TOKEN: ${{ steps.token.outputs.token }}
         run: |
-          git remote add dist "https://x-access-token:${TOKEN}@github.com/hybridcloudworks/AgentPacks.git"
+          git remote add dist "https://x-access-token:${TOKEN}@github.com/hybridcloudworks/Proj-AgentPacks.git"
           git push dist refs/remotes/origin/main:refs/heads/main
           git push dist --tags
