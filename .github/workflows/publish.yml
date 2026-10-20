@@ -2,8 +2,11 @@ name: publish
 
 # Mirrors main and every pack release tag to the APM install location, hybridcloudworks/AgentPacks.
 # This repository is where packs are written and reviewed; that one is where they are installed from.
-# Needs the AGENTPACKS_PUBLISH_TOKEN secret: a fine-grained token with Contents: write on
-# hybridcloudworks/AgentPacks only.
+#
+# Authentication is a GitHub App, not a personal token: the workflow mints a one-hour installation
+# token scoped to hybridcloudworks/AgentPacks alone. One-time setup (README, "Where to install from"):
+# the app's ID in the AGENTPACKS_PUBLISH_APP_ID variable and its private key in the
+# AGENTPACKS_PUBLISH_APP_PRIVATE_KEY secret of this repository.
 on:
   push:
     branches: [main]
@@ -22,14 +25,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: check the app configuration
+        env:
+          APP_ID: ${{ vars.AGENTPACKS_PUBLISH_APP_ID }}
+          HAS_KEY: ${{ secrets.AGENTPACKS_PUBLISH_APP_PRIVATE_KEY != '' }}
+        run: |
+          test -n "$APP_ID" || { echo "::error::Set the AGENTPACKS_PUBLISH_APP_ID repository variable to the publisher GitHub App's ID (README, Where to install from)."; exit 1; }
+          test "$HAS_KEY" = "true" || { echo "::error::Set the AGENTPACKS_PUBLISH_APP_PRIVATE_KEY repository secret to the publisher GitHub App's private key."; exit 1; }
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
+      - name: mint an installation token for hybridcloudworks/AgentPacks only
+        id: token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          app-id: ${{ vars.AGENTPACKS_PUBLISH_APP_ID }}
+          private-key: ${{ secrets.AGENTPACKS_PUBLISH_APP_PRIVATE_KEY }}
+          owner: hybridcloudworks
+          repositories: AgentPacks
+          permission-contents: write
       - name: push main and release tags to the install location
         env:
-          TOKEN: ${{ secrets.AGENTPACKS_PUBLISH_TOKEN }}
+          TOKEN: ${{ steps.token.outputs.token }}
         run: |
-          test -n "$TOKEN" || { echo "::error::AGENTPACKS_PUBLISH_TOKEN is not set (a fine-grained token with Contents: write on hybridcloudworks/AgentPacks)."; exit 1; }
           git remote add dist "https://x-access-token:${TOKEN}@github.com/hybridcloudworks/AgentPacks.git"
           git push dist refs/remotes/origin/main:refs/heads/main
           git push dist --tags
