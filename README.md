@@ -9,7 +9,7 @@ A pack is an APM package. Its canonical source is `apm.yml` plus the `.apm/` fol
 Install one pack into a project with APM:
 
 ```bash
-apm install hybridcloudworks/AgentPacks/python-distinguished-engineer-pack#python-distinguished-engineer-v2.3.0
+apm install hybridcloudworks/Proj-AgentPacks/python-distinguished-engineer-pack#python-distinguished-engineer-v2.3.0
 ```
 
 Code Workflow installs packs into the user profile so they work in every repository; see that project's docs.
@@ -77,19 +77,19 @@ python tooling/restructure_pack.py <v1 folder or zip> <new folder> --prompt <mas
 
 ## Where to install from
 
-The catalog is installed from **`hybridcloudworks/AgentPacks`**, a mirror of this repository's `main` and release tags that the `publish` workflow pushes on every merge and tag. This repository is where packs are written and reviewed; that one is the address in every install line:
+The catalog is installed from **`hybridcloudworks/Proj-AgentPacks`**, a mirror of this repository's `main` and release tags that the `publish` workflow pushes on every merge and tag. This repository is where packs are written and reviewed; that one is the address in every install line:
 
 ```bash
-apm install hybridcloudworks/AgentPacks                                  # the whole catalog, each pack at its release tag (root apm.yml)
-apm install -g hybridcloudworks/AgentPacks                               # the same, into the user profile for every client
-apm install hybridcloudworks/AgentPacks/<pack>#<pack-name>-vX.Y.Z        # one pack
+apm install hybridcloudworks/Proj-AgentPacks                                  # the whole catalog, each pack at its release tag (root apm.yml)
+apm install -g hybridcloudworks/Proj-AgentPacks                               # the same, into the user profile for every client
+apm install hybridcloudworks/Proj-AgentPacks/<pack>#<pack-name>-vX.Y.Z        # one pack
 ```
 
 `apm.yml` at the root lists every pack at its current release tag; `python tooling/root_manifest.py` regenerates it and CI checks it is current.
 
 ### Publishing authentication (one-time, repository owner)
 
-The `publish` workflow authenticates as a **GitHub App**, never a personal token: each run mints a one-hour installation token scoped to `hybridcloudworks/AgentPacks` alone ([`actions/create-github-app-token`](https://github.com/actions/create-github-app-token), pinned by commit).
+The `publish` workflow authenticates as a **GitHub App**, never a personal token: each run mints a one-hour installation token scoped to `hybridcloudworks/Proj-AgentPacks` alone ([`actions/create-github-app-token`](https://github.com/actions/create-github-app-token), pinned by commit).
 
 1. Under the owner's account: **Settings → Developer settings → GitHub Apps → New GitHub App**. Name `AgentPacks Publisher`; homepage this repository's URL; **Webhook: Active off**; *Repository permissions → Contents: Read and write*, nothing else; *Where can this app be installed: Any account* (the app is owned by the person but installed on the organization). Create it and note the **App ID** (a number).
 2. On the app's page: **Generate a private key** (a `.pem` download). Then **Install App → HybridCloudWorks → Only select repositories → AgentPacks**; do not install it on the personal account.
