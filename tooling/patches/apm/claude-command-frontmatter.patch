@@ -1,0 +1,674 @@
+From ad64727e2c8be81a7990a6414c6d1d8bbf94621a Mon Sep 17 00:00:00 2001
+From: Saul Patino <saulpatinojr@hotmail.com>
+Date: Tue, 20 Oct 2026 05:46:59 -0500
+Subject: [PATCH] fix(claude): preserve command frontmatter
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ .../producer/author-primitives/prompts.md     |  28 +++-
+ src/apm_cli/install/deployable_source_plan.py |   2 +
+ src/apm_cli/integration/command_integrator.py | 112 +++++++++----
+ src/apm_cli/security/executables.py           |  28 +++-
+ .../test_command_integrator_hermetic.py       |  16 +-
+ .../test_executables_gate_integration.py      |  22 +++
+ .../integration/test_command_integrator.py    | 150 ++++++++++++++++++
+ tests/unit/security/test_executables.py       |  23 +++
+ 8 files changed, 333 insertions(+), 48 deletions(-)
+
+diff --git a/docs/src/content/docs/producer/author-primitives/prompts.md b/docs/src/content/docs/producer/author-primitives/prompts.md
+index 5c58301..d758a3a 100644
+--- a/docs/src/content/docs/producer/author-primitives/prompts.md
++++ b/docs/src/content/docs/producer/author-primitives/prompts.md
+@@ -34,9 +34,11 @@ what `apm init` scaffolds.
+ 
+ ## Frontmatter
+ 
+-Five keys are preserved by the cross-tool transform. Anything else
+-is dropped at compile time and surfaced via diagnostics so consumers
+-on lossy targets see a warning, not silent data loss.
++The cross-tool transform preserves five keys. Claude command files accept
++the same frontmatter as Claude skills, except `name` and `paths`; APM also
++preserves Claude's documented native fields only for Claude output. Other
++targets keep the cross-tool transform and report unsupported keys through
++diagnostics.
+ 
+ | Key | Type | Purpose |
+ |---|---|---|
+@@ -46,6 +48,15 @@ on lossy targets see a warning, not silent data loss.
+ | `model` | string | Preferred model slug (Claude/Cursor only). |
+ | `argument-hint` | string | Free-form hint shown in the picker; auto-derived from `input` when omitted. |
+ 
++Claude additionally accepts `when_to_use`, `arguments`,
++`disable-model-invocation`, `user-invocable`, `disallowed-tools`, `effort`,
++`context`, `agent`, `background`, `hooks`, `shell`, `metadata`, `license`,
++and `compatibility`. See the
++[Claude Code frontmatter reference](https://code.claude.com/docs/en/skills#frontmatter-reference)
++for field semantics. Claude `hooks` frontmatter is subject to APM's existing
++package hook-approval gate: when hooks are not approved, APM withholds the
++field and reports a warning.
++
+ Reference inputs in the body with `${input:name}`. The compiler
+ rewrites these per target (for example, `$name` for Claude
+ commands).
+@@ -126,11 +137,12 @@ the parameter bound and invokes the harness. See
+ 
+ ## Pitfalls
+ 
+-- **Non-preserved frontmatter is dropped.** Keys like `author`,
+-  `mcp`, or `parameters` survive on Copilot (verbatim copy) but are
+-  stripped on Claude/Cursor/OpenCode/Gemini/Grok Build/Windsurf. APM logs a
+-  diagnostic at install time. Keep authoritative metadata to the
+-  five preserved keys.
++- **Target-specific frontmatter is not portable.** Claude-only fields
++  survive on Claude commands but are dropped on Cursor, OpenCode, Gemini,
++  Grok Build, and Windsurf. Unsupported fields such as `author`, `mcp`,
++  `parameters`, and Claude command-incompatible `name` or `paths` are
++  dropped on transformed targets with an install-time diagnostic. Copilot
++  receives the source file verbatim.
+ - **Input names must match `[A-Za-z][\w-]{0,63}`.** Other entries
+   are rejected with a warning at integrate time and never reach the
+   command frontmatter.
+diff --git a/src/apm_cli/install/deployable_source_plan.py b/src/apm_cli/install/deployable_source_plan.py
+index 2294f3a..ac2db5b 100644
+--- a/src/apm_cli/install/deployable_source_plan.py
++++ b/src/apm_cli/install/deployable_source_plan.py
+@@ -59,6 +59,7 @@ class DeployableSourcePlan:
+     authorized_parent_prefixes: frozenset[str] = frozenset()
+     hook_source_selection: Any | None = None
+     plugin_bin_deployable: bool = False
++    hooks_approved: bool = False
+ 
+     def __post_init__(self) -> None:
+         """Index authorized parents for constant-time copy filtering."""
+@@ -264,6 +265,7 @@ class DeployableSourcePlan:
+             selected_skill_names=selected_skill_names,
+             hook_source_selection=hook_source_selection,
+             plugin_bin_deployable=plugin_bin_deployable,
++            hooks_approved=hooks_approved,
+         )
+ 
+     def includes(self, relative_path: str) -> bool:
+diff --git a/src/apm_cli/integration/command_integrator.py b/src/apm_cli/integration/command_integrator.py
+index c001022..74f5d0b 100644
+--- a/src/apm_cli/integration/command_integrator.py
++++ b/src/apm_cli/integration/command_integrator.py
+@@ -39,10 +39,9 @@ logger = logging.getLogger(__name__)
+ _INPUT_NAME_RE = re.compile(r"^[A-Za-z][\w-]{0,63}$")
+ 
+ 
+-# Frontmatter keys preserved (or consumed) by the shared claude_command
+-# transformer.  Any key in source frontmatter not in this set is dropped
+-# during transformation and surfaced as a diagnostic warning so package
+-# authors can act on it.  See command_integrator.integrate_command().
++# Frontmatter keys preserved (or consumed) by the cross-target
++# claude_command transformer. Claude commands also accept their native
++# skill-frontmatter fields, except `name` and `paths`.
+ _PRESERVED_COMMAND_KEYS = frozenset(
+     {
+         "description",
+@@ -55,6 +54,25 @@ _PRESERVED_COMMAND_KEYS = frozenset(
+     }
+ )
+ 
++_CLAUDE_NATIVE_COMMAND_PASSTHROUGH_KEYS = (
++    "when_to_use",
++    "disable-model-invocation",
++    "user-invocable",
++    "disallowed-tools",
++    "effort",
++    "context",
++    "agent",
++    "background",
++    "shell",
++    "metadata",
++    "license",
++    "compatibility",
++)
++_CLAUDE_NATIVE_COMMAND_KEYS = frozenset(
++    (*_CLAUDE_NATIVE_COMMAND_PASSTHROUGH_KEYS, "arguments", "hooks")
++)
++_CLAUDE_COMMAND_KEYS = _PRESERVED_COMMAND_KEYS | _CLAUDE_NATIVE_COMMAND_KEYS
++
+ # User-facing display names for preserved keys.  Excludes camelCase
+ # aliases (allowedTools, argumentHint) -- those are accepted on input
+ # for compat but the canonical kebab-case form is what we surface to
+@@ -68,6 +86,7 @@ _PRESERVED_COMMAND_KEYS_DISPLAY = frozenset(
+         "input",
+     }
+ )
++_CLAUDE_COMMAND_KEYS_DISPLAY = _PRESERVED_COMMAND_KEYS_DISPLAY | _CLAUDE_NATIVE_COMMAND_KEYS
+ 
+ 
+ def _is_valid_input_name(name: str) -> bool:
+@@ -196,17 +215,19 @@ class CommandIntegrator(BaseIntegrator):
+     def _transform_prompt_to_command(
+         self,
+         source: Path,
+-    ) -> tuple[str, frontmatter.Post, list[str], list[str]]:
++        *,
++        target_name: str = "claude",
++        hooks_approved: bool = False,
++    ) -> tuple[str, frontmatter.Post, list[str], list[str], list[str]]:
+         """Transform a .prompt.md file into Claude command format.
+ 
+         Args:
+             source: Path to the .prompt.md file
+ 
+         Returns:
+-            Tuple of (command_name, post, warnings, dropped_keys).
+-            ``dropped_keys`` lists source frontmatter keys that the shared
+-            command transformer does not preserve (e.g. ``author``,
+-            ``mcp``, ``parameters`` for Cursor-specific frontmatter).
++            Tuple of (command_name, post, warnings, dropped_keys, input_names).
++            ``dropped_keys`` lists source frontmatter keys unsupported by
++            the selected target's command format.
+         """
+         warnings: list[str] = []
+ 
+@@ -239,6 +260,25 @@ class CommandIntegrator(BaseIntegrator):
+         elif "argumentHint" in post.metadata:
+             claude_metadata["argument-hint"] = post.metadata["argumentHint"]
+ 
++        if target_name == "claude":
++            for key in _CLAUDE_NATIVE_COMMAND_PASSTHROUGH_KEYS:
++                if key in post.metadata:
++                    claude_metadata[key] = post.metadata[key]
++
++            if "hooks" in post.metadata:
++                hooks = post.metadata["hooks"]
++                if hooks_approved or not hooks:
++                    claude_metadata["hooks"] = hooks
++                else:
++                    warnings.append(
++                        "Claude command hooks were withheld because this package's "
++                        "hooks are not approved. Review and approve the package hooks "
++                        "before installing to enable them."
++                    )
++
++            if "arguments" in post.metadata:
++                claude_metadata["arguments"] = post.metadata["arguments"]
++
+         # Map APM 'input' to Claude 'arguments' and 'argument-hint'
+         input_names, rejected_names = _extract_input_names(post.metadata.get("input"))
+         if rejected_names:
+@@ -248,7 +288,8 @@ class CommandIntegrator(BaseIntegrator):
+                 f"{', '.join(rejected_names[:5])}" + (" ..." if len(rejected_names) > 5 else "")
+             )
+         if input_names:
+-            claude_metadata["arguments"] = input_names
++            if "arguments" not in claude_metadata:
++                claude_metadata["arguments"] = input_names
+             if "argument-hint" not in claude_metadata:
+                 claude_metadata["argument-hint"] = " ".join(f"<{name}>" for name in input_names)
+ 
+@@ -265,12 +306,14 @@ class CommandIntegrator(BaseIntegrator):
+         new_post = frontmatter.Post(content)
+         new_post.metadata = claude_metadata
+ 
+-        # Compute keys present in source frontmatter but not preserved by
+-        # the shared command transformer.  Surfaced by integrate_command()
+-        # via diagnostics so users see the lossy transform at install time.
+-        dropped_keys = sorted(set(post.metadata.keys()) - _PRESERVED_COMMAND_KEYS)
++        # Compute keys present in source frontmatter but unsupported by this
++        # target. Surface losses at install time instead of silently dropping them.
++        preserved_keys = (
++            _CLAUDE_COMMAND_KEYS if target_name == "claude" else _PRESERVED_COMMAND_KEYS
++        )
++        dropped_keys = sorted(set(post.metadata.keys()) - preserved_keys)
+ 
+-        return (command_name, new_post, warnings, dropped_keys)
++        return (command_name, new_post, warnings, dropped_keys, input_names)
+ 
+     def integrate_command(
+         self,
+@@ -281,6 +324,7 @@ class CommandIntegrator(BaseIntegrator):
+         *,
+         diagnostics: DiagnosticCollector | None = None,
+         target_name: str = "claude",
++        hooks_approved: bool = False,
+     ) -> tuple[int, bool, bool]:
+         """Integrate a prompt file as a slash command (verbatim copy with format conversion).
+ 
+@@ -309,19 +353,23 @@ class CommandIntegrator(BaseIntegrator):
+             target_name: Name of the deployment target (e.g. ``"claude"``,
+                 ``"cursor"``, ``"opencode"``) so diagnostic messages stay
+                 target-agnostic instead of always saying "Claude".
++            hooks_approved: Whether the package's executable hooks have
++                passed APM's existing approval gate.
+ 
+         Returns:
+             tuple[int, bool, bool]: (links_resolved, written, had_dropped_keys).
+             ``written`` is False when a critical post-transform security
+             finding causes the write to be skipped (defense-in-depth on
+-            top of the pre-install BLOCK gate).  ``had_dropped_keys`` is
+-            True when the source frontmatter carried at least one key
+-            outside the cross-tool subset preserved by the shared
+-            ``claude_command`` transformer; the dispatcher uses this to
+-            decide whether to surface the one-shot passthrough notice.
++            top of the pre-install BLOCK gate). ``had_dropped_keys`` is
++            True when source frontmatter contains a field unsupported by
++            the selected target's command format.
+         """
+-        # Transform to command format
+-        command_name, post, warnings, dropped_keys = self._transform_prompt_to_command(source)
++        # Transform to the target's command format.
++        command_name, post, warnings, dropped_keys, input_names = self._transform_prompt_to_command(
++            source,
++            target_name=target_name,
++            hooks_approved=hooks_approved,
++        )
+ 
+         # Resolve context links in content
+         post.content, links_resolved = self.resolve_links(post.content, source, target)
+@@ -332,13 +380,15 @@ class CommandIntegrator(BaseIntegrator):
+             "",
+         )
+ 
+-        # Surface dropped (lossy-transform) frontmatter keys.  The shared
+-        # claude_command transformer preserves only a common subset of
+-        # frontmatter; any other source key is silently discarded by the
+-        # transformer.  Warn so users see the lossy transform at install
+-        # time -- core "install adds, never silently mutates" contract.
++        # Surface dropped (lossy-transform) frontmatter keys so users see
++        # target-specific data loss at install time.
+         if dropped_keys and diagnostics is not None:
+-            preserved_list = ", ".join(sorted(_PRESERVED_COMMAND_KEYS_DISPLAY))
++            display_keys = (
++                _CLAUDE_COMMAND_KEYS_DISPLAY
++                if target_name == "claude"
++                else _PRESERVED_COMMAND_KEYS_DISPLAY
++            )
++            preserved_list = ", ".join(sorted(display_keys))
+             diagnostics.warn(
+                 message=(
+                     f"{target_name.capitalize()} command {command_name}: "
+@@ -351,12 +401,11 @@ class CommandIntegrator(BaseIntegrator):
+ 
+         # Surface install-time info when input -> arguments mapping happened so
+         # users aren't surprised by content that differs from the source package.
+-        mapped_args = post.metadata.get("arguments") if post.metadata else None
+-        if mapped_args and diagnostics is not None:
++        if input_names and diagnostics is not None:
+             diagnostics.info(
+                 message=(
+                     f"Mapped input -> command arguments in {target.name}: "
+-                    f"[{', '.join(mapped_args)}]"
++                    f"[{', '.join(input_names)}]"
+                 ),
+                 package=pkg_name,
+                 detail=(
+@@ -619,6 +668,7 @@ class CommandIntegrator(BaseIntegrator):
+                         prompt_file,
+                         diagnostics=diagnostics,
+                         target_name=target.name,
++                        hooks_approved=bool(getattr(source_plan, "hooks_approved", False)),
+                     )
+                 except yaml.YAMLError as exc:
+                     # A malformed / over-budget frontmatter block must fail
+diff --git a/src/apm_cli/security/executables.py b/src/apm_cli/security/executables.py
+index 768709b..58e8826 100644
+--- a/src/apm_cli/security/executables.py
++++ b/src/apm_cli/security/executables.py
+@@ -25,6 +25,8 @@ from dataclasses import dataclass, field
+ from pathlib import Path
+ from typing import Any
+ 
++import yaml
++
+ # Executable type constants used as keys in the allowExecutables block.
+ EXEC_TYPE_HOOKS = "hooks"
+ EXEC_TYPE_MCP = "mcp"
+@@ -530,6 +532,8 @@ def scan_package_executables(
+     Checks for:
+     - ``.apm/hooks/*.json`` and ``hooks/*.json`` -- hook definitions
+       (mirrors :meth:`HookIntegrator.find_hook_files`)
++    - ``*.prompt.md`` and ``.apm/prompts/*.prompt.md`` with non-empty
++      Claude ``hooks`` frontmatter
+     - ``bin/`` directory -- bin executables
+     - MCP and LSP are declared in the package's ``apm.yml`` under
+       ``dependencies.mcp`` and ``dependencies.lsp`` -- so we parse those.
+@@ -551,6 +555,28 @@ def scan_package_executables(
+             )
+     hook_details = [f.name for f in hook_files]
+ 
++    # Claude command hooks are executable too, so they participate in the
++    # same package-level hook approval as JSON hook files.
++    from ..utils.path_security import has_symlink_component
++    from ..utils.yaml_io import load_frontmatter
++
++    source_root = install_path.resolve()
++    command_hook_details: list[str] = []
++    for prompt_root in (source_root, source_root / ".apm" / "prompts"):
++        if has_symlink_component(source_root, prompt_root) or not prompt_root.is_dir():
++            continue
++        for prompt_file in sorted(prompt_root.glob("*.prompt.md")):
++            if has_symlink_component(source_root, prompt_file) or not prompt_file.is_file():
++                continue
++            try:
++                metadata = load_frontmatter(prompt_file).metadata
++            except (OSError, ValueError, yaml.YAMLError):
++                continue
++            if isinstance(metadata, dict) and metadata.get("hooks"):
++                relative_path = prompt_file.relative_to(source_root).as_posix()
++                command_hook_details.append(f"{relative_path} (Claude command frontmatter hooks)")
++    hook_details.extend(command_hook_details)
++
+     # 2. Bin executables: top-level bin/ AND .apm/skills/*/bin/
+     bin_files: list[Path] = []
+     for bin_dir in [install_path / "bin"]:
+@@ -621,7 +647,7 @@ def scan_package_executables(
+         package_name=package_name,
+         is_transitive=is_transitive,
+         parent_name=parent_name,
+-        hook_count=len(hook_files),
++        hook_count=len(hook_files) + len(command_hook_details),
+         mcp_count=mcp_count,
+         lsp_count=lsp_count,
+         bin_count=len(bin_files),
+diff --git a/tests/integration/test_command_integrator_hermetic.py b/tests/integration/test_command_integrator_hermetic.py
+index 14c2dfe..11d6a59 100644
+--- a/tests/integration/test_command_integrator_hermetic.py
++++ b/tests/integration/test_command_integrator_hermetic.py
+@@ -222,7 +222,7 @@ class TestTransformPromptToCommand:
+             "---\ndescription: Demo\n---\nRun it.\n",
+         )
+ 
+-        command_name, post, warnings, dropped = CommandIntegrator()._transform_prompt_to_command(
++        command_name, post, warnings, dropped, _ = CommandIntegrator()._transform_prompt_to_command(
+             prompt
+         )
+ 
+@@ -237,7 +237,7 @@ class TestTransformPromptToCommand:
+             "---\ndescription: Demo\n---\nRun it.\n",
+         )
+ 
+-        command_name, _, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
++        command_name, _, _, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
+ 
+         assert command_name == "feature"
+ 
+@@ -247,7 +247,7 @@ class TestTransformPromptToCommand:
+             "---\ndescription: My command\nallowed-tools: [Bash]\nmodel: opus\ninput:\n  - feature_name\n  - feature_description\n---\nUse ${{input:feature_name}} then ${{input:feature_description}}.\n",
+         )
+ 
+-        _, post, warnings, dropped = CommandIntegrator()._transform_prompt_to_command(prompt)
++        _, post, warnings, dropped, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
+ 
+         assert post.metadata == {
+             "description": "My command",
+@@ -266,7 +266,7 @@ class TestTransformPromptToCommand:
+             "---\ndescription: My command\nallowedTools: [Bash]\nargumentHint: feature\n---\nRun it.\n",
+         )
+ 
+-        _, post, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
++        _, post, _, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
+ 
+         assert post.metadata["allowed-tools"] == ["Bash"]
+         assert post.metadata["argument-hint"] == "feature"
+@@ -277,7 +277,7 @@ class TestTransformPromptToCommand:
+             "---\nargument-hint: custom\ninput:\n  - feature_name\n---\nUse ${{input:feature_name}}.\n",
+         )
+ 
+-        _, post, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
++        _, post, _, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
+ 
+         assert post.metadata["arguments"] == ["feature_name"]
+         assert post.metadata["argument-hint"] == "custom"
+@@ -288,7 +288,7 @@ class TestTransformPromptToCommand:
+             "---\ninput:\n  - feature_name\n  - bad:name\n  - 3\n---\nRun it.\n",
+         )
+ 
+-        _, post, warnings, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
++        _, post, warnings, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
+ 
+         assert post.metadata["arguments"] == ["feature_name"]
+         assert len(warnings) == 1
+@@ -301,7 +301,7 @@ class TestTransformPromptToCommand:
+             "---\nauthor: Sergio\ndescription: My command\nmcp: true\n---\nRun it.\n",
+         )
+ 
+-        _, _, _, dropped = CommandIntegrator()._transform_prompt_to_command(prompt)
++        _, _, _, dropped, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
+ 
+         assert dropped == ["author", "mcp"]
+ 
+@@ -311,7 +311,7 @@ class TestTransformPromptToCommand:
+             "---\ndescription: My command\n---\nUse ${{input:feature_name}} literally.\n",
+         )
+ 
+-        _, post, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
++        _, post, _, _, _ = CommandIntegrator()._transform_prompt_to_command(prompt)
+ 
+         assert post.content.strip() == "Use ${{input:feature_name}} literally."
+ 
+diff --git a/tests/integration/test_executables_gate_integration.py b/tests/integration/test_executables_gate_integration.py
+index 8b79f6f..ce35371 100644
+--- a/tests/integration/test_executables_gate_integration.py
++++ b/tests/integration/test_executables_gate_integration.py
+@@ -474,6 +474,28 @@ class TestCheckExecutableApprovalIntegration:
+         assert len(ctx.blocked_executables) == 1
+         assert ctx.blocked_executables[0].package_name == "risky"
+ 
++    def test_prompt_frontmatter_hooks_are_blocked_without_approval(self, tmp_path: Path) -> None:
++        prompt_dir = tmp_path / ".apm" / "prompts"
++        prompt_dir.mkdir(parents=True)
++        (prompt_dir / "review.prompt.md").write_text(
++            "---\nhooks:\n  PreToolUse:\n    - matcher: Bash\n      hooks:\n"
++            "        - type: command\n          command: echo reviewed\n"
++            "---\nReview the change.\n",
++            encoding="utf-8",
++        )
++        pkg_info = self._make_pkg_info(tmp_path, "risky", "1.0")
++        ctx = MagicMock()
++        ctx.blocked_executables = []
++        ctx.exec_trust_ctx = None
++
++        hooks_ok, *_ = check_executable_approval("risky", pkg_info, {}, ctx=ctx)
++
++        assert hooks_ok is False
++        assert len(ctx.blocked_executables) == 1
++        declaration = ctx.blocked_executables[0]
++        assert declaration.hook_count == 1
++        assert any("review.prompt.md" in detail for detail in declaration.hook_details)
++
+ 
+ # -------------------------------------------------------------------
+ # resolve_package_key integration
+diff --git a/tests/unit/integration/test_command_integrator.py b/tests/unit/integration/test_command_integrator.py
+index 12b291b..76f919d 100644
+--- a/tests/unit/integration/test_command_integrator.py
++++ b/tests/unit/integration/test_command_integrator.py
+@@ -304,6 +304,156 @@ argument-hint: "file path"
+         assert post.metadata["argument-hint"] == "file path"
+         assert "apm" not in post.metadata
+ 
++    def test_claude_native_frontmatter_is_preserved(self, temp_project):
++        from apm_cli.utils.diagnostics import DiagnosticCollector
++
++        source = temp_project / "source" / "native.prompt.md"
++        source.write_text(
++            """---
++description: Native Claude command
++when_to_use: Only when the user requests a review
++arguments: [issue, focus]
++disable-model-invocation: true
++user-invocable: false
++disallowed-tools: [Bash]
++effort: high
++context: fork
++agent: general-purpose
++background: false
++shell: powershell
++metadata:
++  owner: platform
++license: Apache-2.0
++compatibility: Claude Code
++name: not-a-command-name
++paths: ["**/*.py"]
++author: package-author
++---
++Review the requested issue.
++""",
++            encoding="utf-8",
++        )
++        target = temp_project / ".claude" / "commands" / "native-apm.md"
++        mock_info = MagicMock()
++        mock_info.package.name = "native-pkg"
++        mock_info.resolved_reference = None
++        diagnostics = DiagnosticCollector()
++
++        CommandIntegrator().integrate_command(
++            source,
++            target,
++            mock_info,
++            source,
++            diagnostics=diagnostics,
++        )
++
++        metadata = frontmatter.load(target).metadata
++        for key, value in {
++            "description": "Native Claude command",
++            "when_to_use": "Only when the user requests a review",
++            "arguments": ["issue", "focus"],
++            "disable-model-invocation": True,
++            "user-invocable": False,
++            "disallowed-tools": ["Bash"],
++            "effort": "high",
++            "context": "fork",
++            "agent": "general-purpose",
++            "background": False,
++            "shell": "powershell",
++            "metadata": {"owner": "platform"},
++            "license": "Apache-2.0",
++            "compatibility": "Claude Code",
++        }.items():
++            assert metadata[key] == value
++
++        assert "name" not in metadata
++        assert "paths" not in metadata
++        warnings = diagnostics.by_category().get("warning", [])
++        assert any(
++            "author" in item.message and "name" in item.message and "paths" in item.message
++            for item in warnings
++        )
++        info_items = diagnostics.by_category().get("info", [])
++        assert not any("Mapped input" in item.message for item in info_items)
++
++    def test_cursor_still_drops_claude_only_frontmatter(self, temp_project):
++        from apm_cli.utils.diagnostics import DiagnosticCollector
++
++        source = temp_project / "source" / "cursor.prompt.md"
++        source.write_text(
++            "---\ndescription: Cursor command\nallowed-tools: [Read]\n"
++            "agent: reviewer\ncontext: fork\n---\nReview the change.\n",
++            encoding="utf-8",
++        )
++        target = temp_project / ".cursor" / "commands" / "cursor.md"
++        mock_info = MagicMock()
++        mock_info.package.name = "cursor-pkg"
++        mock_info.resolved_reference = None
++        diagnostics = DiagnosticCollector()
++
++        CommandIntegrator().integrate_command(
++            source,
++            target,
++            mock_info,
++            source,
++            diagnostics=diagnostics,
++            target_name="cursor",
++        )
++
++        metadata = frontmatter.load(target).metadata
++        assert metadata["description"] == "Cursor command"
++        assert metadata["allowed-tools"] == ["Read"]
++        assert "agent" not in metadata
++        assert "context" not in metadata
++        warnings = diagnostics.by_category().get("warning", [])
++        assert any("agent" in item.message and "context" in item.message for item in warnings)
++
++    @pytest.mark.parametrize("hooks_approved", [False, True])
++    def test_claude_command_hooks_follow_package_approval(self, temp_project, hooks_approved):
++        from apm_cli.install.deployable_source_plan import DeployableSourcePlan
++        from apm_cli.integration.targets import KNOWN_TARGETS
++        from apm_cli.utils.diagnostics import DiagnosticCollector
++
++        pkg_info = _make_package(
++            temp_project,
++            {
++                "hooked.prompt.md": (
++                    "---\ndescription: Hooked command\nhooks:\n"
++                    "  PreToolUse:\n    - matcher: Bash\n      hooks:\n"
++                    "        - type: command\n          command: echo checked\n"
++                    "---\nReview the change.\n"
++                ),
++            },
++        )
++        target = KNOWN_TARGETS["claude"]
++        source_plan = DeployableSourcePlan.create(
++            pkg_info,
++            [target],
++            skill_subset=None,
++            hooks_approved=hooks_approved,
++            canvas_approved=False,
++            skip_bin=False,
++        )
++        diagnostics = DiagnosticCollector()
++
++        result = CommandIntegrator().integrate_commands_for_target(
++            target,
++            pkg_info,
++            temp_project,
++            diagnostics=diagnostics,
++            source_plan=source_plan,
++        )
++
++        assert result.files_integrated == 1
++        metadata = frontmatter.load(temp_project / ".claude" / "commands" / "hooked.md").metadata
++        if hooks_approved:
++            assert metadata["hooks"]["PreToolUse"][0]["hooks"][0]["command"] == "echo checked"
++            assert not diagnostics.by_category().get("warning", [])
++        else:
++            assert "hooks" not in metadata
++            warnings = diagnostics.by_category().get("warning", [])
++            assert any("hooks were withheld" in item.message for item in warnings)
++
+ 
+ class TestSecurityWarningsSurfaced:
+     """Verify SecurityGate warnings reach diagnostics."""
+diff --git a/tests/unit/security/test_executables.py b/tests/unit/security/test_executables.py
+index a4665b3..a0642e1 100644
+--- a/tests/unit/security/test_executables.py
++++ b/tests/unit/security/test_executables.py
+@@ -269,6 +269,29 @@ class TestScanPackageExecutables:
+             assert "pre-tool-use.json" in decl.hook_details
+             assert "post-tool-use.json" in decl.hook_details
+ 
++    def test_detects_hooks_in_claude_command_frontmatter(self, tmp_path: Path) -> None:
++        prompt_dir = tmp_path / ".apm" / "prompts"
++        prompt_dir.mkdir(parents=True)
++        (prompt_dir / "review.prompt.md").write_text(
++            "---\nhooks:\n  PreToolUse:\n    - matcher: Bash\n"
++            "      hooks:\n        - type: command\n          command: echo reviewed\n"
++            "---\nReview the changes.\n",
++            encoding="utf-8",
++        )
++        (tmp_path / "release.prompt.md").write_text(
++            "---\nhooks:\n  PostToolUse:\n    - matcher: Bash\n      hooks:\n"
++            "        - type: command\n          command: echo released\n"
++            "---\nPrepare release notes.\n",
++            encoding="utf-8",
++        )
++
++        decl = scan_package_executables(tmp_path, "prompt-hooks", "1.0")
++
++        assert decl.hook_count == 2
++        assert EXEC_TYPE_HOOKS in decl.exec_types
++        assert any(".apm/prompts/review.prompt.md" in item for item in decl.hook_details)
++        assert any("release.prompt.md" in item for item in decl.hook_details)
++
+     def test_detects_bin(self) -> None:
+         with tempfile.TemporaryDirectory() as tmpdir:
+             bin_dir = Path(tmpdir) / "bin"
+-- 
+2.55.0.windows.5
+

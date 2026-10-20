@@ -91,7 +91,7 @@ def _escaped(text: str, index: int) -> bool:
 
 
 def load_config(path: Path) -> dict[str, Any]:
-    text = path.read_text(encoding="utf-8").lstrip("﻿")
+    text = path.read_text(encoding="utf-8").lstrip("\ufeff")
     if path.suffix == ".toml":
         import tomllib  # Python 3.11+
         data = tomllib.loads(text)

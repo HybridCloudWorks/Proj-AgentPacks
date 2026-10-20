@@ -25,7 +25,7 @@ from pathlib import Path
 def normalize(text: str) -> str:
     text = re.sub(r"(?is)<(script|style|noscript)\b.*?</\1>", " ", text)
     text = re.sub(r"(?s)<[^>]+>", " ", text)
-    text = html.unescape(text).replace("’", "'").replace("`", "").replace("*", "").replace("​", "")
+    text = html.unescape(text).replace("’", "'").replace("`", "").replace("*", "").replace("\u200b", "")
     return re.sub(r"\s*/\s*", "/", " ".join(text.split()).lower())
 
 

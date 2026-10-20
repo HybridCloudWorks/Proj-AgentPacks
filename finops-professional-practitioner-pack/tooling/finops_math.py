@@ -107,7 +107,7 @@ def segment_anomalies(segments: Mapping[str, Sequence[float]], **options) -> dic
 
 def classify_billing_header(headers: Iterable[str]) -> dict:
     """Identify an export schema from its column names. Only known column names are ever returned."""
-    names = {h.strip().lstrip("﻿") for h in headers}
+    names = {h.strip().lstrip("\ufeff") for h in headers}
     focus_hits = names & FOCUS_MARKERS
     if len(focus_hits) >= 3:
         schema = "focus"
