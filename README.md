@@ -9,7 +9,7 @@ A pack is an APM package. Its canonical source is `apm.yml` plus the `.apm/` fol
 Install one pack into a project with APM:
 
 ```bash
-apm install saulpatinojr/Proj-Agent_Packs/python-distinguished-engineer-pack
+apm install hybridcloudworks/AgentPacks/python-distinguished-engineer-pack#python-distinguished-engineer-v2.3.0
 ```
 
 Code Workflow installs packs into the user profile so they work in every repository; see that project's docs.
@@ -74,3 +74,15 @@ python tooling/restructure_pack.py <v1 folder or zip> <new folder> --prompt <mas
 ```
 
 `restructure_pack.py` converts a prompt-v1 pack to the current layout deterministically and then prints the content checks a person must resolve by hand. `dist/` is ignored by git.
+
+## Where to install from
+
+The catalog is installed from **`hybridcloudworks/AgentPacks`**, a mirror of this repository's `main` and release tags that the `publish` workflow pushes on every merge and tag (it needs the `AGENTPACKS_PUBLISH_TOKEN` secret, a fine-grained token with *Contents: write* on that repository only). This repository is where packs are written and reviewed; that one is the address in every install line:
+
+```bash
+apm install hybridcloudworks/AgentPacks                                  # the whole catalog, each pack at its release tag (root apm.yml)
+apm install -g hybridcloudworks/AgentPacks                               # the same, into the user profile for every client
+apm install hybridcloudworks/AgentPacks/<pack>#<pack-name>-vX.Y.Z        # one pack
+```
+
+`apm.yml` at the root lists every pack at its current release tag; `python tooling/root_manifest.py` regenerates it and CI checks it is current.
