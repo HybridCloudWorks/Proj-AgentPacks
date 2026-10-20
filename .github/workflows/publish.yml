@@ -47,6 +47,8 @@ jobs:
           # 404 after the permission update, while the installation itself was intact.)
           owner: hybridcloudworks
           permission-contents: write
+          # The mirror carries this repository's workflow files; pushing them needs this too.
+          permission-workflows: write
       - name: push main and release tags to the install location
         env:
           TOKEN: ${{ steps.token.outputs.token }}
