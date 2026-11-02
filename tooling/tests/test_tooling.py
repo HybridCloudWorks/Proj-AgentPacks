@@ -254,6 +254,24 @@ class CheckDrawioTests(unittest.TestCase):
         for style in quiet:
             self.assertEqual(self.messages(style, strict=True), ([], []), style)
 
+    def test_any_palette_variant_of_a_name_is_accepted_but_not_a_mix_of_variants(self):
+        subnets = [e for e in check_drawio.find(CATALOG, "subnet")[0] if e["name"] == "group_security_group"]
+        self.assertEqual(sorted(e["title"] for e in subnets), ["Private subnet", "Public subnet"])
+        for entry in subnets:
+            self.assertEqual(self.messages(entry["style"], strict=True), ([], []), entry["title"])
+        public = next(e["style"] for e in subnets if e["title"] == "Public subnet")
+        mixed = public.replace("fillColor=#F2F6E8", "fillColor=#E6F6F7")
+        errors, warnings = self.messages(mixed)
+        self.assertEqual(errors, [])
+        self.assertEqual(len(warnings), 1, warnings)
+        self.assertIn("differs from draw.io's palette", warnings[0])
+        self.assertRegex(warnings[0], r"compared with the palette entry '(Public|Private) subnet'")
+        self.assertEqual(len(self.messages(mixed, strict=True)[0]), 1)
+        lambda_functions = [e for e in check_drawio.find(CATALOG, "lambda function")[0] if e["name"] == "lambda_function"]
+        self.assertGreater(len({e["keys"]["fillColor"] for e in lambda_functions}), 1)
+        for entry in lambda_functions:
+            self.assertEqual(self.messages(entry["style"], strict=True), ([], []), entry["palette"])
+
     def test_aws_name_in_a_form_the_palette_does_not_offer_is_an_error(self):
         cases = {"shape=mxgraph.aws4.ec2;fillColor=#ED7100;": "only as a service",
                  "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.instance2;fillColor=#ED7100;strokeColor=#ffffff;": "only as a resource",

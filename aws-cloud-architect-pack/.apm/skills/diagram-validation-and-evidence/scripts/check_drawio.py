@@ -209,38 +209,54 @@ def classify(style: dict[str, str], catalog) -> tuple[str, str, str, str] | None
     return None if found is None else (found["provider"], found["library"], found["status"], found["name"])
 
 
+def _variant_findings(style: dict[str, str], entry: dict) -> list[tuple[str, str]]:
+    """(kind, message) for each colour key where the style differs from one palette entry."""
+    out = []
+    for key in COLOUR_KEYS:
+        palette = entry["keys"].get(key)
+        value = style.get(key)
+        lowered = value.lower() if value is not None else None
+        if palette is None or palette.lower() == "none":
+            if key == "gradientColor" and lowered not in (None, "none"):
+                out.append(("recoloured", f"gradientColor={value} adds a gradient the palette does not have"))
+            continue
+        if lowered == palette.lower():
+            continue
+        if lowered == "none" or (lowered is None and key == "fillColor"):
+            what = f"{key}=none" if lowered == "none" else f"no {key}"
+            out.append(("incomplete", f"has {what} where draw.io's palette sets {key}={palette}, so the parts that take "
+                                      "it do not draw: the icon draws incompletely"))
+        elif lowered is None:
+            out.append(("recoloured", f"has no {key}, so draw.io draws it in its default colour instead of the "
+                                      f"palette's {key}={palette}"))
+        else:
+            out.append(("recoloured", f"{key}={value} differs from draw.io's palette ({key}={palette}); providers "
+                                      "forbid recolouring their icons"))
+    return out
+
+
 def colour_findings(style: dict[str, str], entries: list[dict]) -> list[tuple[str, str]]:
     """(kind, message) for each colour key that differs from the palette: kind 'incomplete' or 'recoloured'.
+
+    draw.io can offer one name several times with different colours (an AWS public and private subnet are both
+    group_security_group), so a style passes when it matches every colour of any one palette entry. Otherwise it is
+    reported against the closest entry, named by its palette title.
 
     Evidence (draw.io Desktop 32.6.1, 2026-11-01): an AWS service icon without fillColor draws white on white, and
     without strokeColor draws a black symbol; an AWS resource without fillColor draws nothing visible; an AWS group
     without strokeColor draws a black frame and icon; a Google Cloud icon without fillColor loses the parts that take
     it. A resource stencil's strokeColor has no visible effect, and the palette sets it to none."""
-    out = []
-    for key in COLOUR_KEYS:
-        raw = {e["keys"].get(key) for e in entries if e.get("style")}
-        palette = {v.lower() if v is not None else None for v in raw}
-        colours = sorted(v for v in raw if v and v.lower() != "none")
-        value = style.get(key)
-        lowered = value.lower() if value is not None else None
-        if not entries or not any(e.get("style") for e in entries) or lowered in palette:
-            continue
-        if not colours:
-            if key == "gradientColor" and lowered not in (None, "none"):
-                out.append(("recoloured", f"gradientColor={value} adds a gradient the palette does not have"))
-            continue
-        expected = " or ".join(f"{key}={c}" for c in colours)
-        if lowered == "none" or (lowered is None and key == "fillColor"):
-            what = f"{key}=none" if lowered == "none" else f"no {key}"
-            out.append(("incomplete", f"has {what} where draw.io's palette sets {expected}, so the parts that take it "
-                                      "do not draw: the icon draws incompletely"))
-        elif lowered is None:
-            out.append(("recoloured", f"has no {key}, so draw.io draws it in its default colour instead of the "
-                                      f"palette's {expected}"))
-        else:
-            out.append(("recoloured", f"{key}={value} differs from draw.io's palette ({expected}); providers forbid "
-                                      "recolouring their icons"))
-    return out
+    variants = [e for e in entries if e.get("style")]
+    if not variants:
+        return []
+    scored = [(sum(kind == "incomplete" for kind, _ in found), len(found), entry["title"], found)
+              for entry in variants for found in [_variant_findings(style, entry)]]
+    best = min(scored, key=lambda item: item[:3])
+    if not best[3]:
+        return []
+    titles = {entry["title"] for entry in variants}
+    suffix = f" (compared with the palette entry '{best[2]}')" if len(titles) > 1 else ""
+    return [(kind, message + suffix) for kind, message in best[3]]
 
 
 def label_text(value: str) -> str:
