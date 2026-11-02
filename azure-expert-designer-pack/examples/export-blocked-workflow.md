@@ -10,7 +10,7 @@ Fictional scenario. Names, paths and tool output are illustrative. The outcome i
 
 ## 1. Detect the renderer
 
-`drawio-render-export-and-review` says to detect the executable before use, and not to assume PATH:
+`drawio-render-export-and-review` says to detect the executable before use, not to assume PATH, and to include the Microsoft Store build:
 
 ```text
 PS> Get-Command draw.io, drawio -ErrorAction SilentlyContinue
@@ -19,18 +19,34 @@ PS> Test-Path "C:\Program Files\draw.io\draw.io.exe"
 False
 PS> Test-Path "$env:LOCALAPPDATA\Programs\draw.io\draw.io.exe"
 False
+PS> Get-AppxPackage *draw.io*
+(no output)
 ```
 
-Draw.io Desktop is not installed in either the machine-wide or the per-user location, so no version can be printed. The export is blocked.
+Where PowerShell is not available, the same Store check is `reg query "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages" | findstr draw.io`; a hit names the package folder, and the executable is `C:\Program Files\WindowsApps\<package folder>\app\draw.io.exe`.
+
+Draw.io Desktop is not on PATH and not installed in the machine-wide, per-user or Microsoft Store location, so no version can be printed. Only after all four checks came back empty is the export blocked.
 
 The agent did not use a browser-based converter or another tool to produce an SVG. The visual check must inspect the output of the renderer the deliverable depends on, and the skill says that without it, rendering is reported as not run and the work continues with static checks only.
 
 ## 2. Structural checks continue
 
-`diagram-validation-and-evidence` structural checks ran on the source:
+`diagram-validation-and-evidence` structural checks ran on the source, starting with that skill's checker:
+
+```text
+> python scripts/check_drawio.py --strict docs\architecture\landing-zone.drawio
+file: docs\architecture\landing-zone.drawio
+pages: 1 (Landing zone)
+cells: 72 vertices, 15 edges
+catalog: draw.io 32.5.5, built 2026-10-18
+icons Azure: current 24
+errors: 0
+warnings: 0
+result: PASS
+```
 
 - The XML parses. Cells `0` and `1` are present, and 87 cells have unique IDs.
-- Every parent, source and target resolves. The file is uncompressed and every image path is under `img/lib/azure2/`.
+- Every parent, source and target resolves. The file is uncompressed, and all 24 Azure icons are current in the catalog. That says the paths exist in draw.io's library; only a render shows that they draw.
 - Two cells, `note_policy_exemptions` and `label_er_circuit`, use `fontSize=8`. That is a static heuristic: they *may* be unreadable on a slide. It is not a visual result, so it is reported as a risk, not a finding.
 
 ## 3. Requests that were not carried out
@@ -60,7 +76,7 @@ Pack: azure-expert-designer.
 
 ### source_facts
 
-- Draw.io Desktop is not on PATH and not at `C:\Program Files\draw.io\draw.io.exe` or `%LOCALAPPDATA%\Programs\draw.io\draw.io.exe`. `observed`
+- Draw.io Desktop is not on PATH, not at `C:\Program Files\draw.io\draw.io.exe` or `%LOCALAPPDATA%\Programs\draw.io\draw.io.exe`, and `Get-AppxPackage *draw.io*` reports no Microsoft Store build. `observed`
 - The source diagram has 87 cells and two cells at `fontSize=8`. `observed`
 
 ### assumptions_and_design_decisions
@@ -74,11 +90,11 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- XML parses; root cells present; unique IDs; all references resolve; uncompressed; Azure2 image paths only. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: PASS, 0 errors and 0 warnings. Root cells present; unique IDs; all references resolve; uncompressed; 24 Azure icons, all current. `structurally-validated`
 
 ### visual_checks
 
-- No export was produced, and labels and icons were not inspected. `not-verified`
+- No export was produced, and labels and icons were not inspected. Whether every Azure icon draws is unknown. `not-verified`
 
 ### live_or_external_checks
 
@@ -91,4 +107,4 @@ Pack: azure-expert-designer.
 
 ### next_safe_action
 
-- The user installs Draw.io Desktop or gives its path. Then re-run the export, and confirm whether to replace the existing SVG and whether to authorize the push, naming the repository and branch.
+- The user installs Draw.io Desktop or gives its path. Then export with `drawio -x -k -f svg --embed-svg-images -o <new path> docs/architecture/landing-zone.drawio`, without `--layout` or `--normalize`. `--embed-svg-images` is required because Azure icons are images, and without it the SVG points them at files in the local draw.io installation, so other readers see broken images. Review the SVG, confirm it holds no path into the local installation and that every Azure icon drew, and run `diagram-validation-and-evidence` again so its report covers the render. Then confirm whether to replace the existing SVG and whether to authorize the push, naming the repository and branch.

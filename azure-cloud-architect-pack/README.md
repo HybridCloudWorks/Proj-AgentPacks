@@ -8,7 +8,7 @@ Portable Agent/Skill package for the full Azure cloud-architecture lifecycle. Th
 - `examples/`: six worked walkthroughs, each ending with a completion report in the contract's format. `iac-deployment-review-blocked.md` shows a blocked outcome and `architecture-diagram-workflow.md` an unverified one.
 - `templates/`: `handoff/` holds `REQ.md`, `TOPOLOGY.json`, `CONSTRAINTS.json` and `ADR.md`, the four handoff artifacts under the names the optional hook checks; plus `completion-report.md` and `evidence-register.md`.
 - `docs/`: design decisions, source traceability, and the prompt inventory with the Skill-to-prompt map.
-- `compatibility/`, `hooks/`, `tests/`, and `tooling/validate_drawio_xml.py` (a pack helper for static Draw.io checks).
+- `compatibility/`, `hooks/` and `tests/`. Static Draw.io checks use the shared checker in the `diagram-validation-and-evidence` Skill, `python .apm/skills/diagram-validation-and-evidence/scripts/check_drawio.py --strict <file.drawio>`, which checks structure per page and every Azure icon against its catalog of draw.io's libraries; `tests/fixtures/minimal.drawio` passes it. The pack no longer ships its own Draw.io helper.
 
 ## Workflow prompts
 
@@ -29,7 +29,7 @@ Prompts appear as Copilot prompt files and Claude Code commands. The `agent` fie
 
 ## Primary downloads
 
-- `dist/azure-cloud-architect-pack.zip` — complete source, tests, hooks, tooling, and archives.
+- `dist/azure-cloud-architect-pack.zip` — complete source, tests, hooks, and archives.
 - `dist/azure-cloud-architect-canonical.zip` — APM-friendly canonical Agent and Skills.
 - `dist/azure-cloud-architect-prompt.zip` — reusable pack-authoring prompt.
 - `dist/azure-cloud-architect-validation.zip` — uppercase `VALIDATION_REPORT.md`.

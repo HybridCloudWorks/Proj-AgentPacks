@@ -50,7 +50,7 @@ Explain any non-obvious routing, replication, identity or boundary semantics sho
 
 | Component | Icon used | Note |
 |---|---|---|
-| | `img/lib/azure2/<category>/<File_Name>.svg` or neutral shape | catalog checked, or why a neutral shape was used |
+| | `img/lib/azure2/<category>/<File_Name>.svg` in the palette's own style (`image;aspect=fixed;...`), or neutral shape | current in the diagram-validation-and-evidence catalog (`check_drawio.py --strict`), or why a neutral shape was used |
 
 ## Design decisions
 

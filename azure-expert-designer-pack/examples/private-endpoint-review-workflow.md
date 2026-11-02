@@ -29,21 +29,36 @@ Fictional scenario. Names, paths and tool output are illustrative.
 
 ## 3. Checks
 
-**Structural.** The agent parsed the file and checked root cells, IDs, parents, edges, compression and image paths, using the `drawio-core-generation` output contract and the `drawio-xml-authoring` checklist. The file has 41 cells and unique IDs, and every reference resolves. One legacy stencil was found (F5).
+**Structural.** The agent ran the `diagram-validation-and-evidence` checker, read-only:
 
-**Semantic.** The agent compared the diagram with the Bicep facts above, using `azure-architecture-design` for boundaries and `azure-architecture-patterns` for the private endpoint pattern.
+```text
+> python scripts/check_drawio.py --strict docs\architecture\payments-api.drawio
+file: docs\architecture\payments-api.drawio
+pages: 1 (Page-1)
+cells: 35 vertices, 6 edges
+catalog: draw.io 32.5.5, built 2026-10-18
+icons Azure: current 6, legacy 1
+errors: 1
+  [Page-1] storage_account: Azure icon 'storage_blob' is legacy (legacy Azure (azure))
+warnings: 0
+result: FAIL
+```
 
-**Visual.** `drawio-render-export-and-review` detected Draw.io Desktop 24.7.17. The agent exported a PNG to `%TEMP%\payments-api-review.png`, outside the repository, and inspected it at 100% and at slide width.
+The file has 41 cells and unique IDs, and every reference resolves. The one error is the legacy stencil (F5). For what the checker does not decide, the agent used the `drawio-core-generation` output contract and the `drawio-xml-authoring` checklist.
+
+**Semantic.** The agent compared the diagram with the Bicep facts above, using the scope rules in `diagram-validation-and-evidence`'s `references/provider-checks.md` and `azure-architecture-design` for boundaries, and `azure-architecture-patterns` for the private endpoint pattern.
+
+**Visual.** `drawio-render-export-and-review` detected Draw.io Desktop 32.6.1, the Microsoft Store build, through `Get-AppxPackage *draw.io*`. The agent exported a PNG to `%TEMP%\payments-api-review.png`, outside the repository, with `-k` and without `--layout` or `--normalize`, and inspected it at 100% and at slide width. Every icon drew, including the legacy stencil.
 
 ## 4. Findings
 
 | ID | Severity | Page and cell | Category | Finding | Evidence | Recommended fix |
 |---|---|---|---|---|---|---|
 | F1 | High | Page-1, `edge_internet_storage` | semantic | An edge from "Internet users" to the storage account is labeled "private endpoint". This draws a private endpoint as an inbound internet route. | Bicep disables public access, and the endpoint serves clients inside `vnet-payments`. `observed` | Remove the internet edge. Draw `func-payments` → endpoint NIC (private IP) → storage (Private Link). |
-| F2 | High | Page-1, `storage_account` (parent `snet_pe`) | boundary | The storage account is parented under the private-endpoint subnet, which implies the PaaS resource lives in the subnet. | Only `pe-stpayments-blob` is in `snet-private-endpoints`. `observed` | Parent the storage account to the resource group, outside the VNet. Add an endpoint NIC cell in the subnet. |
+| F2 | High | Page-1, `storage_account` (parent `snet_pe`) | boundary | The storage account is parented under the private-endpoint subnet, which implies the PaaS resource lives in the subnet. | Only `pe-stpayments-blob` is in `snet-private-endpoints`. `observed` | Move the storage account outside the VNet, into its resource group's frame. Add a private endpoint cell (`other/Private_Endpoints.svg`) in the subnet, with its resource group in its label if it differs from the VNet's. |
 | F3 | High | Page-1, `zone_secure` | boundary | A decorative dashed frame labeled "Private network" encloses both Storage and Key Vault, implying both are reachable only privately. | Key Vault has public access enabled and no private endpoint. `observed` | Remove the frame, or reduce it to Storage only. Label Key Vault "public endpoint enabled". |
-| F4 | Medium | Page-1 | semantic | Private DNS is not shown, so a reader cannot tell how the storage name resolves to the private IP. | The zone, its VNet link and the zone group are declared. `observed` | Add a DNS zone tile with a control-plane "VNet link" edge to `vnet-payments`, and a legend note. |
-| F5 | Low | Page-1, `storage_account` | icon | The storage account uses the legacy `shape=mxgraph.azure.storage_blob` stencil and the label "Storage". | Style attribute. `observed` | Use `img/lib/azure2/storage/Storage_Accounts.svg` at 48 px with the label "Storage account (blob)". |
+| F4 | Medium | Page-1 | semantic | Private DNS is not shown, so a reader cannot tell how the storage name resolves to the private IP. | The zone, its VNet link and the zone group are declared. `observed` | Add the DNS Zones icon (`networking/DNS_Zones.svg`) labelled "Private DNS zone: privatelink.blob.core.windows.net", with a dotted control-plane "VNet link" edge to `vnet-payments`, and a legend note. |
+| F5 | Low | Page-1, `storage_account` | icon | The storage account uses the legacy `shape=mxgraph.azure.storage_blob` stencil and the label "Storage". | Style attribute. `observed` | Use `img/lib/azure2/storage/Storage_Accounts.svg` in the palette's own style (`image;aspect=fixed;...`), 48 px on the longest side, with the label "Storage account (blob)". |
 | F6 | Low | Page-1, `edge_func_kv` | layout | The edge enters Key Vault from the right and crosses the storage label. The label "Private endpoint" is clipped at 100%. | Rendered PNG. `visually-validated` | Route orthogonally with a waypoint below the storage tile, and widen the label area. |
 
 F1 to F3 would mislead a security reviewer, so they block using this diagram in a design review.
@@ -79,12 +94,11 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- XML parses; 41 cells; unique IDs; all references resolve; uncompressed. `structurally-validated`
-- One legacy `mxgraph.azure` stencil found (F5). `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: FAIL with one error, the legacy `mxgraph.azure` stencil (F5). XML parses; 41 cells; unique IDs; all references resolve; uncompressed. `structurally-validated`
 
 ### visual_checks
 
-- Rendered with Draw.io Desktop 24.7.17 and inspected at 100% and slide width. Clipping and crossing recorded as F6. `visually-validated`
+- Rendered with Draw.io Desktop 32.6.1 and inspected at 100% and slide width. Clipping and crossing recorded as F6. `visually-validated`
 
 ### live_or_external_checks
 

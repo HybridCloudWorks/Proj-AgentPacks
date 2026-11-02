@@ -11,7 +11,7 @@ Use for a read-only review of an existing diagram, and for a source-to-diagram a
 | Content hash after review | must match; state it |
 | Reference sources | requirements, infrastructure paths and commit, or pattern |
 | Review focus | |
-| Renderer | Draw.io Desktop path and version, or not available |
+| Renderer | Draw.io Desktop path and version (installer, per-user or Microsoft Store build), or not found in any of those locations |
 
 ## Findings
 
@@ -33,10 +33,11 @@ Fill this section for an audit; leave it out of a plain review.
 
 | Check | Run | Result |
 |---|---|---|
-| XML parse, root cells, IDs, parents, edges | yes or no | |
-| Compression and Azure2 image paths | yes or no | |
+| `check_drawio.py --strict` (diagram-validation-and-evidence): XML parse, root cells, IDs per page, parents, edges, compression | yes or no | result, error and warning counts |
+| Azure icons against the catalog | yes or no | catalog draw.io version; current, legacy and unknown counts |
+| Boundary scope rules (provider-checks.md) and edge labels | yes or no | |
 | Semantic comparison against reference sources | yes or no | |
-| Rendered visual inspection | yes or no | |
+| Rendered visual inspection, including that every Azure icon drew | yes or no | |
 | Live Azure comparison | yes or no | |
 
 ## Proposed follow-up

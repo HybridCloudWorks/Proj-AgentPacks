@@ -48,20 +48,36 @@ The diagram states in the legend: "Front Door routes HTTP only. It does not repl
 
 `drawio-layout-and-composition` and `azure-icons-and-visual-language`:
 
-- Page "Runtime": Front Door at the top center, outside the regions. Two decorative region frames (`container=0`) side by side, each holding a resource group container. Data flows left to right within each region. Twelve primary services: 180 px and 120 px gaps, numbered badges 1 to 12, and a right-side legend.
+- Page "Runtime": Front Door at the top center, outside the regions. Two decorative region frames (`container=0`) side by side, each with a resource group container drawn over it. A decorative frame has no child cells, so each resource group is parented to the page, not to its region frame. Data flows left to right within each region. Twelve primary services: 180 px and 120 px gaps, numbered badges 1 to 12, and a right-side legend.
 - Edge styles: solid for synchronous HTTP and SQL calls; thick dashed blue for geo-replication, with the arrow pointing from Sweden Central to North Europe; dotted gray for health probes. The cross-region write path from the North Europe App Service to the read-write listener is labeled "cross-region write".
 - Page "After database failover": the same layout, with the roles swapped and the replication arrow reversed. Splitting the failover state into its own page kept the runtime page readable, instead of shrinking it.
-- Icons: `img/lib/azure2/networking/Front_Doors.svg`, `img/lib/azure2/app_services/App_Services.svg`, `img/lib/azure2/databases/SQL_Database.svg` and `img/lib/azure2/security/Key_Vaults.svg`, each 48 px with its product label.
+- Icons: `img/lib/azure2/networking/Front_Doors.svg`, `img/lib/azure2/app_services/App_Services.svg`, `img/lib/azure2/databases/SQL_Database.svg` and `img/lib/azure2/security/Key_Vaults.svg`, each in the palette's own style (`image;aspect=fixed;...`), 48 px on its longest side, with its product label. Each resource group frame carries `general/Resource_Groups.svg` in its top-left corner, labelled with the resource group's name.
 
 ## 5. Validation
 
-The agent parsed the file after every write. Draw.io Desktop 24.7.17 rendered both pages:
+The agent ran the `diagram-validation-and-evidence` checker after every write:
 
 ```text
-"C:\Program Files\draw.io\draw.io.exe" --export --all-pages --format pdf --output "%TEMP%\booking-review.pdf" docs\architecture\booking-multi-region.drawio
+> python scripts/check_drawio.py --strict docs\architecture\booking-multi-region.drawio
+file: docs\architecture\booking-multi-region.drawio
+pages: 2 (Runtime, After database failover)
+cells: 118 vertices, 30 edges
+catalog: draw.io 32.5.5, built 2026-10-18
+icons Azure: current 30
+errors: 0
+warnings: 0
+result: PASS
 ```
 
-The first render showed the replication arrow overlapping the health-probe edge between the regions. The agent moved the probe edges above the region frames with waypoints. The second render was clean on both pages.
+The checker validates each page on its own: every page repeats root cells `0` and `1`, and IDs need to be unique only within a page.
+
+Draw.io Desktop 32.6.1, installed at the machine-wide location, rendered both pages, with `-k` and without `--layout` or `--normalize`:
+
+```text
+"C:\Program Files\draw.io\draw.io.exe" -x -k -f pdf -a --crop -o "%TEMP%\booking-review.pdf" docs\architecture\booking-multi-region.drawio
+```
+
+Every Azure icon drew on both pages. The first render showed the replication arrow overlapping the health-probe edge between the regions. The agent moved the probe edges above the region frames with waypoints. The second render was clean on both pages, and the checker passed again on the final file.
 
 ## Completion report
 
@@ -92,11 +108,11 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- XML parses; both pages have root cells; IDs are unique across pages; all references resolve; uncompressed; Azure2 image paths only. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: PASS, 0 errors and 0 warnings, after the last edit. Both pages have root cells `0` and `1`, IDs are unique within each page, all references resolve, the file is uncompressed, and all 30 Azure icons are current. `structurally-validated`
 
 ### visual_checks
 
-- Both pages rendered with Draw.io Desktop 24.7.17 and inspected. The overlap was fixed and the second render was clean. `visually-validated`
+- Both pages rendered with Draw.io Desktop 32.6.1 and inspected. Every Azure icon drew. The overlap was fixed and the second render was clean. `visually-validated`
 
 ### live_or_external_checks
 
