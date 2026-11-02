@@ -36,6 +36,10 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      # On a tag push, checkout leaves the pushed release tag as a lightweight tag on the same commit.
+      # Mirrored that way it differs from the release, and every later tag push to the mirror is rejected.
+      - name: restore the release tags themselves
+        run: git fetch --force --tags origin
       - name: mint an installation token for hybridcloudworks/Proj-AgentPacks only
         id: token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
