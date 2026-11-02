@@ -49,14 +49,27 @@ import sys
 # Only parse_xml below parses, and it refuses DOCTYPE and ENTITY declarations first.
 import xml.etree.ElementTree as ET  # nosec B405
 import zlib
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote
 
 HERE = Path(__file__).resolve().parent
 PREFERENCES = HERE / "icon_preferences.json"
-# An event-handler attribute starts after whitespace, a slash or a closing quote: HTML parsers read <svg/onload=...>
-# and <img src="x"onerror=...> as attributes too.
-ACTIVE_CONTENT = re.compile(r"(?i)<\s*script|javascript:|<[^>]*[\s/\"']on[a-z]+\s*=")
+# Active content in a label is decided from its HTML structure (active_content below), not by a pattern over the raw
+# text, which also matched inside attribute values such as href="https://example.test/onboarding=1".
+EVENT_HANDLER = re.compile(r"on[a-z]+")
+# Attributes a browser follows or loads as a URL, so a javascript: value runs.
+URL_ATTRIBUTES = frozenset({"href", "src", "xlink:href", "action", "formaction", "data"})
+# SVG animation sets an attribute, href included, from these: <animate attributeName="href" values="javascript:...">.
+ANIMATION_ATTRIBUTES = frozenset({"from", "to", "by", "values"})
+# Browsers read the content of these elements as text, not markup; Python's html.parser and browsers have ended some
+# of them at different places, so their text is read again as markup.
+RAW_TEXT_ELEMENTS = frozenset({"style", "xmp", "iframe", "noembed", "noframes", "noscript", "textarea", "title",
+                               "plaintext"})
+# Browsers ignore ASCII whitespace and control characters around a URL and tabs and newlines inside it (java\tscript:).
+URL_IGNORED = re.compile(r"[\x00-\x20]+")
+MAX_LABEL_NESTING = 4
+TOO_DEEP = f"markup nested more than {MAX_LABEL_NESTING} levels deep in srcdoc, comments or declarations"
 DECLARATIONS = re.compile(r"(?i)<!DOCTYPE|<!ENTITY")
 # A compressed page is inflated only up to this size, so a small hostile file cannot exhaust memory.
 MAX_PAGE_BYTES = 10 * 1024 * 1024
@@ -356,6 +369,89 @@ def label_text(value: str) -> str:
     return re.sub(r"<[^>]+>", " ", value or "").replace("&nbsp;", " ").strip()
 
 
+def _javascript_url(value: str) -> bool:
+    return URL_IGNORED.sub("", value).lower().startswith("javascript:")
+
+
+class _ActiveContentScanner(HTMLParser):
+    """Reads a label's HTML with the standard library parser and keeps the first active content it meets. Like a
+    browser, html.parser lowercases tag and attribute names and decodes entity references in attribute values
+    (&#106;avascript&colon;) before the tests run. The text of comments, declarations and raw-text elements is read
+    again as markup, so one that a browser ends earlier than html.parser does cannot hide a tag."""
+
+    def __init__(self, depth: int) -> None:
+        super().__init__(convert_charrefs=True)
+        self.depth = depth
+        self.found = ""
+        self.raw_text: list[str] = []
+
+    def flag(self, reason: str) -> None:
+        if not self.found:
+            self.found = reason
+
+    def reread(self, text: str, where: str) -> None:
+        inner = active_content(text, self.depth + 1)
+        if inner:
+            self.flag(inner if inner == TOO_DEEP else f"{inner} inside {where}")
+
+    def handle_starttag(self, tag: str, attrs: list) -> None:
+        if tag == "script":
+            self.flag("a <script> element")
+        elif tag in RAW_TEXT_ELEMENTS:
+            self.raw_text.append(tag)
+        for name, value in attrs:
+            if EVENT_HANDLER.fullmatch(name):
+                self.flag(f"an event-handler attribute ({name})")
+            elif value is None:
+                continue
+            elif name in URL_ATTRIBUTES and _javascript_url(value):
+                self.flag(f"a javascript: URL in {name}")
+            elif name in ANIMATION_ATTRIBUTES and any(_javascript_url(part) for part in value.split(";")):
+                self.flag(f"a javascript: URL in the animation attribute {name}")
+            elif name == "srcdoc":
+                self.reread(value, "srcdoc")
+
+    def handle_endtag(self, tag: str) -> None:
+        if self.raw_text and self.raw_text[-1] == tag:
+            self.raw_text.pop()
+
+    def handle_data(self, data: str) -> None:
+        if self.raw_text:
+            self.reread(data, f"<{self.raw_text[-1]}>")
+
+    # Browsers end some comments, declarations and CDATA sections earlier than older html.parser releases do
+    # (<!-->, --!>, <![CDATA[ outside SVG), so their text is read again as markup.
+    def handle_comment(self, data: str) -> None:
+        self.reread(data, "a comment")
+
+    def handle_decl(self, decl: str) -> None:
+        self.reread(decl, "a declaration")
+
+    def unknown_decl(self, data: str) -> None:
+        self.reread(data, "a declaration")
+
+    def handle_pi(self, data: str) -> None:
+        self.reread(data, "a processing instruction")
+
+
+def active_content(label: str, depth: int = 0) -> str:
+    """Why a label would run code if rendered as HTML, or "" when it would not: a <script> element, an attribute
+    named on + letters (an event handler, also after a slash or a quote: <svg/onload=...>, <img src="x"onerror=...>),
+    or a javascript: URL in a URL attribute, after entity decoding and with whitespace and control characters removed.
+    Text is never active: "javascript:" in prose and "onboarding=" in a link's URL pass."""
+    if "<" not in label:
+        return ""
+    if depth > MAX_LABEL_NESTING:
+        return TOO_DEEP
+    scanner = _ActiveContentScanner(depth)
+    try:
+        scanner.feed(label)
+        scanner.close()
+    except Exception as exc:  # noqa: BLE001  # older html.parser releases raise several types on malformed markup
+        return f"markup the HTML parser could not read ({type(exc).__name__})"
+    return scanner.found
+
+
 def inflate(data: bytes, limit: int = MAX_PAGE_BYTES) -> bytes:
     """Inflate a raw deflate stream (draw.io's compressed page), refusing more than `limit` bytes of output."""
     inflater = zlib.decompressobj(-15)
@@ -452,8 +548,9 @@ def check_page(name: str, model: ET.Element, catalog, strict: bool, report: dict
             cursor = ids[cursor["parent"]]
         if cell["visible"] == "0":
             add("warnings", cid, "hidden cell (visible=0)")
-        if ACTIVE_CONTENT.search(cell["value"] or ""):
-            add("errors", cid, "label contains script, javascript: or an event-handler attribute")
+        active = active_content(cell["value"] or "")
+        if active:
+            add("errors", cid, f"label contains active content: {active}")
         if cell["edge"]:
             report["counts"]["edges"] += 1
             for end in ("source", "target"):

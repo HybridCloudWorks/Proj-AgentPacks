@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import base64
 import contextlib
+import html
 import http.client
 import importlib.util
 import io
@@ -414,6 +415,73 @@ class CheckDrawioTests(unittest.TestCase):
             self.assertTrue(any("event-handler" in e["message"] for e in report["errors"]), label)
         benign = "&lt;a href=&quot;https://example.com/docs&quot;&gt;docs&lt;/a&gt; on time, onclick=1 as text"
         self.assertEqual(self.run_check(drawio_page(drawio_vertex("v", "rounded=1;html=1;", benign)))["errors"], [])
+
+    def label_report(self, label_html: str, strict: bool = False) -> dict:
+        """Check a one-vertex page whose label is this HTML, escaped into the XML attribute the way draw.io saves it."""
+        return self.run_check(drawio_page(drawio_vertex("v", "rounded=1;html=1;", html.escape(label_html))), strict)
+
+    def test_active_content_is_decided_from_the_label_html(self):
+        """A <script> element, an on* attribute or a javascript: URL in a URL attribute, however it is spelled."""
+        attacks = {
+            "<script>alert(1)</script>": "<script>",
+            "<ScRiPt>alert(1)</sCrIpT>": "<script>",
+            "<IMG SRC=x OnErRoR=alert(1)>": "event-handler attribute (onerror)",
+            "<div><img src=x onerror  =  alert(1)></div>": "event-handler",
+            '<a href="javascript:alert(1)">x</a>': "javascript: URL in href",
+            '<a href="JaVaScRiPt:alert(1)">x</a>': "javascript: URL in href",
+            '<a href=" \tjava\nscript:alert(1)">x</a>': "javascript: URL in href",
+            '<a href="&#106;avascript:alert(1)">x</a>': "javascript: URL in href",
+            '<a href="&#x6A;&#x61;vascript&colon;alert(1)">x</a>': "javascript: URL in href",
+            '<a href="java&Tab;script:alert(1)">x</a>': "javascript: URL in href",
+            '<a href="&#0000106;avascript:alert(1)">x</a>': "javascript: URL in href",
+            '<iframe src="javascript:alert(1)"></iframe>': "javascript: URL in src",
+            '<form action="javascript:alert(1)">f</form>': "javascript: URL in action",
+            '<button formaction="javascript:alert(1)">b</button>': "javascript: URL in formaction",
+            '<svg><a xlink:href="javascript:alert(1)"><text>x</text></a></svg>': "javascript: URL in xlink:href",
+            '<object data="javascript:alert(1)"></object>': "javascript: URL in data",
+            '<svg><a><animate attributeName="href" values="0;javascript:alert(1)"/><text>x</text></a></svg>': "values",
+            '<svg><a><set attributeName="href" to="javascript:alert(1)"/><text>x</text></a></svg>': "to",
+            '<iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;"></iframe>': "<script> element inside srcdoc",
+            # Browsers end these comments, declarations and raw-text elements where older html.parser releases do not.
+            "<!--><img src=x onerror=alert(1)>-->": "onerror",
+            "<!-- --!><img src=x onerror=alert(1)>-->": "onerror",
+            "<![CDATA[><img src=x onerror=alert(1)>]]>": "onerror",
+            "<?x><img src=x onerror=alert(1)>": "onerror",
+            "<style></style x><img src=x onerror=alert(1)>": "onerror",
+            "<![CDATA[" * 6 + "x<b>]]>": "nested more than",
+        }
+        for label, reason in attacks.items():
+            found = check_drawio.active_content(label)
+            self.assertIn(reason, found, label)
+            report = self.label_report(label)
+            self.assertEqual(report["result"], "FAIL", label)
+            self.assertIn(f"label contains active content: {found}", [e["message"] for e in report["errors"]], label)
+        benign = ['<a href="https://example.test/onboarding=1">Onboarding</a>',
+                  '<a href="https://learn.example.com/path/onboarding=true">Onboarding guide</a>',
+                  "<a href=https://example.test/onboarding=1>unquoted</a>", "<img src=x/onerror=alert(1)>",
+                  '<font color="#FF0000">onboarding=1</font>', "<span style=\"font-family:'Open Sans'\">x</span>",
+                  "<b>Front end</b>: JavaScript: React SPA", '<span title="javascript: the language">x</span>',
+                  "Use &lt;script&gt; tags as text", "a < b and c > d", "< script>is text, not a tag",
+                  "https://example.test/?a=1&online=1", "<div>App Service<br>P1v3</div>"]
+        for label in benign:
+            self.assertEqual(check_drawio.active_content(label), "", label)
+            self.assertEqual(self.label_report(label, strict=True)["errors"], [], label)
+
+    def test_link_whose_url_contains_on_passes_the_command_line_check(self):
+        """Pre-PR round 2 N2: <a href=".../onboarding=true"> failed every diagram that carried it."""
+        tmp = Path(tempfile.mkdtemp(prefix="drawio-test-"))
+        try:
+            labels = {"href.drawio": '<a href="https://learn.example.com/path/onboarding=true">Onboarding guide</a>',
+                      "svg.drawio": "<svg/onload=alert(1)>", "entity.drawio": '<a href="&#106;avascript:alert(1)">x</a>'}
+            codes = {}
+            for name, label in labels.items():
+                (tmp / name).write_text(drawio_page(drawio_vertex("v", "rounded=1;html=1;", html.escape(label))),
+                                        encoding="utf-8")
+                codes[name] = subprocess.run([sys.executable, str(CHECKER), str(tmp / name), "--strict"],
+                                             capture_output=True, text=True, check=False).returncode
+            self.assertEqual(codes, {"href.drawio": 0, "svg.drawio": 1, "entity.drawio": 1})
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
 
     def test_compressed_page_is_inflated_only_up_to_the_size_cap(self):
         deflate = zlib.compressobj(9, zlib.DEFLATED, -15)
