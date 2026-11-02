@@ -161,10 +161,31 @@ class RepoToolsTests(unittest.TestCase):
         self.assertEqual(result["apm"], "latest")
 
     def test_publish_mirrors_the_release_tags_themselves(self):
-        workflow = (REPO / ".github" / "workflows" / "publish.yml").read_text(encoding="utf-8")
-        before_push = workflow.split("actions/checkout@", 1)[1].split("git push dist --tags", 1)[0]
-        self.assertIn("git fetch --force --tags origin", before_push,
-                      "checkout leaves a pushed tag lightweight; restore the tag objects before mirroring them")
+        import yaml
+
+        steps = yaml.safe_load((REPO / ".github" / "workflows" / "publish.yml").read_text(encoding="utf-8"))
+        steps = steps["jobs"]["mirror"]["steps"]
+
+        def index(test):
+            return next((i for i, step in enumerate(steps) if test(step)), None)
+
+        checkout = index(lambda step: str(step.get("uses", "")).startswith("actions/checkout@"))
+        fetch = index(lambda step: "git fetch --force --tags origin" in str(step.get("run", "")))
+        push = index(lambda step: "git push dist --tags" in str(step.get("run", "")))
+        self.assertNotIn(None, (checkout, fetch, push), "checkout, the tag fetch and the mirror push must all be steps")
+        self.assertLess(checkout, fetch)
+        self.assertLess(fetch, push, "restore the annotated tags before mirroring them")
+        self.assertNotIn("if", steps[fetch], "the tag fetch must always run")
+
+    def test_checkout_is_pinned_at_a_version_that_keeps_annotated_tags(self):
+        for workflow in sorted((REPO / ".github" / "workflows").glob("*.yml")):
+            for line in workflow.read_text(encoding="utf-8").splitlines():
+                if "actions/checkout@" not in line:
+                    continue
+                ref, _, comment = line.split("actions/checkout@", 1)[1].partition("#")
+                self.assertRegex(ref.strip(), r"^[0-9a-f]{40}$", f"{workflow.name}: pin checkout by commit SHA")
+                version = tuple(int(part) for part in comment.strip().lstrip("v").split("."))
+                self.assertGreaterEqual(version, (6, 0, 2), f"{workflow.name}: checkout before 6.0.2 makes tags lightweight")
 
     def test_exemplar_identity_terms(self) -> None:
         hard, skills = generate_pack.identity_terms(EXEMPLAR)
