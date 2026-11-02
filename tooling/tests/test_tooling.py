@@ -13,6 +13,7 @@ import socket
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 import urllib.error
 import zlib
@@ -516,6 +517,49 @@ class CheckDrawioTests(unittest.TestCase):
         # Unterminated or deeply nested raw-text elements are reported, not read without bound.
         self.assertIn(check_drawio.active_content("<title>" * 2000),
                       (check_drawio.TOO_DEEP, check_drawio.TOO_MUCH))
+
+    def test_active_content_work_grows_linearly_with_label_length(self):
+        """Pre-PR round 4 N4: finish() searched from every raw-text start tag to the end of the label, so a 1 MB label of
+        repeated <textarea> took 75 s, its end-tag search scanning 250,000 times the label's length. The test counts work, not
+        time: the characters the raw-text end-tag patterns scan and the characters html.parser is fed must each stay
+        within a small multiple of the label's length. The wall-clock limit is only a backstop."""
+        scanned, parsed = [0], [0]
+
+        class CountingPattern:
+            """Delegates to a compiled pattern and counts the characters each search or finditer pass scans."""
+
+            def __init__(self, pattern) -> None:
+                self.pattern = pattern
+
+            def search(self, text, pos=0, *args):
+                match = self.pattern.search(text, pos, *args)
+                scanned[0] += (match.end() if match else len(text)) - pos
+                return match
+
+            def finditer(self, text, pos=0, *args):
+                scanned[0] += len(text) - pos
+                return self.pattern.finditer(text, pos, *args)
+
+        feed = check_drawio._ActiveContentScanner.feed
+
+        def counting_feed(scanner, data):
+            parsed[0] += len(data)
+            return feed(scanner, data)
+
+        counting = {tag: CountingPattern(pattern) for tag, pattern in check_drawio.RAW_TEXT_END.items()}
+        shapes = {"<textarea>": 1_000_000, "<title>": 200_000, '<noscript><p title="</noscript>': 200_000,
+                  '<iframe srcdoc="&lt;b&gt;">': 200_000}
+        started = time.monotonic()
+        for unit, size in shapes.items():
+            label = (unit * (size // len(unit) + 1))[:size]
+            scanned[0] = parsed[0] = 0
+            with mock.patch.object(check_drawio, "RAW_TEXT_END", counting), \
+                    mock.patch.object(check_drawio._ActiveContentScanner, "feed", counting_feed):
+                found = check_drawio.active_content(label)
+            self.assertTrue(found, unit)
+            self.assertLessEqual(scanned[0], 10 * size, f"{unit}: end-tag search scanned {scanned[0] / size:.0f}x the label")
+            self.assertLessEqual(parsed[0], check_drawio.REREAD_FACTOR * size + check_drawio.REREAD_SLACK, unit)
+        self.assertLess(time.monotonic() - started, 120, "backstop: the hostile labels took minutes, not seconds")
 
     def test_link_whose_url_contains_on_passes_the_command_line_check(self):
         """Pre-PR round 2 N2: <a href=".../onboarding=true"> failed every diagram that carried it."""

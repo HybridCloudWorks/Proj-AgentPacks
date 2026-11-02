@@ -43,6 +43,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import bisect
 import json
 import re
 import sys
@@ -481,16 +482,31 @@ class _ActiveContentScanner(HTMLParser):
         self.reread(data, "a processing instruction")
 
     def finish(self) -> None:
-        """Apply the browser's raw-text rule to every raw-text element html.parser reported."""
+        """Apply the browser's raw-text rule to every raw-text element html.parser reported.
+
+        Cost, for a label of n characters: each tag name's end tags are found in one finditer pass over the label (at
+        most nine passes), and each element's end is a bisect lookup in that list, so finding the ends is
+        O(n log n). Searching from every start tag to its end instead was O(elements x n): a 1 MB label of repeated
+        <textarea> took 75 s. A slice that is read again is charged to the shared budget, so all re-reading together
+        stays within REREAD_FACTOR x the label's length; a slice without "<" is not read, and those are the contents
+        of elements that end before the next tag, so they do not overlap. The loop stops at the first finding."""
+        ends: dict[str, list[int]] = {}
         for start, tag, length in self.raw_text:
+            if self.found:
+                return
             content = start + length
-            end = RAW_TEXT_END[tag].search(self.label, content) if tag in RAW_TEXT_END else None
-            stop = end.start() if end else len(self.label)
+            stop, ended = len(self.label), False
+            if tag in RAW_TEXT_END:
+                if tag not in ends:
+                    ends[tag] = [match.start() for match in RAW_TEXT_END[tag].finditer(self.label)]
+                index = bisect.bisect_left(ends[tag], content)
+                if index < len(ends[tag]):
+                    stop, ended = ends[tag][index], True
             # Text to a browser in HTML, but markup inside SVG or MathML: <svg><style><img onerror=...></style>.
             self.reread(self.label[content:stop], f"<{tag}>")
             # html.parser read the end tag as part of something else, such as an attribute value, so the markup a
             # browser reads after it was hidden: <noscript><p title="</noscript><img onerror=...>">.
-            if end and stop not in self.token_starts:
+            if ended and stop not in self.token_starts:
                 self.reread(self.label[stop:], f"what a browser reads as markup after </{tag}>")
 
 
