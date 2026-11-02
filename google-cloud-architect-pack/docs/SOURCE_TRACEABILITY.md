@@ -55,3 +55,8 @@ No private repository, cloud identity, tenant policy or credential was used or a
 - drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence come from the repository's canonical shared copy, which merged the AWS and Azure designer packs' versions of these skills and added Google Cloud.
 - Provider facts were verified on 2026-10-18 against draw.io 32.5.5 source (https://github.com/jgraph/drawio, Apache-2.0), the AWS, Azure and Google Cloud official icon pages, Google's product icon guide (updated May 2026), and each provider's network documentation. The export options were verified against draw.io Desktop 32.5.5 source and an export run with draw.io Desktop 32.4.1.
 - The icon catalog lists draw.io palette names as facts; no draw.io code or icon artwork is copied.
+
+## Shared diagram skills and diagram routing (1.3.0)
+
+- Re-verified on 2026-11-01: draw.io 32.6.9 source (palette entries and their style strings, recorded in the icon catalog as facts about the palette; still no draw.io code or artwork), renders made with draw.io Desktop 32.6.1 and its `--help` output, Google's core product and category icon downloads linked from https://cloud.google.com/icons (19 and 26 icons; no Gemini icon), the Gemini Enterprise Agent Platform documentation at https://docs.cloud.google.com/vertex-ai/docs, the Azure icon page and V24 download, and the Microsoft Entra architecture icons page and its October 2023 download.
+- Decision 33's quote about the legacy console icons was not found on Google's icon page; it was removed rather than re-sourced.

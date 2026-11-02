@@ -35,15 +35,11 @@ Components, whether each is stateful, data classification per store, and the arc
 
 ## 6. Architecture diagram
 
-```mermaid
-flowchart LR
-  subgraph org[Organization]
-    subgraph prj[Workload project]
-      edge[Edge] --> app[Service]
-      app --> data[(Data store)]
-    end
-  end
-```
+| View | Source | Exports | Validation |
+|---|---|---|---|
+| Runtime and data flow | `<path>.drawio` | `<path>.png`, `<path>.svg`, or "not rendered" | `check_drawio.py --strict` result, visual review result |
+
+Drawn with drawio-core-generation in draw.io's Google Cloud Platform 2026 library, exported with drawio-render-export-and-review and validated with diagram-validation-and-evidence. Mermaid cannot carry Google Cloud icons; use it here only for an icon-free sketch, such as a call sequence, and never as the architecture diagram.
 
 ## 7. Architecture description
 

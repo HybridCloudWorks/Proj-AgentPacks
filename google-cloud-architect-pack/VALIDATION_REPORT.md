@@ -1,8 +1,8 @@
 # VALIDATION_REPORT
 
-Pack: google-cloud-architect 1.2.0
+Pack: google-cloud-architect 1.3.0
 Standard: agent-pack-prompt v2.3
-Validated: 2026-10-18
+Validated: 2026-11-01
 Status: PASS
 
 Checks: 183  Passed: 183  Failed: 0  Skipped: 0

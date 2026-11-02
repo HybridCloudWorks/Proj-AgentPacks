@@ -14,9 +14,14 @@ agent: google-cloud-architect
 
 ## Workflow
 
-1. `drawio-core-generation`: list the providers shown and read their sections in its provider reference. Take every Google Cloud icon from the "Google Cloud Platform 2026" library: a core product icon where Google defines one, and a category icon with the product's label for everything else. Nest ownership as organization, folder and project, and the network as VPC network, then region, then subnet, with zonal resources in zone frames inside their subnet. Draw Shared VPC host and service projects as separate frames. Add nothing that is absent from the approved design.
-2. `drawio-render-export-and-review`: detect Draw.io Desktop and its version, export to explicit paths without overwriting the source, and inspect the render, including that every icon drew its symbol.
-3. `diagram-validation-and-evidence`: run its checker, then compare every component and relationship with the design, then run visual checks only on the rendered output.
+1. `drawio-core-generation`: list the providers shown and read their sections in its provider reference.
+   - Take every Google Cloud icon from the "Google Cloud Platform 2026" library by copying the whole style that `check_drawio.py --find "<product>"` prints, `fillColor` included: one of the 19 core product icons where Google publishes one, and the category icon with the product's label for everything else. Label Vertex AI "Gemini Enterprise Agent Platform"; Gemini has no official icon, so draw it as a labelled neutral shape.
+   - Nest ownership as organization, folder and project, and the network as VPC network, then region, then subnet, with zonal resources in zone frames inside their subnet. Label a zone-redundant resource with its zones instead of drawing it in zone frames.
+   - Draw Shared VPC host and service projects as separate frames. A service project's regional resources that sit outside the VPC network, such as Cloud Run services, go in location-only region frames inside that service project's frame.
+   - A managed service reached by private IP, such as Cloud SQL through private services access or Private Service Connect, runs in a Google-managed network, not the customer subnet: draw it in its project frame, put any zone frames under its instances, and join it to the VPC network with an edge labelled with the private connection.
+   - Add nothing that is absent from the approved design.
+2. `drawio-render-export-and-review`: detect Draw.io Desktop and its version, export to explicit paths without overwriting the source, and inspect the render, including that every icon drew completely and every label is readable.
+3. `diagram-validation-and-evidence`: run `python scripts/check_drawio.py --strict <file>` from that skill's folder, then compare every component and relationship with the design, then run visual checks only on the rendered output.
 
 ## Expected output
 

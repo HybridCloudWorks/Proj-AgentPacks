@@ -29,7 +29,7 @@ dependencies:
     - hybridcloudworks/Proj-AgentPacks/docker-senior-engineer-pack#docker-senior-engineer-v1.0.0
     - hybridcloudworks/Proj-AgentPacks/finops-professional-practitioner-pack#finops-professional-practitioner-v1.0.0
     - hybridcloudworks/Proj-AgentPacks/github-expert-engineer-pack#github-expert-engineer-v1.2.0
-    - hybridcloudworks/Proj-AgentPacks/google-cloud-architect-pack#google-cloud-architect-v1.2.0
+    - hybridcloudworks/Proj-AgentPacks/google-cloud-architect-pack#google-cloud-architect-v1.3.0
     - hybridcloudworks/Proj-AgentPacks/hypervelocity-engineer-pack#hypervelocity-engineer-v1.2.0
     - hybridcloudworks/Proj-AgentPacks/infrastructure-pr-reviewer-pack#infrastructure-pr-reviewer-v1.2.0
     - hybridcloudworks/Proj-AgentPacks/microsoft-certified-trainer-pack#microsoft-certified-trainer-v1.1.0

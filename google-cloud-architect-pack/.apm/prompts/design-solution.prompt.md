@@ -15,4 +15,4 @@ Apply gcp-solution-architecture. Resolve contradictions before proposing product
 
 ## Expected output
 
-A solution guide with requirements, decomposition, product mapping with alternatives, a Mermaid diagram, data and control flows, per-pillar recommendations, decision records, deployment guidance and a validation plan, followed by the completion report. Apply the `google-cloud-architect-contract` instruction; an earlier approval covers only the exact action it named.
+A solution guide with requirements, decomposition, product mapping with alternatives, an editable Draw.io architecture diagram with current Google Cloud icons and its validation result, data and control flows, per-pillar recommendations, decision records, deployment guidance and a validation plan, followed by the completion report. Apply the `google-cloud-architect-contract` instruction; an earlier approval covers only the exact action it named.

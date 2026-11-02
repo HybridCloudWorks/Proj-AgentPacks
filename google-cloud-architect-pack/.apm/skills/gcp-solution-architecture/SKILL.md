@@ -23,7 +23,7 @@ In scope: discovery, decomposition, deployment archetype, product mapping, diagr
 
 ## Dependencies and tools
 
-Official Google Cloud documentation (Architecture Center, deployment archetypes, Well-Architected Framework, product decision guides). A documentation-search MCP server, such as Google's Developer Knowledge server, only if the client already has it connected; this skill does not configure one. Mermaid for diagrams. `solution-guide-template.md` in this skill folder. Optional companions when installed: gcp-architecture-decisions, gcp-security-controls, gcp-reliability-dr, gcp-cost-sustainability, gcp-observability-operations and the platform skills.
+Official Google Cloud documentation (Architecture Center, deployment archetypes, Well-Architected Framework, product decision guides). A documentation-search MCP server, such as Google's Developer Knowledge server, only if the client already has it connected; this skill does not configure one. For the architecture diagram, the drawio-core-generation, drawio-render-export-and-review and diagram-validation-and-evidence skills shipped with this pack: Google Cloud icons need draw.io's Google Cloud Platform 2026 library, which Mermaid cannot carry, so use Mermaid only for icon-free sketches such as a call sequence. `solution-guide-template.md` in this skill folder. Optional companions when installed: gcp-architecture-decisions, gcp-security-controls, gcp-reliability-dr, gcp-cost-sustainability, gcp-observability-operations and the platform skills.
 
 ## Workflow
 
@@ -53,7 +53,7 @@ Official Google Cloud documentation (Architecture Center, deployment archetypes,
 ### Phase 2: architecture
 
 8. Map each component to products with gcp-architecture-decisions (or its rules, if that skill is absent): one recommendation, the viable alternatives, pros and cons, and a citation. Check release status (GA, Preview, deprecated) and availability in the chosen regions; never recommend a deprecated or retired product or feature. Present the mapping and wait for approval before drawing.
-9. Draw a Mermaid diagram that shows trust boundaries (organization, folders, projects, VPCs, VPC Service Controls perimeters), the request path, the data path and the control path. Keep product names exactly as in the mapping.
+9. Draw the architecture diagram as an editable `.drawio` file with drawio-core-generation, then export and review it with drawio-render-export-and-review and validate it with diagram-validation-and-evidence (`check_drawio.py --strict`). Show trust boundaries (organization, folders, projects, VPC networks, VPC Service Controls perimeters), the request path, the data path and the control path, with current Google Cloud icons. Keep product names exactly as in the mapping. Without Draw.io Desktop, deliver the source and report the visual checks as not run.
 10. Describe each component's purpose, its relationships, the data flow and the control flow, including identities used between components.
 11. Write per-pillar recommendations tied to requirement identifiers: security (identity, network exposure, data protection, perimeter, supply chain), reliability (redundancy, failure modes, RTO and RPO approach), operations (telemetry, alerting, IaC, release process), cost (sizing, scaling, pricing models, attribution), performance (caching, data access, scaling signals), sustainability (region carbon, scale to zero, storage lifecycle). Use the pillar skills when installed.
 12. Record each Day-0 or hard-to-reverse choice (region, network ranges, cluster mode, database engine, tenancy model, identity federation) as a decision record with status Proposed.
@@ -83,12 +83,12 @@ Google renamed several products in 2026 while APIs, IAM roles and Terraform reso
 
 ## Output
 
-A solution guide with: executive summary; requirements with identifiers; current state and dependencies; decomposition and archetype; product mapping with alternatives and citations; Mermaid diagram; architecture description; per-pillar recommendations; decision records; deployment guidance; validation plan and traceability matrix; open questions and assumptions. Then the completion report.
+A solution guide with: executive summary; requirements with identifiers; current state and dependencies; decomposition and archetype; product mapping with alternatives and citations; the architecture diagram (`.drawio` source, exports and validation result); architecture description; per-pillar recommendations; decision records; deployment guidance; validation plan and traceability matrix; open questions and assumptions. Then the completion report.
 
 ## Validation
 
 - Every requirement identifier appears in the traceability matrix with a design element.
-- Every component in the diagram appears in the product mapping, and the reverse.
+- Every component in the diagram appears in the product mapping, and the reverse, and the diagram passed `check_drawio.py --strict`.
 - Every recommended product and feature has a citation and a verified release status, or is marked unverified.
 - Every Day-0 decision has a decision record.
 - Estimates (cost, capacity, latency) state their basis and confidence.

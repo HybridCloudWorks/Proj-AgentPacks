@@ -5,7 +5,7 @@
       "skill": "gcp-solution-architecture",
       "agent": "google-cloud-architect",
       "prompt": "design-solution.prompt.md",
-      "expected_output": "Solution guide with requirement IDs, confirmed decomposition and archetype, product mapping with alternatives, Mermaid diagram, per-pillar recommendations, decision records, deployment guidance and traceability matrix.",
+      "expected_output": "Solution guide with requirement IDs, confirmed decomposition and archetype, product mapping with alternatives, Draw.io architecture diagram validated with check_drawio.py --strict, per-pillar recommendations, decision records, deployment guidance and traceability matrix.",
       "negative": "Products proposed during discovery, unresolved contradictions, deprecated product recommended, untraced requirement or unexecuted check described as passed."
     },
     {

@@ -1,4 +1,4 @@
-# google-cloud-architect 1.2.0: artifact catalog
+# google-cloud-architect 1.3.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
