@@ -1,8 +1,8 @@
 # VALIDATION_REPORT
 
-Pack: azure-cloud-architect 1.4.0
+Pack: azure-cloud-architect 1.5.0
 Standard: agent-pack-prompt v2.3
-Validated: 2026-10-18
+Validated: 2026-11-01
 Status: PASS
 
 Checks: 150  Passed: 149  Failed: 0  Skipped: 1

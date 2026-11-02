@@ -1,4 +1,4 @@
-# azure-expert-designer 1.4.0: artifact catalog
+# azure-expert-designer 1.5.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -61,7 +61,6 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
 | skill-coverage.yml | Local test or recorded evidence | tests/skill-coverage.yml |
 | trigger-cases.yml | Local test or recorded evidence | tests/trigger-cases.yml |
-| validate_drawio_xml.py | Pack-specific helper code | tooling/validate_drawio_xml.py |
 | VALIDATION_REPORT.md | Executed checks and what remains unverified. | VALIDATION_REPORT.md |
 
 ## Build outputs (dist/, not committed)

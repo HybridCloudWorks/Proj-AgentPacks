@@ -1,8 +1,8 @@
 # VALIDATION_REPORT
 
-Pack: azure-expert-designer 1.4.0
+Pack: azure-expert-designer 1.5.0
 Standard: agent-pack-prompt v2.3
-Validated: 2026-10-18
+Validated: 2026-11-01
 Status: PASS
 
 Checks: 118  Passed: 117  Failed: 0  Skipped: 1
