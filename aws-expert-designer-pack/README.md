@@ -38,7 +38,7 @@ Invoke the `aws-expert-designer` agent directly, or start from one of the seven 
 - review findings
 - export and render record
 - completion report
-- `aws-diagram-skeleton.drawio`, a starting file built from draw.io's AWS library styles: account, Region, VPC, two Availability Zones with public and private subnets, sample icons, an auxiliary-services frame and a legend
+- `aws-diagram-skeleton.drawio`, a starting file built from draw.io's AWS library styles: account, Region, VPC, two Availability Zones with public and private subnets, sample icons, Amazon S3 in the Region outside the VPC reached through an S3 gateway endpoint, an auxiliary-services frame and a legend
 
 Templates and examples are reference material for people. They are not installed with the agent.
 
@@ -52,7 +52,7 @@ python tooling/validate_pack.py aws-expert-designer-pack --install-check
 python tooling/build_pack.py aws-expert-designer-pack
 ```
 
-The validator writes `VALIDATION_REPORT.md` unless it is given `--no-report`. It also runs the pack's `tests/test_drawio_assets.py`, which checks the skeleton and the test fixture with the shared checker in strict mode and fails on hand-typed boundary styles, stripped icon styles or children under a `container=0` frame.
+The validator writes `VALIDATION_REPORT.md` unless it is given `--no-report`. It also runs the pack's `tests/test_drawio_assets.py`, which checks the skeleton and the test fixture with the shared checker in strict mode and fails on hand-typed boundary styles, stripped icon styles, children under a `container=0` frame, unlabelled edges, or an AWS icon outside every Region frame other than an external actor.
 
 To check a single diagram, run the checker that ships with the shared `diagram-validation-and-evidence` skill:
 

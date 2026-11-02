@@ -5,7 +5,10 @@ Every .drawio file in the pack (templates and test fixtures) must pass the share
 draw AWS boundaries with draw.io's own "AWS / Groups" styles nested account > Region > VPC > Availability
 Zone > subnet, keep each icon's full palette style, and never parent a cell to anything but a real
 boundary container. These are the defects the 2026-11-01 review found (AWS-01, AWS-02, AWS-03, AWS-06,
-AWS-13); the same file ships in the AWS Expert Designer and AWS Cloud Architect packs.
+AWS-13). The pre-PR review of the same day added two more: every edge carries a label (F6: one of two twin
+egress edges had none), and an AWS icon sits inside a Region frame unless it is an external actor or a global
+service (an Amazon S3 bucket drawn outside the Region reads as global). The same file ships in the AWS Expert
+Designer and AWS Cloud Architect packs.
 """
 from __future__ import annotations
 
@@ -38,6 +41,9 @@ AZ = {"strokeColor": "#147EBA", "fillColor": "none", "fontColor": "#147EBA", "da
 # Which boundary may hold which: account > Region > VPC > Availability Zone > subnet.
 ALLOWED_PARENT = {"region": {"account", "cloud", "layer"}, "vpc": {"region"}, "az": {"vpc"}, "subnet": {"az"}}
 BOUNDARY_LABEL = re.compile(r"^(AWS account|AWS Region|VPC|Availability Zone|Public subnet|Private subnet)\b")
+# AWS icons a pack file may draw outside every Region: external actors and global services. Add a name here only
+# when a pack file draws such an icon (for example cloudfront or route_53); a Regional resource never belongs here.
+OUTSIDE_REGION = {"users"}
 
 
 def style_of(cell: ET.Element) -> dict[str, str]:
@@ -140,6 +146,41 @@ class DrawioAssetTests(unittest.TestCase):
                         self.assertEqual("fixed", s.get("aspect"))
                         if shape == "mxgraph.aws4.resourceIcon":
                             self.assertEqual("#ffffff", s.get("strokeColor"))
+
+    def test_every_edge_is_labelled(self):
+        """The legend reads cost-bearing paths from edge labels, and twin edges must say the same thing."""
+        for path in DRAWIO:
+            for page, cells in pages(path):
+                for cid, cell in cells.items():
+                    if cell.get("edge") != "1":
+                        continue
+                    with self.subTest(file=path.name, page=page, cell=cid):
+                        label = re.sub(r"<[^>]+>", " ", cell.get("value") or "").strip()
+                        self.assertTrue(label, f"edge {cid} has no label")
+
+    def test_aws_icons_sit_in_a_region(self):
+        """A Regional resource, such as an Amazon S3 bucket, is drawn inside its Region frame; at page level or
+        inside only the account it reads as global."""
+        for path in DRAWIO:
+            for page, cells in pages(path):
+                kinds = {cid: kind(cell) for cid, cell in cells.items()}
+                for cid, cell in cells.items():
+                    s = style_of(cell)
+                    shape = s.get("shape", "")
+                    if (cell.get("vertex") != "1" or not shape.startswith("mxgraph.aws4.")
+                            or shape in ("mxgraph.aws4.group", "mxgraph.aws4.groupCenter")):
+                        continue
+                    name = (s.get("resIcon", "") if shape == "mxgraph.aws4.resourceIcon" else shape)
+                    name = name.removeprefix("mxgraph.aws4.")
+                    if name in OUTSIDE_REGION:
+                        continue
+                    ancestors, cursor = [], cell.get("parent")
+                    while cursor in cells and cursor not in ancestors:
+                        ancestors.append(cursor)
+                        cursor = cells[cursor].get("parent")
+                    with self.subTest(file=path.name, page=page, cell=cid):
+                        self.assertIn("region", [kinds[a] for a in ancestors],
+                                      f"AWS icon '{name}' ({cid}) is not inside a Region frame")
 
     def test_removed_validator_is_not_referenced(self):
         self.assertFalse((ROOT / "tooling" / f"{REMOVED_VALIDATOR}.py").exists())
