@@ -1,0 +1,92 @@
+{
+ "about": "Which file to use where draw.io offers one Azure product under several paths, or where Microsoft publishes the icon outside the Azure set. Maintained by hand from verified evidence: it is not generated, and the catalog builder never writes it (its --check reports any path here that a new draw.io release no longer offers). Read by check_drawio.py: --find lists a preferred file first and marks the product's other paths, and the checker reports a superseded file as a warning, or an error with --strict. Each rule has: product; preferred, a path under img/lib/azure2/; label (optional), the label to give the icon; label_when (optional, needs label), the condition under which the label applies, for a file that also draws another product; superseded (optional), each path that draws a different, older design, mapped to what it draws; same_icon (optional), paths that draw the same icon as the preferred file; reason; evidence; sources; verified, the date the evidence was checked. Re-check every rule when the catalog or one of Microsoft's icon sets changes.",
+ "schema": 1,
+ "azure2": [
+  {
+   "product": "Microsoft Entra ID",
+   "preferred": "other/Entra_Identity.svg",
+   "label": "Microsoft Entra ID",
+   "superseded": {
+    "identity/Azure_Active_Directory.svg": "the pre-rename Azure Active Directory pyramid"
+   },
+   "reason": "Azure Active Directory was renamed Microsoft Entra ID. Microsoft publishes the Entra ID icon in its separate Microsoft Entra architecture icons set (October 2023), not in the Azure icon set V24, whose identity/ folder has only Entra sub-service icons.",
+   "evidence": "Rendered with draw.io Desktop 32.6.1 beside Microsoft's files: other/Entra_Identity.svg draws identically to 'Microsoft Entra ID color icon.svg' from the Microsoft Entra architecture icons download, and identity/Azure_Active_Directory.svg draws the pre-rename pyramid.",
+   "sources": [
+    "https://learn.microsoft.com/entra/architecture/architecture-icons",
+    "https://learn.microsoft.com/azure/architecture/icons/",
+    "https://github.com/jgraph/drawio/tree/v32.6.9/src/main/webapp/img/lib/azure2"
+   ],
+   "verified": "2026-11-01"
+  },
+  {
+   "product": "Private endpoint",
+   "preferred": "other/Private_Endpoints.svg",
+   "superseded": {
+    "networking/Private_Endpoint.svg": "an older private endpoint design"
+   },
+   "reason": "The Azure icon set V24 has one private endpoint icon, filed under other/ (...-Private-Endpoints.svg).",
+   "evidence": "Rendered with draw.io Desktop 32.6.1 beside V24's file: other/Private_Endpoints.svg draws identically to it, and networking/Private_Endpoint.svg draws an older design.",
+   "sources": [
+    "https://learn.microsoft.com/azure/architecture/icons/",
+    "https://github.com/jgraph/drawio/tree/v32.6.9/src/main/webapp/img/lib/azure2"
+   ],
+   "verified": "2026-11-01"
+  },
+  {
+   "product": "DNS zone (public or private)",
+   "preferred": "networking/DNS_Zones.svg",
+   "label": "Private DNS zone",
+   "label_when": "the zone is private",
+   "reason": "The Azure icon set V24 has a DNS Zones icon and no separate private DNS zone icon, so a public and a private DNS zone both use DNS Zones, and only a private zone needs the label to say what it is.",
+   "evidence": "Rendered with draw.io Desktop 32.6.1 beside V24's file: networking/DNS_Zones.svg draws identically to V24's DNS Zones icon.",
+   "sources": [
+    "https://learn.microsoft.com/azure/architecture/icons/",
+    "https://github.com/jgraph/drawio/tree/v32.6.9/src/main/webapp/img/lib/azure2"
+   ],
+   "verified": "2026-11-01"
+  },
+  {
+   "product": "App Service",
+   "preferred": "app_services/App_Services.svg",
+   "same_icon": [
+    "compute/App_Services.svg",
+    "containers/App_Services.svg"
+   ],
+   "reason": "Microsoft ships the same App Services file in five V24 folders, and draw.io's own Mobile and Web palettes reuse the app_services/ file, so diagrams standardise on that path.",
+   "evidence": "Rendered with draw.io Desktop 32.6.1: the compute/ and containers/ copies draw identically to app_services/App_Services.svg.",
+   "sources": [
+    "https://learn.microsoft.com/azure/architecture/icons/",
+    "https://github.com/jgraph/drawio/tree/v32.6.9/src/main/webapp/img/lib/azure2"
+   ],
+   "verified": "2026-11-01"
+  },
+  {
+   "product": "Log Analytics workspace",
+   "preferred": "analytics/Log_Analytics_Workspaces.svg",
+   "same_icon": [
+    "management_governance/Log_Analytics_Workspaces.svg"
+   ],
+   "reason": "draw.io's own Monitor palette reuses the analytics/ file, so diagrams standardise on that path.",
+   "evidence": "Rendered with draw.io Desktop 32.6.1: the management_governance/ copy draws identically to analytics/Log_Analytics_Workspaces.svg.",
+   "sources": [
+    "https://learn.microsoft.com/azure/architecture/icons/",
+    "https://github.com/jgraph/drawio/tree/v32.6.9/src/main/webapp/img/lib/azure2"
+   ],
+   "verified": "2026-11-01"
+  },
+  {
+   "product": "Local network gateway",
+   "preferred": "networking/Local_Network_Gateways.svg",
+   "same_icon": [
+    "other/Local_Network_Gateways.svg"
+   ],
+   "reason": "As in V24, the other/ copy is the same icon; networking/ is the product's own category, so diagrams standardise on that path.",
+   "evidence": "Rendered with draw.io Desktop 32.6.1: other/Local_Network_Gateways.svg draws identically to networking/Local_Network_Gateways.svg.",
+   "sources": [
+    "https://learn.microsoft.com/azure/architecture/icons/",
+    "https://github.com/jgraph/drawio/tree/v32.6.9/src/main/webapp/img/lib/azure2"
+   ],
+   "verified": "2026-11-01"
+  }
+ ]
+}

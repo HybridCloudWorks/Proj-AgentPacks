@@ -11,4 +11,5 @@ route_only_when_available:
   networking: [transitgateway, directconnect, route53, cloudfront, sitetositevpn]
   security: [securing-aws-iam-permissions, securing-s3-buckets, securing-api-gateway-with-aws-waf, detecting-cloud-threats-with-guardduty]
   cost: [aws-billing-and-cost-management, aws-cost-explorer-analyst, workload-cost-optimizer, cross-az-egress-investigator]
-  visualization: [aws-architecture-diagram]
+# No optional visualization skill (removed in 1.5.0): diagrams route to the shared drawio-core-generation,
+# drawio-render-export-and-review and diagram-validation-and-evidence skills that ship with this pack.

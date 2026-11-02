@@ -36,7 +36,7 @@ Steps that would need AWS credentials, such as an uncached CDK context lookup, a
 - Output `.drawio` path:
 - Exports, only if required: format, pages, scale, background, output folder
 - Generation path: native XML / Mermaid, then normalize / structured data with autolayout, then normalize / importer, then normalize
-- Draw.io Desktop path and version, or "not available":
+- Draw.io Desktop path and version (installer, per-user install, PATH or Microsoft Store build), or "not available" with the locations checked:
 
 ## Questions that change the design
 

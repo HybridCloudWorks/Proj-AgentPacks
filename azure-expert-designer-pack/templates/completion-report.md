@@ -41,11 +41,11 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- Check, command or method, and result. `structurally-validated` or `not-verified`
+- Check, command or method, and result, for example `check_drawio.py --strict` with its catalog version, icon summary, and error and warning counts after the last edit. `structurally-validated` or `not-verified`
 
 ### visual_checks
 
-- Renderer path and version, pages and size inspected, defects found and fixed. `visually-validated` or `not-verified`
+- Renderer path and version, the exact export command, pages and size inspected, whether every Azure icon drew, and defects found and fixed. `visually-validated` or `not-verified`
 
 ### live_or_external_checks
 

@@ -21,7 +21,7 @@ Ask before changing the existing file. Without that approval, write a reflowed c
 4. Do not shrink text until it is unreadable. Split into views or add a detail page instead.
 5. Keep semantics fixed: the same cells, parents and edges. Moving a cell into or out of a container changes its meaning; do that only to correct false containment, and record it as a semantic change.
 6. Apply `azure-icons-and-visual-language` for consistent icon scale and labels, and `drawio-xml-authoring` so cell IDs stay stable and the diff shows geometry and style changes only. Apply `drawio-core-generation` to confirm the output contract.
-7. Apply `diagram-validation-and-evidence` after the write. When Draw.io Desktop is detected, apply `drawio-render-export-and-review` and repeat the review loop until the render is clean at the consumption size.
+7. Apply `diagram-validation-and-evidence` after the write, including its checker with `--strict`. When Draw.io Desktop is detected, including the Microsoft Store build that `drawio-render-export-and-review` lists, apply that skill, export with `-k`, never with `--layout` or `--normalize`, and with `--embed-svg-images` for SVG, and repeat the review loop until the render is clean at the consumption size, with every edge label clear of frame borders. Run `diagram-validation-and-evidence` again after the last edit.
 
 ## Expected output
 

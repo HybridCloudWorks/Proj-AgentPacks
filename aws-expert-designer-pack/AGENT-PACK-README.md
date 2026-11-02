@@ -1,4 +1,4 @@
-# aws-expert-designer 1.4.0: artifact catalog
+# aws-expert-designer 1.5.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -16,7 +16,7 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | SKILL.md | Canonical skill: Translate AWS requirements and repository evidence into an architecture model, separating observed resources, inferred relationships, design choices, and unresolved questions. | .apm/skills/aws-architecture-design/SKILL.md |
 | SKILL.md | Canonical skill: Model common AWS patterns such as VPC networking, serverless, containers, event-driven systems, data platforms, hybrid connectivity, CI/CD, and multi-Region designs honestly. | .apm/skills/aws-architecture-patterns/SKILL.md |
 | aws-visual-rules.md | Canonical skill | .apm/skills/aws-icons-and-visual-language/references/aws-visual-rules.md |
-| SKILL.md | Canonical skill: Apply current AWS4 service and resource icons, labels, category containers, boundary styles, typography, and AWS architecture diagram conventions. | .apm/skills/aws-icons-and-visual-language/SKILL.md |
+| SKILL.md | Canonical skill: Apply draw.io's current AWS library icons and group styles, product labels, optional decorative category tiles, typography, and AWS architecture diagram conventions. | .apm/skills/aws-icons-and-visual-language/SKILL.md |
 | SKILL.md | Canonical skill: Compose AWS diagrams with deterministic spacing, account and network hierarchy, orthogonal routing, readable labels, and visible cost-bearing flows. | .apm/skills/aws-layout-and-composition/SKILL.md |
 | aws-xml-checklist.md | Canonical skill | .apm/skills/aws-xml-authoring/references/aws-xml-checklist.md |
 | SKILL.md | Canonical skill: Author and repair reviewable uncompressed Draw.io XML with safe IDs, explicit AWS containment, valid AWS4 icon names, valid edges, and no hidden structural defects. | .apm/skills/aws-xml-authoring/SKILL.md |
@@ -59,8 +59,8 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | minimal.drawio | Local test or recorded evidence | tests/fixtures/minimal.drawio |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
 | skill-coverage.yml | Local test or recorded evidence | tests/skill-coverage.yml |
+| test_drawio_assets.py | Local test or recorded evidence | tests/test_drawio_assets.py |
 | trigger-cases.yml | Local test or recorded evidence | tests/trigger-cases.yml |
-| validate_drawio_xml.py | Pack-specific helper code | tooling/validate_drawio_xml.py |
 | VALIDATION_REPORT.md | Executed checks and what remains unverified. | VALIDATION_REPORT.md |
 
 ## Build outputs (dist/, not committed)

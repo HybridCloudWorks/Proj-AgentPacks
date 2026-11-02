@@ -10,9 +10,9 @@ Use this Skill for diagram layout, reflow, edge routing, visual hierarchy, or re
 ## Layout defaults
 
 - Prefer left-to-right request/data flow; use top-to-bottom for governance, deployment, or control-plane flows.
-- Leave approximately 180 px horizontally and 120 px vertically between 120 px service containers. For 13 or more services, use approximately 220 px horizontally and 160 px vertically.
+- Give each service a 120 px slot: a 48x48 icon with its label, or an optional decorative category tile. Leave approximately 180 px horizontally and 120 px vertically between slots. For 13 or more services, use approximately 220 px horizontally and 160 px vertically.
 - Keep external actors below the title block, usually at y >= 140. Align major coordinates to 10 px increments.
-- Make account, Region, AZ, VPC, and subnet hierarchy legible without nesting every category. Use flat layouts when nested containment would obscure flow.
+- Make the account > Region > VPC > Availability Zone > subnet hierarchy legible, nested in that order, with each subnet inside exactly one Availability Zone frame. Do not nest by service category. A flat layout may group services, but never changes subnet or Availability Zone placement.
 - Use teal 28x28 numbered badges near primary flow sources and a right-side legend for seven or more primary services or multiple branches. Auxiliary services do not need step numbers unless they are part of the requested flow.
 
 ## Edges and cost visibility

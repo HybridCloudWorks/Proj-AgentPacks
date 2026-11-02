@@ -32,7 +32,7 @@ Deviation from the reference pattern: the API is active/active, but the report p
 
 From `aws-layout-and-composition`:
 
-- Two decorative Region frames (`container=0`) side by side, with mirrored service rows.
+- Two Region frames side by side, drawn with the library's `group_region` style as real containers, with mirrored service rows. No account frame is drawn, because no account exists yet; the companion report lists the account model as unresolved.
 - Route 53 is centered above both frames as a global service.
 - Users sit below the title block on the left.
 - An 80 px channel between the frames is reserved for cross-Region edges, so replication never crosses a service.
@@ -43,16 +43,16 @@ From `aws-layout-and-composition`:
   - asynchronous replication: dashed and labeled with direction
   - "cross-Region" as the prefix on every cost-bearing transfer label
 
-Region frames are decorative, so services are parented to cell `1` and only positioned inside the frames. Moving a frame does not move its services, and the companion report notes this for editors.
+Each Region frame is a real container, so a Region's API, function, table replica and bucket are parented to it and move with it. Route 53 and the users are parented to cell `1`, outside both frames, because neither belongs to a Region. Every icon and group style was copied whole from draw.io's AWS library, with only the typography changed.
 
 ## Validation
 
-- Structural checks: parse, root cells, 34 unique IDs, parents, 11 edges with icon endpoints, no compression, the AWS4 namespace and Helvetica were all checked, and all passed.
+- Structural checks: `check_drawio.py --strict` exited 0 with every AWS icon and group current in the catalog (draw.io 32.6.9), 34 unique IDs, resolvable parents and edge endpoints, and no compression. Reading the XML confirmed that all 11 edges end on icons, that no service is parented across Regions, and that Helvetica is used throughout.
 - Visual check:
-  - `drawio-render-export-and-review` rendered a review PNG to a scratch folder with the detected Draw.io Desktop, which also printed its version.
+  - `drawio-render-export-and-review` rendered a review PNG to a scratch folder with `-x -k -f png`, using the detected Draw.io Desktop, which also printed its version. Every icon and group drew its symbol.
   - At the 1280 px review width, both arrowheads of the DynamoDB replication edge were hidden under the replica labels, so the edge read as one-directional.
-  - Fix: moved the exit and entry points to the icons' vertical midpoints and placed the label in the channel.
-  - The re-render was clean.
+  - Fix: moved the exit and entry points to the icons' vertical midpoints and placed the label in the channel. The checker ran again and passed.
+  - The re-render, to a new file name because `-k` does not overwrite, was clean, and `diagram-validation-and-evidence` was completed on it.
 
 ## Completion report
 
@@ -84,7 +84,8 @@ Outcome: pattern diagram delivered as a designed reference.
 
 ### structural_checks
 
-- Parse, root cells, IDs, parents, edge endpoints, compression, namespace and fonts — structurally-validated.
+- `check_drawio.py --strict`: exit 0; parse, root cells, IDs, parents, edge endpoints, compression, and every AWS icon current in the catalog (draw.io 32.6.9) — structurally-validated.
+- Edges ending on icons, Region containment and fonts, checked by reading the XML — structurally-validated.
 
 ### visual_checks
 

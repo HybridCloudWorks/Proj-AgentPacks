@@ -18,8 +18,8 @@ agent: azure-expert-designer
 3. Apply `azure-architecture-design` to place subscriptions, resource groups, regions, zones, VNets and subnets as distinct concepts and to label each relationship `observed`, `inferred` or `designed`.
 4. When the requested pattern and the chosen services disagree, for example an active/active request with a data tier that has a single writable primary, draw what the services actually do and record the conflict as a design decision or an open question. Do not silently substitute a different service.
 5. Apply `drawio-layout-and-composition`: left-to-right data flow, top-to-bottom for governance, deployment or control-plane flows, global ingress outside regional frames, distinct edge styles for synchronous calls, asynchronous messages, replication and control-plane relationships, and a separate view when one page would be crowded.
-6. Apply `azure-icons-and-visual-language`, `drawio-core-generation` and `drawio-xml-authoring` for icons, boundaries, generation path and XML structure.
-7. Apply `diagram-validation-and-evidence` after every write, and `drawio-render-export-and-review` when Draw.io Desktop is detected.
+6. Apply `drawio-core-generation` workflow steps 2 to 4 for the generation path, current icons and boundary nesting: one VNet per region, joined by a labelled peering edge; no subnet inside a zone frame; zone-redundant resources labelled with their zones. Then apply `azure-icons-and-visual-language` and `drawio-xml-authoring` for icon style, labels and XML structure.
+7. Apply `diagram-validation-and-evidence` after every write, including its checker with `--strict`, and `drawio-render-export-and-review` when Draw.io Desktop is detected, including the Microsoft Store build that `drawio-render-export-and-review` lists; export with `-k`, never with `--layout` or `--normalize`, and with `--embed-svg-images` for SVG, and confirm that every Azure icon drew. Run `diagram-validation-and-evidence` again after the last edit.
 
 Write a new file. Ask before changing or overwriting an existing diagram.
 

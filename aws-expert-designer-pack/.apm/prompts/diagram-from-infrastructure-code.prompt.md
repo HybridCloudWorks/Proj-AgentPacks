@@ -17,10 +17,11 @@ The repository paths that hold the CloudFormation templates, CDK app or Terrafor
    - Terraform: AWS resources, modules, providers, references, outputs and backend context.
    Preserve unknown values such as parameters without defaults, variable-driven counts and lookups. Mark each relationship observed, inferred or designed. A declared resource does not prove runtime traffic, DNS, IAM authorization, routing or data flow.
 2. Apply `drawio-core-generation` to choose the generation path: native XML for AWS4 icons and precise boundaries; an installed importer or a controlled extraction as a starting point; structured generation with autolayout for large graphs, followed by AWS normalization.
-3. Apply `aws-icons-and-visual-language`, `aws-layout-and-composition` and `aws-xml-authoring`. Derive cell IDs from logical IDs or resource addresses, normalized to safe characters, so a later regeneration diffs cleanly.
+3. Apply `aws-icons-and-visual-language`, `aws-layout-and-composition` and `aws-xml-authoring`. Copy every icon and group style whole from draw.io's AWS library, and nest account > Region > VPC > Availability Zone > subnet as the source places each resource. Derive cell IDs from logical IDs or resource addresses, normalized to safe characters, so a later regeneration diffs cleanly.
 4. Apply `aws-architecture-patterns` when the source implements a recognizable pattern, and record where it deviates.
-5. Apply `diagram-validation-and-evidence` as a source-to-diagram audit: every component and edge traces to a file location or carries an explicit label.
-6. Apply `drawio-render-export-and-review` when Draw.io Desktop is available.
+5. After every write, run the `diagram-validation-and-evidence` structural checks, including `check_drawio.py --strict`.
+6. Apply `drawio-render-export-and-review` when Draw.io Desktop is available, including the Microsoft Store build.
+7. Complete `diagram-validation-and-evidence` as a source-to-diagram audit, with its visual checks on the render: every component and edge traces to a file location or carries an explicit label.
 
 Ask before any step that needs AWS credentials, such as a CDK context lookup that is not cached, a Terraform plan against remote state, or a live account snapshot. Ask before changing an existing diagram; otherwise write a new file.
 

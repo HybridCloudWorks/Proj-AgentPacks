@@ -1,11 +1,11 @@
 # VALIDATION_REPORT
 
-Pack: aws-cloud-architect 1.4.0
+Pack: aws-cloud-architect 1.5.0
 Standard: agent-pack-prompt v2.3
-Validated: 2026-10-18
+Validated: 2026-11-01
 Status: PASS
 
-Checks: 150  Passed: 149  Failed: 0  Skipped: 1
+Checks: 150  Passed: 150  Failed: 0  Skipped: 0
 
 ## Scope
 
@@ -167,7 +167,7 @@ Checks: 150  Passed: 149  Failed: 0  Skipped: 1
 | structural | an always-on contract instruction exists (.apm/instructions/*contract*.instructions.md) | pass |  |
 | structural | contract instruction states every short value listed in report-contract.yml | pass |  |
 | structural | status names used in installed content are defined in report-contract.yml | pass |  |
-| executable | pack unit tests | skipped | no test_*.py in tests/ |
+| executable | pack unit tests (python -m unittest discover -s tests) | pass | OK (skipped=1) |
 | executable | apm compile --validate | pass | [*] All primitives validated successfully! |
 | executable | apm install --target copilot,claude,codex,kiro,gemini,agent-skills succeeds | pass |  |
 | executable | copilot: 1 agents generated | pass | found 1 |

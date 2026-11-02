@@ -19,22 +19,23 @@ The `.drawio` file, the source of truth (requirements, infrastructure code, the 
 
 ## Dependencies and tools
 
-- `scripts/check_drawio.py`: Python 3.9 or later, standard library only. It reads `scripts/icon_catalog.json`, which lists every icon name draw.io's AWS, Azure and Google Cloud libraries offered at draw.io 32.5.5 and records that version.
+- `scripts/check_drawio.py`: Python 3.9 or later, standard library only. It reads `scripts/icon_catalog.json`, which records every palette entry of draw.io's AWS, Azure and Google Cloud libraries at draw.io 32.6.9 (title, form, default size and full style) and that version. `--find "<product>"` prints the matching entries with the style to copy. Do not read the catalog file itself; it is about 300 KB.
+- `scripts/icon_preferences.json`: maintained by hand, not generated. Where draw.io offers one Azure product under several paths, or Microsoft publishes the icon outside the Azure set, it names the file to use, the paths that are superseded, and the reason, render evidence, sources and verification date for each choice. The checker and `--find` read it.
 - [references/provider-checks.md](references/provider-checks.md): icon status by style, the scope rules, and what the checker cannot decide.
 - Draw.io Desktop through drawio-render-export-and-review for renders. Provider CLIs (AWS CLI, Azure CLI, gcloud) only for read-only checks the user authorized.
 
 ## Workflow
 
-1. Structural and icon checks. Run `python scripts/check_drawio.py <file.drawio>` from this skill's folder, adding `--json` for machine-readable output. It checks:
+1. Structural and icon checks. Run `python scripts/check_drawio.py --strict <file.drawio>` from this skill's folder, adding `--json` for machine-readable output. It checks:
    - the `mxfile`, `diagram` and `mxGraphModel` layout, and whether any page is compressed;
    - root cells `0` and `1`, unique IDs, parent, source and target references, and parent loops;
-   - vertex and edge geometry, hidden cells, and script or event-handler markup in labels;
-   - every AWS, Azure and Google Cloud icon against the catalog.
+   - vertex and edge geometry, hidden cells, and active content in labels, read from the label's HTML: a script element, an event-handler attribute, or a `javascript:` URL in a link or source attribute;
+   - every AWS, Azure and Google Cloud icon against the catalog: name, form and colours.
 
-   Each icon gets a status: current, legacy, retired, unknown, or unattributed. Unknown is an error: draw.io draws an unknown AWS or Google Cloud name as a plain coloured square with no symbol, and an unknown Azure path as a broken image. Legacy and retired are warnings, or errors with `--strict`. Unattributed images cannot be traced to a provider, so check them visually. Exit status 1 means at least one error. Also confirm that the output and any report exist at the requested paths, and that fonts and container styles match the requested style.
+   Each icon gets a status: current, superseded, legacy, retired, wrong-form, unknown, or unattributed. Unknown is an error: draw.io draws an unknown AWS or Google Cloud name as a plain coloured square with no symbol, and an unknown Azure path, including a palette path spelled with the wrong letter case, as a broken image. Wrong-form is an error: an AWS name used in a form the library does not offer, such as a service name as a bare stencil, is not an AWS icon. Superseded is an Azure file draw.io still offers that `scripts/icon_preferences.json` marks as an older design of a product, such as the pre-rename Azure Active Directory pyramid for Microsoft Entra ID; the message names the file to use. An AWS or Google Cloud icon with no `fillColor` where the palette sets one is an error, because it draws incompletely. A colour that differs from the palette, a colour where the palette sets `none` (a filled AWS boundary, for example), or a missing `strokeColor`, is recolouring. Superseded, legacy, retired and recoloured icons are warnings, or errors with `--strict`, which packs use. A compressed page that inflates to more than 10 MB is not decoded and is an error. Unattributed images cannot be traced to a provider, so check them visually. Exit status 1 means at least one error. Also confirm that the output and any report exist at the requested paths, and that fonts and container styles match the requested style.
 2. Provider and boundary checks. For each provider in the diagram, check that:
    - every icon comes from that provider's current library and belongs to the component's provider;
-   - boundaries follow the provider's scope rules: an AWS subnet sits in one Availability Zone, Azure and Google Cloud subnets never sit inside a zone, and a Google Cloud VPC network never sits inside one region;
+   - boundaries follow the provider's scope rules: an AWS subnet sits in one Availability Zone, Azure and Google Cloud subnets never sit inside a zone, a Google Cloud VPC network never sits inside one region, and a managed service reached by private IP sits outside the customer's subnet (see the scope rules in the reference);
    - ownership scopes are not drawn as network boundaries, and governance scopes are not drawn as packet paths;
    - every provider icon carries the product name, and every Google Cloud category icon is labelled;
    - in a mixed diagram, each provider has its own frame and every cross-provider link is a labelled edge.

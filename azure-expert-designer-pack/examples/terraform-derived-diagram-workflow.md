@@ -73,7 +73,21 @@ The existence of the DNS zone does not prove that the spoke resolves it. With no
 
 ## 5. Validation
 
-The XML was parsed and checked after the write. Draw.io Desktop was not on PATH, and was not found at `C:\Program Files\draw.io\draw.io.exe` or in the user installation directory. Rendering was not run.
+The agent ran the `diagram-validation-and-evidence` checker after the write:
+
+```text
+> python scripts/check_drawio.py --strict docs\architecture\orders-platform.drawio
+file: docs\architecture\orders-platform.drawio
+pages: 1 (Production)
+cells: 64 vertices, 14 edges
+catalog: draw.io 32.6.9, built 2026-11-01
+icons Azure: current 15
+errors: 0
+warnings: 0
+result: PASS
+```
+
+Draw.io Desktop was not on PATH, not at `C:\Program Files\draw.io\draw.io.exe` or in the per-user installation directory, and `Get-AppxPackage *draw.io*` reported no Microsoft Store build. Rendering was not run.
 
 ## Completion report
 
@@ -105,11 +119,11 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- XML parses; root cells present; unique IDs; all parents, sources and targets resolve; uncompressed; Azure2 image paths only, plus neutral shapes. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.6.9: PASS, 0 errors and 0 warnings. Root cells present; unique IDs; all parents, sources and targets resolve; uncompressed; 15 Azure icons, all current, plus neutral shapes for the NGINX ingress controller and the unresolved items. `structurally-validated`
 
 ### visual_checks
 
-- Draw.io Desktop was not found, so no render was opened or inspected. `not-verified`
+- Draw.io Desktop was not found in any of the locations `drawio-render-export-and-review` lists, including the Microsoft Store build, so no render was opened or inspected. Whether every Azure icon draws is unknown. `not-verified`
 
 ### live_or_external_checks
 

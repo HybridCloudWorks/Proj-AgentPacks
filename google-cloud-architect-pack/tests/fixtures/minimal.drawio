@@ -1,0 +1,51 @@
+<mxfile host="drawio" agent="google-cloud-architect fixture, hand-authored">
+  <diagram id="gcp-minimal" name="Page-1">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="project" value="Google Cloud project: example-project (ownership, billing and IAM scope; not a network)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#F8F9FA;strokeColor=#5F6368;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontFamily=Helvetica;fontSize=13;fontStyle=1;fontColor=#3C4043;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1020" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="load_balancer" value="Cloud Load Balancing&lt;br&gt;global external&lt;br&gt;Application Load Balancer" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.networking;fillColor=#9aa0a6;fontFamily=Helvetica;" vertex="1" parent="project">
+          <mxGeometry x="50" y="165" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="run_region" value="Region: us-central1 (location only)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;dashed=1;dashPattern=8 4;fillColor=none;strokeColor=#5F6368;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#5F6368;" vertex="1" parent="project">
+          <mxGeometry x="190" y="60" width="260" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_run" value="Cloud Run&lt;br&gt;example-service" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.cloudrun;fillColor=#4285f4;fontFamily=Helvetica;" vertex="1" parent="run_region">
+          <mxGeometry x="105" y="105.13" width="50" height="49.74" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_sql" value="Cloud SQL for PostgreSQL&lt;br&gt;example-db, private IP&lt;br&gt;(Google-managed network)" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.cloudsql;fillColor=#4285f4;fontFamily=Helvetica;" vertex="1" parent="run_region">
+          <mxGeometry x="105" y="225.22" width="50" height="49.56" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc" value="VPC network: example-vpc (global)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=none;strokeColor=#4285F4;strokeWidth=2;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#1A73E8;" vertex="1" parent="project">
+          <mxGeometry x="620" y="60" width="380" height="500" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc_region" value="Region: us-central1" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;dashed=1;dashPattern=8 4;fillColor=none;strokeColor=#5F6368;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontFamily=Helvetica;fontSize=12;fontStyle=1;fontColor=#5F6368;" vertex="1" parent="vpc">
+          <mxGeometry x="20" y="50" width="340" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="subnet" value="Subnet: example-subnet, 10.10.0.0/24&lt;br&gt;(regional; spans the region's zones)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#E6F4EA;strokeColor=#34A853;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontFamily=Helvetica;fontSize=11;fontStyle=1;fontColor=#137333;" vertex="1" parent="vpc_region">
+          <mxGeometry x="20" y="50" width="300" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="vm" value="Compute Engine VM&lt;br&gt;example-worker&lt;br&gt;(zone us-central1-a)" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.computeengine;fillColor=#4285f4;fontFamily=Helvetica;" vertex="1" parent="subnet">
+          <mxGeometry x="125" y="200" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_lb_run" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="load_balancer" target="cloud_run">
+          <mxGeometry x="-0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_run_subnet" value="Direct VPC egress" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.0882;entryDx=0;entryDy=0;" edge="1" parent="1" source="cloud_run" target="subnet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_vm_sql" value="PostgreSQL 5432&lt;br&gt;private services access" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vm" target="cloud_sql">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="425" />
+              <mxPoint x="575" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

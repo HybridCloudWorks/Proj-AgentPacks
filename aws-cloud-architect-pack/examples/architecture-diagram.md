@@ -18,9 +18,9 @@ This example ends **unverified**. The diagram is structurally validated, but it 
 
 ## Routing and generation
 
-`aws-architecture-visualization` checked for a dedicated AWS diagram capability. None was installed in this host, so generation fell to `drawio-core-generation`.
+`aws-architecture-visualization` routed generation to the shared `drawio-core-generation`, then structural checks, rendering and validation to `diagram-validation-and-evidence` and `drawio-render-export-and-review`.
 
-`drawio-core-generation` chose native XML over Mermaid. The diagram needs AWS4 icons, nested account, Region, AZ and subnet boundaries, and reviewable IDs. Cell IDs reuse the TOPOLOGY ids (`svc-alb`, `svc-ingest-api`, `sn-app-a` and so on), so a reviewer can trace each shape back to the handoff.
+`drawio-core-generation` chose native XML over Mermaid. The diagram needs draw.io's AWS library icons and group styles, boundaries nested account > Region > VPC > Availability Zone > subnet, and reviewable IDs. Every icon and group style was copied whole from the library, with its category `fillColor` and bottom label. Cell IDs reuse the TOPOLOGY ids (`svc-alb`, `svc-ingest-api`, `sn-app-a` and so on), so a reviewer can trace each shape back to the handoff.
 
 Two pages:
 
@@ -42,31 +42,40 @@ Nothing in the diagram is missing from the approved design, and nothing in it is
 
 ## Structural checks
 
-The architect parsed the file with Python's standard XML parser and checked it against the skill's structural list:
+The architect ran the checker that ships with `diagram-validation-and-evidence`, in strict mode, after every write:
 
-- Root `mxfile`, two `diagram` elements, inline uncompressed `mxGraphModel` on each page.
-- Root cells `0` and `1` present on each page.
-- 87 cells, all IDs unique.
-- Every `parent`, `source` and `target` resolves.
-- Every AWS shape uses `shape=mxgraph.aws4.*` or `resIcon=mxgraph.aws4.*`. No legacy `mxgraph.aws.` styles.
-- No hidden or orphaned cells.
-- No HTML labels containing script.
+```text
+python <installed skills>/diagram-validation-and-evidence/scripts/check_drawio.py --strict diagrams/tracking-platform.drawio
+file: diagrams/tracking-platform.drawio
+pages: 2 (Runtime and data flow, Network and egress)
+cells: 71 vertices, 12 edges
+catalog: draw.io 32.6.9, built 2026-11-01
+icons AWS: current 38
+errors: 0
+warnings: 0
+result: PASS
+```
 
-All checks passed: structurally-validated.
+- Exit code 0. Each page has an inline, uncompressed `mxGraphModel` with root cells `0` and `1`; the 87 cells have unique IDs within each page; every `parent`, `source` and `target` resolves; no cell is hidden or orphaned, and no label carries script.
+- All 38 AWS icons and groups are in the catalog's current list, with none legacy, retired or unknown. A namespace check would not have shown this, because draw.io's legacy AWS18 library shares the `mxgraph.aws4` namespace.
+- Read from the XML: every subnet sits in one Availability Zone inside the VPC, and nothing is parented to a `container=0` frame.
+
+Structural result: structurally-validated. The checker cannot tell whether each icon is the right product; that was compared by hand with TOPOLOGY.json in the semantic review above.
 
 ## Render and export
 
-`drawio-render-export-and-review` looked for Draw.io Desktop in three places:
+`drawio-render-export-and-review` looked for Draw.io Desktop in four places:
 
 - `C:\Program Files\draw.io\draw.io.exe`: not found.
 - The per-user install directory under `%LOCALAPPDATA%\Programs\draw.io`: not found.
 - `PATH`: no `draw.io` or `drawio` on it.
+- The Microsoft Store build: `Get-AppxPackage *draw.io*` returned no package.
 
 No renderer was available, so **no PNG was exported and no visual check ran**. The source file was not modified to work around this. Spacing, clipping, label legibility, icon scale and edge crossings have not been inspected.
 
 ## Completion report
 
-Pack: aws-cloud-architect. Date: 2026-10-18.
+Pack: aws-cloud-architect. Date: 2026-11-01.
 
 Outcome: the editable diagram is written and structurally validated. Rendering, the PNG export and the visual review are not verified, because Draw.io Desktop was unavailable.
 
@@ -114,13 +123,13 @@ Unchanged from the approved handoff. The diagram adds no services or relationshi
 
 | File | Purpose | Check run | Label |
 |---|---|---|---|
-| `diagrams/tracking-platform.drawio` | Editable source, two pages | XML parse plus the structural checks listed above | structurally-validated |
+| `diagrams/tracking-platform.drawio` | Editable source, two pages | `check_drawio.py --strict`, exit 0, 38 AWS icons current (catalog draw.io 32.6.9), plus the nesting read from the XML | structurally-validated |
 | `diagrams/tracking-platform.drawio` | Visual quality | Not rendered | not-verified |
 | `diagrams/export/tracking-platform-*.png` | Slide images | Not produced: no renderer | not-verified |
 
 ### live_or_external_checks
 
-- Draw.io Desktop detection: executed, not found.
+- Draw.io Desktop detection: executed in four places, including the Microsoft Store build; not found.
 - Export and visual review: not executed (not-verified).
 - AWS account comparison: not in scope and not executed (not-verified).
 

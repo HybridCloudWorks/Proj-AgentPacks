@@ -11,11 +11,12 @@ The `.drawio` file; the consumption size (slide, document page, screen or print)
 
 ## Workflow
 
-1. Apply `aws-layout-and-composition`. Set flow direction and spacing for the service count. Keep external actors below the title block and align to 10 px. Make the account, Region, AZ, VPC and subnet hierarchy legible, and use numbered badges and a right-side legend for seven or more primary services or multiple branches.
+1. Apply `aws-layout-and-composition`. Set flow direction and spacing for the service count. Keep external actors below the title block and align to 10 px. Make the account > Region > VPC > Availability Zone > subnet hierarchy legible, nested in that order with each subnet inside one Availability Zone, and use numbered badges and a right-side legend for seven or more primary services or multiple branches.
 2. Route orthogonal edges with deliberate entry and exit points, waypoints and clearance from unrelated shapes. Label synchronous, asynchronous, replication, control-plane, cross-AZ, cross-Region, hybrid and egress relationships distinctly.
 3. Apply `aws-xml-authoring` to change geometry, waypoints and containment while keeping IDs stable, and keep the `drawio-core-generation` output contract: uncompressed, editable and diffable. Apply `aws-icons-and-visual-language` for a consistent icon scale.
-4. Render before and after with `drawio-render-export-and-review` when Draw.io Desktop is available, and run the review loop. When a diagram is too crowded, split it into views or add a detail page rather than shrinking text until it is unreadable.
-5. Apply `diagram-validation-and-evidence`, and confirm that the reflow changed no parent that carries meaning, such as a subnet, AZ or VPC.
+4. After every write, run the `diagram-validation-and-evidence` structural checks, including `check_drawio.py --strict`, and confirm that the reflow changed no parent that carries meaning, such as a subnet, Availability Zone, VPC or Region.
+5. Render before and after with `drawio-render-export-and-review` when Draw.io Desktop is available, including the Microsoft Store build, and run the review loop. When a diagram is too crowded, split it into views or add a detail page rather than shrinking text until it is unreadable.
+6. Complete `diagram-validation-and-evidence` after the final render, with its visual checks on that render.
 
 ## Expected output
 

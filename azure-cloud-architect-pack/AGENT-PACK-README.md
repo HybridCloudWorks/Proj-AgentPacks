@@ -1,4 +1,4 @@
-# azure-cloud-architect 1.4.0: artifact catalog
+# azure-cloud-architect 1.5.0: artifact catalog
 
 Every file in this pack, with its purpose and location. Contents are in the files themselves.
 
@@ -71,8 +71,8 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | minimal.drawio | Local test or recorded evidence | tests/fixtures/minimal.drawio |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
 | skill-coverage.yml | Local test or recorded evidence | tests/skill-coverage.yml |
+| test_drawio_assets.py | Local test or recorded evidence | tests/test_drawio_assets.py |
 | trigger-cases.yml | Local test or recorded evidence | tests/trigger-cases.yml |
-| validate_drawio_xml.py | Pack-specific helper code | tooling/validate_drawio_xml.py |
 | VALIDATION_REPORT.md | Executed checks and what remains unverified. | VALIDATION_REPORT.md |
 
 ## Build outputs (dist/, not committed)

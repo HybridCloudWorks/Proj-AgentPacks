@@ -15,9 +15,10 @@ This step applies `aws-xml-authoring`, its checklist, and `aws-icons-and-visual-
 | Cell | Defect (review ID) | Repair | Meaning changed? |
 |---|---|---|---|
 | file | Compressed payload (S1) | Written uncompressed with an inline `mxGraphModel` | no |
-| `e12` | Dangling target `node_44` (S2) | New neutral cell `cgw_corp` labeled "Customer gateway (corporate data center)" inside an on-premises group; `e12` re-targeted to it | restores what the Terraform declares (observed) |
-| `elb`, `rds_primary`, `natgw` | Legacy `mxgraph.aws3` (S3) | AWS4 resource icons and resource shapes. Each name was confirmed in the installed library's AWS4 sidebar before use | no |
+| `e12` | Dangling target `node_44` (S2) | New neutral cell `cgw_corp` labeled "Customer gateway (corporate data center)" inside an on-premises group drawn with the library's `group_corporate_data_center` style; `e12` re-targeted to it | restores what the Terraform declares (observed) |
+| `elb`, `rds_primary`, `natgw` | Legacy AWS17 `mxgraph.aws3` (S3) | Current icons (the `application_load_balancer` and `nat_gateway` resource icons and the `rds` service icon), each style copied whole from the installed draw.io AWS library's shape search, with its category `fillColor` and bottom label. `check_drawio.py --strict` then reported all three as current | no |
 | `jenkins` | EC2 icon for an on-premises system (S4) | Neutral server shape in the on-premises group | yes: corrects the hosting claim, based on the user's statement |
+| `az_a`, `az_b` | AZs parented to the Region, outside the VPC (M5) | Re-parented to `vpc_main`. The Region stays a real container around the VPC, and the subnets stay in their AZs | yes: restores Region > VPC > Availability Zone > subnet |
 | `rds_primary` | In a public subnet (M1) | Re-parented to `subnet_data_a` | yes: Terraform evidence |
 | `natgw` | In a private subnet (M2) | Re-parented to `subnet_public_a` | yes: Terraform evidence |
 | `sg_app` | Security group used as a real container (M3) | Removed. New `sg_app_a` and `sg_app_b` dashed annotation groups (`container=0`) around the app instances, labeled "sg-app (attached to instance ENIs)". Subnets re-parented to their AZs | yes: removes a false boundary |
@@ -25,7 +26,7 @@ This step applies `aws-xml-authoring`, its checklist, and `aws-icons-and-visual-
 | `e7` | Edge ends on a container (A1) | Re-targeted to `asg_app_a`, the icon of the target group's Auto Scaling group | no |
 | `e3`, `e4` | No arrowheads (A2) | `endArrow=block`, from web to app, labeled "HTTP 8080" | no; the direction comes from security-group evidence |
 
-Every valid original ID is kept, so the diff against the decoded original stays readable; only `sg_app` is removed. New cells get semantic IDs. Each correction that changes meaning appears in the companion report's decision table with its evidence.
+Every valid original ID is kept, so the diff against the decoded original stays readable; only `sg_app` is removed. New cells get semantic IDs. Each correction that changes meaning appears in the companion report's decision table with its evidence. The original's boundaries were hand-typed rectangles; they were replaced with the library's AWS group styles, keeping their IDs. After the repair, `check_drawio.py --strict` exited 0.
 
 ## Reflow
 
@@ -33,7 +34,7 @@ This step applies `aws-layout-and-composition`.
 
 - The repairs raised the primary service count to 14, so spacing goes to 220 px by 160 px.
 - Internet users sit at the top left below the title block. The on-premises group sits at the bottom left. Its VPN edge is labeled "hybrid: Site-to-Site VPN, two tunnels".
-- The Region frame becomes decorative (C2), and the AZs are re-parented to the VPC. Fonts are Helvetica throughout, and edge labels are 11 px (C1). The VPN label is widened (V1).
+- Boundaries keep the library group styles and the nesting set by the repair; only geometry moves. Fonts are Helvetica throughout, and edge labels are 11 px (C1). The VPN label is widened (V1).
 - A legend is added for solid, dashed and annotation-group styles and for the cost-bearing label prefixes.
 
 The first render at slide size showed that a single page could not hold 14 services with readable 10 px labels: they shrank to about 7 px on the slide. Following the skill, the agent split the views rather than shrinking text:
@@ -41,23 +42,24 @@ The first render at slide size showed that a single page could not hold 14 servi
 - Page "Overview": users, VPC, AZs, ALB, app tier, NAT and egress, and the database primary, standby and replication edge. The on-premises side is one labeled cell, "Corporate data center (detail on page Hybrid)", joined by a single VPN edge.
 - Page "Hybrid": the customer gateway, both VPN tunnels, the virtual private gateway, and the on-premises group with Jenkins. `cgw_corp`, `e12` and `jenkins` move here with their IDs unchanged, so they still diff against the original.
 
-The agent then re-checked that the reflow changed no meaningful parent. Every cell kept the subnet, AZ and VPC parent it had after the repair. Each page has its own root cells, and IDs are unique within each page.
+The agent then re-checked that the reflow changed no meaningful parent. Every cell kept the subnet, AZ, VPC and Region parent it had after the repair. Each page has its own root cells, and IDs are unique within each page. `check_drawio.py --strict` checks IDs per page, and it exited 0 on the two-page file.
 
 ## Export
 
 This step applies `drawio-render-export-and-review`.
 
-- Draw.io Desktop was found at `C:\Program Files\draw.io\draw.io.exe`, and the version it printed was recorded in the render record.
-- Commands, one for each page and format. Both pages ran; page 1 is shown:
+- The detection checked the installer path, the per-user install, PATH and the Microsoft Store build. Draw.io Desktop was found at `C:\Program Files\draw.io\draw.io.exe`, and the version `--version` printed was recorded in the render record.
+- Commands, one for each page and format. `-k` refuses to overwrite an existing export, SVG adds `--embed-svg-images`, and neither `--layout` nor `--normalize` is used, because both change the diagram before it is drawn. Both pages ran; page 1 is shown:
 
 ```text
-"C:\Program Files\draw.io\draw.io.exe" --export --format svg --page-index 1 --border 20 --output exports\network-overview.v2-overview.svg network-overview.v2.drawio
-"C:\Program Files\draw.io\draw.io.exe" --export --format png --page-index 1 --scale 2 --border 20 --output exports\network-overview.v2-overview.png network-overview.v2.drawio
+"C:\Program Files\draw.io\draw.io.exe" -x -k -f svg --embed-svg-images -p 1 -b 20 -o exports\network-overview.v2-overview.svg network-overview.v2.drawio
+"C:\Program Files\draw.io\draw.io.exe" -x -k -f png -p 1 -s 2 -b 20 -o exports\network-overview.v2-overview.png network-overview.v2.drawio
 ```
 
 - All four commands exited with code 0. Exit codes were recorded, but not treated as quality evidence.
-- The PNGs were inspected at slide size (1920×1080, image scaled to fit) and the SVGs in a Windows browser at 100%. Two defects appeared. On the overview, the legend overlapped the egress label. In the SVG, labels referencing Helvetica rendered in a substitute font on Windows, slightly wider.
-- Fixes: the legend moved 40 px right and that page was re-exported. Under the substitute font every label still fit its geometry, so the font substitution is recorded as a limit rather than changed.
+- The PNGs were inspected at slide size (1920×1080, image scaled to fit) and the SVGs in a Windows browser at 100%. Every icon and group drew its symbol. Two defects appeared. On the overview, the legend overlapped the egress label. In the SVG, labels referencing Helvetica rendered in a substitute font on Windows, slightly wider.
+- Fixes: the legend moved 40 px right. The two overview exports this task had written were deleted, because `-k` will not overwrite them, and that page was exported again. Under the substitute font every label still fit its geometry, so the font substitution is recorded as a limit rather than changed.
+- `diagram-validation-and-evidence` was completed after the final exports: `check_drawio.py --strict` exited 0 on the delivered source, and the visual checks rest on the final renders.
 - Nothing was uploaded to the wiki.
 
 ## Completion report
@@ -92,7 +94,8 @@ Outcome: corrected diagram and slide exports delivered; the original file is unt
 
 ### structural_checks
 
-- Parse, root cells on each page, IDs unique within each page (every valid original ID kept, `sg_app` removed), parents, edges with existing icon endpoints, no compression, AWS4 namespace only, Helvetica — structurally-validated.
+- `check_drawio.py --strict`: exit 0; parse, root cells on each page, IDs unique within each page, parents, edge endpoints, no compression, and every AWS icon current in the catalog (draw.io 32.6.9) — structurally-validated.
+- Every valid original ID kept and `sg_app` removed, edges ending on icons, account > Region > VPC > Availability Zone > subnet nesting and Helvetica, checked by reading the XML — structurally-validated.
 
 ### visual_checks
 

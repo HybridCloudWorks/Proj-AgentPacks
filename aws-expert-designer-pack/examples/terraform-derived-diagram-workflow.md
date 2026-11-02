@@ -48,13 +48,13 @@ Cell IDs are derived from resource addresses and normalized for stable regenerat
   - Left to right: clients → HTTP API → ingest function → SQS → worker → DynamoDB. AZ a and AZ b are stacked rows inside the VPC.
   - Egress from private subnet b to the NAT gateway in AZ a is drawn and labeled "cross-AZ to NAT (single_nat_gateway = true)". It is a cost-bearing path and an AZ dependency.
   - The SQS-through-NAT path is labeled "egress via NAT: SQS API (no interface endpoint)".
-- `aws-icons-and-visual-language`: AWS4 resource icons for API Gateway, Lambda, SQS, DynamoDB and KMS. The NAT gateway, internet gateway and gateway endpoint use AWS4 resource shapes from the installed library. Clients use a neutral shape. The KMS key sits in the auxiliary frame with a dashed outline and the label "ARN supplied at deploy; owning account unknown".
+- `aws-icons-and-visual-language`: service icons for API Gateway, Lambda, SQS, DynamoDB and KMS, and resource icons for the NAT gateway, internet gateway and gateway endpoint, each style copied whole from the installed draw.io AWS library with its category `fillColor` and bottom label. Region, VPC and subnets use the library's group styles, and the Availability Zones its dashed rectangle with `container=1` added. Clients are unknown systems, so they use a neutral shape. The KMS key icon is parented to the Region and drawn over the decorative auxiliary frame (`container=0`), with the label "ARN supplied at deploy; owning account unknown".
 
 ## Validation
 
-- Structural checks: the parse, root cells, 38 unique IDs, parents, 13 edges with icon endpoints, no compression and the AWS4 namespace were all checked, and all passed.
+- Structural checks: `check_drawio.py --strict` exited 0. It found the parse, root cells, 38 unique IDs, parents and edge endpoints sound, no compression, and every AWS icon and group current in the catalog (draw.io 32.6.9). Reading the XML confirmed that all 13 edges end on icons and that each subnet sits in one Availability Zone inside the VPC.
 - Semantic check: every row of the evidence matrix maps to a cell or an edge. No cell lacks a source row.
-- Visual check: `drawio-render-export-and-review` looked for Draw.io Desktop at `C:\Program Files\draw.io\draw.io.exe`, at `%LOCALAPPDATA%\Programs\draw.io\draw.io.exe` and on PATH, and found none. Rendering was not run.
+- Visual check: `drawio-render-export-and-review` looked for Draw.io Desktop at `C:\Program Files\draw.io\draw.io.exe`, at `%LOCALAPPDATA%\Programs\draw.io\draw.io.exe`, on PATH, and as a Microsoft Store package (`Get-AppxPackage *draw.io*` returned nothing), and found none. Rendering was not run, so `diagram-validation-and-evidence` reports its visual checks as not run.
 
 ## Completion report
 
@@ -88,11 +88,12 @@ Outcome: diagram delivered; visual check not run.
 
 ### structural_checks
 
-- Parse, root cells, IDs, parents, edge endpoints, compression and namespace — structurally-validated.
+- `check_drawio.py --strict`: exit 0; parse, root cells, IDs, parents, edge endpoints, compression, and every AWS icon current in the catalog (draw.io 32.6.9) — structurally-validated.
+- Edges ending on icons and subnet-in-one-AZ nesting, checked by reading the XML — structurally-validated.
 
 ### visual_checks
 
-- Draw.io Desktop not found in the three locations checked. No render and no visual inspection — not-verified.
+- Draw.io Desktop not found in the four locations checked, including the Microsoft Store package. No render and no visual inspection — not-verified.
 
 ### live_or_external_checks
 

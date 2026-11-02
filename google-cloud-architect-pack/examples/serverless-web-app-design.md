@@ -32,6 +32,10 @@ Release status and EU-region availability were checked in documentation for each
 
 ## Diagram
 
+The architecture diagram is an editable `portal-runtime.drawio`, drawn with drawio-core-generation from draw.io's Google Cloud Platform 2026 library: Cloud Run and Cloud SQL as core product icons, Pub/Sub, the load balancer with Cloud Armor, and IAP as labelled category icons. Cloud Run sits in a location-only EU region frame inside project portal-prod; Cloud SQL sits in the project frame outside the VPC subnet, its zone frames under the primary and standby, joined to the network by an edge labelled "Private Service Connect". It is validated with `check_drawio.py --strict` and a rendered review.
+
+The icon-free call sketch below gives readers the request path at a glance; it does not replace the diagram.
+
 ```mermaid
 flowchart LR
   user([Customer]) --> lb[Regional external ALB + Cloud Armor]
