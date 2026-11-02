@@ -10,11 +10,11 @@ Use this Skill when a diagram needs a recognizable Azure architecture pattern or
 ## Pattern checks
 
 - Serverless web: show entry, compute, identity/secrets, data, observability, and private connectivity only where configured.
-- VNet and private endpoint: distinguish subnet placement, private endpoint NIC, private DNS resolution, and the target PaaS resource. A private endpoint is not the same thing as a service endpoint or an inbound route.
+- VNet and private endpoint: distinguish subnet placement, private endpoint NIC, private DNS resolution, and the target PaaS resource. Only the endpoint NIC sits in the subnet; the PaaS resource stays outside the VNet, and App Service with regional VNet integration stays outside the VNet with an outbound edge into its delegated subnet. A private endpoint is not the same thing as a service endpoint or an inbound route.
 - AKS: separate control plane, node pools, ingress, workload identity, network policy, service-to-service flow, and managed dependencies. Do not draw every Kubernetes object as an Azure resource.
 - Data and analytics: show ingestion, processing, storage, serving, governance, and sensitivity boundaries; distinguish batch, streaming, and replication.
 - CI/CD: show source, build, artifact, deployment identity, environment gates, and target subscriptions/resource groups; do not imply that a pipeline is a runtime dependency.
 - Landing zone and governance: show management groups, policy, role assignments, subscriptions, and network topology as separate layers.
 - Hybrid and multi-region: label routing, latency, failover authority, replication direction, and active/active versus active/passive. Do not imply that a global edge service automatically replicates or moves database traffic.
 
-Use the supplied basic and advanced templates as pattern references, then adapt to actual source evidence and record deviations.
+Draw each pattern from the actual source evidence or approved design, nest its boundaries by `drawio-core-generation` workflow step 4, and record every deviation from the pattern.

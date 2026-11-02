@@ -26,4 +26,6 @@ Inventory files before drawing. Parse declared resources, modules, variables, ou
 
 Ask only questions that change the architecture or visual scope: audience, business flow, data sensitivity, availability target, regions, connectivity, identity, scale, and required output. Offer a minimal architecture and optional security, reliability, observability, and governance layers rather than drawing every possible Azure service.
 
+Place each element by the scope rules in `drawio-core-generation` workflow step 4: a VNet lives in one region, subnets span every zone of their region, and when a resource's resource group differs from its VNet's, the network boundary it is deployed into decides where it is drawn.
+
 Never use a diagram to hide a design decision. Include a legend or notes for non-obvious routing, replication, identity, or boundary semantics.
