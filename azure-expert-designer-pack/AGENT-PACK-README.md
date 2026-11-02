@@ -60,6 +60,7 @@ Every file in this pack, with its purpose and location. Contents are in the file
 | minimal.drawio | Local test or recorded evidence | tests/fixtures/minimal.drawio |
 | report-contract.yml | Local test or recorded evidence | tests/report-contract.yml |
 | skill-coverage.yml | Local test or recorded evidence | tests/skill-coverage.yml |
+| test_drawio_assets.py | Local test or recorded evidence | tests/test_drawio_assets.py |
 | trigger-cases.yml | Local test or recorded evidence | tests/trigger-cases.yml |
 | VALIDATION_REPORT.md | Executed checks and what remains unverified. | VALIDATION_REPORT.md |
 
