@@ -19,6 +19,9 @@ The supplied files were read as reference material. Byte-distinct duplicate expo
 | `https://aws.amazon.com/architecture/icons/` | Current AWS-approved icon packages, quarterly update cadence, supported diagram tools, and the warning that third-party libraries may contain legacy icon sets. The page carried no size, colour or do-and-don't guidance when it was checked on 2026-11-01. |
 | `https://github.com/jgraph/drawio`, `src/main/webapp/js/diagramly/sidebar/Sidebar-AWS4.js` at draw.io 32.6.9 | The "AWS / Groups" palette and the service palettes: the exact group and icon styles the skeleton, the fixture and `aws-visual-rules.md` use (read 2026-11-01). |
 | `https://aws.amazon.com/what-is/architecture-diagramming/` | AWS architecture diagram communication and layered layout guidance. |
+| `https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingBucket.html` | "Amazon S3 creates buckets in a Region that you specify": why the skeleton parents Amazon S3 to the Region frame, outside the VPC (read 2026-11-01). |
+| `https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html` | Gateway endpoints reach Amazon S3 and DynamoDB "without requiring an internet gateway or a NAT device", do not use AWS PrivateLink, and are the target of a route whose destination is the service's Region-specific prefix list: why the skeleton draws the S3 gateway endpoint in the VPC, outside every subnet, with a "bypasses NAT" edge (read 2026-11-01). |
+| `https://docs.aws.amazon.com/AmazonS3/latest/userguide/privatelink-interface-endpoints.html` | "A gateway endpoint is a gateway that you specify in your route table"; interface endpoints "are represented by one or more elastic network interfaces (ENIs) that are assigned private IP addresses from subnets in your VPC": why an interface endpoint is drawn in its subnet instead (read 2026-11-01). |
 
 ## Editorial additions
 
