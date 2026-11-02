@@ -4,7 +4,7 @@ Portable Agent/Skill package for the full AWS cloud-architecture lifecycle. This
 
 ## Primary downloads
 
-- `dist/aws-cloud-architect-pack.zip` — complete source, targets, tests, hooks, tooling, and archives.
+- `dist/aws-cloud-architect-pack.zip` — complete source, targets, tests, hooks, and archives.
 - `dist/aws-cloud-architect-canonical.zip` — APM-friendly canonical Agent and Skills.
 - `dist/aws-cloud-architect-prompt.zip` — reusable pack-authoring prompt.
 - `dist/aws-cloud-architect-validation.zip` — uppercase `VALIDATION_REPORT.md`.
@@ -54,8 +54,14 @@ Templates and examples are reference material for people. They are not installed
 From the pack repository root:
 
 ```text
-python tooling/build_pack.py
+python tooling/build_pack.py aws-cloud-architect-pack
 python tooling/validate_pack.py aws-cloud-architect-pack --install-check
+```
+
+The validator also runs the pack's `tests/test_drawio_assets.py`, which checks the test fixture with the shared draw.io checker in strict mode and confirms that diagram work routes to the shared draw.io skills. To check a single diagram, run that checker directly:
+
+```text
+python aws-cloud-architect-pack/.apm/skills/diagram-validation-and-evidence/scripts/check_drawio.py --strict <file.drawio>
 ```
 
 Validation is static and non-mutating. It does not prove a live AWS account, deployment, IAM authorization, service quota, regional availability, cost, security posture, or recovery result.
