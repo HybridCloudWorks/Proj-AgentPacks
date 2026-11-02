@@ -13,7 +13,7 @@
       "source": ".apm/skills/aws-architecture-patterns/SKILL.md"
     },
     "aws-icons-and-visual-language": {
-      "description": "Apply current AWS4 service and resource icons, labels, category containers, boundary styles, typography, and AWS architecture diagram conventions.",
+      "description": "Apply draw.io's current AWS library icons and group styles, product labels, optional decorative category tiles, typography, and AWS architecture diagram conventions.",
       "activation": "Use this Skill whenever an AWS product, resource, account boundary, network scope, or AWS visual style is shown.",
       "source": ".apm/skills/aws-icons-and-visual-language/SKILL.md"
     },

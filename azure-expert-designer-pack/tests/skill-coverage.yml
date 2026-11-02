@@ -13,7 +13,7 @@
       "source": ".apm/skills/azure-architecture-patterns/SKILL.md"
     },
     "azure-icons-and-visual-language": {
-      "description": "Apply official Azure2 icons, labels, boundary styles, typography, and visual conventions without distorting service meaning or implying false isolation.",
+      "description": "Apply Microsoft's Azure architecture icons from draw.io's current Azure library (azure2), product labels, boundary styles, typography, and visual conventions without distorting service meaning or implying false isolation.",
       "activation": "Use this Skill whenever an Azure product, resource boundary, governance scope, or Azure visual style is shown.",
       "source": ".apm/skills/azure-icons-and-visual-language/SKILL.md"
     },
