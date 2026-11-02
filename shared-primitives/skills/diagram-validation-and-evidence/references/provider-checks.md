@@ -19,9 +19,10 @@ The checker also reports these, each confirmed by rendering with draw.io Desktop
 | AWS or Google Cloud icon with no `fillColor`, or a colour key set to `none`, where the palette sets a colour | white parts on white, or nothing: the icon draws incompletely | error |
 | AWS name in a form the palette does not offer (status wrong-form) | a service symbol without its category square, or a resource or group symbol on a square AWS never published | error |
 | Azure path spelled as draw.io's palette spells it, with different letter case from the file | a broken image, in draw.io Desktop and on app.diagrams.net | error |
-| a `fillColor`, `strokeColor` or `gradientColor` that differs from the palette, or a missing `strokeColor` | the icon recoloured, or its symbol or frame in black | warning; error with `--strict` |
+| Azure path that `scripts/icon_preferences.json` marks superseded for its product (status superseded) | an older design, for example the pre-rename Azure Active Directory pyramid instead of the Microsoft Entra ID icon | warning; error with `--strict`; the message names the file to use |
+| a `fillColor`, `strokeColor` or `gradientColor` that differs from the palette, a colour where the palette sets `none`, or a missing `strokeColor` | the icon recoloured, its symbol or frame in black, or a boundary filled that the palette leaves empty (a pink VPC) | warning; error with `--strict` |
 
-A resource stencil's `strokeColor` has no visible effect, and the palette sets it to `none`, so the checker ignores it. Letter case in colour values does not matter.
+A resource stencil's `strokeColor` has no visible effect, and the palette sets it to `none`, so the checker ignores it; a Google Cloud icon's palette sets no `strokeColor`, and a stroke added to one draws nothing either. Letter case in colour values does not matter.
 
 ## What the checker cannot decide
 

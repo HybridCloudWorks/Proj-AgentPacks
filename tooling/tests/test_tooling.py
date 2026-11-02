@@ -2,15 +2,21 @@
 from __future__ import annotations
 
 import base64
+import contextlib
+import http.client
 import importlib.util
+import io
 import json
 import shutil
+import socket
 import subprocess
 import sys
 import tempfile
 import unittest
+import urllib.error
 import zlib
 from pathlib import Path
+from unittest import mock
 from urllib.parse import quote
 
 REPO = Path(__file__).resolve().parents[2]
@@ -400,6 +406,134 @@ class CheckDrawioTests(unittest.TestCase):
         report = self.run_check(drawio_page(drawio_vertex("v", "rounded=1;html=1;", "&lt;img src=x onerror=alert(1)&gt;")))
         self.assertTrue(any("event-handler" in e["message"] for e in report["errors"]))
 
+    def test_event_handler_after_a_slash_or_a_quote_is_an_error(self):
+        """HTML parsers read <svg/onload=...> and <img src="x"onerror=...> as event-handler attributes too."""
+        for label in ("&lt;svg/onload=alert(1)&gt;", "&lt;img src=&quot;x&quot;onerror=alert(1)&gt;",
+                      "&lt;img src='x'onerror=alert(1)&gt;"):
+            report = self.run_check(drawio_page(drawio_vertex("v", "rounded=1;html=1;", label)))
+            self.assertTrue(any("event-handler" in e["message"] for e in report["errors"]), label)
+        benign = "&lt;a href=&quot;https://example.com/docs&quot;&gt;docs&lt;/a&gt; on time, onclick=1 as text"
+        self.assertEqual(self.run_check(drawio_page(drawio_vertex("v", "rounded=1;html=1;", benign)))["errors"], [])
+
+    def test_compressed_page_is_inflated_only_up_to_the_size_cap(self):
+        deflate = zlib.compressobj(9, zlib.DEFLATED, -15)
+        small = deflate.compress(b"x" * 1000) + deflate.flush()
+        self.assertEqual(len(check_drawio.inflate(small, limit=1000)), 1000)
+        with self.assertRaises(check_drawio.PageTooLarge):
+            check_drawio.inflate(small, limit=999)
+        with self.assertRaises(zlib.error):
+            check_drawio.inflate(small[:-4])
+        model = ('<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/>'
+                 + drawio_vertex("v", "rounded=1;", "a" * (check_drawio.MAX_PAGE_BYTES + 1)) + '</root></mxGraphModel>')
+        deflate = zlib.compressobj(9, zlib.DEFLATED, -15)
+        bomb = deflate.compress(quote(model).encode()) + deflate.flush()
+        self.assertLess(len(bomb), 100_000, "the probe should be a small file that inflates past the cap")
+        report = self.run_check(f'<mxfile><diagram name="Z">{base64.b64encode(bomb).decode()}</diagram></mxfile>')
+        self.assertEqual(report["result"], "FAIL")
+        self.assertTrue(any("inflates to more than 10 MB" in e["message"] for e in report["errors"]), report["errors"])
+        self.assertEqual(report["icons"], [])
+
+    def test_fill_on_a_boundary_the_palette_leaves_unfilled_is_recolouring(self):
+        """A VPC group with fillColor=#FFC0CB draws a pink boundary (draw.io Desktop 32.6.1, review probe p17)."""
+        vpc = self.palette("vpc", "group_vpc2")
+        self.assertIn("fillColor=none", vpc)
+        errors, warnings = self.messages(vpc.replace("fillColor=none", "fillColor=#FFC0CB"))
+        self.assertEqual(errors, [])
+        self.assertEqual(len(warnings), 1, warnings)
+        self.assertIn("fillColor=#FFC0CB differs from draw.io's palette (fillColor=none)", warnings[0])
+        strict_errors, _ = self.messages(vpc.replace("fillColor=none", "fillColor=#FFC0CB"), strict=True)
+        self.assertEqual(len(strict_errors), 1, strict_errors)
+        # Colours the probes showed draw nothing stay accepted: a resource stencil's stroke, and a stroke on a
+        # Google Cloud icon, whose palette sets none.
+        for quiet in (self.palette("instance", "instance2").replace("strokeColor=none", "strokeColor=#FFC0CB"),
+                      self.palette("cloud run", "cloudrun").rstrip(";") + ";strokeColor=#000000;"):
+            self.assertEqual(self.messages(quiet, strict=True), ([], []), quiet)
+
+    def test_superseded_azure_files_warn_and_fail_when_strict(self):
+        cases = {"identity/Azure_Active_Directory.svg": ("active directory", "other/Entra_Identity.svg",
+                                                         'labelled "Microsoft Entra ID"'),
+                 "networking/Private_Endpoint.svg": ("private endpoint", "other/Private_Endpoints.svg", "older")}
+        for path, (query, preferred, detail) in cases.items():
+            style = self.palette(query, path)
+            report = self.run_check(drawio_page(drawio_vertex("v", style, "Label")))
+            self.assertEqual(self.statuses(report), {"v": "superseded"}, path)
+            self.assertEqual(report["errors"], [], path)
+            self.assertEqual(len(report["warnings"]), 1, report["warnings"])
+            for expected in (f"image=img/lib/azure2/{preferred}", detail, "icon_preferences.json"):
+                self.assertIn(expected, report["warnings"][0]["message"])
+            strict = self.run_check(drawio_page(drawio_vertex("v", style, "Label")), strict=True)
+            self.assertEqual(strict["result"], "FAIL", path)
+            self.assertIn(f"image=img/lib/azure2/{preferred}", strict["errors"][0]["message"])
+
+    def test_preferred_and_same_icon_azure_files_pass_strict(self):
+        for query, path in (("entra identity", "other/Entra_Identity.svg"), ("private endpoint", "other/Private_Endpoints.svg"),
+                            ("private dns zone", "networking/DNS_Zones.svg"), ("app service", "compute/App_Services.svg"),
+                            ("log analytics", "management_governance/Log_Analytics_Workspaces.svg")):
+            report = self.run_check(drawio_page(drawio_vertex("v", self.palette(query, path), "Label")), strict=True)
+            self.assertEqual((report["result"], report["warnings"], self.statuses(report)), ("PASS", [], {"v": "current"}), path)
+
+    def test_find_lists_the_preferred_file_first_and_marks_the_others(self):
+        def names(query: str) -> list[str]:
+            return [e["name"] for e in check_drawio.find(CATALOG, query)[0]]
+
+        self.assertEqual(names("private endpoint"), ["other/Private_Endpoints.svg", "networking/Private_Endpoint.svg"])
+        # The superseded pyramid matches "active directory"; the preferred Entra ID file is brought in first, and the
+        # pyramid ranks last, after every other match.
+        directory = names("active directory")
+        self.assertGreater(len(directory), 2)
+        self.assertEqual((directory[0], directory[-1]), ("other/Entra_Identity.svg", "identity/Azure_Active_Directory.svg"))
+        for query in ("private endpoint", "active directory", "entra", "identity", "networking"):
+            ranked = check_drawio.find(CATALOG, query, include_old=True)[0]
+            roles = [(check_drawio.index_of(CATALOG).preference_of(e) or {}).get("role") == "superseded" for e in ranked]
+            self.assertEqual(roles, sorted(roles), f"{query}: a superseded path ranks above another match")
+        self.assertEqual(names("Microsoft Entra ID")[0], "other/Entra_Identity.svg")
+        self.assertEqual(names("private dns zone"), ["networking/DNS_Zones.svg"])
+        app = names("app service")
+        preferred = [i for i, n in enumerate(app) if n == "app_services/App_Services.svg"]
+        copies = [i for i, n in enumerate(app) if n in ("compute/App_Services.svg", "containers/App_Services.svg")]
+        self.assertEqual(preferred[0], 0)
+        self.assertLess(max(preferred), min(copies))
+        index = check_drawio.index_of(CATALOG)
+        matches, hidden = check_drawio.find(CATALOG, "private endpoint")
+        text = check_drawio.render_find(index, "private endpoint", matches, hidden)
+        self.assertIn("preferred: the file to use for Private endpoint", text)
+        self.assertIn("- Azure superseded image: Private Endpoint", text)
+        self.assertIn("superseded: draws an older private endpoint design; use img/lib/azure2/other/Private_Endpoints.svg", text)
+        found = subprocess.run([sys.executable, str(CHECKER), "--find", "active directory", "--json"],
+                               capture_output=True, text=True, check=False)
+        self.assertEqual(found.returncode, 0, found.stderr)
+        rows = json.loads(found.stdout)
+        self.assertEqual((rows[0]["name"], rows[0]["preference"]["role"]), ("other/Entra_Identity.svg", "preferred"))
+        self.assertEqual((rows[-1]["name"], rows[-1]["preference"]["role"], rows[-1]["preference"]["use"]),
+                         ("identity/Azure_Active_Directory.svg", "superseded", "img/lib/azure2/other/Entra_Identity.svg"))
+
+    def test_preferences_file_is_well_formed_and_names_current_catalog_paths(self):
+        preferences = json.loads(check_drawio.PREFERENCES.read_text(encoding="utf-8"))
+        indexed = check_drawio.index_preferences(preferences)
+        self.assertEqual(indexed["identity/Azure_Active_Directory.svg"]["role"], "superseded")
+        self.assertEqual(indexed["networking/Private_Endpoint.svg"]["rule"]["preferred"], "other/Private_Endpoints.svg")
+        self.assertEqual(build_icon_catalog.stale_preferences(CATALOG, preferences), [])
+        self.assertEqual(sorted(build_icon_catalog.preference_paths(preferences)), sorted(indexed))
+
+    def test_malformed_preferences_are_refused(self):
+        good = {"product": "P", "preferred": "networking/DNS_Zones.svg", "reason": "r", "evidence": "e",
+                "sources": ["https://example.com/"], "verified": "2026-11-01"}
+        broken = [{"azure2": [{"product": "P", "preferred": "networking/DNS_Zones.svg"}]},
+                  {"azure2": [good, dict(good, product="Q")]},
+                  {"azure2": [dict(good, superseded={"networking/Private_Endpoint.svg": ""})]},
+                  {"azure2": [dict(good, sources=["http://example.com/"])]},
+                  {"azure2": [dict(good, verified="last week")]},
+                  {"azure2": [dict(good, preferred="img/lib/azure2/networking/DNS_Zones.svg")]},
+                  {"azure2": {"not": "a list"}}]
+        self.assertEqual(set(check_drawio.Index(CATALOG, {"azure2": [good]}).preferences), {"networking/DNS_Zones.svg"})
+        for preferences in broken:
+            with self.assertRaises(ValueError, msg=preferences):
+                check_drawio.Index(CATALOG, preferences)
+        missing = subprocess.run([sys.executable, str(CHECKER), "--find", "dns", "--preferences", str(REPO / "no-such.json")],
+                                 capture_output=True, text=True, check=False)
+        self.assertEqual(missing.returncode, 2)
+        self.assertIn("cannot read the icon preferences", missing.stderr)
+
 
 AWS4_JS = """
 (function()
@@ -546,8 +680,103 @@ class IconCatalogTests(unittest.TestCase):
 
     def test_unevaluable_entry_stops_the_build(self):
         broken = AWS4_JS.replace("w2, w2, '', 'EC2'", "w2, w2, '', 'EC2' + notDefined")
-        with self.assertRaises(SystemExit):
+        with self.assertRaises(build_icon_catalog.SourceError):
             build_icon_catalog.parse_aws(broken, AWS4B_JS)
+
+    def test_fetch_retries_network_errors_but_not_client_errors(self):
+        class Response:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return False
+
+            def read(self):
+                return b"ok"
+
+        def http_error(code: int) -> urllib.error.HTTPError:
+            error = urllib.error.HTTPError("https://api.github.com/x", code, "status", hdrs=None, fp=None)
+            self.addCleanup(error.close)
+            return error
+
+        url = "https://api.github.com/repos/jgraph/drawio/releases/latest"
+        for failures in ([urllib.error.URLError("name resolution failed"), socket.timeout("read timed out")],
+                         [http.client.IncompleteRead(b""), http_error(503)], [http_error(429)]):
+            calls = []
+
+            def urlopen(request, timeout, failures=failures, calls=calls):
+                calls.append(request.full_url)
+                if len(calls) <= len(failures):
+                    raise failures[len(calls) - 1]
+                return Response()
+
+            with mock.patch.object(build_icon_catalog.urllib.request, "urlopen", urlopen), \
+                    mock.patch.object(build_icon_catalog.time, "sleep"):
+                self.assertEqual(build_icon_catalog.get(url), b"ok")
+            self.assertEqual(len(calls), len(failures) + 1, failures)
+        for error in (http_error(404), urllib.error.URLError("down")):
+            calls = []
+
+            def failing(request, timeout, error=error, calls=calls):
+                calls.append(request.full_url)
+                raise error
+
+            with mock.patch.object(build_icon_catalog.urllib.request, "urlopen", failing), \
+                    mock.patch.object(build_icon_catalog.time, "sleep"), \
+                    self.assertRaises(build_icon_catalog.SourceError):
+                build_icon_catalog.get(url)
+            self.assertEqual(len(calls), 1 if isinstance(error, urllib.error.HTTPError) else build_icon_catalog.ATTEMPTS)
+
+    def run_main(self, *argv: str, build=None, preferences: Path | None = None) -> tuple[int, str, str]:
+        out, err = io.StringIO(), io.StringIO()
+        with mock.patch.object(sys, "argv", ["build_icon_catalog.py", *argv]), \
+                mock.patch.object(build_icon_catalog, "build", build), \
+                mock.patch.object(build_icon_catalog, "PREFERENCES", preferences or build_icon_catalog.PREFERENCES), \
+                contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = build_icon_catalog.main()
+        return code, out.getvalue(), err.getvalue()
+
+    def test_exit_status_tells_a_failed_fetch_from_a_change(self):
+        """Exit 2 is a failed run and must never open the weekly issue; only a real difference exits 1."""
+        tmp = Path(tempfile.mkdtemp(prefix="catalog-test-"))
+        try:
+            markdown = tmp / "catalog.md"
+
+            def unreachable(tag):
+                raise build_icon_catalog.SourceError(f"could not read the {tag} release")
+
+            def crashed(tag):
+                raise RecursionError("evaluator recursed")
+
+            for build in (unreachable, crashed):
+                code, _, err = self.run_main("--check", "--tag", "v0.0.0", "--markdown", str(markdown), build=build)
+                self.assertEqual(code, 2, err)
+                self.assertIn("cannot build the catalog", err)
+                self.assertFalse(markdown.exists(), "a failed run must not write the issue body")
+            committed = json.loads(build_icon_catalog.CATALOG.read_text(encoding="utf-8"))
+            code, out, _ = self.run_main("--check", "--markdown", str(markdown), build=lambda tag: committed)
+            self.assertEqual((code, markdown.exists()), (0, False), out)
+            changed = json.loads(json.dumps(committed))
+            rows = changed["gcp3"]["entries"]
+            del rows[next(i for i, row in enumerate(rows) if row[1] == "core")]
+            code, out, _ = self.run_main("--check", "--markdown", str(markdown), build=lambda tag: changed)
+            self.assertEqual(code, 1, out)
+            self.assertIn("gcp3 core: +0 -1", markdown.read_text(encoding="utf-8"))
+            markdown.unlink()
+            stale = tmp / "icon_preferences.json"
+            stale.write_text(json.dumps({"azure2": [{"preferred": "networking/Gone.svg"}]}), encoding="utf-8")
+            code, out, _ = self.run_main("--check", "--markdown", str(markdown), build=lambda tag: committed, preferences=stale)
+            self.assertEqual(code, 1, out)
+            self.assertIn("networking/Gone.svg", markdown.read_text(encoding="utf-8"))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_watch_opens_the_issue_only_for_a_real_change(self):
+        workflow = (REPO / ".github" / "workflows" / "watch-diagram-sources.yml").read_text(encoding="utf-8")
+        self.assertNotIn("steps.catalog.outcome", workflow, "a failed fetch must not count as a catalog change")
+        issue_step = workflow.split("- name: open or update the issue", 1)[1].split("- name:", 1)[0]
+        self.assertIn("steps.catalog.outputs.exit == '1'", issue_step)
+        self.assertIn("steps.catalog.outputs.exit != '0' && steps.catalog.outputs.exit != '1'", workflow)
 
     def test_azure_parser_reads_full_paths_and_records_case_mismatches(self):
         files = ["databases/SQL_Database.svg", "databases/Old_Thing.svg", "databases/readme.txt",
@@ -626,6 +855,14 @@ class CommittedDiagramTests(unittest.TestCase):
             report = check_drawio.check(path, CATALOG, strict=True)
             failures += [f"{path.relative_to(REPO).as_posix()} [{e['page']}] {e['cell']}: {e['message']}" for e in report["errors"]]
         self.assertEqual(failures, [], "\n" + "\n".join(failures))
+
+    def test_committed_diagrams_exercise_every_provider_library(self):
+        """At least one committed diagram per provider, so the strict guard above sees real AWS, Azure and Google
+        Cloud icons in files, not only in unit-test styles."""
+        providers = set()
+        for path in tracked_drawio_files():
+            providers |= {icon["provider"] for icon in check_drawio.check(path, CATALOG, strict=True)["icons"]}
+        self.assertLessEqual({"AWS", "Azure", "Google Cloud"}, providers)
 
 
 class SharedPrimitiveTests(unittest.TestCase):

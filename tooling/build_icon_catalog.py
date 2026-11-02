@@ -17,10 +17,16 @@ The sidebar files build each style by concatenating strings held in variables an
 script evaluates that small subset of JavaScript (string and number literals, variables, +, *, /, -, parentheses and
 one-line helper functions) rather than matching names with patterns. An entry it cannot evaluate stops the build.
 
+The skill's hand-maintained scripts/icon_preferences.json (which Azure file to use where draw.io offers several) is
+not generated here; --check reports any path it names that the new catalog no longer offers, so it is re-verified.
+
 Usage: python tooling/build_icon_catalog.py [--tag latest|vX.Y.Z] [--check] [--markdown OUT]
   --tag       draw.io release tag to read (default: latest)
-  --check     compare with the committed catalog instead of writing it; exit 1 when an icon list or style differs
+  --check     compare with the committed catalog instead of writing it
   --markdown  with --check, also write the differences as Markdown (used by the weekly watch issue)
+Exit status: 0 written, or unchanged with --check; 1 with --check, an icon list or palette style differs, or an
+icon preference names a path the catalog no longer offers; 2 draw.io's source could not be fetched or parsed (a
+failure of this run, not a change in draw.io's libraries).
 """
 from __future__ import annotations
 
@@ -32,11 +38,13 @@ import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 CATALOG = REPO / "shared-primitives" / "skills" / "diagram-validation-and-evidence" / "scripts" / "icon_catalog.json"
+PREFERENCES = CATALOG.parent / "icon_preferences.json"
 API = "https://api.github.com/repos/jgraph/drawio"
 RAW = "https://raw.githubusercontent.com/jgraph/drawio/{tag}/src/main/webapp/js/diagramly/sidebar/{name}"
 AZURE_IMAGES = "src/main/webapp/img/lib/azure2/"
@@ -48,6 +56,21 @@ LISTS = [("aws4", "current"), ("aws4", "retired"), ("aws4", "legacy"), ("azure2"
 MIN_PREFIX = 40
 
 
+class SourceError(Exception):
+    """draw.io's source could not be fetched or parsed: the run failed, which says nothing about icon changes."""
+
+
+ATTEMPTS = 3
+
+
+def _retryable(exc: BaseException) -> bool:
+    """Network trouble that a later attempt may not meet. An HTTP client error (a missing tag is a 404) will not
+    change on retry, except 429 Too Many Requests."""
+    if isinstance(exc, urllib.error.HTTPError):
+        return exc.code >= 500 or exc.code == 429
+    return True
+
+
 def get(url: str) -> bytes:
     if not url.startswith(("https://api.github.com/", "https://raw.githubusercontent.com/")):
         raise ValueError(f"only GitHub https URLs are fetched, not {url}")
@@ -56,16 +79,25 @@ def get(url: str) -> bytes:
     if token and url.startswith("https://api.github.com/"):
         headers["Authorization"] = f"Bearer {token}"
     request = urllib.request.Request(url, headers=headers)  # noqa: S310
-    for attempt in range(3):
+    for attempt in range(ATTEMPTS):
         try:
             # Safe: only GitHub https URLs reach this point.
             with urllib.request.urlopen(request, timeout=120) as response:  # noqa: S310  # nosec B310
                 return response.read()
-        except (http.client.IncompleteRead, ConnectionError, TimeoutError) as exc:
-            if attempt == 2:
-                raise SystemExit(f"could not read {url} after 3 attempts: {exc}") from exc
+        # OSError covers URLError and HTTPError (DNS, refused, HTTP status), ConnectionError, TimeoutError and, on
+        # Python 3.9, socket.timeout; HTTPException covers IncompleteRead and other broken responses.
+        except (http.client.HTTPException, OSError) as exc:
+            if attempt == ATTEMPTS - 1 or not _retryable(exc):
+                raise SourceError(f"could not read {url} (attempt {attempt + 1} of {ATTEMPTS}): {exc}") from exc
             time.sleep(5 * (attempt + 1))
     raise AssertionError("unreachable")
+
+
+def get_json(url: str):
+    try:
+        return json.loads(get(url))
+    except ValueError as exc:  # json.JSONDecodeError, or bytes that are not UTF-8
+        raise SourceError(f"{url} did not return JSON: {exc}") from exc
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -411,7 +443,7 @@ def _require(entries: list[dict], what: str) -> list[dict]:
     broken = [e for e in entries if "error" in e]
     if broken:
         sample = "; ".join(f"{e['function']}: {e['error']}" for e in broken[:5])
-        raise SystemExit(f"{len(broken)} {what} palette entries could not be evaluated ({sample}); "
+        raise SourceError(f"{len(broken)} {what} palette entries could not be evaluated ({sample}); "
                          "the draw.io source layout may have changed")
     return entries
 
@@ -562,20 +594,44 @@ def assemble(tag: str, source: dict[str, str], images: list[str], built: str | N
     found = lists(catalog)
     for library, kind in LISTS:
         if not found[(library, kind)] and (library, kind) != ("azure2", "legacy"):
-            raise SystemExit(f"parsing found no {library} {kind} icons; the draw.io source layout may have changed")
+            raise SourceError(f"parsing found no {library} {kind} icons; the draw.io source layout may have changed")
     return catalog
 
 
 def build(tag: str) -> dict:
-    if tag == "latest":
-        tag = json.loads(get(f"{API}/releases/latest"))["tag_name"]
-    source = {name: get(RAW.format(tag=tag, name=name)).decode("utf-8")
-              for name in ("Sidebar-AWS4.js", "Sidebar-AWS4b.js", "Sidebar-Azure2.js", "Sidebar-GCP3.js")}
-    tree = json.loads(get(f"{API}/git/trees/{tag}?recursive=1"))
-    if tree.get("truncated"):
-        raise SystemExit("the draw.io file tree came back truncated; cannot list the Azure images")
-    images = [t["path"][len(AZURE_IMAGES):] for t in tree["tree"] if t["path"].startswith(AZURE_IMAGES) and t["type"] == "blob"]
+    """Fetch draw.io's source at a tag and assemble the catalog. Raises SourceError when anything cannot be fetched
+    or read."""
+    try:
+        if tag == "latest":
+            tag = get_json(f"{API}/releases/latest")["tag_name"]
+        source = {name: get(RAW.format(tag=tag, name=name)).decode("utf-8")
+                  for name in ("Sidebar-AWS4.js", "Sidebar-AWS4b.js", "Sidebar-Azure2.js", "Sidebar-GCP3.js")}
+        tree = get_json(f"{API}/git/trees/{tag}?recursive=1")
+        if tree.get("truncated"):
+            raise SourceError("the draw.io file tree came back truncated; cannot list the Azure images")
+        images = [t["path"][len(AZURE_IMAGES):] for t in tree["tree"]
+                  if t["path"].startswith(AZURE_IMAGES) and t["type"] == "blob"]
+    except (KeyError, TypeError, AttributeError, UnicodeDecodeError) as exc:
+        raise SourceError(f"draw.io's release or file listing has an unexpected shape: {exc!r}") from exc
     return assemble(tag, source, images)
+
+
+def preference_paths(preferences: dict) -> list[str]:
+    """Every Azure path the skill's hand-maintained icon_preferences.json names."""
+    paths = []
+    for rule in preferences.get("azure2", []):
+        paths += [rule.get("preferred", "")] + list(rule.get("superseded", {})) + list(rule.get("same_icon", []))
+    return [p for p in paths if p]
+
+
+def stale_preferences(catalog: dict, preferences: dict) -> list[str]:
+    """A difference line when icon_preferences.json names an Azure path the catalog does not offer as current."""
+    offered = lists(catalog)[("azure2", "current")]
+    missing = sorted(p for p in preference_paths(preferences) if p not in offered)
+    if not missing:
+        return []
+    return [f"icon_preferences.json names Azure paths the catalog no longer offers: {', '.join(missing)}; re-verify "
+            "those rules against Microsoft's current icon sets"]
 
 
 def differences(old: dict, new: dict) -> list[str]:
@@ -624,17 +680,33 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--markdown")
     args = parser.parse_args()
-    new = build(args.tag)
+    # Exit 1 must mean only "draw.io's libraries changed", so every failure to get that far exits 2.
+    try:
+        new = build(args.tag)
+        preferences = json.loads(PREFERENCES.read_text(encoding="utf-8")) if PREFERENCES.is_file() else {}
+        old = json.loads(CATALOG.read_text(encoding="utf-8")) if args.check and CATALOG.is_file() else {}
+    except SourceError as exc:
+        print(f"cannot build the catalog from draw.io {args.tag}: {exc}", file=sys.stderr)
+        return 2
+    except Exception as exc:  # noqa: BLE001  # an unexpected failure is still a failed run, not a change
+        print(f"cannot build the catalog from draw.io {args.tag}: unexpected {exc!r}", file=sys.stderr)
+        return 2
     found = lists(new)
     counts = ", ".join(f"{lib} {kind} {len(found[(lib, kind)])}" for lib, kind in LISTS)
+    stale = stale_preferences(new, preferences)
     if not args.check:
         CATALOG.parent.mkdir(parents=True, exist_ok=True)
         CATALOG.write_text(dump(new) + "\n", encoding="utf-8")
         print(f"wrote {CATALOG.relative_to(REPO).as_posix()} from draw.io {new['drawio_version']}: {counts}; "
               f"azure2 case mismatches {len(new['azure2']['case_mismatch'])}")
+        for line in stale:
+            print(f"warning: {line}", file=sys.stderr)
         return 0
-    old = json.loads(CATALOG.read_text(encoding="utf-8")) if CATALOG.is_file() else {}
-    diff = differences(old, new)
+    try:
+        diff = differences(old, new) + stale
+    except Exception as exc:  # noqa: BLE001  # a committed catalog that cannot be read is a failed run, not a change
+        print(f"cannot compare with the committed catalog: unexpected {exc!r}", file=sys.stderr)
+        return 2
     print(f"committed catalog: draw.io {old.get('drawio_version', 'none')}; checked against draw.io {new['drawio_version']}")
     print("\n".join(diff) if diff else "icon lists and palette styles unchanged")
     if diff and args.markdown:
@@ -642,8 +714,9 @@ def main() -> int:
                 f"(the committed catalog was built from draw.io {old.get('drawio_version', 'none')}).", ""]
         body += [f"- {line}" for line in diff]
         body += ["", "To adopt it: run `python tooling/build_icon_catalog.py --tag v" + new["drawio_version"] + "`, then "
-                 "`python tooling/sync_shared.py`, review `shared-primitives/skills/drawio-core-generation/references/providers.md` "
-                 "for anything the change makes wrong, and open a pull request."]
+                 "`python tooling/sync_shared.py`, review `shared-primitives/skills/diagram-validation-and-evidence/scripts/icon_preferences.json` "
+                 "and `shared-primitives/skills/drawio-core-generation/references/providers.md` for anything the change "
+                 "makes wrong, and open a pull request."]
         Path(args.markdown).write_text("\n".join(body) + "\n", encoding="utf-8")
     return 1 if diff else 0
 

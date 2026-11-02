@@ -7,6 +7,8 @@ source and target references, parent loops, vertex and edge geometry, hidden cel
 Icons: each AWS, Azure and Google Cloud shape is looked up in icon_catalog.json (next to this script), which records
 every palette entry draw.io's own libraries offer at one draw.io release, with its form and full style. Status is:
   current       in the provider's current draw.io library, in the form used (AWS: service icon, resource or group)
+  superseded    an Azure file draw.io still offers that icon_preferences.json marks as an older design of a product
+                Microsoft now draws differently; the message names the file to use
   legacy        an older icon set (AWS17, AWS18, AWS 3D, legacy Azure, Cloud & Enterprise, pre-2025 Google Cloud)
   retired       draw.io's "AWS (retired)" palette: a service AWS has retired
   wrong-form    an AWS name the library offers only in another form: a service name used as a bare stencil draws
@@ -16,19 +18,26 @@ every palette entry draw.io's own libraries offer at one draw.io release, with i
                 as a plain coloured square with no symbol, and an unknown Azure path as a broken image
   unattributed  an embedded or linked image whose provider cannot be told from the style
 
+icon_preferences.json (next to this script, maintained by hand, unlike the generated catalog) records which file to
+use where draw.io offers one Azure product under several paths, or where Microsoft publishes the icon outside the
+Azure set, with the reason, the render evidence, the sources and the date each choice was verified.
+
 Colours (AWS and Google Cloud stencils): the palette's fillColor, strokeColor and gradientColor are part of the icon.
   - no fillColor, or fillColor=none (or any of the three set to none) where the palette sets a colour: error. The
     parts that take the colour draw in draw.io's default white or not at all, so the icon draws incompletely.
-  - a colour that differs from the palette, or a missing strokeColor (drawn in the default black): warning, or error
-    with --strict. AWS, Microsoft and Google all forbid recolouring their icons.
+  - a colour that differs from the palette, a colour where the palette sets none (a filled AWS boundary, for
+    example), or a missing strokeColor (drawn in the default black): warning, or error with --strict. AWS, Microsoft
+    and Google all forbid recolouring their icons and boundaries.
 
-Usage: python check_drawio.py <file.drawio> [--json] [--strict] [--catalog PATH]
-       python check_drawio.py --find "<product>" [--all] [--json] [--catalog PATH]
-  --strict  report legacy and retired icons, and recoloured icons, as errors instead of warnings
-  --find    print the palette entries whose title, name or palette match every word, with the full style to copy
+Usage: python check_drawio.py <file.drawio> [--json] [--strict] [--catalog PATH] [--preferences PATH]
+       python check_drawio.py --find "<product>" [--all] [--json] [--catalog PATH] [--preferences PATH]
+  --strict  report legacy, retired and superseded icons, and recoloured icons, as errors instead of warnings
+  --find    print the palette entries whose title, name or palette match every word, with the full style to copy;
+            a product's preferred file is listed first and marked, and its superseded paths last, marked
   --all     with --find, include legacy and retired entries
-Exit status: 0 no errors (or --find matched), 1 errors found (or --find matched nothing), 2 the file could not be
-read or parsed.
+Exit status: 0 no errors (or --find matched), 1 errors found (or --find matched nothing), 2 the file, the catalog or
+the preferences could not be read or parsed. A compressed page that inflates to more than 10 MB is reported as an
+error and not decoded.
 """
 from __future__ import annotations
 
@@ -44,14 +53,28 @@ from pathlib import Path
 from urllib.parse import unquote
 
 HERE = Path(__file__).resolve().parent
-ACTIVE_CONTENT = re.compile(r"(?i)<\s*script|javascript:|<[^>]*\son[a-z]+\s*=")
+PREFERENCES = HERE / "icon_preferences.json"
+# An event-handler attribute starts after whitespace, a slash or a closing quote: HTML parsers read <svg/onload=...>
+# and <img src="x"onerror=...> as attributes too.
+ACTIVE_CONTENT = re.compile(r"(?i)<\s*script|javascript:|<[^>]*[\s/\"']on[a-z]+\s*=")
 DECLARATIONS = re.compile(r"(?i)<!DOCTYPE|<!ENTITY")
+# A compressed page is inflated only up to this size, so a small hostile file cannot exhaust memory.
+MAX_PAGE_BYTES = 10 * 1024 * 1024
 ENTRY_FIELDS = ["name", "form", "status", "title", "palette", "w", "h"]
 COLOUR_KEYS = ("fillColor", "strokeColor", "gradientColor")
+# (form, key) pairs whose palette value is none and whose colour, when set anyway, does not draw. Evidence (draw.io
+# Desktop 32.6.1, 2026-11-01): a strokeColor on an AWS resource stencil changes nothing visible.
+INVISIBLE_WHEN_NONE = {("resource", "strokeColor")}
 PROVIDER = {"aws4": "AWS", "azure2": "Azure", "gcp3": "Google Cloud"}
 LIBRARY = {("aws4", "current"): "AWS current (aws4)", ("aws4", "retired"): "AWS (retired) (aws4r)",
            ("aws4", "legacy"): "AWS18 (aws4b)", ("azure2", "current"): "Azure (azure2)",
            ("azure2", "legacy"): "Azure (azure2)"}
+PREFERENCE_FIELDS = ("product", "preferred", "reason", "evidence", "sources", "verified")
+ROLE_ORDER = {"preferred": 0, "same-icon": 1, "superseded": 2}
+
+
+class PageTooLarge(ValueError):
+    """A compressed page inflates to more than MAX_PAGE_BYTES."""
 
 
 def parse_xml(text: str) -> ET.Element:
@@ -77,11 +100,61 @@ def _drop(prefix: str, text: str) -> str:
     return text[len(prefix):] if text.startswith(prefix) else text
 
 
-class Index:
-    """The catalog's palette entries, indexed by library, form and name."""
+def index_preferences(data: dict) -> dict[str, dict]:
+    """Validate icon_preferences.json and index it by Azure path. Each path maps to its role ("preferred",
+    "same-icon": another path that draws the same icon, or "superseded": an older design), the rule it belongs to,
+    and for a superseded path what it draws. Raises ValueError when the file is malformed."""
+    if not isinstance(data, dict) or not isinstance(data.get("azure2", []), list):
+        raise ValueError("icon preferences must be an object whose 'azure2' is a list of rules")
+    out: dict[str, dict] = {}
 
-    def __init__(self, catalog: dict) -> None:
+    def claim(path: object, role: str, rule: dict, draws: str = "") -> None:
+        if not isinstance(path, str) or not path.endswith(".svg") or path.startswith(("/", "img/")):
+            raise ValueError(f"icon preference for {rule.get('product')!r}: {path!r} is not a path under img/lib/azure2/")
+        if path in out:
+            raise ValueError(f"icon preference path {path} is listed more than once")
+        out[path] = {"role": role, "rule": rule, "draws": draws}
+
+    for rule in data.get("azure2", []):
+        missing = [f for f in PREFERENCE_FIELDS if not (isinstance(rule, dict) and rule.get(f))]
+        if missing:
+            raise ValueError(f"icon preference {rule.get('product') if isinstance(rule, dict) else rule!r} "
+                             f"lacks {', '.join(missing)}")
+        if not isinstance(rule["sources"], list) or not all(str(s).startswith("https://") for s in rule["sources"]):
+            raise ValueError(f"icon preference for {rule['product']!r}: sources must be a list of https URLs")
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(rule["verified"])):
+            raise ValueError(f"icon preference for {rule['product']!r}: verified must be a date (YYYY-MM-DD)")
+        superseded, same = rule.get("superseded", {}), rule.get("same_icon", [])
+        if not isinstance(superseded, dict) or not isinstance(same, list):
+            raise ValueError(f"icon preference for {rule['product']!r}: superseded must map paths to what they draw, "
+                             "and same_icon must be a list of paths")
+        claim(rule["preferred"], "preferred", rule)
+        for path in same:
+            claim(path, "same-icon", rule)
+        for path, draws in superseded.items():
+            if not draws:
+                raise ValueError(f"icon preference for {rule['product']!r}: say what {path} draws")
+            claim(path, "superseded", rule, str(draws))
+    return out
+
+
+_DEFAULT_PREFERENCES: list[dict] = []
+
+
+def default_preferences() -> dict:
+    """icon_preferences.json next to this script, read once; empty when the file is absent."""
+    if not _DEFAULT_PREFERENCES:
+        _DEFAULT_PREFERENCES.append(json.loads(PREFERENCES.read_text(encoding="utf-8")) if PREFERENCES.is_file() else {})
+    return _DEFAULT_PREFERENCES[0]
+
+
+class Index:
+    """The catalog's palette entries, indexed by library, form and name, with the hand-maintained icon preferences
+    (icon_preferences.json next to this script unless others are given)."""
+
+    def __init__(self, catalog: dict, preferences: dict | None = None) -> None:
         self.catalog = catalog
+        self.preferences = index_preferences(default_preferences() if preferences is None else preferences)
         self.version = catalog.get("drawio_version", "?")
         self.entries: dict[str, list[dict]] = {}
         self.by_key: dict[tuple[str, str, str], list[dict]] = {}
@@ -110,6 +183,10 @@ class Index:
         azure = catalog.get("azure2", {})
         self.azure_legacy = set(azure.get("legacy", []))
         self.azure_case = dict(azure.get("case_mismatch", {}))
+
+    def preference_of(self, entry: dict) -> dict | None:
+        """The icon preference that names this palette entry's file, if any."""
+        return self.preferences.get(entry["name"]) if entry.get("library") == "azure2" else None
 
 
 _INDEXES: dict[int, Index] = {}
@@ -180,6 +257,14 @@ def lookup(style: dict[str, str], catalog) -> dict | None:
                                 f"on app.diagrams.net. Use image=img/lib/azure2/{index.azure_case[path]}")
         elif status == "unknown" and path in index.azure_legacy:
             status = "legacy"
+        preference = index.preferences.get(path)
+        if status == "current" and preference and preference["role"] == "superseded":
+            rule = preference["rule"]
+            status = "superseded"
+            label = f", labelled \"{rule['label']}\"" if rule.get("label") else ""
+            found["superseded"] = (f"it draws {preference['draws']}, not Microsoft's current icon for {rule['product']}. "
+                                   f"Use image=img/lib/azure2/{rule['preferred']}{label} (icon_preferences.json, "
+                                   f"verified {rule['verified']})")
         return {**found, "provider": "Azure", "library": "Azure (azure2)", "status": status, "name": path, "form": "image",
                 "entries": entries}
     if shape.startswith("mxgraph.azure.") or shape.startswith("mxgraph.mscae.") or image.startswith("img/lib/mscae/"):
@@ -217,8 +302,15 @@ def _variant_findings(style: dict[str, str], entry: dict) -> list[tuple[str, str
         value = style.get(key)
         lowered = value.lower() if value is not None else None
         if palette is None or palette.lower() == "none":
-            if key == "gradientColor" and lowered not in (None, "none"):
+            if lowered in (None, "none"):
+                continue
+            if key == "gradientColor":
                 out.append(("recoloured", f"gradientColor={value} adds a gradient the palette does not have"))
+            elif palette is not None and (entry.get("form"), key) not in INVISIBLE_WHEN_NONE:
+                # The palette's none is a value too: a fill on an AWS boundary whose palette leaves it unfilled draws.
+                out.append(("recoloured", f"{key}={value} differs from draw.io's palette ({key}=none): it adds a "
+                                          "colour the palette leaves out; providers forbid recolouring their icons "
+                                          "and boundaries"))
             continue
         if lowered == palette.lower():
             continue
@@ -244,8 +336,9 @@ def colour_findings(style: dict[str, str], entries: list[dict]) -> list[tuple[st
 
     Evidence (draw.io Desktop 32.6.1, 2026-11-01): an AWS service icon without fillColor draws white on white, and
     without strokeColor draws a black symbol; an AWS resource without fillColor draws nothing visible; an AWS group
-    without strokeColor draws a black frame and icon; a Google Cloud icon without fillColor loses the parts that take
-    it. A resource stencil's strokeColor has no visible effect, and the palette sets it to none."""
+    without strokeColor draws a black frame and icon; an AWS group with a fillColor where the palette sets none draws
+    a filled boundary; a Google Cloud icon without fillColor loses the parts that take it. A resource stencil's
+    strokeColor has no visible effect, and the palette sets it to none (INVISIBLE_WHEN_NONE)."""
     variants = [e for e in entries if e.get("style")]
     if not variants:
         return []
@@ -263,21 +356,36 @@ def label_text(value: str) -> str:
     return re.sub(r"<[^>]+>", " ", value or "").replace("&nbsp;", " ").strip()
 
 
-def decode_page(diagram: ET.Element) -> tuple[ET.Element | None, bool]:
+def inflate(data: bytes, limit: int = MAX_PAGE_BYTES) -> bytes:
+    """Inflate a raw deflate stream (draw.io's compressed page), refusing more than `limit` bytes of output."""
+    inflater = zlib.decompressobj(-15)
+    out = inflater.decompress(data, limit + 1)
+    if len(out) > limit:
+        raise PageTooLarge(f"page is compressed and inflates to more than {limit / 1048576:g} MB; it was not decoded "
+                           "or checked (a diagram page that large is corrupt or hostile)")
+    if not inflater.eof:
+        raise zlib.error("incomplete or truncated deflate stream")
+    return out
+
+
+def decode_page(diagram: ET.Element) -> tuple[ET.Element | None, bool, str]:
+    """(model, compressed, problem): the page's mxGraphModel, decoding a compressed page, or None and why not."""
     model = diagram.find("mxGraphModel")
     if model is not None:
-        return model, False
+        return model, False, ""
     text = (diagram.text or "").strip()
     if not text:
-        return None, False
+        return None, False, "page content could not be read"
     try:
-        raw = zlib.decompress(base64.b64decode(text), -15).decode("utf-8")
+        raw = inflate(base64.b64decode(text)).decode("utf-8")
+    except PageTooLarge as exc:
+        return None, True, str(exc)
     except (ValueError, zlib.error, UnicodeDecodeError):
-        return None, True
+        return None, True, "page content could not be read"
     try:
-        return parse_xml(unquote(raw)), True
+        return parse_xml(unquote(raw)), True, ""
     except ET.ParseError:
-        return None, True
+        return None, True, "page content could not be read"
 
 
 def cells_of(model: ET.Element) -> list[dict]:
@@ -380,6 +488,8 @@ def check_page(name: str, model: ET.Element, catalog, strict: bool, report: dict
                                "without its symbol")
         elif status in ("legacy", "retired"):
             add("errors" if strict else "warnings", cid, f"{provider} icon '{icon}' is {status} ({library}){found.get('hint', '')}")
+        elif status == "superseded":
+            add("errors" if strict else "warnings", cid, f"{provider} icon '{icon}' is superseded: {found['superseded']}")
         if provider in ("AWS", "Google Cloud") and found["entries"] and status != "legacy":
             for kind, message in colour_findings(style, found["entries"]):
                 severity = "errors" if kind == "incomplete" or strict else "warnings"
@@ -400,12 +510,12 @@ def check(path: Path, catalog, strict: bool = False) -> dict:
         pages = []
         for number, diagram in enumerate(root.findall("diagram"), 1):
             name = diagram.get("name") or f"Page-{number}"
-            model, compressed = decode_page(diagram)
+            model, compressed, problem = decode_page(diagram)
             if compressed:
                 report["errors"].append({"page": name, "cell": None,
                                          "message": "page is compressed; save it uncompressed so it can be reviewed and diffed"})
             if model is None:
-                report["errors"].append({"page": name, "cell": None, "message": "page content could not be read"})
+                report["errors"].append({"page": name, "cell": None, "message": problem or "page content could not be read"})
                 continue
             pages.append((name, model, compressed))
         if not pages and not report["errors"]:
@@ -426,7 +536,11 @@ def check(path: Path, catalog, strict: bool = False) -> dict:
 
 def find(catalog, query: str, include_old: bool = False) -> tuple[list[dict], int]:
     """Palette entries whose title, name, palette or provider contain every word of the query, best match first,
-    and the number of legacy or retired matches left out."""
+    and the number of legacy or retired matches left out.
+
+    The icon preferences shape the list: a preferred file also matches its product name and label, a match on a
+    superseded or same-icon path brings in the preferred file, a preferred file ranks at least as high as the best
+    match among its product's paths, with its same-icon copies right after it, and superseded paths come last."""
     index = index_of(catalog)
     words = query.lower().split()
     wanted = " ".join(words)
@@ -435,17 +549,67 @@ def find(catalog, query: str, include_old: bool = False) -> tuple[list[dict], in
         for entry in entries:
             if not entry.get("style"):
                 continue
+            preference = index.preference_of(entry)
+            extra = [preference["rule"]["product"], preference["rule"].get("label", "")] \
+                if preference and preference["role"] == "preferred" else []
             haystack = " ".join([entry["title"], entry["name"].replace("_", " "), entry["name"], entry["palette"],
-                                 PROVIDER[library], "gcp" if library == "gcp3" else ""]).lower()
+                                 PROVIDER[library], "gcp" if library == "gcp3" else ""] + extra).lower()
             if all(word in haystack for word in words):
                 matches.append(entry)
     hidden = 0 if include_old else sum(1 for e in matches if e["status"] != "current")
     if not include_old:
         matches = [e for e in matches if e["status"] == "current"]
+    present = {e["name"] for e in matches if e["library"] == "azure2"}
+    for entry in list(matches):
+        preference = index.preference_of(entry)
+        target = preference["rule"]["preferred"] if preference and preference["role"] != "preferred" else ""
+        if target and target not in present:
+            offered = [e for e in index.by_name.get(("azure2", target), []) if e.get("style") and e["status"] == "current"]
+            if offered:
+                matches.append(offered[0])
+                present.add(target)
     rank = {"current": 0, "retired": 1, "legacy": 2}
-    matches.sort(key=lambda e: (e["title"].lower() != wanted, not e["title"].lower().startswith(wanted),
-                                rank.get(e["status"], 3), len(e["title"]), e["title"]))
-    return matches, hidden
+
+    def key(entry: dict) -> tuple:
+        preference = index.preference_of(entry)
+        names = [entry["title"].lower()]
+        if preference and preference["role"] == "preferred":
+            names += [preference["rule"]["product"].lower(), preference["rule"].get("label", "").lower()]
+        closeness = min((name != wanted, not name.startswith(wanted)) for name in [n for n in names if n] or [""])
+        return closeness + (rank.get(entry["status"], 3), len(entry["title"]), entry["title"])
+
+    def group(position: int, entry: dict) -> tuple:
+        """Paths of one preferred product sort together; any other entry is its own group, in catalog order."""
+        preference = index.preference_of(entry)
+        return ("azure2", preference["rule"]["preferred"]) if preference else ("", position)
+
+    groups: dict[tuple, tuple] = {}
+    for position, entry in enumerate(matches):
+        best = groups.get(group(position, entry))
+        groups[group(position, entry)] = min(best, key(entry)) if best else key(entry)
+
+    def order(item: tuple) -> tuple:
+        position, entry = item
+        preference = index.preference_of(entry)
+        role = ROLE_ORDER[preference["role"]] if preference else 0
+        return (role == ROLE_ORDER["superseded"], groups[group(position, entry)], group(position, entry), role, key(entry))
+
+    return [entry for _, entry in sorted(enumerate(matches), key=order)], hidden
+
+
+def preference_note(index: Index, entry: dict) -> dict | None:
+    """What the icon preferences say about a palette entry, for --find output; None when they say nothing."""
+    preference = index.preference_of(entry)
+    if not preference:
+        return None
+    rule = preference["rule"]
+    note = {"role": preference["role"], "product": rule["product"], "use": f"img/lib/azure2/{rule['preferred']}",
+            "reason": rule["reason"], "verified": rule["verified"]}
+    if rule.get("label"):
+        note["label"] = rule["label"]
+    if preference["draws"]:
+        note["draws"] = preference["draws"]
+    return note
 
 
 def render_find(index: Index, query: str, matches: list[dict], hidden: int, limit: int = 20) -> str:
@@ -454,12 +618,21 @@ def render_find(index: Index, query: str, matches: list[dict], hidden: int, limi
     renamed = {v: k for k, v in index.azure_case.items()}
     for entry in matches[:limit]:
         w, h = entry["w"], entry["h"]
-        lines.append(f"- {PROVIDER[entry['library']]} {entry['status']} {entry['form']}: {entry['title']} "
+        note = preference_note(index, entry)
+        status = "superseded" if note and note["role"] == "superseded" else entry["status"]
+        lines.append(f"- {PROVIDER[entry['library']]} {status} {entry['form']}: {entry['title']} "
                      f"[{entry['palette']}] default size {w:g}x{h:g}")
         lines.append(f"  {entry['style']}")
         if entry["name"] in renamed:
             lines.append(f"  note: draw.io's palette inserts '{renamed[entry['name']]}', which draws a broken image; "
                          "this style uses the file's own spelling")
+        if note and note["role"] == "preferred":
+            label = f"; label it \"{note['label']}\"" if note.get("label") else ""
+            lines.append(f"  preferred: the file to use for {note['product']}{label} (icon_preferences.json)")
+        elif note and note["role"] == "same-icon":
+            lines.append(f"  same icon as {note['use']}, the preferred path for {note['product']}; use that path")
+        elif note:
+            lines.append(f"  superseded: draws {note['draws']}; use {note['use']} for {note['product']}")
     if len(matches) > limit:
         lines.append(f"... {len(matches) - limit} more; refine the words")
     return "\n".join(lines)
@@ -486,18 +659,31 @@ def main() -> int:
     parser.add_argument("--find", metavar="PRODUCT")
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--catalog", default=str(HERE / "icon_catalog.json"))
+    parser.add_argument("--preferences", default=str(PREFERENCES))
     args = parser.parse_args()
     if not args.file and not args.find:
         parser.error("give a .drawio file to check, or --find \"<product>\"")
     try:
-        index = Index(json.loads(Path(args.catalog).read_text(encoding="utf-8")))
+        catalog = json.loads(Path(args.catalog).read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         print(f"cannot read the icon catalog {args.catalog}: {exc}", file=sys.stderr)
+        return 2
+    try:
+        index = Index(catalog, json.loads(Path(args.preferences).read_text(encoding="utf-8")))
+    except (OSError, ValueError) as exc:  # json.JSONDecodeError is a ValueError
+        print(f"cannot read the icon preferences {args.preferences}: {exc}", file=sys.stderr)
         return 2
     if args.find:
         matches, hidden = find(index, args.find, args.all)
         if args.json:
-            print(json.dumps([{k: e[k] for k in ENTRY_FIELDS + ["library", "style"]} for e in matches], indent=1))
+            rows = []
+            for entry in matches:
+                row = {k: entry[k] for k in ENTRY_FIELDS + ["library", "style"]}
+                note = preference_note(index, entry)
+                if note:
+                    row["preference"] = note
+                rows.append(row)
+            print(json.dumps(rows, indent=1))
         else:
             print(render_find(index, args.find, matches, hidden))
         return 0 if matches else 1

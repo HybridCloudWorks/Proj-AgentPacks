@@ -12,7 +12,7 @@ Run the checker from the `diagram-validation-and-evidence` Skill's folder:
 python scripts/check_drawio.py --find "<product name>"
 ```
 
-It lists the matching palette entries of the current libraries (add `--all` for legacy and retired ones) with the provider, form, palette title, palette, default size and the full style draw.io inserts. Copy the whole style. Do not read `icon_catalog.json` itself: it is about 300 KB, and the checker reads it for you.
+It lists the matching palette entries of the current libraries (add `--all` for legacy and retired ones) with the provider, form, palette title, palette, default size and the full style draw.io inserts. Where a product has a preferred file (see "Which file to use" under Azure), that file comes first, marked "preferred", and superseded paths come last, marked. Copy the whole style. Do not read `icon_catalog.json` itself: it is about 300 KB, and the checker reads it for you.
 
 The style is part of the icon. AWS and Google Cloud icons are stencils whose colours come from the style:
 
@@ -60,16 +60,10 @@ Current draw.io library: "Azure" [azure2]. Icons are images, not stencils, so co
 - draw.io 32.6.9 includes the July 2026 additions, for example `databases/Azure_DocumentDB.svg`, `other/Resiliency.svg`, `integration/AI_Gateway.svg`, `networking/DDoS_Custom_Policy.svg` and `ai_machine_learning/Foundry_Agent_Service.svg`. Microsoft Foundry itself is `ai_machine_learning/AI_Foundry.svg`.
 - Scope icons: `general/Management_Groups.svg`, `general/Subscriptions.svg`, `general/Resource_Groups.svg`, `networking/Virtual_Networks.svg`, `networking/Subnet.svg`. The library has no boundary shapes, so draw a scope as a plain labelled container and place its icon in the frame's corner.
 
-Which file to use, decided by rendering each candidate with draw.io Desktop 32.6.1 next to Microsoft's official file:
+Which file to use. draw.io offers some Azure products under several paths, and Microsoft publishes some icons outside the Azure set: Microsoft Entra ID's icon is in its separate Microsoft Entra architecture icons set. Each choice was made by rendering every candidate with draw.io Desktop 32.6.1 next to Microsoft's official file, and the choices live in one place, the `diagram-validation-and-evidence` Skill's `scripts/icon_preferences.json`: for each product the preferred file, the label to give it where one is needed, the paths that draw an older design (superseded) or the same icon, the reason, the render evidence, the sources and the date it was verified. Do not restate them elsewhere. The tools apply them:
 
-| Product | Use | Do not use | Evidence |
-|---|---|---|---|
-| Microsoft Entra ID | `other/Entra_Identity.svg`, labelled "Microsoft Entra ID" | `identity/Azure_Active_Directory.svg`, the pre-rename Azure Active Directory pyramid | Microsoft publishes the Entra ID icon in its separate Microsoft Entra architecture icons set (October 2023), not in Azure V24, which has only Entra sub-service icons in `identity/`. `other/Entra_Identity.svg` draws identically to "Microsoft Entra ID color icon.svg" from that set. |
-| Private endpoint | `other/Private_Endpoints.svg` | `networking/Private_Endpoint.svg`, an older design | V24's only private endpoint icon is `other/...-Private-Endpoints.svg`; the `other/` file draws identically to it. |
-| Private DNS zone | `networking/DNS_Zones.svg`, labelled "Private DNS zone" | | V24 has a DNS Zones icon and no separate private DNS zone icon; the draw.io file draws identically to it. |
-| App Service | `app_services/App_Services.svg` | | The copies in `compute/` and `containers/` draw identically, as Microsoft ships the same file in five V24 folders; draw.io's own Mobile and Web palettes reuse the `app_services/` file. |
-| Log Analytics workspace | `analytics/Log_Analytics_Workspaces.svg` | | The `management_governance/` copy draws identically; draw.io's Monitor palette reuses the `analytics/` file. |
-| Local network gateway | `networking/Local_Network_Gateways.svg` | | The `other/` copy draws identically, as in V24. |
+- `check_drawio.py --find "<product>"` lists the preferred file first, with its label, and its same-icon copies after it; superseded paths come last, marked with the file to use. A search that matches only a superseded path, such as "active directory", still brings in the preferred file.
+- The checker reports a superseded file, for example the pre-rename Azure Active Directory pyramid or the older private endpoint design, as a warning, or an error with `--strict`, naming the file to use.
 
 Four palette entries are spelled with different letter case from the file, and the palette spelling draws a broken image in draw.io Desktop and on app.diagrams.net. Use the file's spelling, which `--find` prints: `management_governance/Solutions.svg`, `networking/IP_Address_manager.svg`, `other/Arc_Data_services.svg`, `other/Database_Instance_For_SAP.svg`.
 
