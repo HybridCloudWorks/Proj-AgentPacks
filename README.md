@@ -59,7 +59,7 @@ This repository is public, so GitHub-hosted runners are free. Model usage is not
 
 Generated packs always arrive as pull requests on a `pack/<name>` branch; merging one is the approval. Locally, `python tooling/generate_pack.py publish staging/<name>` does the same.
 
-To release a pack: `git tag python-distinguished-engineer-v2.3.0 && git push origin python-distinguished-engineer-v2.3.0`.
+To release a pack: `git tag -a python-distinguished-engineer-v2.3.0 -m "python-distinguished-engineer-pack 2.3.0" && git push origin python-distinguished-engineer-v2.3.0`. Push each release tag with its own `git push`: GitHub starts no workflow for tags when more than three are pushed at once, so a batch push creates no releases.
 
 ## Working on packs
 

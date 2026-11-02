@@ -160,6 +160,12 @@ class RepoToolsTests(unittest.TestCase):
         self.assertEqual(len(result["os"]), 3)
         self.assertEqual(result["apm"], "latest")
 
+    def test_publish_mirrors_the_release_tags_themselves(self):
+        workflow = (REPO / ".github" / "workflows" / "publish.yml").read_text(encoding="utf-8")
+        before_push = workflow.split("actions/checkout@", 1)[1].split("git push dist --tags", 1)[0]
+        self.assertIn("git fetch --force --tags origin", before_push,
+                      "checkout leaves a pushed tag lightweight; restore the tag objects before mirroring them")
+
     def test_exemplar_identity_terms(self) -> None:
         hard, skills = generate_pack.identity_terms(EXEMPLAR)
         self.assertIn("python-distinguished-engineer", hard)
