@@ -12,13 +12,13 @@ The `.drawio` file; its intended purpose, audience and consumption size; and, wh
 ## Workflow
 
 1. Apply `diagram-validation-and-evidence`, judging the file against the `drawio-core-generation` output contract.
-   - Structural checks: root structure, unique IDs, parent, source and target references, geometry, compression, safe labels, AWS4 namespaces, font and container styles, and orphaned or hidden cells.
+   - Structural checks: run `check_drawio.py`, with `--strict` unless the user wants the diagram to keep a legacy icon set, and report every legacy, retired or unknown icon as a finding. The `mxgraph.aws4` namespace alone does not prove that an icon is current. Also check root structure, unique IDs, parent, source and target references, geometry, compression, safe labels, font and container styles, and orphaned or hidden cells.
    - Semantic checks against the supplied requirements or source.
-   - Visual checks, run only on an output that was actually opened or rendered.
-2. Apply `aws-xml-authoring` and its checklist reference for low-level defects. Apply `aws-icons-and-visual-language` for legacy shapes, invented icon names and AWS product icons used for non-AWS components.
-3. Apply `aws-architecture-patterns` to judge whether the pattern is represented honestly, including false containment and decorative groups that imply network isolation.
+2. Apply `aws-xml-authoring` and its checklist reference for low-level defects. Apply `aws-icons-and-visual-language` for legacy shapes, invented icon names, recoloured or hand-typed boundary styles, icons parented to category tiles, and AWS product icons used for non-AWS components.
+3. Apply `aws-architecture-patterns` to judge whether the pattern is represented honestly, including false containment, decorative groups that imply network isolation, and nesting other than account > Region > VPC > Availability Zone > subnet.
 4. Apply `aws-layout-and-composition` for readability: clipping, collisions, crossed edges, ambiguous direction and hidden cost-bearing paths.
-5. Apply `drawio-render-export-and-review` when Draw.io Desktop is available, and write review renders outside the source folder.
+5. Apply `drawio-render-export-and-review` when Draw.io Desktop is available, including the Microsoft Store build, and write review renders outside the source folder.
+6. Complete `diagram-validation-and-evidence` with the visual checks, run only on an output that was actually opened or rendered.
 
 A compressed diagram may be decoded in memory for inspection; do not rewrite the source.
 

@@ -32,15 +32,15 @@ A declared resource does not prove runtime traffic, DNS, IAM authorization, rout
 
 ## Icon mappings
 
-| Element | Shape used | Exact AWS4 name, or neutral shape | Why approximate |
+| Element | Library | Exact name, or neutral shape | Why approximate |
 |---|---|---|---|
-|  |  |  |  |
+|  | AWS current (`aws4`) / Azure (`azure2`) / Google Cloud 2026 (`gcp3`) / neutral |  |  |
 
-Use AWS icons only for AWS services. Non-AWS systems, custom applications and teams get neutral or general icons with labels.
+Use AWS icons only for AWS services. Azure and Google Cloud components use their own provider's current library, as `drawio-core-generation` describes. Custom applications, teams and third-party systems get labelled neutral shapes.
 
 ## Legend notes
 
-Explain each non-obvious item: routing, replication direction, IAM, account boundaries, decorative frames (`container=0`), and cross-AZ, cross-Region, hybrid and egress paths.
+Explain each non-obvious item: routing, replication direction, IAM, account boundaries, decorative frames and category tiles (`container=0`, never parents), and cross-AZ, cross-Region, hybrid and egress paths.
 
 ## Needs evidence beyond the source
 

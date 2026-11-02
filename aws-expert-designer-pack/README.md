@@ -4,7 +4,7 @@ Portable Agent/Skill package for producing correct AWS architecture diagrams in 
 
 ## Primary downloads
 
-- `dist/aws-expert-designer-pack.zip` — complete source, examples, templates, tests, tooling, and archives.
+- `dist/aws-expert-designer-pack.zip` — complete source, examples, templates, tests, and archives.
 - `dist/aws-expert-designer-canonical.zip` — APM-friendly canonical Agent and Skills.
 - `dist/aws-expert-designer-prompt.zip` — reusable pack-authoring prompt.
 - `dist/aws-expert-designer-validation.zip` — uppercase `VALIDATION_REPORT.md`.
@@ -38,7 +38,7 @@ Invoke the `aws-expert-designer` agent directly, or start from one of the seven 
 - review findings
 - export and render record
 - completion report
-- `aws-diagram-skeleton.drawio`, a starting file with AWS boundary conventions
+- `aws-diagram-skeleton.drawio`, a starting file built from draw.io's AWS library styles: account, Region, VPC, two Availability Zones with public and private subnets, sample icons, an auxiliary-services frame and a legend
 
 Templates and examples are reference material for people. They are not installed with the agent.
 
@@ -52,13 +52,19 @@ python tooling/validate_pack.py aws-expert-designer-pack --install-check
 python tooling/build_pack.py aws-expert-designer-pack
 ```
 
-The validator writes `VALIDATION_REPORT.md` unless it is given `--no-report`. The pack's own helper, `tooling/validate_drawio_xml.py <file.drawio>`, runs static checks on a single diagram.
+The validator writes `VALIDATION_REPORT.md` unless it is given `--no-report`. It also runs the pack's `tests/test_drawio_assets.py`, which checks the skeleton and the test fixture with the shared checker in strict mode and fails on hand-typed boundary styles, stripped icon styles or children under a `container=0` frame.
 
-The build is deterministic and does not call AWS, Draw.io, or modify external systems. Static validation does not prove visual legibility in a renderer, live account topology, IAM effectiveness, cost behavior, or production safety.
+To check a single diagram, run the checker that ships with the shared `diagram-validation-and-evidence` skill:
+
+```text
+python aws-expert-designer-pack/.apm/skills/diagram-validation-and-evidence/scripts/check_drawio.py --strict <file.drawio>
+```
+
+It checks the XML structure, IDs, parents and edges, and matches every AWS, Azure and Google Cloud icon against draw.io's catalog; `--strict` fails legacy and retired icons as well as unknown ones. The build is deterministic and does not call AWS, Draw.io, or modify external systems. Static validation does not prove visual legibility in a renderer, live account topology, IAM effectiveness, cost behavior, or production safety.
 
 ## Rendering prerequisite
 
-For true PNG/SVG/PDF render checks, install Draw.io Desktop and expose its CLI executable. Without it, the pack can still perform XML, shape, icon namespace, ID, parentage, edge, and packaging checks, but the report must say that visual rendering was not executed.
+For true PNG/SVG/PDF render checks, install Draw.io Desktop: the installer, or the Microsoft Store build, whose executable is `app\draw.io.exe` inside the package folder that `Get-AppxPackage *draw.io*` reports. Without it, the pack can still run the checker above and its packaging checks, but the report must say that visual rendering was not executed.
 
 ## Design boundary
 

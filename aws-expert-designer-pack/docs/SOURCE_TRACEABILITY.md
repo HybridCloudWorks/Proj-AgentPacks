@@ -16,7 +16,8 @@ The supplied files were read as reference material. Byte-distinct duplicate expo
 | Source | Use |
 |---|---|
 | `https://github.com/Agents365-ai/drawio-skill` | Generic Draw.io generation, import, layout, repair, validation, and export foundation. |
-| `https://aws.amazon.com/architecture/icons/` | Current AWS-approved icon packages, quarterly update cadence, supported diagram tools, and usage guidance. |
+| `https://aws.amazon.com/architecture/icons/` | Current AWS-approved icon packages, quarterly update cadence, supported diagram tools, and the warning that third-party libraries may contain legacy icon sets. The page carried no size, colour or do-and-don't guidance when it was checked on 2026-11-01. |
+| `https://github.com/jgraph/drawio`, `src/main/webapp/js/diagramly/sidebar/Sidebar-AWS4.js` at draw.io 32.6.9 | The "AWS / Groups" palette and the service palettes: the exact group and icon styles the skeleton, the fixture and `aws-visual-rules.md` use (read 2026-11-01). |
 | `https://aws.amazon.com/what-is/architecture-diagramming/` | AWS architecture diagram communication and layered layout guidance. |
 
 ## Editorial additions

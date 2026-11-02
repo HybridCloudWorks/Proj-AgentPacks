@@ -8,15 +8,15 @@ The record of a read-only review of an existing AWS diagram. A review changes no
 - Compared against: requirements, CloudFormation, CDK, Terraform or application code, with paths:
 - Purpose, audience and consumption size:
 - Checks run:
-  - Structural: method and result
+  - Structural: `check_drawio.py` mode (strict or default, and why), exit code, icon counts per provider and status, catalog draw.io version, and anything checked by reading the XML
   - Semantic: sources compared
   - Visual: renderer and version, render location (outside the source folder), size reviewed; or "not run" and the reason
 
 ## Impact scale
 
-- **misleading**: the diagram states or implies something the evidence contradicts or does not support. Examples: a resource in the wrong subnet, false containment, a decorative group that implies network isolation, hidden replication, a hidden egress or cross-AZ path.
+- **misleading**: the diagram states or implies something the evidence contradicts or does not support. Examples: a resource in the wrong subnet, false containment, an icon parented to a category tile, a subnet outside its Availability Zone or Availability Zones outside the VPC, a decorative group that implies network isolation, hidden replication, a hidden egress or cross-AZ path.
 - **ambiguous**: a reader cannot tell what is meant. Examples: an edge that ends on a container, a missing arrowhead, an unlabeled path across a boundary.
-- **structural**: a file defect that breaks opening, editing, diffing or rendering. Examples: a dangling reference, a duplicate ID, a compressed payload, a legacy or invented shape.
+- **structural**: a file defect that breaks opening, editing, diffing or rendering. Examples: a dangling reference, a duplicate ID, a compressed payload, a legacy, retired or invented shape, a hand-typed or recoloured library style.
 - **cosmetic**: a breach of convention or a readability issue only, such as font, spacing or label size.
 
 ## Findings

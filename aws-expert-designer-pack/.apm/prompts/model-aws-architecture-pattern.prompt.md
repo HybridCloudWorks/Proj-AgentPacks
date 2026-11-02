@@ -14,8 +14,9 @@ The pattern in question: VPC networking, serverless, containers, event-driven, d
 1. Apply `aws-architecture-patterns` and run its checks for the named pattern. For example, a public subnet is a route-table property; synchronous invocation is not asynchronous delivery; a pipeline is not a runtime dependency; an edge service does not replicate or move database traffic.
 2. Apply `aws-architecture-design` to separate what the user's evidence shows from what the pattern adds. Mark every relationship observed, inferred or designed.
 3. Apply `aws-layout-and-composition` so that routing, failover authority, replication direction, active/active versus active/passive, and cross-AZ, cross-Region, hybrid and egress edges are visible and labeled distinctly.
-4. Apply `aws-icons-and-visual-language`, then `drawio-core-generation` and `aws-xml-authoring` to write the file. Show governance and security services as a separate layer only when the user asks for them.
-5. Apply `diagram-validation-and-evidence`, and `drawio-render-export-and-review` when Draw.io Desktop is available.
+4. Apply `aws-icons-and-visual-language`, then `drawio-core-generation` and `aws-xml-authoring` to write the file, with every icon and group style copied whole from draw.io's AWS library and boundaries nested account > Region > VPC > Availability Zone > subnet. Show governance and security services as a separate layer only when the user asks for them.
+5. After every write, run the `diagram-validation-and-evidence` structural checks, including `check_drawio.py --strict`.
+6. Apply `drawio-render-export-and-review` when Draw.io Desktop is available, including the Microsoft Store build, then complete `diagram-validation-and-evidence` with its visual checks on that render.
 
 ## Expected output
 

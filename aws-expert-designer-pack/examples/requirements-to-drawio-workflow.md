@@ -19,7 +19,7 @@ Framing under `drawio-core-generation`:
 - Audience: architects and security reviewers.
 - Fidelity: logical, with network boundaries, but not every security-group rule.
 - Output: a new file, `architecture/order-portal.drawio`, plus a companion report.
-- Generation path: native XML, because the diagram needs AWS4 icons, real VPC, AZ and subnet containment, and a precisely routed egress edge.
+- Generation path: native XML, because the diagram needs draw.io's AWS library icons and group styles, real account, Region, VPC, AZ and subnet containment, and a precisely routed egress edge.
 
 ## Questions asked
 
@@ -40,9 +40,10 @@ The agent asked nothing about compute or database products. Those became recorde
 | Amazon ECS service on AWS Fargate | private app subnets a and b, no public IPs | designed | R3, R5 |
 | Amazon Aurora PostgreSQL cluster: writer in AZ a, reader in AZ b | private data subnets | designed | R4, R5 |
 | NAT gateway with Elastic IP, one per AZ | public subnets a and b | designed | R6, answer 2 |
-| AWS Secrets Manager, Amazon CloudWatch Logs | Region, auxiliary frame | designed | database credentials, task logs |
-| Region eu-west-1 | decorative frame | observed | R4 |
-| Two Availability Zones | real containers | observed | R5 |
+| AWS Secrets Manager, Amazon CloudWatch Logs | Region, drawn over a decorative auxiliary frame | designed | database credentials, task logs |
+| Production workload account | outermost frame, a real container | observed | answer 1 |
+| Region eu-west-1 | real container inside the account frame | observed | R4 |
+| Two Availability Zones | real containers inside the VPC, one subnet of each tier in each | observed | R5 |
 
 | Relationship | Kind | Label |
 |---|---|---|
@@ -59,54 +60,67 @@ Image pulls and the calls to Secrets Manager and CloudWatch Logs leave through t
 
 ## Visual and layout decisions
 
-- `aws-icons-and-visual-language`: AWS4 resource icons for each AWS service, with names taken from the installed Draw.io AWS4 sidebar. Customers and the payment provider use neutral shapes with labels. Each icon is 48×48 inside a 120×120 category container.
-- The diagram has eight primary services, so it gets a right-side legend and teal step badges 1 to 5 on the request path. Secrets Manager and CloudWatch Logs sit in a dashed auxiliary frame without step numbers.
+- `aws-icons-and-visual-language`: every AWS icon and boundary style was copied whole from the installed draw.io AWS library through its shape search, including each icon's category `fillColor` and bottom label. Only the typography was changed to the house style. The ALB uses the `application_load_balancer` resource icon, not the Elastic Load Balancing service icon. Customers use the AWS General Resources `users` icon. The payment provider is a third-party system, so it gets a labelled neutral shape. Every icon is 48×48 and is parented directly to its subnet, VPC, Region or account. No category tiles are used.
+- Boundaries use the library's AWS group styles, nested account > Region > VPC > Availability Zone > subnet. Each subnet sits in exactly one Availability Zone.
+- The diagram has eight primary services, so it gets a right-side legend and teal step badges 1 to 5 on the request path. Secrets Manager and CloudWatch Logs are parented to the Region and drawn over a dashed auxiliary frame without step numbers. The frame is decorative: `container=0` and no children.
 - `aws-layout-and-composition`: request flow runs left to right. AZ a and AZ b are stacked rows, so cross-AZ edges are short, vertical and labeled. Spacing is 180 px by 120 px. Customers sit below the title block at y = 160.
 - The ALB is drawn once, parented to the VPC and straddling both public subnets, with the label "Application Load Balancer (nodes in public subnets a and b)". Real containment cannot place one icon in two subnets, and drawing two ALBs would be false.
 
 ## XML excerpt
 
-Applying `aws-xml-authoring`. IDs are semantic and stable, and geometry is abbreviated.
+Applying `aws-xml-authoring`. IDs are semantic and stable, and geometry is abbreviated. Each style is the library's palette style with only `fontFamily`, `fontSize` and `fontStyle` changed.
 
 ```xml
-<mxCell id="region_euw1" value="AWS Region eu-west-1" style="rounded=0;whiteSpace=wrap;html=1;container=0;fillColor=none;strokeColor=#00A4A6;fontColor=#00A4A6;fontFamily=Helvetica;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
-  <mxGeometry x="400" y="140" width="1180" height="900" as="geometry" />
+<mxCell id="region_euw1" value="AWS Region eu-west-1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;" vertex="1" parent="account_prod">
+  <mxGeometry x="20" y="40" width="1180" height="900" as="geometry" />
 </mxCell>
-<mxCell id="vpc_orders" value="VPC orders-prod 10.20.0.0/16" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=none;strokeColor=#8C4FFF;fontColor=#8C4FFF;fontFamily=Helvetica;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
-  <mxGeometry x="440" y="190" width="1000" height="700" as="geometry" />
+<mxCell id="vpc_orders" value="VPC orders-prod 10.20.0.0/16" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#AAB7B8;dashed=0;fontFamily=Helvetica;fontSize=14;fontStyle=1;" vertex="1" parent="region_euw1">
+  <mxGeometry x="40" y="50" width="1000" height="700" as="geometry" />
 </mxCell>
-<mxCell id="cat_alb" value="Networking" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;fillColor=#F3EDFF;strokeColor=#8C4FFF;fontColor=#8C4FFF;fontFamily=Helvetica;fontSize=10;verticalAlign=top;" vertex="1" parent="vpc_orders">
-  <mxGeometry x="40" y="260" width="120" height="120" as="geometry" />
+<mxCell id="az_a" value="Availability Zone a" style="fillColor=none;strokeColor=#147EBA;dashed=1;verticalAlign=top;fontColor=#147EBA;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;container=1;collapsible=0;recursiveResize=0;" vertex="1" parent="vpc_orders">
+  <mxGeometry x="160" y="40" width="820" height="300" as="geometry" />
 </mxCell>
-<mxCell id="svc_alb" value="Application Load Balancer (nodes in public subnets a and b)" style="outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;whiteSpace=wrap;fontSize=10;fontFamily=Helvetica;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_load_balancing;" vertex="1" parent="cat_alb">
-  <mxGeometry x="36" y="28" width="48" height="48" as="geometry" />
+<mxCell id="subnet_public_a" value="Public subnet a (route table sends 0.0.0.0/0 to the internet gateway)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#7AA116;fillColor=#F2F6E8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;dashed=0;fontFamily=Helvetica;fontSize=12;fontStyle=1;" vertex="1" parent="az_a">
+  <mxGeometry x="20" y="40" width="240" height="240" as="geometry" />
 </mxCell>
-<mxCell id="edge_alb_tasks_b" value="HTTP to targets, cross-AZ" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontFamily=Helvetica;fontSize=11;endArrow=block;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="svc_alb" target="svc_tasks_b">
+<mxCell id="svc_alb" value="Application Load Balancer&lt;br&gt;(nodes in public subnets a and b)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.application_load_balancer;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="vpc_orders">
+  <mxGeometry x="276" y="326" width="48" height="48" as="geometry" />
+</mxCell>
+<mxCell id="edge_alb_tasks_b" value="HTTP to targets, cross-AZ" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=default;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="svc_alb" target="svc_tasks_b">
   <mxGeometry relative="1" as="geometry" />
 </mxCell>
 ```
 
-The Region frame has `container=0`, so the VPC is parented to cell `1`. The edge ends on the task icon `svc_tasks_b`, not on its subnet.
+Every boundary is a real container copied from the library's "AWS / Groups" palette, so the VPC is parented to the Region and the Region to the account frame `account_prod`. The library's Availability Zone rectangle has no `container=1`, so it was added. The ALB icon is parented to the VPC, not to a category tile, and sits in the gap between the two Availability Zone rows, across the public-subnet column. The edge ends on the task icon `svc_tasks_b`, not on its subnet.
 
 ## Validation
 
-`diagram-validation-and-evidence`, structural checks:
+`diagram-validation-and-evidence`, structural checks, run after every write:
 
-- The XML parses with a namespace-aware parser, and `mxfile`, `diagram`, `mxGraphModel`, `root` and cells `0` and `1` are present.
-- 41 cells have unique IDs, and every parent resolves.
-- 14 edges have existing sources and targets, all of them icons.
-- The payload is uncompressed, every AWS shape uses the `mxgraph.aws4` namespace, and Helvetica is used throughout.
-- No defects.
+```text
+python <installed skills>/diagram-validation-and-evidence/scripts/check_drawio.py --strict architecture/order-portal.drawio
+pages: 1 (Overview)
+cells: 35 vertices, 14 edges
+catalog: draw.io 32.5.5, built 2026-10-18
+icons AWS: current 22
+errors: 0
+warnings: 0
+result: PASS
+```
+
+- Exit code 0. The checker parsed the file, found root cells `0` and `1`, unique IDs, resolvable parents and edge endpoints and no compression, and matched all 22 AWS names, 13 icons and 9 groups, against the catalog's current list. The `mxgraph.aws4` namespace alone was not taken as proof, because the legacy AWS18 library shares it.
+- Read from the XML: all 14 edges end on icons; account > Region > VPC > Availability Zone > subnet nesting holds, with each subnet in one Availability Zone; nothing is parented to the `container=0` auxiliary frame; Helvetica is used throughout.
+- The checker cannot judge whether each icon is the right product. That was compared by hand with the model table.
 
 Semantic check: every element traces to R1–R6, to one of the two answers, or to a recorded decision.
 
 Visual check under `drawio-render-export-and-review`:
 
-- Draw.io Desktop was found at `C:\Program Files\draw.io\draw.io.exe`, and the version it printed was recorded.
-- A review PNG was exported to `%TEMP%\order-portal-review\`, outside the repository, and inspected at 100% and at 1280 px width.
+- Draw.io Desktop was not at `C:\Program Files\draw.io\draw.io.exe` or on PATH. `Get-AppxPackage *draw.io*` reported the Microsoft Store build, and its `app\draw.io.exe` printed its version with `--version`, which was recorded.
+- `draw.io.exe -x -k -f png -o %TEMP%\order-portal-review\order-portal.png architecture\order-portal.drawio` wrote a review PNG outside the repository. It was inspected at 100% and at 1280 px width. Every icon and group drew its symbol.
 - Two defects were found. The label "Amazon Aurora PostgreSQL-Compatible Edition" ran into the reader icon. The egress label overlapped the VPC border.
-- Fixes: the label geometry was widened to 160 px with wrapping, and a waypoint moved the egress label 30 px clear of the border.
-- After re-rendering, no defects remained.
+- Fixes: the label was split over two lines with `<br>`, and a waypoint moved the egress label 30 px clear of the border. The checker ran again and passed.
+- The first review PNG was deleted, because `-k` refuses to overwrite it, and the diagram was re-rendered. No defects remained, and `diagram-validation-and-evidence` was completed on that render.
 
 ## Completion report
 
@@ -144,12 +158,14 @@ Outcome: diagram delivered as a new file.
 
 ### structural_checks
 
-- XML parse, root cells, unique IDs, parents, edges ending on icons, no compression, AWS4 namespace only, and Helvetica — structurally-validated.
-- Icon names come from the installed Draw.io AWS4 sidebar; they were not compared with the current AWS-approved icon package — not-verified.
+- `check_drawio.py --strict`: exit 0; 22 AWS icons and groups current, none legacy, retired or unknown; catalog draw.io 32.5.5 — structurally-validated.
+- Edges ending on icons, account > Region > VPC > Availability Zone > subnet nesting, no children under the decorative frame, and Helvetica, checked by reading the XML — structurally-validated.
+- Each icon is the right product for its component, compared by hand with the model — observed.
+- Icon styles come from the installed draw.io AWS library; they were not compared with the current AWS-approved icon package — not-verified.
 
 ### visual_checks
 
-- Draw.io Desktop render at scale 1, inspected at 100% and at 1280 px. Two defects were fixed and the re-render was clean — visually-validated.
+- Draw.io Desktop (Microsoft Store build) render at scale 1, inspected at 100% and at 1280 px. Every icon drew. Two defects were fixed and the re-render was clean — visually-validated.
 
 ### live_or_external_checks
 

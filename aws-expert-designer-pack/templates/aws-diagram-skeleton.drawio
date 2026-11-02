@@ -1,20 +1,32 @@
 <mxfile host="drawio" compressed="false">
   <!--
-    AWS diagram skeleton: title block, external actor, decorative Region frame, VPC with two
-    Availability Zones and public and private subnets, auxiliary services frame, step badge and legend.
+    AWS diagram skeleton: title block, internet users, AWS account, Region, VPC with two Availability
+    Zones and public and private subnets, a Regional service outside the VPC, an auxiliary-services
+    frame, a step badge and a legend.
 
     Conventions this skeleton encodes:
-    * Region is decorative (container=0). Its contents are parented to cell 1, not to the frame.
-    * VPC, Availability Zone and subnet are real containers (container=1); children move with them.
-    * Colors: VPC #8C4FFF, public subnet #248814, private subnet #147EBA, Region #00A4A6; text matches stroke.
-    * Fonts: Helvetica; title 30 bold, subtitle 16, group 14 bold, container 12 bold, service 10, edge 11.
-    * A public subnet is public because of its route table; say so in the label, not only by color.
+    * Every boundary and icon style is copied verbatim from draw.io's AWS library (Sidebar-AWS4.js at
+      draw.io 32.6.9: the "AWS / Groups" palette and the service palettes). Only the house typography
+      (fontFamily, fontSize, fontStyle) is changed. Never retype or recolour a library style.
+    * Nesting is account > Region > VPC > Availability Zone > subnet. All five are real containers
+      (container=1) and every child is parented to the boundary it really sits in. Each subnet sits in
+      exactly one Availability Zone.
+    * The library's Availability Zone entry is a plain dashed rectangle without container=1, so the
+      skeleton adds container=1;collapsible=0;recursiveResize=0 to it.
+    * The auxiliary-services frame is decorative: container=0 and no children. The services drawn over
+      it are parented to the Region, their real scope, and come after the frame so they draw on top.
+      Library group styles carry container=1, so a frame used decoratively must set container=0.
+    * Icons are 48x48 (house size) and keep the library's category fillColor and bottom label.
+    * Fonts: Helvetica; title 30 bold, subtitle 16, account/Region/VPC 14 bold, Availability Zone and
+      subnet 12 bold, service 10, edge 11.
+    * A public subnet is public because of its route table; say so in the label, not only by colour.
 
-    Adding a service: create a 120x120 category container (container=1) inside the right subnet, with a
-    48x48 child whose style is shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.NAME, where NAME is
-    taken from the installed AWS4 library. Put the AWS product name in the icon label and the category
-    in the container label. Attach edges to the icon cell, never to the container. Use stable semantic IDs.
-    Remove the second Availability Zone or the auxiliary frame when the design does not have them.
+    Adding a service: copy its full style from draw.io's AWS library (the editor's shape search or the
+    service palettes), keep every colour and label key, size it 48x48 and parent it to the subnet,
+    Availability Zone, VPC or Region it really sits in. Do not wrap it in a category container. Confirm
+    the name with check_drawio.py from the diagram-validation-and-evidence skill in strict mode. Attach
+    edges to icons, never to boundaries, and use stable semantic IDs. Remove the second Availability
+    Zone, the sample services or the auxiliary frame when the design does not have them.
   -->
   <diagram id="aws-skeleton" name="Overview">
     <mxGraphModel dx="1654" dy="1169" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
@@ -27,44 +39,91 @@
         <mxCell id="subtitle" value="Scope, audience, source of truth and date" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=16;fontColor=#545B64;" vertex="1" parent="1">
           <mxGeometry x="40" y="68" width="1000" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="actor_external" value="External users" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#545B64;fontColor=#232F3E;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=bottom;spacingBottom=8;" vertex="1" parent="1">
-          <mxGeometry x="40" y="160" width="140" height="120" as="geometry" />
+        <mxCell id="actor_users" value="Internet users" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.users;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="390" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="account_workload" value="AWS account: workload name" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264;dashed=0;fontFamily=Helvetica;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="130" width="1120" height="910" as="geometry" />
+        </mxCell>
+        <mxCell id="region_primary" value="AWS Region: name" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=1;fontFamily=Helvetica;fontSize=14;fontStyle=1;" vertex="1" parent="account_workload">
+          <mxGeometry x="20" y="40" width="1080" height="850" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc_main" value="VPC: name (CIDR)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#AAB7B8;dashed=0;fontFamily=Helvetica;fontSize=14;fontStyle=1;" vertex="1" parent="region_primary">
+          <mxGeometry x="20" y="50" width="900" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="igw_main" value="Internet&lt;br&gt;gateway" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.internet_gateway;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="vpc_main">
+          <mxGeometry x="36" y="170" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="az_a" value="Availability Zone a" style="fillColor=none;strokeColor=#147EBA;dashed=1;verticalAlign=top;fontColor=#147EBA;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;container=1;collapsible=0;recursiveResize=0;" vertex="1" parent="vpc_main">
+          <mxGeometry x="110" y="50" width="770" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="subnet_public_a" value="Public subnet a (route table sends 0.0.0.0/0 to the internet gateway)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#7AA116;fillColor=#F2F6E8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;dashed=0;fontFamily=Helvetica;fontSize=12;fontStyle=1;" vertex="1" parent="az_a">
+          <mxGeometry x="20" y="40" width="355" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="subnet_private_a" value="Private subnet a (no route to the internet gateway)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#00A4A6;fillColor=#E6F6F7;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=0;fontFamily=Helvetica;fontSize=12;fontStyle=1;" vertex="1" parent="az_a">
+          <mxGeometry x="395" y="40" width="355" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="nat_a" value="NAT gateway a" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.nat_gateway;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="subnet_public_a">
+          <mxGeometry x="154" y="80" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="app_a" value="Amazon EC2 instance a" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.instance2;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="subnet_private_a">
+          <mxGeometry x="154" y="80" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="az_b" value="Availability Zone b" style="fillColor=none;strokeColor=#147EBA;dashed=1;verticalAlign=top;fontColor=#147EBA;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;container=1;collapsible=0;recursiveResize=0;" vertex="1" parent="vpc_main">
+          <mxGeometry x="110" y="330" width="770" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="subnet_public_b" value="Public subnet b (route table sends 0.0.0.0/0 to the internet gateway)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#7AA116;fillColor=#F2F6E8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;dashed=0;fontFamily=Helvetica;fontSize=12;fontStyle=1;" vertex="1" parent="az_b">
+          <mxGeometry x="20" y="40" width="355" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="subnet_private_b" value="Private subnet b (no route to the internet gateway)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#00A4A6;fillColor=#E6F6F7;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;dashed=0;fontFamily=Helvetica;fontSize=12;fontStyle=1;" vertex="1" parent="az_b">
+          <mxGeometry x="395" y="40" width="355" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="nat_b" value="NAT gateway b" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.nat_gateway;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="subnet_public_b">
+          <mxGeometry x="154" y="80" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="app_b" value="Amazon EC2 instance b" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.instance2;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="subnet_private_b">
+          <mxGeometry x="154" y="80" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_assets" value="Amazon S3" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="region_primary">
+          <mxGeometry x="976" y="200" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="aux_services" value="Auxiliary services (not primary flow steps; decorative frame)" style="fillColor=none;strokeColor=#5A6C86;dashed=1;verticalAlign=top;fontColor=#5A6C86;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontStyle=1;container=0;align=left;spacingLeft=10;" vertex="1" parent="region_primary">
+          <mxGeometry x="20" y="680" width="900" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_cloudwatch" value="Amazon CloudWatch" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="region_primary">
+          <mxGeometry x="76" y="730" width="48" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="svc_secrets" value="AWS Secrets Manager" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#DD344C;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.secrets_manager;fontFamily=Helvetica;fontSize=10;fontStyle=0;" vertex="1" parent="region_primary">
+          <mxGeometry x="256" y="730" width="48" height="48" as="geometry" />
         </mxCell>
         <mxCell id="badge_1" value="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#00A4A6;strokeColor=none;fontColor=#FFFFFF;fontFamily=Helvetica;fontSize=12;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="190" y="150" width="28" height="28" as="geometry" />
+          <mxGeometry x="124" y="376" width="28" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="region_primary" value="AWS Region" style="rounded=0;whiteSpace=wrap;html=1;container=0;fillColor=none;strokeColor=#00A4A6;fontColor=#00A4A6;fontFamily=Helvetica;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="1">
-          <mxGeometry x="240" y="140" width="1060" height="900" as="geometry" />
+        <mxCell id="edge_users_igw" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=default;endArrow=block;endFill=1;" edge="1" parent="1" source="actor_users" target="igw_main">
+          <mxGeometry x="-0.6" relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="vpc_main" value="VPC (CIDR)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=none;strokeColor=#8C4FFF;fontColor=#8C4FFF;fontFamily=Helvetica;fontSize=14;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="1">
-          <mxGeometry x="270" y="190" width="1000" height="620" as="geometry" />
+        <mxCell id="edge_nat_a_igw" value="to the internet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=default;endArrow=block;endFill=1;" edge="1" parent="1" source="nat_a" target="igw_main">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="az_a" value="Availability Zone a" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;dashed=1;fillColor=none;strokeColor=#147EBA;fontColor=#147EBA;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="vpc_main">
-          <mxGeometry x="20" y="40" width="470" height="560" as="geometry" />
+        <mxCell id="edge_nat_b_igw" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=default;endArrow=block;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.85;entryDx=0;entryDy=0;" edge="1" parent="1" source="nat_b" target="igw_main">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="318" y="694" />
+              <mxPoint x="318" y="431" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="subnet_public_a" value="Public subnet a (route table sends 0.0.0.0/0 to the internet gateway)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#F2F6E8;strokeColor=#248814;fontColor=#248814;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="az_a">
-          <mxGeometry x="20" y="40" width="430" height="220" as="geometry" />
+        <mxCell id="edge_app_a_nat_a" value="egress, same AZ" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=default;endArrow=block;endFill=1;" edge="1" parent="1" source="app_a" target="nat_a">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="subnet_private_a" value="Private subnet a (no route to the internet gateway)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#E6F2F8;strokeColor=#147EBA;fontColor=#147EBA;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="az_a">
-          <mxGeometry x="20" y="290" width="430" height="250" as="geometry" />
+        <mxCell id="edge_app_b_nat_b" value="egress, same AZ" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=11;labelBackgroundColor=default;endArrow=block;endFill=1;" edge="1" parent="1" source="app_b" target="nat_b">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="az_b" value="Availability Zone b" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;dashed=1;fillColor=none;strokeColor=#147EBA;fontColor=#147EBA;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="vpc_main">
-          <mxGeometry x="510" y="40" width="470" height="560" as="geometry" />
-        </mxCell>
-        <mxCell id="subnet_public_b" value="Public subnet b (route table sends 0.0.0.0/0 to the internet gateway)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#F2F6E8;strokeColor=#248814;fontColor=#248814;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="az_b">
-          <mxGeometry x="20" y="40" width="430" height="220" as="geometry" />
-        </mxCell>
-        <mxCell id="subnet_private_b" value="Private subnet b (no route to the internet gateway)" style="rounded=0;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;fillColor=#E6F2F8;strokeColor=#147EBA;fontColor=#147EBA;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="az_b">
-          <mxGeometry x="20" y="290" width="430" height="250" as="geometry" />
-        </mxCell>
-        <mxCell id="aux_services" value="Auxiliary services (not primary flow steps)" style="rounded=0;whiteSpace=wrap;html=1;container=0;dashed=1;fillColor=none;strokeColor=#879196;fontColor=#545B64;fontFamily=Helvetica;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;" vertex="1" parent="1">
-          <mxGeometry x="270" y="840" width="1000" height="170" as="geometry" />
-        </mxCell>
-        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;&lt;br&gt;Teal badge: primary flow step&lt;br&gt;Solid arrow: synchronous request&lt;br&gt;Dashed arrow: asynchronous message or replication (labeled)&lt;br&gt;Edge label starting cross-AZ, cross-Region, hybrid or egress: cost-bearing path&lt;br&gt;Teal frame: AWS Region (decorative)&lt;br&gt;Purple frame: VPC&lt;br&gt;Dashed blue frame: Availability Zone&lt;br&gt;Green frame: public subnet&lt;br&gt;Blue frame: private subnet&lt;br&gt;Dashed grey frame: auxiliary services" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=12;rounded=0;fillColor=#FFFFFF;strokeColor=#545B64;fontColor=#232F3E;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="1330" y="140" width="290" height="300" as="geometry" />
+        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;&lt;br&gt;Teal badge: primary flow step&lt;br&gt;Solid arrow: synchronous request&lt;br&gt;Dashed arrow: asynchronous message or replication (labelled)&lt;br&gt;Edge label starting cross-AZ, cross-Region, hybrid or egress: cost-bearing path&lt;br&gt;&lt;br&gt;Boundaries are draw.io's AWS group styles:&lt;br&gt;Pink frame, account icon: AWS account (ownership scope, not a network)&lt;br&gt;Teal dashed frame, flag: AWS Region&lt;br&gt;Purple frame, VPC icon: VPC&lt;br&gt;Blue dashed frame: Availability Zone&lt;br&gt;Green fill, padlock: public subnet&lt;br&gt;Teal fill, padlock: private subnet&lt;br&gt;Grey dashed frame: auxiliary services (decorative)" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=12;rounded=0;fillColor=#FFFFFF;strokeColor=#545B64;fontColor=#232F3E;fontFamily=Helvetica;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="130" width="300" height="270" as="geometry" />
         </mxCell>
         <mxCell id="note_evidence" value="Evidence labels (observed, inferred, designed, unresolved) for every element and edge are in the companion report." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=10;fontColor=#545B64;" vertex="1" parent="1">
-          <mxGeometry x="1330" y="460" width="290" height="60" as="geometry" />
+          <mxGeometry x="1330" y="420" width="300" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

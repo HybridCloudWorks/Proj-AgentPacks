@@ -59,13 +59,17 @@ Name scratch renders too, and say they are not deliverables.
 | Unique stable IDs; parents resolve |  |  |  |
 | Edges have existing sources and targets, attached to icons, not containers |  |  |  |
 | Uncompressed payload |  |  |  |
-| AWS4 namespace only; no legacy or invented shapes |  |  |  |
+| Icon catalog check: `check_drawio.py --strict` from `diagram-validation-and-evidence`; record the exit code, the icon counts per provider and status, and the catalog's draw.io version | command and exit code |  |  |
+| Correct product for each component (the checker cannot judge this) | manual comparison with the source or model |  | observed / not-verified |
+| Boundary and icon styles copied whole from draw.io's library; account > Region > VPC > Availability Zone > subnet nesting; nothing parented to a `container=0` cell |  |  |  |
 | Font and container styles |  |  |  |
 | Outputs exist at the requested paths |  |  |  |
 
+A namespace check (`mxgraph.aws4`) is not an icon check: the current and legacy AWS18 libraries share that namespace.
+
 ## visual_checks
 
-- Renderer, path and version, or the reason it was unavailable:
+- Renderer, path and version (installer, per-user install, PATH or Microsoft Store build), or the locations checked and the reason it was unavailable:
 - Output inspected and the size it was reviewed at:
 - Defects found and fixed:
 - Label: `visually-validated` only after the actual output was opened or rendered and inspected. Otherwise `not-verified`.

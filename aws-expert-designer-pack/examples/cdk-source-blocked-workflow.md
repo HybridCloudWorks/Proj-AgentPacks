@@ -36,13 +36,13 @@ CDK logical IDs carry hash suffixes, and physical names are assigned at deployme
 - Did not run `cdk synth`. The uncached `Vpc.fromLookup` makes synthesis a live call to the production account with credentials, and nobody authorized that.
 - Did not change `architecture/prod.drawio`.
 - Wrote a draft to a new path, `architecture/prod.draft.drawio`, using `drawio-core-generation`, `aws-icons-and-visual-language` and `aws-xml-authoring`. The draft contains:
-  - a VPC boundary labeled "VPC shared-prod (looked up; subnets, AZs and CIDR unresolved)"
-  - the ALB, Fargate service and Aurora cluster inside the VPC, with a note "subnet placement unresolved until synthesis"
+  - a Region frame for eu-west-1 and, inside it, a VPC boundary labeled "VPC shared-prod (looked up; subnets, AZs and CIDR unresolved)", both drawn with the library's AWS group styles; the account frame is labelled "account from CDK_DEFAULT_ACCOUNT (unresolved)"
+  - the ALB, Fargate service and Aurora cluster inside the VPC, with icon styles copied whole from the draw.io AWS library and a note "subnet placement unresolved until synthesis"
   - the Route 53 record → ALB edge, labeled observed
   - no AZ or subnet containers, because drawing guessed boundaries would imply placement the evidence does not support
   - no CloudFront or WAF; the companion report lists both as unresolved
-- Ran the `diagram-validation-and-evidence` structural checks on the draft. They passed.
-- Looked for Draw.io Desktop at `C:\Program Files\draw.io\draw.io.exe`, in the user installation directory and on PATH, and found none. No render.
+- Ran the `diagram-validation-and-evidence` structural checks on the draft: `check_drawio.py --strict` exited 0, with every AWS icon and group current in the catalog (draw.io 32.5.5).
+- Looked for Draw.io Desktop at `C:\Program Files\draw.io\draw.io.exe`, in the user installation directory, on PATH and as a Microsoft Store package (`Get-AppxPackage *draw.io*`), and found none. No render.
 
 ## Decisions requested
 
@@ -84,7 +84,8 @@ Outcome: blocked on three decisions. A draft was written to a new file, and noth
 
 ### structural_checks
 
-- Draft parse, root cells, unique IDs, parents, edges with icon endpoints, no compression and the AWS4 namespace — structurally-validated.
+- `check_drawio.py --strict` on the draft: exit 0; parse, root cells, unique IDs, parents, edge endpoints, no compression, and every AWS icon current in the catalog (draw.io 32.5.5) — structurally-validated.
+- Edges ending on icons, checked by reading the XML — structurally-validated.
 
 ### visual_checks
 
