@@ -5,6 +5,7 @@ import base64
 import importlib.util
 import json
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -200,15 +201,122 @@ class CheckDrawioTests(unittest.TestCase):
     def statuses(report: dict) -> dict[str, str]:
         return {icon["cell"]: icon["status"] for icon in report["icons"]}
 
+    @staticmethod
+    def palette(query: str, name: str) -> str:
+        """The full palette style the catalog records for one icon, found the way an agent would find it."""
+        matches, _ = check_drawio.find(CATALOG, query)
+        return next(e["style"] for e in matches if e["name"] == name)
+
+    def messages(self, style: str, strict: bool = False) -> tuple[list[str], list[str]]:
+        report = self.run_check(drawio_page(drawio_vertex("v", style, "Label")), strict)
+        return [e["message"] for e in report["errors"]], [w["message"] for w in report["warnings"]]
+
     def test_current_icons_of_all_three_providers_pass(self):
         report = self.run_check(drawio_page(
-            drawio_vertex("aws", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;")
-            + drawio_vertex("azure", "image;image=img/lib/azure2/databases/Azure_DocumentDB.svg;")
-            + drawio_vertex("gcp-core", "shape=mxgraph.gcp3.cloudrun;")
-            + drawio_vertex("gcp-category", "shape=mxgraph.gcp3.dataanalytics;")))
-        self.assertEqual(report["result"], "PASS")
+            drawio_vertex("aws", self.palette("lambda", "lambda"))
+            + drawio_vertex("aws-resource", self.palette("instance", "instance2"))
+            + drawio_vertex("azure", self.palette("documentdb", "databases/Azure_DocumentDB.svg"))
+            + drawio_vertex("gcp-core", self.palette("cloud run", "cloudrun"))
+            + drawio_vertex("gcp-category", self.palette("data analytics", "dataanalytics"))), strict=True)
+        self.assertEqual(report["result"], "PASS", report["errors"])
+        self.assertEqual(report["warnings"], [])
         self.assertEqual(set(self.statuses(report).values()), {"current"})
         self.assertEqual(set(report["icon_summary"]), {"AWS", "Azure", "Google Cloud"})
+
+    def test_missing_fill_colour_draws_incompletely_and_is_an_error(self):
+        cases = {"aws service": "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;strokeColor=#ffffff;",
+                 "aws resource": "shape=mxgraph.aws4.instance2;strokeColor=none;",
+                 "gcp core": "shape=mxgraph.gcp3.cloudrun;",
+                 "gcp category": "shape=mxgraph.gcp3.networking;",
+                 "fill none": "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;fillColor=none;strokeColor=#ffffff;"}
+        for case, style in cases.items():
+            errors, _ = self.messages(style)
+            self.assertTrue(any("draws incompletely" in m for m in errors), f"{case}: {errors}")
+
+    def test_recoloured_icon_warns_and_fails_when_strict(self):
+        for style in ("shape=mxgraph.gcp3.cloudrun;fillColor=#EA4335;",
+                      self.palette("lambda", "lambda").replace("fillColor=#ED7100", "fillColor=#232F3E"),
+                      self.palette("lambda", "lambda").replace("strokeColor=#ffffff;", ""),
+                      self.palette("vpc", "group_vpc2").replace("strokeColor=#8C4FFF", "strokeColor=#ED7100"),
+                      self.palette("instance", "instance2").replace("gradientColor=none", "gradientColor=#FFFFFF")):
+            errors, warnings = self.messages(style)
+            self.assertEqual(errors, [], style)
+            self.assertEqual(len(warnings), 1, (style, warnings))
+            self.assertTrue(any(word in warnings[0] for word in ("differs", "default colour", "adds a gradient")), warnings)
+            strict_errors, _ = self.messages(style, strict=True)
+            self.assertEqual(len(strict_errors), 1, style)
+
+    def test_colour_differences_that_do_not_draw_are_accepted(self):
+        quiet = (self.palette("lambda", "lambda").replace("#ED7100", "#ed7100"),
+                 self.palette("instance", "instance2").replace("strokeColor=none;", ""),
+                 self.palette("instance", "instance2").replace("strokeColor=none", "strokeColor=#000000"),
+                 self.palette("vpc", "group_vpc2").replace("fillColor=none;", ""))
+        for style in quiet:
+            self.assertEqual(self.messages(style, strict=True), ([], []), style)
+
+    def test_aws_name_in_a_form_the_palette_does_not_offer_is_an_error(self):
+        cases = {"shape=mxgraph.aws4.ec2;fillColor=#ED7100;": "only as a service",
+                 "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.instance2;fillColor=#ED7100;strokeColor=#ffffff;": "only as a resource",
+                 "shape=mxgraph.aws4.group_vpc2;fillColor=#8C4FFF;": "only as a group"}
+        for style, expected in cases.items():
+            report = self.run_check(drawio_page(drawio_vertex("v", style)))
+            self.assertEqual(self.statuses(report), {"v": "wrong-form"})
+            self.assertTrue(any(expected in e["message"] for e in report["errors"]), report["errors"])
+
+    def test_legacy_aws18_form_points_to_the_current_form(self):
+        report = self.run_check(drawio_page(drawio_vertex(
+            "v", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bucket;fillColor=#7AA116;strokeColor=#ffffff;")))
+        self.assertEqual(self.statuses(report), {"v": "legacy"})
+        self.assertEqual(len(report["warnings"]), 1, report["warnings"])
+        self.assertIn("shape=mxgraph.aws4.bucket", report["warnings"][0]["message"])
+
+    def test_azure_palette_spelling_with_wrong_letter_case_is_an_error(self):
+        broken = self.run_check(drawio_page(drawio_vertex("v", "image;image=img/lib/azure2/management_governance/solutions.svg;")))
+        self.assertEqual(self.statuses(broken), {"v": "unknown"})
+        self.assertIn("management_governance/Solutions.svg", broken["errors"][0]["message"])
+        fixed = self.run_check(drawio_page(drawio_vertex("v", "image;image=img/lib/azure2/management_governance/Solutions.svg;")), True)
+        self.assertEqual((fixed["result"], self.statuses(fixed)), ("PASS", {"v": "current"}))
+
+    def test_azure_icons_offered_by_full_path_are_current(self):
+        for path in ("internet_of_things/Logic_Apps.svg", "internet_of_things/Time_Series_Insights_Access_Policies.svg",
+                     "iot/Azure_Stack_HCI_Sizer.svg", "iot/Stack_HCI_Premium.svg"):
+            report = self.run_check(drawio_page(drawio_vertex("v", f"image;image=img/lib/azure2/{path};")), strict=True)
+            self.assertEqual((report["result"], self.statuses(report)), ("PASS", {"v": "current"}), path)
+
+    def test_find_returns_the_palette_style_best_match_first(self):
+        matches, _ = check_drawio.find(CATALOG, "Vertex AI")
+        self.assertEqual(matches[0]["name"], "vertexai")
+        self.assertIn("fillColor=#4285f4", matches[0]["style"])
+        current, hidden = check_drawio.find(CATALOG, "honeycode")
+        self.assertEqual((current, hidden > 0), ([], True))
+        everything, _ = check_drawio.find(CATALOG, "honeycode", include_old=True)
+        self.assertTrue(everything and all(e["status"] == "retired" for e in everything))
+        self.assertEqual(check_drawio.find(CATALOG, "gemini"), ([], 0))
+        solutions, _ = check_drawio.find(CATALOG, "solutions")
+        self.assertIn("img/lib/azure2/management_governance/Solutions.svg", solutions[0]["style"])
+
+    def test_find_command_line_exit_codes(self):
+        found = subprocess.run([sys.executable, str(CHECKER), "--find", "ec2"], capture_output=True, text=True, check=False)
+        self.assertEqual(found.returncode, 0, found.stderr)
+        self.assertIn("resIcon=mxgraph.aws4.ec2;", found.stdout)
+        missing = subprocess.run([sys.executable, str(CHECKER), "--find", "no such product"],
+                                 capture_output=True, text=True, check=False)
+        self.assertEqual(missing.returncode, 1)
+
+    def test_older_name_list_catalog_still_classifies(self):
+        old = {"drawio_version": "32.5.5", "aws4": {"current": ["lambda"], "retired": [], "legacy": []},
+               "azure2": {"current": ["databases/SQL_Database.svg"], "legacy": ["databases/Old.svg"]},
+               "gcp3": {"core": ["cloudrun"], "categories": ["networking"]}}
+        cells = (drawio_vertex("a", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;")
+                 + drawio_vertex("z", "image;image=img/lib/azure2/databases/Old.svg;")
+                 + drawio_vertex("g", "shape=mxgraph.gcp3.networking;"))
+        tmp = Path(tempfile.mkdtemp(prefix="drawio-test-"))
+        try:
+            (tmp / "d.drawio").write_text(drawio_page(cells), encoding="utf-8")
+            report = check_drawio.check(tmp / "d.drawio", old)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        self.assertEqual(self.statuses(report), {"a": "current", "z": "legacy", "g": "current"})
 
     def test_misspelled_names_are_errors(self):
         report = self.run_check(drawio_page(
@@ -220,7 +328,8 @@ class CheckDrawioTests(unittest.TestCase):
 
     def test_legacy_and_retired_icons_warn_and_fail_when_strict(self):
         cells = (drawio_vertex("aws18", "shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ec2;")
-                 + drawio_vertex("retired", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.honeycode;")
+                 + drawio_vertex("retired", "shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.honeycode;"
+                                            "fillColor=#DD344C;strokeColor=#ffffff;")
                  + drawio_vertex("old-azure", "shape=mxgraph.azure.sql_database;")
                  + drawio_vertex("gcp2", "shape=mxgraph.gcp2.hexIcon;"))
         report = self.run_check(drawio_page(cells))
@@ -243,7 +352,7 @@ class CheckDrawioTests(unittest.TestCase):
         self.assertEqual(self.run_check(xml)["errors"], [])
 
     def test_user_object_wrapper_is_read(self):
-        cell = ('<UserObject id="u" label="Cloud SQL"><mxCell style="shape=mxgraph.gcp3.cloudsql;" vertex="1" parent="1">'
+        cell = ('<UserObject id="u" label="Cloud SQL"><mxCell style="shape=mxgraph.gcp3.cloudsql;fillColor=#4285f4;" vertex="1" parent="1">'
                 '<mxGeometry width="50" height="50" as="geometry"/></mxCell></UserObject>')
         report = self.run_check(drawio_page(cell))
         self.assertEqual(report["result"], "PASS")
@@ -274,44 +383,231 @@ class CheckDrawioTests(unittest.TestCase):
         self.assertTrue(any("event-handler" in e["message"] for e in report["errors"]))
 
 
-class IconCatalogTests(unittest.TestCase):
-    def test_aws_parser_separates_current_retired_and_legacy(self):
-        aws4 = ("Sidebar.prototype.addAWS4ComputePalette = function(s, w, h, w2, gn, sb)\n{\n"
-                "    var n2 = 'sketch=0;' + mxConstants.STYLE_SHAPE + \"=mxgraph.aws4.\";\n"
-                "    this.createVertexTemplateEntry(n2 + 'resourceIcon;resIcon=' + gn + '.ec2;', 1, 1);\n"
-                "    this.createVertexTemplateEntry(n2 + 'instance2;', 1, 1);\n};\n"
-                "Sidebar.prototype.addAWS4RetiredPalette = function()\n{\n"
-                "    this.createVertexTemplateEntry(svc('#8C4FFF') + 'honeycode;', 1, 1);\n};\n")
-        aws4b = ("Sidebar.prototype.addAWS4bComputePalette = function()\n{\n"
-                 "    this.createVertexTemplateEntry(n + 'productIcon;prIcon=' + gn + '.ec2;', 1, 1);\n"
-                 "    this.createVertexTemplateEntry(n + 'productIcon;prIcon=' + gn + '.cloudwatch;', 1, 1);\n};\n")
-        parsed = build_icon_catalog.parse_aws(aws4, aws4b)
-        self.assertIn("ec2", parsed["current"])
-        self.assertIn("instance2", parsed["current"])
-        self.assertEqual(parsed["retired"], ["honeycode"])
-        self.assertIn("cloudwatch", parsed["legacy"])
-        self.assertNotIn("ec2", parsed["legacy"])
+AWS4_JS = """
+(function()
+{
+    // Adds AWS shapes; a comment's apostrophe (don't) must not open a string
+    Sidebar.prototype.addAWS4Palette = function()
+    {
+        var gn = 'mxgraph.aws4';
+        var s = 1;
+        var w2 = s * 78;
+        this.addAWS4ComputePalette(s, w2, gn, this);
+    };
+    Sidebar.prototype.addAWS4ComputePalette = function(s, w2, gn, sb)
+    {
+        var n = 'sketch=0;fillColor=#ED7100;strokeColor=none;aspect=fixed;' + mxConstants.STYLE_SHAPE + "=mxgraph.aws4.";
+        var n2 = 'sketch=0;fillColor=#ED7100;strokeColor=#ffffff;aspect=fixed;' + mxConstants.STYLE_SHAPE + "=mxgraph.aws4.";
+        this.addPaletteFunctions('aws4Compute', 'AWS / Compute', false,
+        [
+            this.createVertexTemplateEntry(n2 + 'resourceIcon;resIcon=' + gn + '.ec2;',
+                w2, w2, '', 'EC2', null, null, 'tags'),
+            this.createVertexTemplateEntry(n + 'instance2;points=[[0,0,0],[1,1,0]];',
+                s * 48, s * 48, '', 'Instance', null, null, 'tags'),
+            this.createVertexTemplateEntry('fillColor=none;strokeColor=#147EBA;dashed=1;',
+                s * 130, s * 130, 'Availability Zone', 'Availability Zone', null, null, 'tags')
+        ]);
+    };
+    Sidebar.prototype.addAWS4GroupsPalette = function()
+    {
+        var n4 = 'container=1;' + mxConstants.STYLE_SHAPE + "=mxgraph.aws4.";
+        this.addPaletteFunctions('aws4Groups', 'AWS / Groups', false,
+        [
+            this.createVertexTemplateEntry(n4 + 'group;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;',
+                130, 130, 'VPC', 'VPC', null, null, 'tags')
+        ]);
+    };
+    Sidebar.prototype.addAWS4RetiredPalette = function()
+    {
+        var gn = 'mxgraph.aws4';
+        var svc = function(color)
+        {
+            return 'sketch=0;fillColor=' + color + ';strokeColor=#ffffff;' + mxConstants.STYLE_SHAPE + '=mxgraph.aws4.resourceIcon;resIcon=' + gn + '.';
+        };
+        this.addPaletteFunctions('aws4r', 'AWS (retired)', false,
+        [
+            this.createVertexTemplateEntry(svc('#DD344C') + 'honeycode;', 78, 78, '', 'Honeycode (retired)', null, null, 'x')
+        ]);
+    };
+})();
+"""
+AWS4B_JS = """
+Sidebar.prototype.addAWS4bPalette = function()
+{
+    var n = 'sketch=0;fillColor=#232F3E;' + mxConstants.STYLE_SHAPE + "=mxgraph.aws4.";
+    var gn = 'mxgraph.aws4';
+    this.addAWS4bComputePalette(n, gn);
+};
+Sidebar.prototype.addAWS4bComputePalette = function(n, gn)
+{
+    this.addPaletteFunctions('aws4bCompute', 'AWS18 / Compute', false,
+    [
+        this.createVertexTemplateEntry(n + 'productIcon;prIcon=' + gn + '.ec2;', 80, 100, 'Amazon EC2', null, null, null, 'x'),
+        this.createVertexTemplateEntry(n + 'productIcon;prIcon=' + gn + '.cloudwatch;', 80, 100, 'CloudWatch', null, null, null, 'x')
+    ]);
+};
+"""
+AZURE2_JS = """
+Sidebar.prototype.addAzure2Palette = function()
+{
+    var s = 'image;aspect=fixed;html=1;image=img/lib/azure2/';
+    var r = 400;
+    this.addAzure2DatabasesPalette('mxgraph.azure2', r, this, s + 'databases/');
+    this.addAzure2ManagementPalette('mxgraph.azure2', r, this, s + 'management_governance/');
+};
+Sidebar.prototype.addAzure2DatabasesPalette = function(gn, r, sb, s)
+{
+    var fns = [
+        this.createVertexTemplateEntry(s + 'SQL_Database.svg;points=[[0.5,0,0]];', r * 0.12, r * 0.16, '', 'SQL Database', null, null, 'x'),
+        this.createVertexTemplateEntry('image;aspect=fixed;html=1;image=img/lib/azure2/iot/Stack_HCI_Premium.svg;',
+            r * 0.17, r * 0.17, '', 'Stack HCI Premium', null, null, 'x')
+    ];
+    this.addPalette('azure2Databases', 'Azure / Databases', false, function(content) { for (var i = 0; i < fns.length; i++) {} });
+};
+Sidebar.prototype.addAzure2ManagementPalette = function(gn, r, sb, s)
+{
+    var fns = [
+        this.createVertexTemplateEntry(s + 'solutions.svg;', r * 0.16, r * 0.16, '', 'Solutions', null, null, 'x')
+    ];
+};
+"""
+GCP3_JS = """
+Sidebar.prototype.addGCP3CategoriesPalette = function()
+{
+    var s = 0.5;
+    var n = 'sketch=0;html=1;aspect=fixed;shape=mxgraph.gcp3.';
+    var fns = [
+        this.createVertexTemplateEntry(n + 'compute;fillColor=#9aa0a6', s * 72.82, s * 100.0, 'Compute', null, null, null, 'x'),
+        this.createVertexTemplateEntry(n + 'agents;fillColor=#9aa0a6', s * 100.0, s * 99.23, 'AI Applications\\n& Agents', null, null, null, 'x')
+    ];
+    this.addPalette('gcp3Categories', 'GCP Categories', false, null);
+};
+Sidebar.prototype.addGCP3CoreProductsPalette = function()
+{
+    var s = 0.5;
+    var n = 'sketch=0;html=1;aspect=fixed;shape=mxgraph.gcp3.';
+    var fns = [
+        this.createVertexTemplateEntry(n + 'cloudrun;fillColor=#4285f4', s * 100.0, s * 99.49, 'Cloud Run', null, null, null, 'x')
+    ];
+};
+"""
 
-    def test_azure_parser_maps_palette_categories(self):
-        js = ("Sidebar.prototype.addAzure2Palette = function()\n{\n"
-              "    this.addAzure2DatabasesPalette(gn, r, sb, s + 'databases/');\n};\n"
-              "Sidebar.prototype.addAzure2DatabasesPalette = function(gn, r, sb, s)\n{\n"
-              "    this.createVertexTemplateEntry(s + 'SQL_Database.svg;', 1, 1);\n};\n")
-        parsed = build_icon_catalog.parse_azure(js, ["databases/SQL_Database.svg", "databases/Old_Thing.svg", "databases/readme.txt"])
-        self.assertEqual(parsed, {"current": ["databases/SQL_Database.svg"], "legacy": ["databases/Old_Thing.svg"]})
+
+class IconCatalogTests(unittest.TestCase):
+    def test_evaluator_handles_the_sidebar_expression_subset(self):
+        env = {"gn": "mxgraph.aws4", "s": 0.5}
+        evaluate = build_icon_catalog.evaluate
+        self.assertEqual(evaluate("'a;' + mxConstants.STYLE_SHAPE + \"=\" + gn + '.ec2;'", env), "a;shape=mxgraph.aws4.ec2;")
+        self.assertEqual(evaluate("s * 99.49", env), 49.745)
+        self.assertEqual(evaluate("'w=' + s * 100 + ';'", env), "w=50;")
+        self.assertEqual(evaluate("'Line\\nTwo'", env), "Line\nTwo")
+        self.assertEqual(evaluate("-(2 - 5) / 3", env), 1.0)
+        with self.assertRaises(build_icon_catalog.Unresolved):
+            evaluate("unknownName + 'x'", env)
+        with self.assertRaises(build_icon_catalog.Unresolved):
+            evaluate("this.getTagsForStencil(gn).join(' ')", env)
+
+    def test_comments_with_quotes_do_not_break_the_scan(self):
+        stripped = build_icon_catalog.strip_comments("var a = 'x//y'; // don't\n/* it's */ var b = \"q\";")
+        self.assertEqual(stripped, "var a = 'x//y'; \n var b = \"q\";")
+
+    def test_aws_parser_records_form_status_title_size_and_style(self):
+        entries = build_icon_catalog.parse_aws(AWS4_JS, AWS4B_JS)
+        by = {(e["form"], e["name"], e["status"]): e for e in entries}
+        ec2 = by[("service", "ec2", "current")]
+        self.assertEqual((ec2["title"], ec2["palette"], ec2["w"], ec2["h"]), ("EC2", "AWS / Compute", 78.0, 78.0))
+        self.assertIn("fillColor=#ED7100;strokeColor=#ffffff;", ec2["style"])
+        self.assertTrue(ec2["style"].endswith("shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ec2;"))
+        instance = by[("resource", "instance2", "current")]
+        self.assertNotIn("points=", instance["style"], "connection points are dropped")
+        self.assertEqual(instance["w"], 48.0)
+        self.assertIn(("plain", "", "current"), by)
+        self.assertEqual(by[("group", "group_vpc2", "current")]["palette"], "AWS / Groups")
+        self.assertIn("fillColor=#DD344C", by[("service", "honeycode", "retired")]["style"])
+        self.assertIn(("product", "cloudwatch", "legacy"), by)
+
+    def test_unevaluable_entry_stops_the_build(self):
+        broken = AWS4_JS.replace("w2, w2, '', 'EC2'", "w2, w2, '', 'EC2' + notDefined")
+        with self.assertRaises(SystemExit):
+            build_icon_catalog.parse_aws(broken, AWS4B_JS)
+
+    def test_azure_parser_reads_full_paths_and_records_case_mismatches(self):
+        files = ["databases/SQL_Database.svg", "databases/Old_Thing.svg", "databases/readme.txt",
+                 "iot/Stack_HCI_Premium.svg", "management_governance/Solutions.svg"]
+        entries, legacy, case = build_icon_catalog.parse_azure(AZURE2_JS, files)
+        names = sorted(e["name"] for e in entries)
+        self.assertEqual(names, ["databases/SQL_Database.svg", "iot/Stack_HCI_Premium.svg", "management_governance/Solutions.svg"])
+        self.assertEqual(legacy, ["databases/Old_Thing.svg"])
+        self.assertEqual(case, {"management_governance/solutions.svg": "management_governance/Solutions.svg"})
+        solutions = next(e for e in entries if e["name"].endswith("Solutions.svg"))
+        self.assertIn("image=img/lib/azure2/management_governance/Solutions.svg;", solutions["style"])
+        sql = next(e for e in entries if e["name"] == "databases/SQL_Database.svg")
+        self.assertEqual((sql["title"], sql["palette"], sql["w"], sql["h"]), ("SQL Database", "Azure / Databases", 48.0, 64.0))
 
     def test_gcp3_parser_splits_core_and_categories(self):
-        js = ("Sidebar.prototype.addGCP3CategoriesPalette = function()\n{\n"
-              "    this.createVertexTemplateEntry(n + 'compute;fillColor=#9aa0a6', 1, 1);\n};\n"
-              "Sidebar.prototype.addGCP3CoreProductsPalette = function()\n{\n"
-              "    this.createVertexTemplateEntry(n + 'cloudrun;fillColor=#4285f4', 1, 1);\n};\n")
-        self.assertEqual(build_icon_catalog.parse_gcp3(js), {"core": ["cloudrun"], "categories": ["compute"]})
+        entries = build_icon_catalog.parse_gcp3(GCP3_JS)
+        self.assertEqual(sorted((e["form"], e["name"]) for e in entries),
+                         [("category", "agents"), ("category", "compute"), ("core", "cloudrun")])
+        agents = next(e for e in entries if e["name"] == "agents")
+        self.assertEqual(agents["title"], "AI Applications & Agents")
+        self.assertTrue(agents["style"].endswith("fillColor=#9aa0a6"))
 
-    def test_committed_catalog_has_every_list(self):
+    def test_catalog_round_trip_lists_and_differences(self):
+        tag_source = {"Sidebar-AWS4.js": AWS4_JS, "Sidebar-AWS4b.js": AWS4B_JS, "Sidebar-Azure2.js": AZURE2_JS,
+                      "Sidebar-GCP3.js": GCP3_JS}
+        images = ["databases/SQL_Database.svg", "iot/Stack_HCI_Premium.svg", "management_governance/Solutions.svg"]
+        catalog = build_icon_catalog.assemble("v1.0.0", tag_source, images, built="2026-01-01")
+        reread = json.loads(build_icon_catalog.dump(catalog))
+        self.assertEqual(reread, catalog)
+        found = build_icon_catalog.lists(reread)
+        self.assertEqual(found[("aws4", "current")], {"ec2", "instance2", "group_vpc2"})
+        self.assertEqual(found[("aws4", "retired")], {"honeycode"})
+        self.assertEqual(found[("aws4", "legacy")], {"cloudwatch"})
+        self.assertEqual([e["style"] for e in build_icon_catalog.unpack_entries(reread, "aws4")],
+                         [e["style"] for e in build_icon_catalog.parse_aws(AWS4_JS, AWS4B_JS)])
+        self.assertEqual(build_icon_catalog.differences(reread, catalog), [])
+        recoloured = build_icon_catalog.assemble("v1.0.1", {**tag_source, "Sidebar-AWS4.js": AWS4_JS.replace("#ED7100", "#FF9900")},
+                                                 images, built="2026-01-02")
+        self.assertTrue(any("palette styles changed" in line for line in build_icon_catalog.differences(catalog, recoloured)))
+        older = {"aws4": {"current": ["ec2"]}}
+        self.assertTrue(any("older name-list layout" in line for line in build_icon_catalog.differences(older, catalog)))
+
+    def test_committed_catalog_is_complete(self):
+        self.assertEqual(CATALOG.get("schema"), build_icon_catalog.SCHEMA)
         self.assertTrue(CATALOG.get("drawio_version"))
+        found = build_icon_catalog.lists(CATALOG)
         for library, kind in build_icon_catalog.LISTS:
             if (library, kind) != ("azure2", "legacy"):
-                self.assertTrue(CATALOG[library][kind], f"{library} {kind} is empty")
+                self.assertTrue(found[(library, kind)], f"{library} {kind} is empty")
+        self.assertEqual(len(found[("gcp3", "core")]), 19)
+        self.assertIn("vertexai", found[("gcp3", "core")])
+        for library in ("aws4", "azure2", "gcp3"):
+            for entry in build_icon_catalog.unpack_entries(CATALOG, library):
+                self.assertTrue(entry["style"] and entry["palette"] and entry["w"] and entry["h"], entry)
+        for palette_path, file_path in CATALOG["azure2"]["case_mismatch"].items():
+            self.assertNotIn(palette_path, found[("azure2", "current")])
+            self.assertIn(file_path, found[("azure2", "current")])
+
+
+def tracked_drawio_files() -> list[Path]:
+    """Every .drawio file git tracks in this repository, or every one on disk when git is unavailable."""
+    try:
+        out = subprocess.run(["git", "ls-files", "-z", "--", "*.drawio"], cwd=REPO, capture_output=True, check=True)
+        return sorted(REPO / p for p in out.stdout.decode("utf-8").split("\0") if p)
+    except (OSError, subprocess.CalledProcessError):
+        return sorted(p for p in REPO.rglob("*.drawio") if ".git" not in p.parts)
+
+
+class CommittedDiagramTests(unittest.TestCase):
+    def test_every_committed_diagram_passes_the_strict_checker(self):
+        """Templates, fixtures and examples teach by example, so each must pass check_drawio.py --strict."""
+        files = tracked_drawio_files()
+        self.assertTrue(files, "no .drawio files found")
+        failures = []
+        for path in files:
+            report = check_drawio.check(path, CATALOG, strict=True)
+            failures += [f"{path.relative_to(REPO).as_posix()} [{e['page']}] {e['cell']}: {e['message']}" for e in report["errors"]]
+        self.assertEqual(failures, [], "\n" + "\n".join(failures))
 
 
 class SharedPrimitiveTests(unittest.TestCase):

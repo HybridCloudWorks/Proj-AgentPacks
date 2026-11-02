@@ -1,21 +1,34 @@
 #!/usr/bin/env python3
-"""Check a .drawio file's structure and classify its AWS, Azure and Google Cloud icons. Standard library only.
+"""Check a .drawio file's structure and its AWS, Azure and Google Cloud icons, or look an icon up. Standard library only.
 
 Structure: mxfile, diagram and mxGraphModel layout, compressed pages, root cells 0 and 1, unique IDs, parent,
 source and target references, parent loops, vertex and edge geometry, hidden cells, and active content in labels.
 
-Icons: each AWS, Azure and Google Cloud shape is looked up in icon_catalog.json (next to this script), which lists
-what draw.io's own libraries offer at one draw.io release. Status is one of:
-  current       in the provider's current draw.io library
+Icons: each AWS, Azure and Google Cloud shape is looked up in icon_catalog.json (next to this script), which records
+every palette entry draw.io's own libraries offer at one draw.io release, with its form and full style. Status is:
+  current       in the provider's current draw.io library, in the form used (AWS: service icon, resource or group)
   legacy        an older icon set (AWS17, AWS18, AWS 3D, legacy Azure, Cloud & Enterprise, pre-2025 Google Cloud)
   retired       draw.io's "AWS (retired)" palette: a service AWS has retired
-  unknown       not in the catalog: usually a misspelled name. draw.io draws an unknown AWS or Google Cloud
-                name as a plain coloured square with no symbol, and an unknown Azure path as a broken image
+  wrong-form    an AWS name the library offers only in another form: a service name used as a bare stencil draws
+                its symbol without the category square, and a resource or group name inside resourceIcon draws a
+                symbol on a square AWS never published
+  unknown       not in the catalog: usually a misspelled name. draw.io draws an unknown AWS or Google Cloud name
+                as a plain coloured square with no symbol, and an unknown Azure path as a broken image
   unattributed  an embedded or linked image whose provider cannot be told from the style
 
+Colours (AWS and Google Cloud stencils): the palette's fillColor, strokeColor and gradientColor are part of the icon.
+  - no fillColor, or fillColor=none (or any of the three set to none) where the palette sets a colour: error. The
+    parts that take the colour draw in draw.io's default white or not at all, so the icon draws incompletely.
+  - a colour that differs from the palette, or a missing strokeColor (drawn in the default black): warning, or error
+    with --strict. AWS, Microsoft and Google all forbid recolouring their icons.
+
 Usage: python check_drawio.py <file.drawio> [--json] [--strict] [--catalog PATH]
-  --strict  report legacy and retired icons as errors instead of warnings
-Exit status: 0 no errors, 1 errors found, 2 the file could not be read or parsed.
+       python check_drawio.py --find "<product>" [--all] [--json] [--catalog PATH]
+  --strict  report legacy and retired icons, and recoloured icons, as errors instead of warnings
+  --find    print the palette entries whose title, name or palette match every word, with the full style to copy
+  --all     with --find, include legacy and retired entries
+Exit status: 0 no errors (or --find matched), 1 errors found (or --find matched nothing), 2 the file could not be
+read or parsed.
 """
 from __future__ import annotations
 
@@ -33,6 +46,12 @@ from urllib.parse import unquote
 HERE = Path(__file__).resolve().parent
 ACTIVE_CONTENT = re.compile(r"(?i)<\s*script|javascript:|<[^>]*\son[a-z]+\s*=")
 DECLARATIONS = re.compile(r"(?i)<!DOCTYPE|<!ENTITY")
+ENTRY_FIELDS = ["name", "form", "status", "title", "palette", "w", "h"]
+COLOUR_KEYS = ("fillColor", "strokeColor", "gradientColor")
+PROVIDER = {"aws4": "AWS", "azure2": "Azure", "gcp3": "Google Cloud"}
+LIBRARY = {("aws4", "current"): "AWS current (aws4)", ("aws4", "retired"): "AWS (retired) (aws4r)",
+           ("aws4", "legacy"): "AWS18 (aws4b)", ("azure2", "current"): "Azure (azure2)",
+           ("azure2", "legacy"): "Azure (azure2)"}
 
 
 def parse_xml(text: str) -> ET.Element:
@@ -54,56 +73,174 @@ def parse_style(style: str) -> dict[str, str]:
     return out
 
 
-def classify(style: dict[str, str], catalog: dict) -> tuple[str, str, str, str] | None:
-    """Return (provider, library, status, name) for a provider icon style, or None for any other shape."""
+def _drop(prefix: str, text: str) -> str:
+    return text[len(prefix):] if text.startswith(prefix) else text
+
+
+class Index:
+    """The catalog's palette entries, indexed by library, form and name."""
+
+    def __init__(self, catalog: dict) -> None:
+        self.catalog = catalog
+        self.version = catalog.get("drawio_version", "?")
+        self.entries: dict[str, list[dict]] = {}
+        self.by_key: dict[tuple[str, str, str], list[dict]] = {}
+        self.by_name: dict[tuple[str, str], list[dict]] = {}
+        prefixes, palettes = catalog.get("prefixes", []), catalog.get("palettes", [])
+        for library in PROVIDER:
+            rows = []
+            for row in catalog.get(library, {}).get("entries", []):
+                entry = dict(zip(ENTRY_FIELDS, row))
+                entry["library"] = library
+                entry["palette"] = palettes[row[4]] if isinstance(row[4], int) and row[4] < len(palettes) else row[4]
+                entry["style"] = (prefixes[row[7]] if row[7] >= 0 else "") + row[8]
+                entry["keys"] = parse_style(entry["style"])
+                rows.append(entry)
+            if not rows:  # an older catalog with name lists only: no forms, styles or colour checks
+                kinds = {"aws4": [("current", "any", "current"), ("retired", "any", "retired"), ("legacy", "any", "legacy")],
+                         "azure2": [("current", "image", "current")],
+                         "gcp3": [("core", "core", "current"), ("categories", "category", "current")]}[library]
+                for kind, form, status in kinds:
+                    rows += [{"name": n, "form": form, "status": status, "title": n, "palette": "", "w": 0, "h": 0,
+                              "style": "", "keys": {}, "library": library} for n in catalog.get(library, {}).get(kind, [])]
+            self.entries[library] = rows
+            for entry in rows:
+                self.by_key.setdefault((library, entry["form"], entry["name"]), []).append(entry)
+                self.by_name.setdefault((library, entry["name"]), []).append(entry)
+        azure = catalog.get("azure2", {})
+        self.azure_legacy = set(azure.get("legacy", []))
+        self.azure_case = dict(azure.get("case_mismatch", {}))
+
+
+_INDEXES: dict[int, Index] = {}
+
+
+def index_of(catalog) -> Index:
+    if isinstance(catalog, Index):
+        return catalog
+    key = id(catalog)
+    if key not in _INDEXES or _INDEXES[key].catalog is not catalog:
+        _INDEXES[key] = Index(catalog)
+    return _INDEXES[key]
+
+
+def _best(entries: list[dict]) -> tuple[str, list[dict]]:
+    for status in ("current", "retired", "legacy"):
+        chosen = [e for e in entries if e["status"] == status]
+        if chosen:
+            return status, chosen
+    return "unknown", []
+
+
+def lookup(style: dict[str, str], catalog) -> dict | None:
+    """Classify a provider icon style: provider, library, status, name, form, the matching palette entries and an
+    optional message. None for any other shape."""
+    index = index_of(catalog)
     shape, image = style.get("shape", ""), style.get("image", "")
-    aws_lists = catalog.get("aws4", {})
-
-    def aws(name: str) -> tuple[str, str, str, str]:
-        if name in aws_lists.get("current", []):
-            return "AWS", "AWS current (aws4)", "current", name
-        if name in aws_lists.get("retired", []):
-            return "AWS", "AWS (retired) (aws4r)", "retired", name
-        if name in aws_lists.get("legacy", []):
-            return "AWS", "AWS18 (aws4b)", "legacy", name
-        return "AWS", "AWS current (aws4)", "unknown", name
-
+    found = {"entries": [], "message": "", "form": ""}
     if shape.startswith("mxgraph.aws4."):
         base = shape[len("mxgraph.aws4."):]
         if base == "productIcon" or "prIcon" in style:
-            return "AWS", "AWS18 (aws4b)", "legacy", style.get("prIcon", base).removeprefix("mxgraph.aws4.")
+            name = _drop("mxgraph.aws4.", style.get("prIcon", base))
+            return {**found, "provider": "AWS", "library": "AWS18 (aws4b)", "status": "legacy", "name": name, "form": "product"}
         if base == "resourceIcon":
-            return aws(style.get("resIcon", "").removeprefix("mxgraph.aws4."))
-        if base in ("group", "groupCenter"):
-            name = style.get("grIcon", "").removeprefix("mxgraph.aws4.")
-            return aws(name) if name else ("AWS", "AWS current (aws4)", "current", base)
-        return aws(base)
+            form, name = "service", _drop("mxgraph.aws4.", style.get("resIcon", ""))
+        elif base in ("group", "groupCenter"):
+            form, name = "group", _drop("mxgraph.aws4.", style.get("grIcon", ""))
+            if not name:
+                return {**found, "provider": "AWS", "library": "AWS current (aws4)", "status": "current", "name": base, "form": form}
+        else:
+            form, name = "resource", base
+        status, entries = _best(index.by_key.get(("aws4", form, name), []) + index.by_key.get(("aws4", "any", name), []))
+        others = [e for e in index.by_name.get(("aws4", name), []) if e["form"] not in (form, "any")]
+        current_forms = sorted({e["form"] for e in others if e["status"] == "current"})
+        usage = {"service": f"shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.{name}",
+                 "resource": f"shape=mxgraph.aws4.{name}", "group": f"shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.{name}",
+                 "product": "an AWS18 productIcon"}
+        forms = current_forms or sorted({e["form"] for e in others})
+        advice = (f"use {' or '.join(usage.get(f, f) for f in forms)} with the palette's colours "
+                  f"(check_drawio.py --find \"{name}\")")
+        if status == "unknown" and forms:
+            found["message"] = (f"AWS icon '{name}' is offered only as a {' or '.join(forms)} icon, not as a {form}; {advice}")
+            status = "wrong-form"
+        elif status in ("legacy", "retired") and current_forms:
+            found["hint"] = f"; the current library offers '{name}' as a {' or '.join(current_forms)} icon: {advice}"
+        library = LIBRARY.get(("aws4", status), "AWS current (aws4)")
+        return {**found, "provider": "AWS", "library": library, "status": status, "name": name, "form": form, "entries": entries}
     if shape.startswith("mxgraph.aws3d."):
-        return "AWS", "AWS 3D (aws3d)", "legacy", shape[len("mxgraph.aws3d."):]
+        return {**found, "provider": "AWS", "library": "AWS 3D (aws3d)", "status": "legacy", "name": shape[len("mxgraph.aws3d."):]}
     if shape.startswith(("mxgraph.aws3.", "mxgraph.aws2.", "mxgraph.aws.")):
-        return "AWS", "AWS17 or older (aws3)", "legacy", shape.split(".", 2)[-1]
+        return {**found, "provider": "AWS", "library": "AWS17 or older (aws3)", "status": "legacy", "name": shape.split(".", 2)[-1]}
     if image.startswith("img/lib/azure2/"):
         path = image[len("img/lib/azure2/"):]
-        azure = catalog.get("azure2", {})
-        status = "current" if path in azure.get("current", []) else "legacy" if path in azure.get("legacy", []) else "unknown"
-        return "Azure", "Azure (azure2)", status, path
+        status, entries = _best(index.by_name.get(("azure2", path), []))
+        if status == "unknown" and path in index.azure_case:
+            found["message"] = (f"Azure path '{path}' is the spelling draw.io's palette inserts, but the file is "
+                                f"'{index.azure_case[path]}'; this spelling draws a broken image in draw.io Desktop and "
+                                f"on app.diagrams.net. Use image=img/lib/azure2/{index.azure_case[path]}")
+        elif status == "unknown" and path in index.azure_legacy:
+            status = "legacy"
+        return {**found, "provider": "Azure", "library": "Azure (azure2)", "status": status, "name": path, "form": "image",
+                "entries": entries}
     if shape.startswith("mxgraph.azure.") or shape.startswith("mxgraph.mscae.") or image.startswith("img/lib/mscae/"):
         library = "legacy Azure (azure)" if shape.startswith("mxgraph.azure.") else "Cloud & Enterprise (mscae)"
-        return "Azure", library, "legacy", (shape or image).split(".", 2)[-1] if shape else image
+        return {**found, "provider": "Azure", "library": library, "status": "legacy",
+                "name": (shape or image).split(".", 2)[-1] if shape else image}
     if shape.startswith("mxgraph.gcp3."):
-        name, gcp = shape[len("mxgraph.gcp3."):], catalog.get("gcp3", {})
-        if name in gcp.get("core", []):
-            return "Google Cloud", "Google Cloud Platform 2026 (gcp3) core product", "current", name
-        if name in gcp.get("categories", []):
-            return "Google Cloud", "Google Cloud Platform 2026 (gcp3) category", "current", name
-        return "Google Cloud", "Google Cloud Platform 2026 (gcp3)", "unknown", name
+        name = shape[len("mxgraph.gcp3."):]
+        status, entries = _best(index.by_name.get(("gcp3", name), []))
+        kind = {"core": " core product", "category": " category"}.get(entries[0]["form"] if entries else "", "")
+        return {**found, "provider": "Google Cloud", "library": f"Google Cloud Platform 2026 (gcp3){kind}", "status": status,
+                "name": name, "form": entries[0]["form"] if entries else "", "entries": entries}
     if shape.startswith(("mxgraph.gcp2.", "mxgraph.gcp.")):
-        return "Google Cloud", "pre-2025 Google Cloud (gcp2)", "legacy", shape.split(".", 2)[-1]
+        return {**found, "provider": "Google Cloud", "library": "pre-2025 Google Cloud (gcp2)", "status": "legacy",
+                "name": shape.split(".", 2)[-1]}
     if image.startswith("data:image/"):
-        return "unattributed", "embedded image", "unattributed", ""
+        return {**found, "provider": "unattributed", "library": "embedded image", "status": "unattributed", "name": ""}
     if image.startswith(("http://", "https://")):
-        return "unattributed", "linked image (needs network to render)", "unattributed", image[:80]
+        return {**found, "provider": "unattributed", "library": "linked image (needs network to render)",
+                "status": "unattributed", "name": image[:80]}
     return None
+
+
+def classify(style: dict[str, str], catalog) -> tuple[str, str, str, str] | None:
+    """Return (provider, library, status, name) for a provider icon style, or None for any other shape."""
+    found = lookup(style, catalog)
+    return None if found is None else (found["provider"], found["library"], found["status"], found["name"])
+
+
+def colour_findings(style: dict[str, str], entries: list[dict]) -> list[tuple[str, str]]:
+    """(kind, message) for each colour key that differs from the palette: kind 'incomplete' or 'recoloured'.
+
+    Evidence (draw.io Desktop 32.6.1, 2026-11-01): an AWS service icon without fillColor draws white on white, and
+    without strokeColor draws a black symbol; an AWS resource without fillColor draws nothing visible; an AWS group
+    without strokeColor draws a black frame and icon; a Google Cloud icon without fillColor loses the parts that take
+    it. A resource stencil's strokeColor has no visible effect, and the palette sets it to none."""
+    out = []
+    for key in COLOUR_KEYS:
+        raw = {e["keys"].get(key) for e in entries if e.get("style")}
+        palette = {v.lower() if v is not None else None for v in raw}
+        colours = sorted(v for v in raw if v and v.lower() != "none")
+        value = style.get(key)
+        lowered = value.lower() if value is not None else None
+        if not entries or not any(e.get("style") for e in entries) or lowered in palette:
+            continue
+        if not colours:
+            if key == "gradientColor" and lowered not in (None, "none"):
+                out.append(("recoloured", f"gradientColor={value} adds a gradient the palette does not have"))
+            continue
+        expected = " or ".join(f"{key}={c}" for c in colours)
+        if lowered == "none" or (lowered is None and key == "fillColor"):
+            what = f"{key}=none" if lowered == "none" else f"no {key}"
+            out.append(("incomplete", f"has {what} where draw.io's palette sets {expected}, so the parts that take it "
+                                      "do not draw: the icon draws incompletely"))
+        elif lowered is None:
+            out.append(("recoloured", f"has no {key}, so draw.io draws it in its default colour instead of the "
+                                      f"palette's {expected}"))
+        else:
+            out.append(("recoloured", f"{key}={value} differs from draw.io's palette ({expected}); providers forbid "
+                                      "recolouring their icons"))
+    return out
 
 
 def label_text(value: str) -> str:
@@ -152,10 +289,11 @@ def cells_of(model: ET.Element) -> list[dict]:
     return out
 
 
-def check_page(name: str, model: ET.Element, catalog: dict, strict: bool, report: dict) -> None:
+def check_page(name: str, model: ET.Element, catalog, strict: bool, report: dict) -> None:
     def add(kind: str, cell_id: str | None, message: str) -> None:
         report[kind].append({"page": name, "cell": cell_id, "message": message})
 
+    index = index_of(catalog)
     if model.tag != "mxGraphModel" or model.find("root") is None:
         add("errors", None, "page has no mxGraphModel with a root element")
         return
@@ -212,22 +350,31 @@ def check_page(name: str, model: ET.Element, catalog: dict, strict: bool, report
                         add("warnings", cid, "vertex has zero width or height")
                 except ValueError:
                     add("errors", cid, "vertex geometry is not numeric")
-        found = classify(parse_style(cell["style"]), catalog) if cell["vertex"] else None
-        if found:
-            provider, library, status, icon = found
-            report["icons"].append({"page": name, "cell": cid, "label": label_text(cell["value"])[:60],
-                                    "provider": provider, "library": library, "status": status, "name": icon})
-            if status == "unknown":
-                add("errors", cid, f"{provider} icon '{icon}' is not in the draw.io {catalog.get('drawio_version', '?')} "
-                                   "catalog; draw.io draws it without its symbol")
-            elif status in ("legacy", "retired"):
-                add("errors" if strict else "warnings", cid, f"{provider} icon '{icon}' is {status} ({library})")
-            if provider != "unattributed" and not label_text(cell["value"]):
-                add("warnings", cid, f"{provider} icon has no label; confirm a nearby text names the product")
+        style = parse_style(cell["style"])
+        found = lookup(style, index) if cell["vertex"] else None
+        if not found:
+            continue
+        provider, library, status, icon = found["provider"], found["library"], found["status"], found["name"]
+        report["icons"].append({"page": name, "cell": cid, "label": label_text(cell["value"])[:60], "provider": provider,
+                                "library": library, "status": status, "name": icon, "form": found["form"]})
+        if found["message"]:
+            add("errors", cid, found["message"])
+        elif status == "unknown":
+            add("errors", cid, f"{provider} icon '{icon}' is not in the draw.io {index.version} catalog; draw.io draws it "
+                               "without its symbol")
+        elif status in ("legacy", "retired"):
+            add("errors" if strict else "warnings", cid, f"{provider} icon '{icon}' is {status} ({library}){found.get('hint', '')}")
+        if provider in ("AWS", "Google Cloud") and found["entries"] and status != "legacy":
+            for kind, message in colour_findings(style, found["entries"]):
+                severity = "errors" if kind == "incomplete" or strict else "warnings"
+                add(severity, cid, f"{provider} icon '{icon}' {message}")
+        if provider != "unattributed" and not label_text(cell["value"]):
+            add("warnings", cid, f"{provider} icon has no label; confirm a nearby text names the product")
 
 
-def check(path: Path, catalog: dict, strict: bool = False) -> dict:
-    report: dict = {"file": str(path), "catalog": {"drawio_version": catalog.get("drawio_version"), "built": catalog.get("built")},
+def check(path: Path, catalog, strict: bool = False) -> dict:
+    index = index_of(catalog)
+    report: dict = {"file": str(path), "catalog": {"drawio_version": index.version, "built": index.catalog.get("built")},
                     "pages": [], "errors": [], "warnings": [], "icons": [], "counts": {"vertices": 0, "edges": 0}}
     root = parse_xml(path.read_text(encoding="utf-8"))
     if root.tag == "mxGraphModel":
@@ -235,8 +382,8 @@ def check(path: Path, catalog: dict, strict: bool = False) -> dict:
         pages = [("(bare model)", root, False)]
     elif root.tag == "mxfile":
         pages = []
-        for index, diagram in enumerate(root.findall("diagram"), 1):
-            name = diagram.get("name") or f"Page-{index}"
+        for number, diagram in enumerate(root.findall("diagram"), 1):
+            name = diagram.get("name") or f"Page-{number}"
             model, compressed = decode_page(diagram)
             if compressed:
                 report["errors"].append({"page": name, "cell": None,
@@ -251,7 +398,7 @@ def check(path: Path, catalog: dict, strict: bool = False) -> dict:
         raise ValueError(f"root element is <{root.tag}>, not <mxfile>")
     for name, model, _ in pages:
         report["pages"].append(name)
-        check_page(name, model, catalog, strict, report)
+        check_page(name, model, index, strict, report)
     summary: dict[str, dict[str, int]] = {}
     for icon in report["icons"]:
         summary.setdefault(icon["provider"], {}).setdefault(icon["status"], 0)
@@ -259,6 +406,47 @@ def check(path: Path, catalog: dict, strict: bool = False) -> dict:
     report["icon_summary"] = summary
     report["result"] = "FAIL" if report["errors"] else "PASS"
     return report
+
+
+def find(catalog, query: str, include_old: bool = False) -> tuple[list[dict], int]:
+    """Palette entries whose title, name, palette or provider contain every word of the query, best match first,
+    and the number of legacy or retired matches left out."""
+    index = index_of(catalog)
+    words = query.lower().split()
+    wanted = " ".join(words)
+    matches = []
+    for library, entries in index.entries.items():
+        for entry in entries:
+            if not entry.get("style"):
+                continue
+            haystack = " ".join([entry["title"], entry["name"].replace("_", " "), entry["name"], entry["palette"],
+                                 PROVIDER[library], "gcp" if library == "gcp3" else ""]).lower()
+            if all(word in haystack for word in words):
+                matches.append(entry)
+    hidden = 0 if include_old else sum(1 for e in matches if e["status"] != "current")
+    if not include_old:
+        matches = [e for e in matches if e["status"] == "current"]
+    rank = {"current": 0, "retired": 1, "legacy": 2}
+    matches.sort(key=lambda e: (e["title"].lower() != wanted, not e["title"].lower().startswith(wanted),
+                                rank.get(e["status"], 3), len(e["title"]), e["title"]))
+    return matches, hidden
+
+
+def render_find(index: Index, query: str, matches: list[dict], hidden: int, limit: int = 20) -> str:
+    lines = [f"{len(matches)} palette entries match '{query}' in the draw.io {index.version} catalog"
+             + (f" ({hidden} legacy or retired hidden; add --all)" if hidden else "")]
+    renamed = {v: k for k, v in index.azure_case.items()}
+    for entry in matches[:limit]:
+        w, h = entry["w"], entry["h"]
+        lines.append(f"- {PROVIDER[entry['library']]} {entry['status']} {entry['form']}: {entry['title']} "
+                     f"[{entry['palette']}] default size {w:g}x{h:g}")
+        lines.append(f"  {entry['style']}")
+        if entry["name"] in renamed:
+            lines.append(f"  note: draw.io's palette inserts '{renamed[entry['name']]}', which draws a broken image; "
+                         "this style uses the file's own spelling")
+    if len(matches) > limit:
+        lines.append(f"... {len(matches) - limit} more; refine the words")
+    return "\n".join(lines)
 
 
 def render_text(report: dict) -> str:
@@ -276,18 +464,29 @@ def render_text(report: dict) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("file")
+    parser.add_argument("file", nargs="?")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--strict", action="store_true")
+    parser.add_argument("--find", metavar="PRODUCT")
+    parser.add_argument("--all", action="store_true")
     parser.add_argument("--catalog", default=str(HERE / "icon_catalog.json"))
     args = parser.parse_args()
+    if not args.file and not args.find:
+        parser.error("give a .drawio file to check, or --find \"<product>\"")
     try:
-        catalog = json.loads(Path(args.catalog).read_text(encoding="utf-8"))
+        index = Index(json.loads(Path(args.catalog).read_text(encoding="utf-8")))
     except (OSError, json.JSONDecodeError) as exc:
         print(f"cannot read the icon catalog {args.catalog}: {exc}", file=sys.stderr)
         return 2
+    if args.find:
+        matches, hidden = find(index, args.find, args.all)
+        if args.json:
+            print(json.dumps([{k: e[k] for k in ENTRY_FIELDS + ["library", "style"]} for e in matches], indent=1))
+        else:
+            print(render_find(index, args.find, matches, hidden))
+        return 0 if matches else 1
     try:
-        report = check(Path(args.file), catalog, args.strict)
+        report = check(Path(args.file), index, args.strict)
     except (OSError, UnicodeDecodeError, ET.ParseError, ValueError) as exc:
         print(f"cannot check {args.file}: {exc}", file=sys.stderr)
         return 2
