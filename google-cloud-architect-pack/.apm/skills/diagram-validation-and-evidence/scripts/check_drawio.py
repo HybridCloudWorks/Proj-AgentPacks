@@ -62,14 +62,25 @@ EVENT_HANDLER = re.compile(r"on[a-z]+")
 URL_ATTRIBUTES = frozenset({"href", "src", "xlink:href", "action", "formaction", "data"})
 # SVG animation sets an attribute, href included, from these: <animate attributeName="href" values="javascript:...">.
 ANIMATION_ATTRIBUTES = frozenset({"from", "to", "by", "values"})
-# Browsers read the content of these elements as text, not markup; Python's html.parser and browsers have ended some
-# of them at different places, so their text is read again as markup.
+# Elements whose content a browser reads as text up to their end tag: raw text (style, xmp, iframe, noembed, noframes,
+# and noscript when scripting is on, as in the draw.io editor), escapable raw text (textarea, title), and plaintext,
+# which never ends. A <script> is reported as soon as it starts.
 RAW_TEXT_ELEMENTS = frozenset({"style", "xmp", "iframe", "noembed", "noframes", "noscript", "textarea", "title",
                                "plaintext"})
+# A browser ends a raw-text element at the first </name followed by whitespace, a slash or >, wherever it stands.
+RAW_TEXT_END = {tag: re.compile(rf"</{tag}[\t\n\f\r />]", re.IGNORECASE) for tag in RAW_TEXT_ELEMENTS
+                if tag != "plaintext"}
 # Browsers ignore ASCII whitespace and control characters around a URL and tabs and newlines inside it (java\tscript:).
 URL_IGNORED = re.compile(r"[\x00-\x20]+")
 MAX_LABEL_NESTING = 4
-TOO_DEEP = f"markup nested more than {MAX_LABEL_NESTING} levels deep in srcdoc, comments or declarations"
+TOO_DEEP = (f"markup nested more than {MAX_LABEL_NESTING} levels deep in srcdoc, comments, declarations or raw-text "
+            "elements")
+# Everything read again (srcdoc, comments, raw-text content, the markup after a raw-text end tag) may total this many
+# times the label's length, plus REREAD_SLACK characters; a label that needs more is reported, not read.
+REREAD_FACTOR = 8
+REREAD_SLACK = 65536
+TOO_MUCH = (f"markup that would take more than {REREAD_FACTOR} times its length to read (nested or unterminated "
+            "raw-text elements, comments or srcdoc)")
 DECLARATIONS = re.compile(r"(?i)<!DOCTYPE|<!ENTITY")
 # A compressed page is inflated only up to this size, so a small hostile file cannot exhaust memory.
 MAX_PAGE_BYTES = 10 * 1024 * 1024
@@ -387,29 +398,54 @@ def _javascript_url(value: str) -> bool:
 class _ActiveContentScanner(HTMLParser):
     """Reads a label's HTML with the standard library parser and keeps the first active content it meets. Like a
     browser, html.parser lowercases tag and attribute names and decodes entity references in attribute values
-    (&#106;avascript&colon;) before the tests run. The text of comments, declarations and raw-text elements is read
-    again as markup, so one that a browser ends earlier than html.parser does cannot hide a tag."""
+    (&#106;avascript&colon;) before the tests run.
 
-    def __init__(self, depth: int) -> None:
+    html.parser's own raw-text handling is switched off (set_cdata_mode), because it differs between Python releases
+    (3.9 knows only script and style; later releases add xmp, iframe, noembed, noframes, textarea, title and
+    plaintext) and from a browser with scripting on, which reads noscript as raw text. Every element's content is read
+    as markup instead, and finish() applies the browser's rule from the label's own text: a raw-text element ends at
+    the first </name followed by whitespace, a slash or >, so where html.parser read that end tag as part of an
+    attribute value or a comment, what follows it is read again as markup. Comments, declarations and processing
+    instructions are read again as markup too, because browsers end some of them earlier than older html.parser
+    releases do (<!-->, --!>, <![CDATA[ outside SVG)."""
+
+    def __init__(self, label: str, depth: int, budget: list[int]) -> None:
         super().__init__(convert_charrefs=True)
+        self.label = label
         self.depth = depth
+        self.budget = budget
         self.found = ""
-        self.raw_text: list[str] = []
+        self.line_starts = [0] + [match.end() for match in re.finditer("\n", label)]
+        self.token_starts: set[int] = set()
+        self.raw_text: list[tuple[int, str, int]] = []
+
+    def set_cdata_mode(self, *args, **kwargs) -> None:
+        """Never enter html.parser's raw-text mode, whatever the Python release; finish() applies the browser's."""
 
     def flag(self, reason: str) -> None:
         if not self.found:
             self.found = reason
 
     def reread(self, text: str, where: str) -> None:
-        inner = active_content(text, self.depth + 1)
+        if self.found:
+            return
+        inner = active_content(text, self.depth + 1, self.budget)
         if inner:
-            self.flag(inner if inner == TOO_DEEP else f"{inner} inside {where}")
+            self.flag(inner if inner in (TOO_DEEP, TOO_MUCH) else f"{inner} inside {where}")
+
+    def mark(self) -> int:
+        """Record and return where in the label the token being reported starts."""
+        line, column = self.getpos()
+        here = self.line_starts[line - 1] + column
+        self.token_starts.add(here)
+        return here
 
     def handle_starttag(self, tag: str, attrs: list) -> None:
+        start = self.mark()
         if tag == "script":
             self.flag("a <script> element")
         elif tag in RAW_TEXT_ELEMENTS:
-            self.raw_text.append(tag)
+            self.raw_text.append((start, tag, len(self.get_starttag_text() or "")))
         for name, value in attrs:
             if EVENT_HANDLER.fullmatch(name):
                 self.flag(f"an event-handler attribute ({name})")
@@ -423,29 +459,42 @@ class _ActiveContentScanner(HTMLParser):
                 self.reread(value, "srcdoc")
 
     def handle_endtag(self, tag: str) -> None:
-        if self.raw_text and self.raw_text[-1] == tag:
-            self.raw_text.pop()
+        self.mark()
 
     def handle_data(self, data: str) -> None:
-        if self.raw_text:
-            self.reread(data, f"<{self.raw_text[-1]}>")
+        self.mark()
 
-    # Browsers end some comments, declarations and CDATA sections earlier than older html.parser releases do
-    # (<!-->, --!>, <![CDATA[ outside SVG), so their text is read again as markup.
     def handle_comment(self, data: str) -> None:
+        self.mark()
         self.reread(data, "a comment")
 
     def handle_decl(self, decl: str) -> None:
+        self.mark()
         self.reread(decl, "a declaration")
 
     def unknown_decl(self, data: str) -> None:
+        self.mark()
         self.reread(data, "a declaration")
 
     def handle_pi(self, data: str) -> None:
+        self.mark()
         self.reread(data, "a processing instruction")
 
+    def finish(self) -> None:
+        """Apply the browser's raw-text rule to every raw-text element html.parser reported."""
+        for start, tag, length in self.raw_text:
+            content = start + length
+            end = RAW_TEXT_END[tag].search(self.label, content) if tag in RAW_TEXT_END else None
+            stop = end.start() if end else len(self.label)
+            # Text to a browser in HTML, but markup inside SVG or MathML: <svg><style><img onerror=...></style>.
+            self.reread(self.label[content:stop], f"<{tag}>")
+            # html.parser read the end tag as part of something else, such as an attribute value, so the markup a
+            # browser reads after it was hidden: <noscript><p title="</noscript><img onerror=...>">.
+            if end and stop not in self.token_starts:
+                self.reread(self.label[stop:], f"what a browser reads as markup after </{tag}>")
 
-def active_content(label: str, depth: int = 0) -> str:
+
+def active_content(label: str, depth: int = 0, budget: list[int] | None = None) -> str:
     """Why a label would run code if rendered as HTML, or "" when it would not: a <script> element, an attribute
     named on + letters (an event handler, also after a slash or a quote: <svg/onload=...>, <img src="x"onerror=...>),
     or a javascript: URL in a URL attribute, after entity decoding and with whitespace and control characters removed.
@@ -454,10 +503,16 @@ def active_content(label: str, depth: int = 0) -> str:
         return ""
     if depth > MAX_LABEL_NESTING:
         return TOO_DEEP
-    scanner = _ActiveContentScanner(depth)
+    if budget is None:
+        budget = [REREAD_FACTOR * len(label) + REREAD_SLACK]
+    budget[0] -= len(label)
+    if budget[0] < 0:
+        return TOO_MUCH
+    scanner = _ActiveContentScanner(label, depth, budget)
     try:
         scanner.feed(label)
         scanner.close()
+        scanner.finish()
     except Exception as exc:  # noqa: BLE001  # older html.parser releases raise several types on malformed markup
         return f"markup the HTML parser could not read ({type(exc).__name__})"
     return scanner.found
