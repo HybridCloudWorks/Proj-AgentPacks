@@ -47,7 +47,7 @@ Each Region frame is a real container, so a Region's API, function, table replic
 
 ## Validation
 
-- Structural checks: `check_drawio.py --strict` exited 0 with every AWS icon and group current in the catalog (draw.io 32.5.5), 34 unique IDs, resolvable parents and edge endpoints, and no compression. Reading the XML confirmed that all 11 edges end on icons, that no service is parented across Regions, and that Helvetica is used throughout.
+- Structural checks: `check_drawio.py --strict` exited 0 with every AWS icon and group current in the catalog (draw.io 32.6.9), 34 unique IDs, resolvable parents and edge endpoints, and no compression. Reading the XML confirmed that all 11 edges end on icons, that no service is parented across Regions, and that Helvetica is used throughout.
 - Visual check:
   - `drawio-render-export-and-review` rendered a review PNG to a scratch folder with `-x -k -f png`, using the detected Draw.io Desktop, which also printed its version. Every icon and group drew its symbol.
   - At the 1280 px review width, both arrowheads of the DynamoDB replication edge were hidden under the replica labels, so the edge read as one-directional.
@@ -84,7 +84,7 @@ Outcome: pattern diagram delivered as a designed reference.
 
 ### structural_checks
 
-- `check_drawio.py --strict`: exit 0; parse, root cells, IDs, parents, edge endpoints, compression, and every AWS icon current in the catalog (draw.io 32.5.5) — structurally-validated.
+- `check_drawio.py --strict`: exit 0; parse, root cells, IDs, parents, edge endpoints, compression, and every AWS icon current in the catalog (draw.io 32.6.9) — structurally-validated.
 - Edges ending on icons, Region containment and fonts, checked by reading the XML — structurally-validated.
 
 ### visual_checks

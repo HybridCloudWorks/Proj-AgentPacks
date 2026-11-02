@@ -11,7 +11,7 @@ The scope is read-only. The audience is the change board, and the diagram will a
 ## How the review ran
 
 1. `diagram-validation-and-evidence`, structural pass.
-   - `check_drawio.py --strict network-overview.drawio` exited 1 with `result: FAIL`. The user wants the diagram current, so strict mode applied. The checker decoded the compressed page in memory (base64, then raw inflate, then URL-decode) without rewriting the source, and reported three errors: the page is compressed, edge `e12` references the missing target `node_44`, and three cells use AWS17 (`mxgraph.aws3`) legacy icons. It reported its catalog as draw.io 32.5.5.
+   - `check_drawio.py --strict network-overview.drawio` exited 1 with `result: FAIL`. The user wants the diagram current, so strict mode applied. The checker decoded the compressed page in memory (base64, then raw inflate, then URL-decode) without rewriting the source, and reported five errors: the page is compressed, edge `e12` references the missing target `node_44`, and three cells use AWS17 (`mxgraph.aws3`) legacy icons, one error each. It reported its catalog as draw.io 32.6.9.
    - The decoded model has 63 cells.
 2. `aws-xml-authoring` and its checklist reference: IDs, parents, edge endpoints, escaping, geometry, and the account > Region > VPC > Availability Zone > subnet nesting, read from the decoded XML.
 3. `aws-icons-and-visual-language`: library styles, legacy shapes and product icons used for non-AWS components.
@@ -75,7 +75,7 @@ Outcome: review delivered; no files changed.
 
 ### structural_checks
 
-- `check_drawio.py --strict`: exit 1, three errors (compression, the dangling `node_44` target, three AWS17 legacy icons), catalog draw.io 32.5.5. Findings S1–S3 resulted — structurally-validated.
+- `check_drawio.py --strict`: exit 1, five errors (compression, the dangling `node_44` target, and one for each of three AWS17 legacy icons), catalog draw.io 32.6.9. Findings S1–S3 resulted — structurally-validated.
 - Edge endpoints and nesting, read from the decoded XML. Findings A1 and M5 resulted — structurally-validated.
 
 ### visual_checks

@@ -52,7 +52,7 @@ Cell IDs are derived from resource addresses and normalized for stable regenerat
 
 ## Validation
 
-- Structural checks: `check_drawio.py --strict` exited 0. It found the parse, root cells, 38 unique IDs, parents and edge endpoints sound, no compression, and every AWS icon and group current in the catalog (draw.io 32.5.5). Reading the XML confirmed that all 13 edges end on icons and that each subnet sits in one Availability Zone inside the VPC.
+- Structural checks: `check_drawio.py --strict` exited 0. It found the parse, root cells, 38 unique IDs, parents and edge endpoints sound, no compression, and every AWS icon and group current in the catalog (draw.io 32.6.9). Reading the XML confirmed that all 13 edges end on icons and that each subnet sits in one Availability Zone inside the VPC.
 - Semantic check: every row of the evidence matrix maps to a cell or an edge. No cell lacks a source row.
 - Visual check: `drawio-render-export-and-review` looked for Draw.io Desktop at `C:\Program Files\draw.io\draw.io.exe`, at `%LOCALAPPDATA%\Programs\draw.io\draw.io.exe`, on PATH, and as a Microsoft Store package (`Get-AppxPackage *draw.io*` returned nothing), and found none. Rendering was not run, so `diagram-validation-and-evidence` reports its visual checks as not run.
 
@@ -88,7 +88,7 @@ Outcome: diagram delivered; visual check not run.
 
 ### structural_checks
 
-- `check_drawio.py --strict`: exit 0; parse, root cells, IDs, parents, edge endpoints, compression, and every AWS icon current in the catalog (draw.io 32.5.5) — structurally-validated.
+- `check_drawio.py --strict`: exit 0; parse, root cells, IDs, parents, edge endpoints, compression, and every AWS icon current in the catalog (draw.io 32.6.9) — structurally-validated.
 - Edges ending on icons and subnet-in-one-AZ nesting, checked by reading the XML — structurally-validated.
 
 ### visual_checks

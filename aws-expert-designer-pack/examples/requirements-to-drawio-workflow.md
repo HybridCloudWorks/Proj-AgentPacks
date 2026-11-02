@@ -99,9 +99,10 @@ Every boundary is a real container copied from the library's "AWS / Groups" pale
 
 ```text
 python <installed skills>/diagram-validation-and-evidence/scripts/check_drawio.py --strict architecture/order-portal.drawio
+file: architecture/order-portal.drawio
 pages: 1 (Overview)
 cells: 35 vertices, 14 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons AWS: current 22
 errors: 0
 warnings: 0
@@ -158,7 +159,7 @@ Outcome: diagram delivered as a new file.
 
 ### structural_checks
 
-- `check_drawio.py --strict`: exit 0; 22 AWS icons and groups current, none legacy, retired or unknown; catalog draw.io 32.5.5 — structurally-validated.
+- `check_drawio.py --strict`: exit 0; 22 AWS icons and groups current, none legacy, retired or unknown; catalog draw.io 32.6.9 — structurally-validated.
 - Edges ending on icons, account > Region > VPC > Availability Zone > subnet nesting, no children under the decorative frame, and Helvetica, checked by reading the XML — structurally-validated.
 - Each icon is the right product for its component, compared by hand with the model — observed.
 - Icon styles come from the installed draw.io AWS library; they were not compared with the current AWS-approved icon package — not-verified.

@@ -46,9 +46,10 @@ The architect ran the checker that ships with `diagram-validation-and-evidence`,
 
 ```text
 python <installed skills>/diagram-validation-and-evidence/scripts/check_drawio.py --strict diagrams/tracking-platform.drawio
+file: diagrams/tracking-platform.drawio
 pages: 2 (Runtime and data flow, Network and egress)
 cells: 71 vertices, 12 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons AWS: current 38
 errors: 0
 warnings: 0
@@ -74,7 +75,7 @@ No renderer was available, so **no PNG was exported and no visual check ran**. T
 
 ## Completion report
 
-Pack: aws-cloud-architect. Date: 2026-10-18.
+Pack: aws-cloud-architect. Date: 2026-11-01.
 
 Outcome: the editable diagram is written and structurally validated. Rendering, the PNG export and the visual review are not verified, because Draw.io Desktop was unavailable.
 
@@ -122,7 +123,7 @@ Unchanged from the approved handoff. The diagram adds no services or relationshi
 
 | File | Purpose | Check run | Label |
 |---|---|---|---|
-| `diagrams/tracking-platform.drawio` | Editable source, two pages | `check_drawio.py --strict`, exit 0, 38 AWS icons current (catalog draw.io 32.5.5), plus the nesting read from the XML | structurally-validated |
+| `diagrams/tracking-platform.drawio` | Editable source, two pages | `check_drawio.py --strict`, exit 0, 38 AWS icons current (catalog draw.io 32.6.9), plus the nesting read from the XML | structurally-validated |
 | `diagrams/tracking-platform.drawio` | Visual quality | Not rendered | not-verified |
 | `diagrams/export/tracking-platform-*.png` | Slide images | Not produced: no renderer | not-verified |
 

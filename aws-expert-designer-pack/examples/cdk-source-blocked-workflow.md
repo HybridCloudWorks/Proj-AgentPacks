@@ -41,7 +41,7 @@ CDK logical IDs carry hash suffixes, and physical names are assigned at deployme
   - the Route 53 record → ALB edge, labeled observed
   - no AZ or subnet containers, because drawing guessed boundaries would imply placement the evidence does not support
   - no CloudFront or WAF; the companion report lists both as unresolved
-- Ran the `diagram-validation-and-evidence` structural checks on the draft: `check_drawio.py --strict` exited 0, with every AWS icon and group current in the catalog (draw.io 32.5.5).
+- Ran the `diagram-validation-and-evidence` structural checks on the draft: `check_drawio.py --strict` exited 0, with every AWS icon and group current in the catalog (draw.io 32.6.9).
 - Looked for Draw.io Desktop at `C:\Program Files\draw.io\draw.io.exe`, in the user installation directory, on PATH and as a Microsoft Store package (`Get-AppxPackage *draw.io*`), and found none. No render.
 
 ## Decisions requested
@@ -84,7 +84,7 @@ Outcome: blocked on three decisions. A draft was written to a new file, and noth
 
 ### structural_checks
 
-- `check_drawio.py --strict` on the draft: exit 0; parse, root cells, unique IDs, parents, edge endpoints, no compression, and every AWS icon current in the catalog (draw.io 32.5.5) — structurally-validated.
+- `check_drawio.py --strict` on the draft: exit 0; parse, root cells, unique IDs, parents, edge endpoints, no compression, and every AWS icon current in the catalog (draw.io 32.6.9) — structurally-validated.
 - Edges ending on icons, checked by reading the XML — structurally-validated.
 
 ### visual_checks

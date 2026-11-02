@@ -94,7 +94,7 @@ Outcome: corrected diagram and slide exports delivered; the original file is unt
 
 ### structural_checks
 
-- `check_drawio.py --strict`: exit 0; parse, root cells on each page, IDs unique within each page, parents, edge endpoints, no compression, and every AWS icon current in the catalog (draw.io 32.5.5) — structurally-validated.
+- `check_drawio.py --strict`: exit 0; parse, root cells on each page, IDs unique within each page, parents, edge endpoints, no compression, and every AWS icon current in the catalog (draw.io 32.6.9) — structurally-validated.
 - Every valid original ID kept and `sg_app` removed, edges ending on icons, account > Region > VPC > Availability Zone > subnet nesting and Helvetica, checked by reading the XML — structurally-validated.
 
 ### visual_checks
