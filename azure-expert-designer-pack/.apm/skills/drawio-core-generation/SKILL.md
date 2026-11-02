@@ -11,7 +11,7 @@ Produce an editable, reviewable diagram that shows each provider with its curren
 
 ## Scope and exclusions
 
-In scope: the generation path, provider icon selection, boundary and containment structure, rules for several providers in one diagram, and the output file contract. When a provider-specific style skill is also installed, it sets house style (sizes, colours, typography, legends); this skill decides which icon library is current and how boundaries nest. Export and rendered review belong to drawio-render-export-and-review, and final validation and evidence labels to diagram-validation-and-evidence. Designing the architecture is out of scope: draw what the approved design or the evidence says, and add nothing.
+In scope: the generation path, provider icon selection, boundary and containment structure, rules for several providers in one diagram, and the output file contract. When a pack's style skill is also installed, it sets typography, icon box sizes, layout and the legend. draw.io's library styles for provider icons and provider boundary shapes win over it, colours included: the providers forbid recolouring, and an icon without its library colours draws incompletely. This skill decides which library is current, which style to copy and how boundaries nest. Export and rendered review belong to drawio-render-export-and-review, and final validation and evidence labels to diagram-validation-and-evidence. Designing the architecture is out of scope: draw what the approved design or the evidence says, and add nothing.
 
 ## Inputs
 
@@ -19,7 +19,8 @@ The approved architecture or source evidence (requirements, infrastructure code,
 
 ## Dependencies and tools
 
-- [references/providers.md](references/providers.md): each provider's current and legacy draw.io libraries, style syntax, official icon rules and scope rules, verified on 2026-10-18 against draw.io 32.5.5.
+- [references/providers.md](references/providers.md): each provider's current and legacy draw.io libraries, style syntax, which file to use where draw.io offers several, official icon rules and scope rules, verified on 2026-11-01 against draw.io 32.6.9 and renders from draw.io Desktop 32.6.1.
+- `scripts/check_drawio.py --find "<product>"` in the diagram-validation-and-evidence Skill: prints each matching palette entry's full style, form and default size from its catalog, with no draw.io needed.
 - [references/upstream-routing.md](references/upstream-routing.md): Mermaid, importers, autolayout, shape search and CLI capabilities of the upstream draw.io skill, when it is installed.
 - File read and write. Draw.io Desktop is optional for authoring and needed for rendering.
 
@@ -31,12 +32,14 @@ The approved architecture or source evidence (requirements, infrastructure code,
    - Mermaid only for standard diagrams with no provider icons or custom boundaries, when the installed draw.io supports conversion; inspect and normalize the result.
    - Structured JSON plus autolayout for large or data-driven diagrams, then apply each provider's containment, spacing, labels, and edge routing.
    - Source importers or snapshots only when their input is actually available. A snapshot is evidence of its input at a point in time, not proof of the live environment.
-3. Take every icon from the library, never from memory.
-   - Copy each style from the installed draw.io library: the editor's shape search, an installed shape-search tool, or the names in the provider reference. A misspelled name draws as a plain coloured square with no symbol, or for Azure as a broken image, and is easy to miss.
+3. Take every icon's whole style from the library, never from memory.
+   - Look each product up with `python scripts/check_drawio.py --find "<product>"` from the diagram-validation-and-evidence Skill's folder, or with the editor's or an installed tool's shape search, and copy the entire style. Its `fillColor` and `strokeColor` are part of the icon: without them an AWS or Google Cloud icon draws incompletely or in black. A misspelled name draws as a plain coloured square with no symbol, or for Azure as a broken image, and is easy to miss.
+   - Keep each AWS name in the form the library offers it: a service icon (`resourceIcon`), a resource icon or a group. A service name drawn as a bare stencil, or a resource name inside `resourceIcon`, is not an AWS icon.
+   - Where draw.io offers one Azure product under several paths, or Microsoft publishes it outside the Azure set (Microsoft Entra ID), use the file the provider reference names.
    - Use each provider's current set: "AWS <current year>" for AWS, "Azure" for Azure, and "Google Cloud Platform 2026" for Google Cloud, with core product icons where Google defines one and category icons for every other product.
    - Do not use the legacy sets (AWS17, AWS18, AWS (retired), AWS 3D, the old Azure and Cloud & Enterprise shapes, or the pre-2025 Google Cloud and GCP Icons libraries) unless the user asks to match an existing diagram.
    - Label every provider icon with the product name. This is mandatory for Google Cloud category icons, because one category icon stands for many products.
-   - Do not crop, rotate, flip, recolour, or distort a provider icon.
+   - Do not crop, rotate, flip, recolour, or distort a provider icon; change only its size.
 4. Nest boundaries by each provider's scope rules.
 
    | | AWS | Azure | Google Cloud |
@@ -50,7 +53,12 @@ The approved architecture or source evidence (requirements, infrastructure code,
    - Azure and Google Cloud: never put a subnet inside a zone frame, because the subnet spans the zones. Show zonal resources in a zone frame inside the subnet, or label the zone.
    - Google Cloud: never put a VPC network inside one region frame. Regions go inside the network.
    - Ownership scopes (account, subscription, resource group, project) are not network boundaries, and governance scopes (organization, management group, folder, policy) are not packet paths.
-   - Use real draw.io containers, with children parented to them, only where containment is true. Use `container=0` for decorative frames.
+   - Use real draw.io containers, with children parented to them, only where containment is true. draw.io's AWS group styles carry `container=1`, so a decorative frame must set `container=0` explicitly.
+   - A managed service reached by private IP lives in the provider's network, not the customer's subnet: Cloud SQL through private services access or Private Service Connect, or Azure PaaS behind a private endpoint, where only the endpoint's network interface sits in the subnet. Draw the service in its project or resource-group frame, put any zone frames under its instances, and join it to the customer network with a labelled private-connectivity edge.
+   - Azure PaaS with regional virtual network integration also stays outside the VNet, drawn with an outbound edge into its delegated subnet.
+   - Label a zone-redundant resource with its zones instead of drawing it in zone frames.
+   - When ownership and network disagree, for example a private endpoint or gateway in a different resource group from its VNet, parent the resource to the network boundary it is deployed into and show its resource group in its label or a decorative frame.
+   - Google Cloud: regional resources of a service project that sit outside the VPC network go in location-only region frames inside that service project's frame.
 5. When several providers share a diagram:
    - Give each provider its own outer frame with its ownership scope, and never nest one provider's resources inside another provider's frame.
    - Draw every link between providers, and to on-premises, as an explicit edge labelled with its transport (internet, VPN, AWS Direct Connect, Azure ExpressRoute, Google Cloud Interconnect, or a cross-cloud interconnect), its direction, and what crosses it: data, identity, or control. Mark egress-billed edges when cost is in scope.
@@ -66,11 +74,11 @@ An uncompressed `.drawio` file with a valid `mxfile`, one or more `diagram` elem
 
 ## Validation
 
-Run diagram-validation-and-evidence before claiming the diagram is correct; its checker confirms that every icon name is in draw.io's current catalog. Render through drawio-render-export-and-review before any visual claim. A structural pass is not a visual pass.
+Run diagram-validation-and-evidence before claiming the diagram is correct; its checker confirms every icon's name, form and colours against draw.io's current palette. Render through drawio-render-export-and-review before any visual claim. A structural pass is not a visual pass.
 
 ## Failure handling and escalation
 
-- The current library has no icon for a service, for example Gemini in draw.io's Google Cloud 2026 library: use the provider's official download or a labelled neutral shape and record it. Never borrow a nearby product's icon.
+- The current library has no icon for a service: when the provider publishes none, as for Gemini, use a labelled neutral shape; when the provider's official download has one that draw.io lacks, embed that file. Record either choice, and never borrow a nearby product's icon.
 - A component's provider is unclear, or the evidence conflicts about a boundary: draw it as unresolved (dashed and labelled) and ask. Do not guess containment.
 - The user needs a legacy icon set to match an existing diagram: use it consistently and record the deviation.
 - A missing input changes the result (providers, scope, audience, output location): ask at most a few focused questions. Otherwise make a documented assumption and proceed.
