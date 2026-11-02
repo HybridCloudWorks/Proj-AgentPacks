@@ -575,6 +575,44 @@ class CheckDrawioTests(unittest.TestCase):
         self.assertEqual((rows[-1]["name"], rows[-1]["preference"]["role"], rows[-1]["preference"]["use"]),
                          ("identity/Azure_Active_Directory.svg", "superseded", "img/lib/azure2/other/Entra_Identity.svg"))
 
+    def test_a_label_for_one_use_of_a_file_is_given_with_its_condition(self):
+        """Pre-PR round 2 N1: DNS Zones draws public and private zones, so "Private DNS zone" applies only to a private
+        one, whatever the search; Microsoft Entra ID's label applies to every use of its file."""
+        index = check_drawio.index_of(CATALOG)
+
+        def found(query: str) -> tuple[list[str], str]:
+            matches, hidden = check_drawio.find(CATALOG, query)
+            return [e["name"] for e in matches], check_drawio.render_find(index, query, matches, hidden)
+
+        conditional = 'label it "Private DNS zone" only when the zone is private (icon_preferences.json)'
+        for query in ("dns zone", "public dns zone", "private dns zone", "dns"):
+            names, text = found(query)
+            self.assertEqual(names[0], "networking/DNS_Zones.svg", query)
+            self.assertIn("preferred: the file to use for DNS zone (public or private)", text, query)
+            self.assertIn(conditional, text, query)
+            self.assertNotIn('label it "Private DNS zone" (icon_preferences.json)', text, query)
+        self.assertIn('label it "Microsoft Entra ID" (icon_preferences.json)', found("entra identity")[1])
+        rows = subprocess.run([sys.executable, str(CHECKER), "--find", "dns zone", "--json"],
+                              capture_output=True, text=True, check=False)
+        self.assertEqual(rows.returncode, 0, rows.stderr)
+        preference = json.loads(rows.stdout)[0]["preference"]
+        self.assertEqual((preference["label"], preference["label_when"]), ("Private DNS zone", "the zone is private"))
+        # A superseded path of such a rule names the condition too.
+        rule = {"product": "P", "preferred": "other/Private_Endpoints.svg", "label": "L", "label_when": "it is private",
+                "superseded": {"networking/Private_Endpoint.svg": "an older design"}, "reason": "r", "evidence": "e",
+                "sources": ["https://example.com/"], "verified": "2026-11-01"}
+        custom = check_drawio.Index(CATALOG, {"azure2": [rule]})
+        tmp = Path(tempfile.mkdtemp(prefix="drawio-test-"))
+        try:
+            path = tmp / "diagram.drawio"
+            path.write_text(drawio_page(drawio_vertex("v", self.palette("private endpoint", "networking/Private_Endpoint.svg"))),
+                            encoding="utf-8")
+            warnings = [w["message"] for w in check_drawio.check(path, custom)["warnings"]]
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        self.assertTrue(any('other/Private_Endpoints.svg, labelled "L" only when it is private' in w for w in warnings),
+                        warnings)
+
     def test_preferences_file_is_well_formed_and_names_current_catalog_paths(self):
         preferences = json.loads(check_drawio.PREFERENCES.read_text(encoding="utf-8"))
         indexed = check_drawio.index_preferences(preferences)
@@ -592,6 +630,9 @@ class CheckDrawioTests(unittest.TestCase):
                   {"azure2": [dict(good, sources=["http://example.com/"])]},
                   {"azure2": [dict(good, verified="last week")]},
                   {"azure2": [dict(good, preferred="img/lib/azure2/networking/DNS_Zones.svg")]},
+                  {"azure2": [dict(good, label_when="the zone is private")]},
+                  {"azure2": [dict(good, label="Private DNS zone", label_when=" ")]},
+                  {"azure2": [dict(good, label=3)]},
                   {"azure2": {"not": "a list"}}]
         self.assertEqual(set(check_drawio.Index(CATALOG, {"azure2": [good]}).preferences), {"networking/DNS_Zones.svg"})
         for preferences in broken:

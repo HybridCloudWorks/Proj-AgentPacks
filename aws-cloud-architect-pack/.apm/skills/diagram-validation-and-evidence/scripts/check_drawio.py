@@ -137,6 +137,11 @@ def index_preferences(data: dict) -> dict[str, dict]:
             raise ValueError(f"icon preference for {rule['product']!r}: sources must be a list of https URLs")
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(rule["verified"])):
             raise ValueError(f"icon preference for {rule['product']!r}: verified must be a date (YYYY-MM-DD)")
+        for key in ("label", "label_when"):
+            if key in rule and not (isinstance(rule[key], str) and rule[key].strip()):
+                raise ValueError(f"icon preference for {rule['product']!r}: {key} must be a non-empty string")
+        if "label_when" in rule and "label" not in rule:
+            raise ValueError(f"icon preference for {rule['product']!r}: label_when needs a label")
         superseded, same = rule.get("superseded", {}), rule.get("same_icon", [])
         if not isinstance(superseded, dict) or not isinstance(same, list):
             raise ValueError(f"icon preference for {rule['product']!r}: superseded must map paths to what they draw, "
@@ -149,6 +154,12 @@ def index_preferences(data: dict) -> dict[str, dict]:
                 raise ValueError(f"icon preference for {rule['product']!r}: say what {path} draws")
             claim(path, "superseded", rule, str(draws))
     return out
+
+
+def label_condition(rule: dict) -> str:
+    """' only when <condition>' for a label that fits only some uses of the file (a DNS Zones icon is labelled
+    "Private DNS zone" only for a private zone); "" for a label that always applies."""
+    return f" only when {rule['label_when']}" if rule.get("label_when") else ""
 
 
 _DEFAULT_PREFERENCES: list[dict] = []
@@ -274,7 +285,7 @@ def lookup(style: dict[str, str], catalog) -> dict | None:
         if status == "current" and preference and preference["role"] == "superseded":
             rule = preference["rule"]
             status = "superseded"
-            label = f", labelled \"{rule['label']}\"" if rule.get("label") else ""
+            label = f", labelled \"{rule['label']}\"{label_condition(rule)}" if rule.get("label") else ""
             found["superseded"] = (f"it draws {preference['draws']}, not Microsoft's current icon for {rule['product']}. "
                                    f"Use image=img/lib/azure2/{rule['preferred']}{label} (icon_preferences.json, "
                                    f"verified {rule['verified']})")
@@ -702,8 +713,9 @@ def preference_note(index: Index, entry: dict) -> dict | None:
     rule = preference["rule"]
     note = {"role": preference["role"], "product": rule["product"], "use": f"img/lib/azure2/{rule['preferred']}",
             "reason": rule["reason"], "verified": rule["verified"]}
-    if rule.get("label"):
-        note["label"] = rule["label"]
+    for key in ("label", "label_when"):
+        if rule.get(key):
+            note[key] = rule[key]
     if preference["draws"]:
         note["draws"] = preference["draws"]
     return note
@@ -724,7 +736,7 @@ def render_find(index: Index, query: str, matches: list[dict], hidden: int, limi
             lines.append(f"  note: draw.io's palette inserts '{renamed[entry['name']]}', which draws a broken image; "
                          "this style uses the file's own spelling")
         if note and note["role"] == "preferred":
-            label = f"; label it \"{note['label']}\"" if note.get("label") else ""
+            label = f"; label it \"{note['label']}\"{label_condition(note)}" if note.get("label") else ""
             lines.append(f"  preferred: the file to use for {note['product']}{label} (icon_preferences.json)")
         elif note and note["role"] == "same-icon":
             lines.append(f"  same icon as {note['use']}, the preferred path for {note['product']}; use that path")

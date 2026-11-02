@@ -1,5 +1,5 @@
 {
- "about": "Which file to use where draw.io offers one Azure product under several paths, or where Microsoft publishes the icon outside the Azure set. Maintained by hand from verified evidence: it is not generated, and the catalog builder never writes it (its --check reports any path here that a new draw.io release no longer offers). Read by check_drawio.py: --find lists a preferred file first and marks the product's other paths, and the checker reports a superseded file as a warning, or an error with --strict. Each rule has: product; preferred, a path under img/lib/azure2/; label (optional), the label to give the icon; superseded (optional), each path that draws a different, older design, mapped to what it draws; same_icon (optional), paths that draw the same icon as the preferred file; reason; evidence; sources; verified, the date the evidence was checked. Re-check every rule when the catalog or one of Microsoft's icon sets changes.",
+ "about": "Which file to use where draw.io offers one Azure product under several paths, or where Microsoft publishes the icon outside the Azure set. Maintained by hand from verified evidence: it is not generated, and the catalog builder never writes it (its --check reports any path here that a new draw.io release no longer offers). Read by check_drawio.py: --find lists a preferred file first and marks the product's other paths, and the checker reports a superseded file as a warning, or an error with --strict. Each rule has: product; preferred, a path under img/lib/azure2/; label (optional), the label to give the icon; label_when (optional, needs label), the condition under which the label applies, for a file that also draws another product; superseded (optional), each path that draws a different, older design, mapped to what it draws; same_icon (optional), paths that draw the same icon as the preferred file; reason; evidence; sources; verified, the date the evidence was checked. Re-check every rule when the catalog or one of Microsoft's icon sets changes.",
  "schema": 1,
  "azure2": [
   {
@@ -33,10 +33,11 @@
    "verified": "2026-11-01"
   },
   {
-   "product": "Private DNS zone",
+   "product": "DNS zone (public or private)",
    "preferred": "networking/DNS_Zones.svg",
    "label": "Private DNS zone",
-   "reason": "The Azure icon set V24 has a DNS Zones icon and no separate private DNS zone icon, so a private DNS zone uses DNS Zones and says what it is in its label.",
+   "label_when": "the zone is private",
+   "reason": "The Azure icon set V24 has a DNS Zones icon and no separate private DNS zone icon, so a public and a private DNS zone both use DNS Zones, and only a private zone needs the label to say what it is.",
    "evidence": "Rendered with draw.io Desktop 32.6.1 beside V24's file: networking/DNS_Zones.svg draws identically to V24's DNS Zones icon.",
    "sources": [
     "https://learn.microsoft.com/azure/architecture/icons/",
