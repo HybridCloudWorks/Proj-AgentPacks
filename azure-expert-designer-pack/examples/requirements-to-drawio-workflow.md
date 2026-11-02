@@ -64,7 +64,7 @@ The region was not chosen. The agent did not invent one: the region frame reads 
 | Microsoft Entra ID | the file the shared `drawio-core-generation` provider reference names for Entra ID |
 | Subscription, resource group, VNet, subnets | `general/Subscriptions.svg`, `general/Resource_Groups.svg`, `networking/Virtual_Networks.svg`, `networking/Subnet.svg`, 24 px in each frame's top-left corner, labelled with the frame's name |
 
-Each style is the palette's own, `image;aspect=fixed;html=1;align=center;fontSize=12;image=img/lib/azure2/...` with the palette's points, followed only by `fontFamily=Helvetica`. Service icons are 48 px on their longest side with the aspect fixed, so SQL Database is 36 by 48, and the product name sits beneath each icon. Staff are drawn as a neutral actor outside the subscription. Entra ID is drawn above the subscription with the label "Microsoft Entra ID (tenant scope)".
+Each style is the palette's own, as `check_drawio.py --find "<product>"` printed it, `image;aspect=fixed;html=1;align=center;fontSize=12;image=img/lib/azure2/...;`, followed only by `fontFamily=Helvetica`; the palette's connection points were not needed, because they do not change how an icon draws. Service icons are 48 px on their longest side with the aspect fixed, so SQL Database is 36 by 48, and the product name sits beneath each icon. Staff are drawn as a neutral actor outside the subscription. Entra ID is drawn above the subscription with the label "Microsoft Entra ID (tenant scope)".
 
 ## 5. Layout and XML
 
@@ -87,7 +87,7 @@ After each write the agent ran the `diagram-validation-and-evidence` checker fro
 file: docs\architecture\claims-intake.drawio
 pages: 1 (Runtime view)
 cells: 72 vertices, 17 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons Azure: current 22
 errors: 0
 warnings: 0
@@ -145,7 +145,7 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: PASS with 0 errors and 0 warnings, after the last edit. Cells `0` and `1` present; 89 cells with unique IDs; every parent, source and target resolves; uncompressed; 22 Azure icons, all current. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.6.9: PASS with 0 errors and 0 warnings, after the last edit. Cells `0` and `1` present; 89 cells with unique IDs; every parent, source and target resolves; uncompressed; 22 Azure icons, all current. `structurally-validated`
 - Read from the XML: Helvetica throughout, no cell parented to the decorative region frame, and every edge labelled. `structurally-validated`
 
 ### visual_checks
@@ -155,7 +155,7 @@ Pack: azure-expert-designer.
 ### live_or_external_checks
 
 - No Azure environment exists for this design. `not-verified`
-- Icon paths were checked against the shared catalog (draw.io 32.5.5) and drew in the local 32.6.1 render. They were not compared with Microsoft's current icon download. `not-verified`
+- Icon paths were checked against the shared catalog (draw.io 32.6.9) and drew in the local 32.6.1 render. They were not compared with Microsoft's current icon download. `not-verified`
 
 ### unresolved_risks
 

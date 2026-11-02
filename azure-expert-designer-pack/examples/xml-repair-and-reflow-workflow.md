@@ -25,7 +25,7 @@ The `diagram-validation-and-evidence` checker, run read-only on the original, de
 file: docs\architecture\landing-zone.drawio
 pages: 1 (Page-1)
 cells: 49 vertices, 14 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons Azure: legacy 9
 errors: 15
   [Page-1] -: page is compressed; save it uncompressed so it can be reviewed and diffed
@@ -119,7 +119,7 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5, on the final copy: PASS, 0 errors and 0 warnings. Root cells on both pages; IDs unique within each page; all parents, sources and targets resolve; uncompressed; every Azure icon current, with no `mxgraph.azure.*` or `mxgraph.mscae.*` shape left. Helvetica throughout, read from the XML. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.6.9, on the final copy: PASS, 0 errors and 0 warnings. Root cells on both pages; IDs unique within each page; all parents, sources and targets resolve; uncompressed; every Azure icon current, with no `mxgraph.azure.*` or `mxgraph.mscae.*` shape left. Helvetica throughout, read from the XML. `structurally-validated`
 
 ### visual_checks
 

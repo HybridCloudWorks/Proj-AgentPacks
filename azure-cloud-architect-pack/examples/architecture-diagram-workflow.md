@@ -47,7 +47,7 @@ From `diagram-validation-and-evidence`, using that skill's checker from the skil
 file: D:\repos\tracking\docs\architecture\tracking-workload.drawio
 pages: 2 (Workload and network, Recovery)
 cells: 96 vertices, 19 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons Azure: current 23
 errors: 0
 warnings: 0
@@ -90,7 +90,7 @@ A change-board view that shows boundaries, the single public entry, private data
 
 ### source_facts_and_evidence
 
-Every component and flow comes from `TOPOLOGY.json` [designed]. Every Azure icon path is current in the shared checker's catalog, draw.io 32.5.5 [structurally-validated]. That each icon renders correctly in a Draw.io build is [not-verified].
+Every component and flow comes from `TOPOLOGY.json` [designed]. Every Azure icon path is current in the shared checker's catalog, draw.io 32.6.9 [structurally-validated]. That each icon renders correctly in a Draw.io build is [not-verified].
 
 ### framework_alignment
 
@@ -124,7 +124,7 @@ The diagram shows trust boundaries and the recovery path. It is not evidence tha
 
 | Check | Tool | Result | Label |
 |---|---|---|---|
-| Draw.io XML structure and icon currency | `diagram-validation-and-evidence` `scripts/check_drawio.py --strict`, catalog draw.io 32.5.5 | PASS: 0 errors, 0 warnings, 23 Azure icons current | structurally-validated |
+| Draw.io XML structure and icon currency | `diagram-validation-and-evidence` `scripts/check_drawio.py --strict`, catalog draw.io 32.6.9 | PASS: 0 errors, 0 warnings, 23 Azure icons current | structurally-validated |
 | Semantic reconciliation | Table in section 4 | All elements in scope matched | designed |
 | Render and export | Draw.io Desktop | Not run: not found on PATH, at the installer or per-user location, or as a Microsoft Store build | not-verified |
 | Visual review | Rendered output | Not run: nothing rendered | not-verified |

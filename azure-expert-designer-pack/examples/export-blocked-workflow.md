@@ -38,7 +38,7 @@ The agent did not use a browser-based converter or another tool to produce an SV
 file: docs\architecture\landing-zone.drawio
 pages: 1 (Landing zone)
 cells: 72 vertices, 15 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons Azure: current 24
 errors: 0
 warnings: 0
@@ -90,7 +90,7 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: PASS, 0 errors and 0 warnings. Root cells present; unique IDs; all references resolve; uncompressed; 24 Azure icons, all current. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.6.9: PASS, 0 errors and 0 warnings. Root cells present; unique IDs; all references resolve; uncompressed; 24 Azure icons, all current. `structurally-validated`
 
 ### visual_checks
 

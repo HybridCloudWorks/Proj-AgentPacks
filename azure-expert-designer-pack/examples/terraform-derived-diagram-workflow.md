@@ -80,7 +80,7 @@ The agent ran the `diagram-validation-and-evidence` checker after the write:
 file: docs\architecture\orders-platform.drawio
 pages: 1 (Production)
 cells: 64 vertices, 14 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons Azure: current 15
 errors: 0
 warnings: 0
@@ -119,7 +119,7 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: PASS, 0 errors and 0 warnings. Root cells present; unique IDs; all parents, sources and targets resolve; uncompressed; 15 Azure icons, all current, plus neutral shapes for the NGINX ingress controller and the unresolved items. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.6.9: PASS, 0 errors and 0 warnings. Root cells present; unique IDs; all parents, sources and targets resolve; uncompressed; 15 Azure icons, all current, plus neutral shapes for the NGINX ingress controller and the unresolved items. `structurally-validated`
 
 ### visual_checks
 

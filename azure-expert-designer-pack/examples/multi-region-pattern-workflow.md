@@ -62,7 +62,7 @@ The agent ran the `diagram-validation-and-evidence` checker after every write:
 file: docs\architecture\booking-multi-region.drawio
 pages: 2 (Runtime, After database failover)
 cells: 118 vertices, 30 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons Azure: current 30
 errors: 0
 warnings: 0
@@ -108,7 +108,7 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: PASS, 0 errors and 0 warnings, after the last edit. Both pages have root cells `0` and `1`, IDs are unique within each page, all references resolve, the file is uncompressed, and all 30 Azure icons are current. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.6.9: PASS, 0 errors and 0 warnings, after the last edit. Both pages have root cells `0` and `1`, IDs are unique within each page, all references resolve, the file is uncompressed, and all 30 Azure icons are current. `structurally-validated`
 
 ### visual_checks
 

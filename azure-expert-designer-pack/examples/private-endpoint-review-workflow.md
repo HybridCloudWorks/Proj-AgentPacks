@@ -36,7 +36,7 @@ Fictional scenario. Names, paths and tool output are illustrative.
 file: docs\architecture\payments-api.drawio
 pages: 1 (Page-1)
 cells: 35 vertices, 6 edges
-catalog: draw.io 32.5.5, built 2026-10-18
+catalog: draw.io 32.6.9, built 2026-11-01
 icons Azure: current 6, legacy 1
 errors: 1
   [Page-1] storage_account: Azure icon 'storage_blob' is legacy (legacy Azure (azure))
@@ -94,7 +94,7 @@ Pack: azure-expert-designer.
 
 ### structural_checks
 
-- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.5.5: FAIL with one error, the legacy `mxgraph.azure` stencil (F5). XML parses; 41 cells; unique IDs; all references resolve; uncompressed. `structurally-validated`
+- `check_drawio.py --strict` from `diagram-validation-and-evidence`, catalog draw.io 32.6.9: FAIL with one error, the legacy `mxgraph.azure` stencil (F5). XML parses; 41 cells; unique IDs; all references resolve; uncompressed. `structurally-validated`
 
 ### visual_checks
 
