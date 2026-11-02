@@ -4,7 +4,7 @@ House style for this pack: Helvetica, icon styles copied unchanged from draw.io'
 
 Icon geometry:
 
-- copy the palette style, `image;aspect=fixed;html=1;align=center;fontSize=12;image=img/lib/azure2/<category>/<File_Name>.svg` plus its `points=[...]`, and append only typography and label placement;
+- copy the palette style that `check_drawio.py --find "<product>"` in `diagram-validation-and-evidence` prints, `image;aspect=fixed;html=1;align=center;fontSize=12;image=img/lib/azure2/<category>/<File_Name>.svg;`, and append only typography and label placement; the palette's `points=[...]` are optional connection points that do not change how the icon draws;
 - "48 px" means 48 px on the icon's longest side, with `aspect=fixed` and the other side from the palette's aspect ratio; scope icons in frame corners are 24 px on the longest side;
 - never add `whiteSpace=wrap` to an icon style; break a long label with `<br>` instead;
 - use a consistent 120 px category or service tile only where the diagram uses tiles.
